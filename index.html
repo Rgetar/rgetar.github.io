@@ -14,6 +14,7 @@ a {text-decoration: none; color: blue;}
 a:hover {text-decoration: underline;}
 a:visited {color: blue;}
 li {list-style-type: none; cursor: pointer;}
+body {line-height: 2;}
 </style>
 <body style="font-family: Arial; white-space: pre;">
 <div id="list"><li id="Limit">Limit</li></div>
@@ -179,14 +180,14 @@ return s;}
 
 list.onclick=function(e){
 let c=e.target;
-if(c.id!=''&&c.id.slice(0,2)!='[]'){
+if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
    let l=c.previousSibling;
    let s=se(c.id,l==null?'-':l.id);
    let x=document.createElement('li');
    x.id=s;
    x.innerHTML=s;
    if(s==''||s.slice(0,2)=='[]')
-      x.style.cursor='default';
+      x.style.cursor='default';  
    c.before(x);   
    }
 }
