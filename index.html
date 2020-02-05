@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml">
 <head>
@@ -12,10 +13,10 @@ sup {font-size: 0.83rem;}
 a {text-decoration: none; color: blue;}
 a:hover {text-decoration: underline;}
 a:visited {color: blue;}
-ul {list-style-type: none;}
+li {list-style-type: none; cursor: pointer;}
 </style>
 <body style="font-family: Arial; white-space: pre;">
-<ul id="list"><li id="Limit">Limit</li></ul>
+<div id="list"><li id="Limit">Limit</li></div>
 
 <script>'use strict'
 // get position of last symbol p of string st (if l=true then first)
@@ -166,32 +167,32 @@ else{
    }
 }
 
+// small expansion of pair c > l
+function se(c,l){
+let n='';
+let s;
+do{
+s=fs(c,n);
+n=suc(n);}
+while(l!='-'&&compare(s,l)<1)
+return s;}
 
-
-
-list.onclick = function(event) {
-   let l=event.target;
-   document.body.innerHTML=l;
+list.onclick=function(e){
+let c=e.target;
+if(c.id!=''&&c.id.slice(0,2)!='[]'){
+   let l=c.previousSibling;
+   let s=se(c.id,l==null?'-':l.id);
+   let x=document.createElement('li');
+   x.id=s;
+   x.innerHTML=s;
+   if(s==''||s.slice(0,2)=='[]')
+      x.style.cursor='default';
+   c.before(x);   
    }
+}
 
 let bo='Limit';
 let col='c';
-
-let st='[[[[[[c]c]]][[[c]c]]]]';
-
-/*
-document.write(st+'<br><br>')
-document.write(fs(st,'')+'<br>')
-document.write(fs(st,'[]')+'<br>')
-document.write(fs(st,'[][]')+'<br>')
-document.write(fs(st,'[][][]')+'<br>')
-document.write(fs(st,'[][][][]')+'<br>')
-document.write(fs(st,'[][][][][]')+'<br>')
-document.write(st+'<br><br>');
-//document.write(document.body.innerHTML)
-//document.body.innerHTML='123qewrsfd'
-//document.write(document.body.outerHTML)
-*/
 </script>
 
 </body>
