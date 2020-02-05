@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css" media="Screen">
+sub {font-size: 0.83rem;}
+sup {font-size: 0.83rem;}
+</style>
+<meta charset="utf-8" />
+<title></title>
+</head>
+<style type="text/css">
+a {text-decoration: none; color: blue;}
+a:hover {text-decoration: underline;}
+a:visited {color: blue;}
+ul {list-style-type: none;}
+</style>
+<body style="font-family: Arial; white-space: pre;">
+<ul id="list"><li id="Limit">Limit</li></ul>
+
+<script>'use strict'
+// get position of last symbol p of string st (if l=true then first)
+function getls(st,p,l=false){
+let e=l?-1:st.length;
+let np=0;
+while(((!l&&e>-1)||(l&&e<st.length))&&(np!=0||st[e]!=p)){
+   l?e++:e--;
+   if (st[e]=='['||st[e]=='(') np--;
+   else if (st[e]==']'||st[e]==')') np++;}
+return e;}
+
+// create [booster]base string
+function bb(booster,base){
+return '['+booster+']'+base;}
+
+// get base of string st
+function base(st){
+return st.slice(getls(st,']',true)+1);}
+
+// get booster of string st
+function booster(st){
+return st.slice(1,getls(st,']',true));}
+
+// get successor of ordinal st
+function suc(st){
+return '[]'+st;}
+
+// get predecessor of successor ordinal st = X + 1
+function pred(st){
+return st.slice(2);}
+
+// finite ordinal string st to number
+function fostn(st){
+return st.length/2;}
+
+// finite ordinal e from integer to computer format
+function cf(e){
+let s='';
+for(let i=0;i<e;i++) 
+   s=suc(s)
+return s;}
+
+// compare expressions st1, st2 (if st1<st2 then -1; if st1=st2 then 0; if st1>st2 then 1)
+function compare(st1,st2){
+return st1==st2?0:[...st1].reverse()>[...st2].reverse()?1:-1}
+
+// delete all boosters of b < b, add a booster
+function bbc(a,b){
+while(b!=''&&b!=col&&compare(a,booster(b))==1)
+   b=base(b);
+return bb(a,b);}
+
+function rest(l,st){
+return compare(l,st)==1?st:rest(l,booster(st));}
+
+function ceill(l,st){
+return compare(l,st)==1?l:bbc(ceill(l,booster(st)),st);}
+
+function ledge(st){
+let x=booster(st);
+return compare(col,x)==1?col:bbc(ceill(col,x),base(st));}
+
+function cascade(x,c,st){
+let y=booster(c);
+let d=cof(y);
+let s=d==col||d==ledge(c)?bb(fs(y,rest(d,x)),base(c)):cascade(y,d,c);
+return bb(fs(x,s),base(st));}
+
+// get cofinality of ordinal st
+function cof(st){
+if(st==bo)                         // L
+   return '[[]]';
+else if (st==''||st==col)            // 1, 6
+   return st;
+else{
+   let x=booster(st);
+   if(x=='')                       // 2
+      return '[]';
+   else{
+      let c=cof(x);
+      if(c=='[]')                // 3
+         return '[[]]';
+      else if(compare(st,c)==1)       // > C
+         return c;
+      else{
+         let l=ledge(st);
+         if(compare(l,c)<1)
+            return st;                    // 7
+         else{
+            let ca=compare(bbc(ceill(l,x),base(st)),c);
+            if(ca==1)   // 4, 5, 8
+               return c;
+            else if(ca==0)
+               return '[[]]';   
+            else 
+               return cof(cascade(x,c,st));
+            }
+         }
+      }
+   }
+}
+
+// get n-th element of fs of ordinal st
+function fs(st,n){
+if(st==bo){
+   let s=col;
+   for(let i=0;i<fostn(n);i++)
+      s=bb(s,col);
+   for(let i=0;i<2;i++)
+      s=bb(s,'');
+   return s;}
+else if(st==''||st==col)     // 1, 6
+   return n;
+else{
+   let x=booster(st);
+   let beta=base(st);
+   if(x=='')                         // 2
+      return beta;
+   else{
+      let c=cof(x);
+      if(c=='[]'){                    // 3
+         let s=beta;
+         x=pred(x);
+         for(let i=0;i<fostn(n);i++)
+            s=bb(x,s);
+         return s;}
+      else if(compare(st,c)==1)     // > C
+         return bb(fs(x,n),beta);
+      else{
+         let l=ledge(st);
+         if(compare(l,c)<1)       // 7
+            return n;
+         else{
+            let ca=compare(bbc(ceill(l,x),base(st)),c);
+            if(ca==1)                   // 4, 5, 8
+               return bb(fs(x,n),beta);
+            else if(ca==0){              // 9
+               let s=beta;
+               for(let i=0;i<fostn(n);i++)
+                  s=bb(fs(x,s),beta);
+               return s;}
+            else
+               return fs(cascade(x,c,st),n);
+            }
+         }
+      }
+   }
+}
+
+
+
+
+list.onclick = function(event) {
+   let l=event.target;
+   document.body.innerHTML=l;
+   }
+
+let bo='Limit';
+let col='c';
+
+let st='[[[[[[c]c]]][[[c]c]]]]';
+
+/*
+document.write(st+'<br><br>')
+document.write(fs(st,'')+'<br>')
+document.write(fs(st,'[]')+'<br>')
+document.write(fs(st,'[][]')+'<br>')
+document.write(fs(st,'[][][]')+'<br>')
+document.write(fs(st,'[][][][]')+'<br>')
+document.write(fs(st,'[][][][][]')+'<br>')
+document.write(st+'<br><br>');
+//document.write(document.body.innerHTML)
+//document.body.innerHTML='123qewrsfd'
+//document.write(document.body.outerHTML)
+*/
+</script>
+
+</body>
+</html>
