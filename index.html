@@ -16,8 +16,8 @@ a:visited {color: blue;}
 li {list-style-type: none; cursor: pointer;}
 body {line-height: 2;}
 </style>
-<body style="font-family: Arial; white-space: pre;">
-<div id="list"><li id="Limit">Limit</li></div>
+<body style="font-family: Arial; white-space: pre;"><div id="list"
+><li id="-"></li><li id="Limit">Limit</li></div>
 
 <script>'use strict'
 // get position of last symbol p of string st (if l=true then first)
@@ -180,15 +180,28 @@ return s;}
 
 list.onclick=function(e){
 let c=e.target;
-if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
+if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){    
+   let b;
    let l=c.previousSibling;
-   let s=se(c.id,l==null?'-':l.id);
+   if(l==null){
+      b=false;
+      l=c.parentNode.previousSibling;}
+   else 
+   	b=true;   
+   while(l.tagName!='LI')
+      l=l.lastChild;     
+   let s=se(c.id,l.id);
    let x=document.createElement('li');
    x.id=s;
    x.innerHTML=s;
    if(s==''||s.slice(0,2)=='[]')
-      x.style.cursor='default';  
-   c.before(x);   
+      x.style.cursor='default'; 
+   if(b){
+      let y=document.createElement('ul');
+      y.innerHTML=x.outerHTML;
+      l.after(y);}
+   else       
+      c.before(x);   
    }
 }
 
