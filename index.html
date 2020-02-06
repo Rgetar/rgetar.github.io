@@ -273,9 +273,11 @@ h='<b>Hide</b> text near mouse cursor';
 xs.style.background='#f0fff0';
 }
 else if(c.id=='decef'){
+if(efs>0){
 h='<b>Remove</b> extra fs element';
-if(efs>0)
-	xs.style.background='#f0fff0';
+xs.style.background='#f0fff0';}
+else
+   h='<i>Remove extra fs element</i>';	
 }
 else if(c.id=='incef'){
 h='<b>Add</b> extra fs element';
@@ -391,6 +393,7 @@ if(efs>0){
    if(efs==0){
       ecfv.style.background='#fff';
       decef.style.color='#eeeeee';
+      decef.style.cursor='default';
       xs.style.background='#fff';
       xs.innerHTML='<i>Remove extra fs element</i>';} 	
    }      
@@ -401,6 +404,7 @@ efs++;
 ecfv.innerHTML='   '+efs+'   ';
 if(efs==1){
    decef.style.color='#000';
+   decef.style.cursor='pointer';
    ecfv.style.background='#b0ffb0';
    }    
 }
