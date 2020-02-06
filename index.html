@@ -6,17 +6,61 @@ sub {font-size: 0.83rem;}
 sup {font-size: 0.83rem;}
 </style>
 <meta charset="utf-8" />
-<title>OrdEx</title>
+<title>Ordinal Explorer</title>
 </head>
 <style type="text/css">
-a {text-decoration: none; color: blue;}
-a:hover {text-decoration: underline;}
-a:visited {color: blue;}
-li {list-style-type: none; cursor: pointer;}
-body {line-height: 2;}
+a{text-decoration:none;color:blue;}
+a:hover{text-decoration:underline;}
+a:visited{color:blue;}
+li{list-style-type:none;cursor:pointer;}
+td{cursor:pointer;}
+body{line-height:2;}
 </style>
-<body style="font-family: Arial; white-space: pre;"><div id="list"
-><li id="-"></li><li id="Limit">Limit</li></div><script
+<body style="font-family:Arial;white-space:pre;"
+><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;";
+hidden="true";></div><ul id="list"
+><li id="-"></li><li id="Limit">Limit</li></ul><hr><div id="counter"
+>Total 1 ordinal</div>
+
+<div align="center"><i>Toggle collapse and expansion levels:</i>
+<table id="exptable" border="5" cellspacing="0" cellpadding="0">
+<tr>
+<td id="etc"> collapse </td>
+<td id="et0">    small    </td>
+<td id="et1" style="background:#b0ffb0;font-size:33px;">   1   </td>
+<td id="et2" style="font-size:33px;">   2   </td>
+<td id="et3" style="font-size:33px;">   3   </td>
+<td id="et4" style="font-size:33px;">   4   </td>
+<td id="et5" style="font-size:33px;">   5   </td>
+<td id="et6" style="font-size:33px;">   6   </td>
+<td id="et7" style="font-size:33px;">   7   </td>
+<td id="et8" style="font-size:33px;">   8   </td>
+<td id="et9" style="font-size:33px;">   9   </td>
+</tr>
+</table></div>
+
+<div align="center"><i>Extra fundamental sequence elements:</i>
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td style="color:#eeeeee;font-size:50px;cursor:default;">◅ </td>
+<td style="font-size:25px;cursor:default;"><table border="5" cellspacing="0" cellpadding="0">
+<tr>
+<td style="font-size:33px;cursor:default;">   0   </td>
+</tr>
+</table></td>
+<td style="font-size:50px;"> ▻</td>
+</tr>
+</table></div>
+
+<div align="center"><i>Text near mouse cursor:</i>
+<table border="5" cellspacing="0" cellpadding="0">
+<tr>
+<td id="vtext" style="background:#b0ffb0;font-size:25px;">    <big><big><big>✓</big></big></big>    </td>
+</tr>
+</table></div>
+
+
+<script
 >'use strict'
 // get position of last symbol p of string st (if l=true then first)
 function getls(st,p,l=false){
@@ -167,6 +211,7 @@ else{
 }
 
 function rx(s,c,n,q){
+count++;
 let x=document.createElement('li');
 x.id=s;
 x.innerHTML=s;
@@ -204,38 +249,137 @@ while(l.tagName!='LI'){
    l=l.lastChild;}
 return [l,e];}
 
+function countli(c){
+let n=0;
+for(let l=c.firstChild;l!=null;l=l.nextSibling)
+   if(l.tagName=='UL')
+      n+=countli(l);
+   else  
+      n++;
+return n;      
+}
+
+document.onmousemove=function(e){
+   xs.style.left=e.clientX+50+'px';
+   xs.style.top=e.clientY-10+'px';  
+}
+
+document.onmouseover=function(e){
+if(vt){
+let c=e.target;
+let h;
+if(c.id=='vtext'||c.tagName=='BIG'){
+h='<b>Hide</b> text near mouse cursor';
+xs.style.background='#f0fff0';
+}
+else if(c.tagName=='TD'){
+   h='toggle <b>'+(c.id=='etc'?'collapse':exp[c.id[2]]+' expansion')+'</b>';
+   xs.style.background='#f0fff0';}
+else{
+   h=exp[eo];
+   xs.style.background='#fff';
+   h+=eo<0?'':' expansion'+(efs==0?'':' with '+efs+' extra fs elements');
+   if(c.tagName=='LI'){
+      if(c.id!=''&&c.id.slice(0,2)!='[]'){
+         h='<b>'+h+'</b>';
+         xs.style.background='#f0fff0';}      
+      h+='<br><b>'+c.id+'</b> fundamental sequence:'; 
+      if(c.id=='')
+         h+='<br>'+'<i>empty</i>';
+      else{
+         let n='';
+         let b=c.id.slice(0,2)=='[]';
+      	for(let i=0;i<(b?1:6);i++){
+   	      n=suc(n);
+      	   h+='<li>   '+i+': '+fs(c.id,n)+'</li>';}
+      	if(!b)      
+   	      h+='<li>   ...</li>';   
+   	   }               
+      }
+   } 
+xs.hidden=false;   
+xs.innerHTML=h;    
+}}
+
+document.onmouseout=function(e){
+   xs.hidden=true;  
+}
+
 list.onclick=function(e){
 let c=e.target;
-if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){    
-   let[l,i]=pl(c);
-   e=eo==0?1:eo-i;    
-   while(c!=l){
-      if(c.previousSibling==null){
-         if(e>=0)
-            c.insertAdjacentHTML('beforebegin',se(c.id,pl(c)[0].id,e+efs));}
-      else{
-         let[q,i]=pl(c);
-         i=e+i-1;
-         if(i>=0){
-            let y=document.createElement('ul');
-            y.innerHTML=se(c.id,q.id,i+efs);
-            q.insertAdjacentHTML('afterend',y.outerHTML);}      	
-         }
-      if(eo==0)
-         c=l;
-      else
-         do{
-            [c,i]=pl(c);
-            e+=i;}
-         while(c!=l&&(c.id==''||c.id.slice(0,2)=='[]'));
-      }         
+if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
+   if(eo<0){
+   c=c.previousSibling;
+   if(c!=null&&c.tagName=='UL'){  
+      while(c.lastChild.tagName=='UL')
+         c=c.lastChild;
+      count-=countli(c);   
+      c.remove();}	
    }
+   else{    
+      let[l,i]=pl(c);
+      e=(eo==0?1:eo)-i;    
+      while(c!=l){
+         if(c.previousSibling==null){
+            if(e>=0)
+               c.insertAdjacentHTML('beforebegin',se(c.id,pl(c)[0].id,e+efs));}
+         else{
+            let[q,i]=pl(c);
+            i=e+i-1;
+            if(i>=0){
+               let y=document.createElement('ul');
+               y.innerHTML=se(c.id,q.id,i+efs);
+               q.insertAdjacentHTML('afterend',y.outerHTML);}      	
+            }
+         if(eo==0)
+            c=l;
+         else
+            do{
+               [c,i]=pl(c);
+               e+=i;}
+            while(c!=l&&(c.id==''||c.id.slice(0,2)=='[]'));
+         }                           
+      }
+   counter.innerHTML='Total '+count+' ordinal'+(count==1?'':'s');  
+   }
+}
+
+exptable.onclick=function(e){
+let c=e.target;
+if(c.tagName=='TD'){    
+   (eo==-1?etc:etar[eo]).style.background='#fff';
+   c.style.background='#b0ffb0';
+   eo=c.id=='etc'?-1:c.id[2];
+   }
+}
+
+vtext.onclick=function(e){
+let c=e.target;
+while(c.tagName!='TD')
+   c=c.parentNode;
+if(vt){
+   c.style.background='#fff';
+   c.style.color='#fff';
+   vt=false;
+   xs.hidden=true;
+   }
+else{
+   c.style.background='#b0ffb0';
+   c.style.color='#000';
+   vt=true;
+   xs.hidden=false;
+   }      
 }
 
 let bo='Limit';
 let col='c';
 let eo=1;
 let efs=0;
+let exp=['small','single','double','triple','quadruple','pentuple','sextuple','septuple','octuple','nonuple'];
+exp[-1]='collapse';
+let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
+let count=1;
+let vt=true;
 </script
 ></body>
 </html>
