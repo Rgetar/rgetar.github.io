@@ -22,7 +22,7 @@ hidden="true";></div><ul id="list"
 ><li id="-"></li><li id="Limit">Limit</li></ul><hr><div id="counter"
 >Total 1 ordinal</div>
 
-<div align="center"><i>Toggle collapse and expansion levels:</i>
+<div align="center" onmousedown="return false"><i>Toggle collapse and expansion levels:</i>
 <table id="exptable" border="5" cellspacing="0" cellpadding="0">
 <tr>
 <td id="etc"> collapse </td>
@@ -39,20 +39,20 @@ hidden="true";></div><ul id="list"
 </tr>
 </table></div>
 
-<div align="center"><i>Extra fundamental sequence elements:</i>
+<div align="center" onmousedown="return false"><i>Extra fundamental sequence elements:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
-<td style="color:#eeeeee;font-size:50px;cursor:default;">◅ </td>
-<td style="font-size:25px;cursor:default;"><table border="5" cellspacing="0" cellpadding="0">
+<td id="decef" style="color:#eeeeee;font-size:50px;cursor:default;">◅ </td>
+<td id="ecfve" style="font-size:25px;cursor:default;"><table border="5" cellspacing="0" cellpadding="0">
 <tr>
-<td style="font-size:33px;cursor:default;">   0   </td>
+<td id="ecfv" style="font-size:33px;cursor:default;">   0   </td>
 </tr>
 </table></td>
-<td style="font-size:50px;"> ▻</td>
+<td id="incef" style="font-size:50px;"> ▻</td>
 </tr>
 </table></div>
 
-<div align="center"><i>Text near mouse cursor:</i>
+<div align="center" onmousedown="return false"><i>Text near mouse cursor:</i>
 <table border="5" cellspacing="0" cellpadding="0">
 <tr>
 <td id="vtext" style="background:#b0ffb0;font-size:25px;">    <big><big><big>✓</big></big></big>    </td>
@@ -272,17 +272,28 @@ if(c.id=='vtext'||c.tagName=='BIG'){
 h='<b>Hide</b> text near mouse cursor';
 xs.style.background='#f0fff0';
 }
-else if(c.tagName=='TD'){
+else if(c.id=='decef'){
+h='<b>Remove</b> extra fs element';
+if(efs>0)
+	xs.style.background='#f0fff0';
+}
+else if(c.id=='incef'){
+h='<b>Add</b> extra fs element';
+xs.style.background='#f0fff0';
+}
+else if(c.tagName=='TD'&&c.id!='ecfv'&&c.id!='ecfve'){
    h='toggle <b>'+(c.id=='etc'?'collapse':exp[c.id[2]]+' expansion')+'</b>';
    xs.style.background='#f0fff0';}
 else{
    h=exp[eo];
    xs.style.background='#fff';
-   h+=eo<0?'':' expansion'+(efs==0?'':' with '+efs+' extra fs elements');
+   h+=eo<0?'':' expansion'+(efs==0?'':' with '+efs+' extra fs element'+(efs==1?'':'s'));
    if(c.tagName=='LI'){
       if(c.id!=''&&c.id.slice(0,2)!='[]'){
-         h='<b>'+h+'</b>';
-         xs.style.background='#f0fff0';}      
+         h='<b>Do '+h+'</b>';
+         xs.style.background='#f0fff0';}
+      else 
+      	h='<i>'+h+'</i>';         
       h+='<br><b>'+c.id+'</b> fundamental sequence:'; 
       if(c.id=='')
          h+='<br>'+'<i>empty</i>';
@@ -296,6 +307,8 @@ else{
    	      h+='<li>   ...</li>';   
    	   }               
       }
+   else
+   	h='<i>'+h+'</i>'; 
    } 
 xs.hidden=false;   
 xs.innerHTML=h;    
@@ -369,6 +382,27 @@ else{
    vt=true;
    xs.hidden=false;
    }      
+}
+
+decef.onclick=function(e){
+if(efs>0){
+   efs--;
+   ecfv.innerHTML='   '+efs+'   ';
+   if(efs==0){
+      ecfv.style.background='#fff';
+      decef.style.color='#eeeeee';
+      xs.style.background='#fff';
+      xs.innerHTML='<i>Remove extra fs element</i>';} 	
+   }      
+}
+
+incef.onclick=function(e){
+efs++;
+ecfv.innerHTML='   '+efs+'   ';
+if(efs==1){
+   decef.style.color='#000';
+   ecfv.style.background='#b0ffb0';
+   }    
 }
 
 let bo='Limit';
