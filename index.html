@@ -290,6 +290,15 @@ else{
    h=exp[eo];
    xs.style.background='#fff';
    h+=eo<0?'':' expansion'+(efs==0?'':' with '+efs+' extra fs element'+(efs==1?'':'s'));
+   if(c.id!=''&&c.id.slice(0,2)!='[]'&&eo>0){
+      h+=' of ';
+      let l=pl(c)[0];
+      if(l.id!='-')
+      	h+='pair ';
+      h+=c.id;
+      if(l.id!='-')
+      	h+=', '+l.id;     	    
+      }
    if(c.tagName=='LI'){
       if(c.id!=''&&c.id.slice(0,2)!='[]'){
          h='<b>Do '+h+'</b>';
