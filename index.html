@@ -166,45 +166,76 @@ else{
    }
 }
 
+function rx(s,c,n,q){
+let x=document.createElement('li');
+x.id=s;
+x.innerHTML=s;
+if(s==''||s.slice(0,2)=='[]')
+   x.style.cursor='default';
+x=x.outerHTML;
+if(q>0){
+	let y=document.createElement('ul');
+   s=fs(c,n);
+   n=suc(n);
+   y.innerHTML=rx(s,c,n,q-1);
+   x+=y.outerHTML;} 
+return x;     
+}
+
 // small expansion of pair c > l
-function se(c,l){
+function se(c,l,q){
 let n='';
 let s;
 do{
-s=fs(c,n);
-n=suc(n);}
+   s=fs(c,n);
+   n=suc(n);}
 while(l!='-'&&compare(s,l)<1)
-return s;}
+return q==-1?s:rx(s,c,n,q);  	
+}
+
+function pl(c){
+let e=0;
+let l=c.previousSibling;
+if(l==null){
+   e++;
+   l=c.parentNode.previousSibling;}  
+while(l.tagName!='LI'){
+   e--;
+   l=l.lastChild;}
+return [l,e];}
 
 list.onclick=function(e){
 let c=e.target;
 if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){    
-   let b;
-   let l=c.previousSibling;
-   if(l==null){
-      b=false;
-      l=c.parentNode.previousSibling;}
-   else 
-   	b=true;   
-   while(l.tagName!='LI')
-      l=l.lastChild;     
-   let s=se(c.id,l.id);
-   let x=document.createElement('li');
-   x.id=s;
-   x.innerHTML=s;
-   if(s==''||s.slice(0,2)=='[]')
-      x.style.cursor='default'; 
-   if(b){
-      let y=document.createElement('ul');
-      y.innerHTML=x.outerHTML;
-      l.after(y);}
-   else       
-      c.before(x);   
+   let[l,i]=pl(c);
+   e=eo==0?1:eo-i;    
+   while(c!=l){
+      if(c.previousSibling==null){
+         if(e>=0)
+            c.insertAdjacentHTML('beforebegin',se(c.id,pl(c)[0].id,e+efs));}
+      else{
+         let[q,i]=pl(c);
+         i=e+i-1;
+         if(i>=0){
+            let y=document.createElement('ul');
+            y.innerHTML=se(c.id,q.id,i+efs);
+            q.insertAdjacentHTML('afterend',y.outerHTML);}      	
+         }
+      if(eo==0)
+         c=l;
+      else
+         do{
+            [c,i]=pl(c);
+            e+=i;}
+         while(c!=l&&(c.id==''||c.id.slice(0,2)=='[]'));
+      }         
    }
 }
 
 let bo='Limit';
 let col='c';
+let eo=1;
+let efs=0;
 </script
 ></body>
 </html>
