@@ -249,6 +249,11 @@ while(l.tagName!='LI'){
    l=l.lastChild;}
 return [l,e];}
 
+function cl(c){
+while(c.lastChild.tagName=='UL')
+    c=c.lastChild;
+return c;}
+
 function countli(c){
 let n=0;
 for(let l=c.firstChild;l!=null;l=l.nextSibling)
@@ -290,17 +295,16 @@ else{
    h=exp[eo];
    xs.style.background='#fff';
    h+=eo<0?'':' expansion'+(efs==0?'':' with '+efs+' extra fs element'+(efs==1?'':'s'));
-   if(c.id!=''&&c.id.slice(0,2)!='[]'&&eo>0){
-      h+=' of ';
-      let l=pl(c)[0];
-      if(l.id!='-')
-      	h+='pair ';
-      h+=c.id;
-      if(l.id!='-')
-      	h+=', '+l.id;     	    
-      }
    if(c.tagName=='LI'){
-      if(c.id!=''&&c.id.slice(0,2)!='[]'){
+      let q=c.previousSibling;    
+      if(c.id!=''&&c.id.slice(0,2)!='[]'&&(eo>0||(q!=null&&q.tagName=='UL'))){
+         h+=' of ';
+         let l=eo>0?pl(c)[0]:cl(q).previousSibling;
+         if(l.id!='-')
+      	   h+='pair ';
+         h+=c.id;
+         if(l.id!='-')
+         	h+=', '+l.id;          
          h='<b>Do '+h+'</b>';
          xs.style.background='#f0fff0';}
       else 
@@ -335,8 +339,7 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
    if(eo<0){
    c=c.previousSibling;
    if(c!=null&&c.tagName=='UL'){  
-      while(c.lastChild.tagName=='UL')
-         c=c.lastChild;
+      c=cl(c);
       count-=countli(c);   
       c.remove();}	
    }
