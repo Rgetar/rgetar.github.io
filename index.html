@@ -275,12 +275,12 @@ let c=e.target;
 let h;
 if(c.id=='vtext'||c.tagName=='BIG'){
 h='<b>Hide</b> text near mouse cursor';
-xs.style.background='#f0fff0';
+xs.style.background='#fffff0';
 }
 else if(c.id=='decef'){
 h='<div id="decd1"'+(efs>0?'':' style="font-style:italic"')+'><nobr id="decd2"'+(efs>0?' style="font-weight:bold"':'')+'>Remove</nobr> extra fs element</div>';
 if(efs>0) 
-   xs.style.background='#f0fff0';
+   xs.style.background='#fffff0';
 }
 else if(c.id=='incef'){
 h='<b>Add</b> extra fs element';
@@ -288,25 +288,39 @@ xs.style.background='#f0fff0';
 }
 else if(c.tagName=='TD'&&c.id!='ecfv'&&c.id!='ecfve'){
    h='<b>'+exp[c.id=='etc'?-1:c.id[2]]+'</b>';
-   xs.style.background='#f0fff0';}
+   xs.style.background=c.id=='etc'?'#fffff0':'#f0fff0';}
 else{
    h='<nobr id="ex1">'+exp[eo]+'</nobr>';
    xs.style.background='#fff';  
    h+='<div id="extra1" style="display:'+(efs==0||eo<0?'none':'inline')+'"> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></div>';   
-   if(c.tagName=='LI'){
-      let q=c.previousSibling;    
-      if(c.id!=''&&c.id.slice(0,2)!='[]'&&(eo>=0||(q!=null&&q.tagName=='UL'))){
-         h+=' of ';
-         let l=eo>=0?pl(c)[0]:cl(q).previousSibling;
-         if(l.id!='-')
-      	   h+='pair ';
-         h+=c.id;
-         if(l.id!='-')
-         	h+=', '+l.id;          
-         h='<b>Do '+h+'</b>';
-         xs.style.background='#f0fff0';}
-      else 
-      	h='<i>'+h+'</i>';         
+   let q=c.previousSibling;
+   exb[0]=c.tagName=='LI'&&q!=null&&q.tagName=='UL';
+   exb[1]=c.tagName=='LI'&&c.id!=''&&c.id.slice(0,2)!='[]';
+   let i=eo<0?0:1;
+   let b=exb[i]; 
+   if(exb[0]){
+      pairl[0]=cl(q).previousSibling;
+      pairb[0]=pairl[0].id!='-';}
+   else{ 
+   	pairb[0]=false;
+   	pairl[0]='-';}   
+   if(exb[1]){
+      pairl[1]=pl(c)[0];
+      pairb[1]=pairl[1].id!='-';}
+   else{ 
+   	pairb[1]=false; 
+   	pairl[0]='-';}       
+   h+='<div id="ex4" style="display:'+(b?'inline':'none')+'">';                         
+   h+=' of ';
+   let l=pairl[i];
+   h+='<nobr id="ex2">'+(l.id!='-'?'pair ':'')+'</nobr>';
+   h+=c.id;
+   h+='<nobr id="ex3">'+(l.id!='-'?(', '+l.id):'')+'</nobr>';
+   if(b)
+      xs.style.background=i==0?'#fffff0':'#f0fff0';
+   h+='</div>';          
+   h='<span id="ex6" style="font-weight:'+(b?'bold':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b></span>';                      
+   if(c.tagName=='LI'){      
       h+='<br><b>'+c.id+'</b> fundamental sequence:'; 
       if(c.id=='')
          h+='<br>'+'<i>empty</i>';
@@ -320,8 +334,8 @@ else{
    	      h+='<li>   ...</li>';   
    	   }               
       }
-   else
-   	h='<i>'+h+'</i>'; 
+   //else
+   //	h='<i>'+h+'</i>'; 
    } 
 xs.hidden=false;   
 xs.innerHTML=h;    
@@ -372,9 +386,9 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
 exptable.onclick=function(e){
 let c=e.target;
 if(c.tagName=='TD'){    
-   etar[eo].style.background='#fff';
-   c.style.background='#b0ffb0';
+   etar[eo].style.background='#fff';   
    eo=c.id=='etc'?-1:c.id[2];
+   c.style.background=eo<0?'#ffffb0':'#b0ffb0';
    }
 }
 
@@ -426,54 +440,67 @@ let c=e.code;
 if(c.slice(0,5)=='Digit'||c=='Minus'||c=='KeyS'||c=='KeyC'){
    let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyS'?0:-1;
    etar[eo].style.background='#fff';
-   etar[i].style.background='#b0ffb0';
+   etar[i].style.background=i<0?'#ffffb0':'#b0ffb0';
    eo=i;
-   if(ex1!=null)
+   if(document.getElementById('ex1')!=null)
       ex1.innerHTML=exp[eo];
-   if(extra1!=null)
+   if(document.getElementById('ex6')!=null){
+      i=eo<0?0:1;
+      ex4.style.display=exb[i]?'inline':'none';
+      ex5.innerHTML=exb[i]?'Do ':'';
+      ex6.style['font-weight']=exb[i]?'bold':'normal';
+      ex6.style['font-style']=exb[i]?'normal':'italic';
+      xs.style.background=exb[i]?(i==0?'#fffff0':'#f0fff0'):'#fff';
+      }        
+   if(document.getElementById('ex2')!=null){
+      i=eo<0?0:1;
+      ex2.innerHTML=pairb[i]?'pair ':'';
+      ex3.innerHTML=pairb[i]?', '+pairl[i].id:'';
+      }          
+   if(document.getElementById('extra1')!=null)
       extra1.style.display=efs>0&&eo>=0?'inline':'none';       
    }
 else if(c=='Comma'){
 if(efs>0){
    efs--;
    ecfv.innerHTML='   '+efs+'   ';
-   if(extra1!=null){
+   if(document.getElementById('extra1')!=null){
       if(efs==0)
          extra1.style.display='none';
       extra2.innerHTML=efs;
       extra3.innerHTML=efs==1?'':'s';   
-      }
+      }    
    if(efs==0){
       ecfv.style.background='#fff';
       decef.style.color='#eeeeee';
       decef.style.cursor='default';
-      if(decd1!=null){
+      if(document.getElementById('decd1')!=null){
          xs.style.background='#fff';
          decd1.style['font-style']='italic';
          decd2.style['font-weight']='normal'; 
          }            
-      } 	
+      } 	     
    }
 }     	
 else if(c=='Period'){
    efs++;
-   ecfv.innerHTML='   '+efs+'   ';
-   if(extra1!=null){
+   ecfv.innerHTML='   '+efs+'   '; 
+   if(document.getElementById('extra1')!=null){
       if(efs==1&&eo>=0)
          extra1.style.display='inline';
       extra2.innerHTML=efs;
       extra3.innerHTML=efs==1?'':'s';   
-      }   
+      }     
    if(efs==1){
       decef.style.color='#000';
       decef.style.cursor='pointer';
       ecfv.style.background='#b0ffb0';
-      if(decd1!=null){
-         xs.style.background='#f0fff0';
+      if(document.getElementById('decd1')!=null){
+         xs.style.background='#fffff0';
          decd1.style['font-style']='normal';
          decd2.style['font-weight']='bold';
          }
-      } 	 	
+      }            	 	
    } 
 else if(c=='KeyV')
 if(vt){
@@ -505,6 +532,9 @@ let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
 etar[-1]=etc;
 let count=1;
 let vt=true;
+let pairb=[0,1];
+let pairl=[0,1];
+let exb=[0,1];
 </script
 ></body>
 </html>
