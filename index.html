@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml">
 <head>
-<style type="text/css" media="Screen">
-sub {font-size: 0.83rem;}
-sup {font-size: 0.83rem;}
-</style>
 <meta charset="utf-8" />
 <title>Ordinal Explorer</title>
 </head>
-<style type="text/css">
+<style type="text/css" media="Screen">
 a{text-decoration:none;color:blue;}
 a:hover{text-decoration:underline;}
 a:visited{color:blue;}
 li{list-style-type:none;cursor:pointer;}
 td{cursor:pointer;}
 body{line-height:2;}
+sub{font-size:0.83rem;}
+sup{font-size:0.83rem;}
 </style>
 <body style="font-family:Arial;white-space:pre;"
 ><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;";
@@ -47,6 +45,18 @@ hidden="true";></div><ul id="list"
 </tr>
 </table></td>
 <td id="incef" style="font-size:50px;"> ▻</td>
+</tr>
+</table></div>
+<div align="center" onmousedown="return false"><i>Fundamental sequence elements, displayed near mouse cursor:</i>
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td id="decd" style="font-size:50px;">◅ </td>
+<td id="disp" style="font-size:25px;cursor:default;"><table border="5" cellspacing="0" cellpadding="0">
+<tr>
+<td id="dis" style="font-size:33px;cursor:default;background:#b0ffb0">   6   </td>
+</tr>
+</table></td>
+<td id="incd" style="font-size:50px;"> ▻</td>
 </tr>
 </table></div>
 <div align="center" onmousedown="return false"><i>Text near mouse cursor:</i>
@@ -280,7 +290,16 @@ else if(c.id=='incef'){
 h='<b>Add</b> extra fs element';
 xs.style.background='#f0fff0';
 }
-else if(c.tagName=='TD'&&c.id!='ecfv'&&c.id!='ecfve'){
+else if(c.id=='decd'){
+h='<div id="dec1"'+(di>0?'':' style="font-style:italic"')+'><nobr id="dec2"'+(di>0?' style="font-weight:bold"':'')+'>Remove</nobr> fs element, displayed near mouse cursor</div>';
+if(di>0) 
+   xs.style.background='#fffff0';
+}
+else if(c.id=='incd'){
+h='<b>Add</b> fs element, displayed near mouse cursor';
+xs.style.background='#f0fff0';
+}
+else if(c.tagName=='TD'&&c.id!='ecfv'&&c.id!='ecfve'&&c.id!='dis'&&c.id!='disp'){
    h='<b>'+exp[c.id=='etc'?-1:c.id[2]]+'</b>';
    xs.style.background=c.id=='etc'?'#fffff0':'#f0fff0';}
 else{
@@ -321,10 +340,10 @@ else{
       else{
          let n='';
          let b=c.id.slice(0,2)=='[]';
-      	for(let i=0;i<(b?1:6);i++){
+      	for(let i=0;i<(b?Math.min(1,di):di);i++){
    	      n=suc(n);
       	   h+='<li>   '+i+': '+fs(c.id,n)+'</li>';}
-      	if(!b)      
+      	if(!b||di==0)      
    	      h+='<li>   ...</li>';   
    	   }               
       }
@@ -411,8 +430,10 @@ if(efs>0){
       decef.style.color='#eeeeee';
       decef.style.cursor='default';
       xs.style.background='#fff';
-      decd1.style['font-style']='italic';
-      decd2.style['font-weight']='normal';
+      if(document.getElementById('decd1')!=null){
+         decd1.style['font-style']='italic';
+         decd2.style['font-weight']='normal';
+         }
       } 	
    }      
 }
@@ -427,9 +448,36 @@ if(efs==1){
    }    
 }
 
+decd.onclick=function(e){
+if(di>0){
+   di--;
+   dis.innerHTML='   '+di+'   ';
+   if(di==0){
+      dis.style.background='#fff';
+      decd.style.color='#eeeeee';
+      decd.style.cursor='default';
+      xs.style.background='#fff';
+      if(document.getElementById('dec1')!=null){
+         dec1.style['font-style']='italic';
+         dec2.style['font-weight']='normal';
+         }
+      } 	
+   }      
+}
+
+incd.onclick=function(e){
+di++;
+dis.innerHTML='   '+di+'   ';
+if(di==1){
+   decd.style.color='#000';
+   decd.style.cursor='pointer';
+   dis.style.background='#b0ffb0';
+   }    
+}
+
 document.addEventListener('keydown',function(e){
 let c=e.code;
-if(c.slice(0,5)=='Digit'||c=='Minus'||c=='KeyS'||c=='KeyC'){
+if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyC'){
    let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyS'?0:-1;
    etar[eo].style.background='#fff';
    etar[i].style.background=i<0?'#ffffb0':'#b0ffb0';
@@ -452,7 +500,7 @@ if(c.slice(0,5)=='Digit'||c=='Minus'||c=='KeyS'||c=='KeyC'){
    if(document.getElementById('extra1')!=null)
       extra1.style.display=efs>0&&eo>=0?'inline':'none';       
    }
-else if(c=='Comma'){
+else if(c=='Minus'||c=='NumpadSubtract'){
 if(efs>0){
    efs--;
    ecfv.innerHTML='   '+efs+'   ';
@@ -474,7 +522,7 @@ if(efs>0){
       } 	     
    }
 }     	
-else if(c=='Period'){
+else if(c=='Equal'||c=='NumpadAdd'){
    efs++;
    ecfv.innerHTML='   '+efs+'   '; 
    if(document.getElementById('extra1')!=null){
@@ -494,6 +542,36 @@ else if(c=='Period'){
          }
       }            	 	
    } 
+else if(c=='Comma'){
+if(di>0){
+   di--;
+   dis.innerHTML='   '+di+'   ';   
+   if(di==0){
+      dis.style.background='#fff';
+      decd.style.color='#eeeeee';
+      decd.style.cursor='default';
+      if(document.getElementById('dec1')!=null){
+         xs.style.background='#fff';
+         dec1.style['font-style']='italic';
+         dec2.style['font-weight']='normal'; 
+         }            
+      } 	     
+   }
+}     	
+else if(c=='Period'){
+   di++;
+   dis.innerHTML='   '+di+'   ';    
+   if(di==1){
+      decd.style.color='#000';
+      decd.style.cursor='pointer';
+      dis.style.background='#b0ffb0';
+      if(document.getElementById('dec1')!=null){
+         xs.style.background='#fffff0';
+         dec1.style['font-style']='normal';
+         dec2.style['font-weight']='bold';
+         }
+      }            	 	
+   }    
 else if(c=='KeyV')
 if(vt){
    vtext.style.background='#fff';
@@ -527,6 +605,7 @@ let vt=true;
 let pairb=[0,1];
 let pairl=[0,1];
 let exb=[0,1];
+let di=6;
 </script
 ></body>
 </html>
