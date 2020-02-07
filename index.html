@@ -22,7 +22,7 @@ hidden="true";></div><ul id="list"
 ><li id="-"></li><li id="Limit">Limit</li></ul><hr><div id="counter"
 >Total 1 ordinal</div>
 
-<div align="center" onmousedown="return false"><i>Toggle collapse and expansion levels:</i>
+<div align="center" onmousedown="return false"><i>Select collapse and expansion tools:</i>
 <table id="exptable" border="5" cellspacing="0" cellpadding="0">
 <tr>
 <td id="etc"> collapse </td>
@@ -278,28 +278,26 @@ h='<b>Hide</b> text near mouse cursor';
 xs.style.background='#f0fff0';
 }
 else if(c.id=='decef'){
-if(efs>0){
-h='<b>Remove</b> extra fs element';
-xs.style.background='#f0fff0';}
-else
-   h='<i>Remove extra fs element</i>';	
+h='<div id="decd1"'+(efs>0?'':' style="font-style:italic"')+'><nobr id="decd2"'+(efs>0?' style="font-weight:bold"':'')+'>Remove</nobr> extra fs element</div>';
+if(efs>0) 
+   xs.style.background='#f0fff0';
 }
 else if(c.id=='incef'){
 h='<b>Add</b> extra fs element';
 xs.style.background='#f0fff0';
 }
 else if(c.tagName=='TD'&&c.id!='ecfv'&&c.id!='ecfve'){
-   h='toggle <b>'+(c.id=='etc'?'collapse':exp[c.id[2]]+' expansion')+'</b>';
+   h='<b>'+exp[c.id=='etc'?-1:c.id[2]]+'</b>';
    xs.style.background='#f0fff0';}
 else{
-   h=exp[eo];
-   xs.style.background='#fff';
-   h+=eo<0?'':' expansion'+(efs==0?'':' with '+efs+' extra fs element'+(efs==1?'':'s'));
+   h='<nobr id="ex1">'+exp[eo]+'</nobr>';
+   xs.style.background='#fff';  
+   h+='<div id="extra1" style="display:'+(efs==0||eo<0?'none':'inline')+'"> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></div>';   
    if(c.tagName=='LI'){
       let q=c.previousSibling;    
-      if(c.id!=''&&c.id.slice(0,2)!='[]'&&(eo>0||(q!=null&&q.tagName=='UL'))){
+      if(c.id!=''&&c.id.slice(0,2)!='[]'&&(eo>=0||(q!=null&&q.tagName=='UL'))){
          h+=' of ';
-         let l=eo>0?pl(c)[0]:cl(q).previousSibling;
+         let l=eo>=0?pl(c)[0]:cl(q).previousSibling;
          if(l.id!='-')
       	   h+='pair ';
          h+=c.id;
@@ -374,7 +372,7 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
 exptable.onclick=function(e){
 let c=e.target;
 if(c.tagName=='TD'){    
-   (eo==-1?etc:etar[eo]).style.background='#fff';
+   etar[eo].style.background='#fff';
    c.style.background='#b0ffb0';
    eo=c.id=='etc'?-1:c.id[2];
    }
@@ -407,7 +405,9 @@ if(efs>0){
       decef.style.color='#eeeeee';
       decef.style.cursor='default';
       xs.style.background='#fff';
-      xs.innerHTML='<i>Remove extra fs element</i>';} 	
+      decd1.style['font-style']='italic';
+      decd2.style['font-weight']='normal';
+      } 	
    }      
 }
 
@@ -421,13 +421,83 @@ if(efs==1){
    }    
 }
 
+document.addEventListener('keydown',function(e){
+let c=e.code;
+if(c.slice(0,5)=='Digit'||c=='Minus'||c=='KeyS'||c=='KeyC'){
+   let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyS'?0:-1;
+   etar[eo].style.background='#fff';
+   etar[i].style.background='#b0ffb0';
+   eo=i;
+   if(ex1!=null)
+      ex1.innerHTML=exp[eo];
+   if(extra1!=null)
+      extra1.style.display=efs>0&&eo>=0?'inline':'none';       
+   }
+else if(c=='Comma'){
+if(efs>0){
+   efs--;
+   ecfv.innerHTML='   '+efs+'   ';
+   if(extra1!=null){
+      if(efs==0)
+         extra1.style.display='none';
+      extra2.innerHTML=efs;
+      extra3.innerHTML=efs==1?'':'s';   
+      }
+   if(efs==0){
+      ecfv.style.background='#fff';
+      decef.style.color='#eeeeee';
+      decef.style.cursor='default';
+      if(decd1!=null){
+         xs.style.background='#fff';
+         decd1.style['font-style']='italic';
+         decd2.style['font-weight']='normal'; 
+         }            
+      } 	
+   }
+}     	
+else if(c=='Period'){
+   efs++;
+   ecfv.innerHTML='   '+efs+'   ';
+   if(extra1!=null){
+      if(efs==1&&eo>=0)
+         extra1.style.display='inline';
+      extra2.innerHTML=efs;
+      extra3.innerHTML=efs==1?'':'s';   
+      }   
+   if(efs==1){
+      decef.style.color='#000';
+      decef.style.cursor='pointer';
+      ecfv.style.background='#b0ffb0';
+      if(decd1!=null){
+         xs.style.background='#f0fff0';
+         decd1.style['font-style']='normal';
+         decd2.style['font-weight']='bold';
+         }
+      } 	 	
+   } 
+else if(c=='KeyV')
+if(vt){
+   vtext.style.background='#fff';
+   vtext.style.color='#fff';
+   vt=false;
+   xs.hidden=true;
+   }
+else{
+   vtext.style.background='#b0ffb0';
+   vtext.style.color='#000';
+   vt=true;
+   xs.hidden=false;
+   } 	 	       	
+});
+
 let bo='Limit';
 let col='c';
 let eo=1;
 let efs=0;
-let exp=['small','single','double','triple','quadruple','pentuple','sextuple','septuple','octuple','nonuple'];
+let exp=['small expansion','single expansion','double expansion','triple expansion','quadruple expansion','pentuple expansion','sextuple expansion','septuple expansion','octuple expansion','nonuple expansion'];
 exp[-1]='collapse';
 let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
+etar[-1]=etc;
 let count=1;
 let vt=true;
 </script
