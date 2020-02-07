@@ -16,9 +16,15 @@ sup{font-size:0.83rem;}
 </style>
 <body style="font-family:Arial;white-space:pre;"
 ><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;";
-hidden="true";></div><ul id="list"
-><li id="-"></li><li id="Limit">Limit</li></ul><hr><div id="counter"
->Total 1 ordinal</div>
+hidden></div>List:<hr/><ul id="list"
+><li id="-"></li><li id="Limit">Limit</li></ul><hr/><span id="counter"
+>Total 1 ordinal</span>
+<span onmousedown="return false">
+<table border="5" cellspacing="0" cellpadding="0" style="border-color:#ffc0c0;">
+<tr>
+<td id="reset" style="background:#ffffd0;font-size:20px;border-color:#00ff00;">       Reset list       </td>
+</tr>
+</table></span>
 <div align="center" onmousedown="return false"><i>Select collapse and expansion tools:</i>
 <table id="exptable" border="5" cellspacing="0" cellpadding="0">
 <tr>
@@ -46,8 +52,8 @@ hidden="true";></div><ul id="list"
 </table></td>
 <td id="incef" style="font-size:50px;"> ▻</td>
 </tr>
-</table></div>
-<div align="center" onmousedown="return false"><i>Fundamental sequence elements, displayed near mouse cursor:</i>
+</table></div
+><div align="center" onmousedown="return false"><i>Fundamental sequence elements, displayed near mouse cursor:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
 <td id="decd" style="font-size:50px;">◅ </td>
@@ -58,8 +64,8 @@ hidden="true";></div><ul id="list"
 </table></td>
 <td id="incd" style="font-size:50px;"> ▻</td>
 </tr>
-</table></div>
-<div align="center" onmousedown="return false"><i>Text near mouse cursor:</i>
+</table></div
+><div align="center" onmousedown="return false"><i>Text near mouse cursor:</i>
 <table border="5" cellspacing="0" cellpadding="0">
 <tr>
 <td id="vtext" style="background:#b0ffb0;font-size:25px;">    <big><big><big>✓</big></big></big>    </td>
@@ -219,6 +225,7 @@ count++;
 let x=document.createElement('li');
 x.id=s;
 x.innerHTML=s;
+//x.innerHTML=s==''?'0':s;
 if(s==''||s.slice(0,2)=='[]')
    x.style.cursor='default';
 x=x.outerHTML;
@@ -259,7 +266,9 @@ while(c.lastChild.tagName=='UL')
 return c;}
 
 function countli(c){
-let n=0;
+if(c.tagName=='LI')
+   return 1;
+let n=0;   
 for(let l=c.firstChild;l!=null;l=l.nextSibling)
    if(l.tagName=='UL')
       n+=countli(l);
@@ -277,7 +286,11 @@ document.onmouseover=function(e){
 if(vt){
 let c=e.target;
 let h;
-if(c.id=='vtext'||c.tagName=='BIG'){
+if(c.id=='reset'){
+h='<b>Reset list</b>';
+xs.style.background='#fffff0';
+}
+else if(c.id=='vtext'||c.tagName=='BIG'){
 h='<b>Hide</b> text near mouse cursor';
 xs.style.background='#fffff0';
 }
@@ -305,49 +318,50 @@ else if(c.tagName=='TD'&&c.id!='ecfv'&&c.id!='ecfve'&&c.id!='dis'&&c.id!='disp')
 else{
    h='<nobr id="ex1">'+exp[eo]+'</nobr>';
    xs.style.background='#fff';  
-   h+='<div id="extra1" style="display:'+(efs==0||eo<0?'none':'inline')+'"> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></div>';   
-   let q=c.previousSibling;
-   exb[0]=c.tagName=='LI'&&q!=null&&q.tagName=='UL';
-   exb[1]=c.tagName=='LI'&&c.id!=''&&c.id.slice(0,2)!='[]';
-   let i=eo<0?0:1;
-   let b=exb[i]; 
-   if(exb[0]){
-      pairl[0]=cl(q).previousSibling;
-      pairb[0]=pairl[0].id!='-';}
-   else{ 
-   	pairb[0]=false;
-   	pairl[0]='-';}   
-   if(exb[1]){
-      pairl[1]=pl(c)[0];
-      pairb[1]=pairl[1].id!='-';}
-   else{ 
-   	pairb[1]=false; 
-   	pairl[0]='-';}       
-   h+='<div id="ex4" style="display:'+(b?'inline':'none')+'">';                         
-   h+=' of ';
-   let l=pairl[i];
-   h+='<nobr id="ex2">'+(l.id!='-'?'pair ':'')+'</nobr>';
-   h+=c.id;
-   h+='<nobr id="ex3">'+(l.id!='-'?(', '+l.id):'')+'</nobr>';
-   if(b)
-      xs.style.background=i==0?'#fffff0':'#f0fff0';
-   h+='</div>';          
-   h='<span id="ex6" style="font-weight:'+(b?'bold':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b></span>';                      
-   if(c.tagName=='LI'){      
-      h+='<br><b>'+c.id+'</b> fundamental sequence:'; 
+   h+='<span id="extra1"'+(efs==0||eo<0?' hidden':'')+'> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></span>';   
+   if(c.tagName=='LI'){
+      let q=c.previousSibling;
+      exb[0]=q!=null&&q.id!='-';
+      exb[1]=c.id!=''&&c.id.slice(0,2)!='[]';
+      let i=eo<0?0:1;
+      let b=exb[i]; 
+      if(exb[0]){  
+         pairl[0]=(q.tagName=='UL'?cl(q):q.parentNode).previousSibling;
+         pairb[0]=pairl[0].id!='-';}
+      else{ 
+      	pairb[0]=false;
+      	pairl[0]='-';}   
+      if(exb[1]){
+         pairl[1]=pl(c)[0];
+         pairb[1]=pairl[1].id!='-';}
+      else{ 
+      	pairb[1]=false; 
+      	pairl[0]='-';}     	  
+      h+='<span id="ex4"'+(b?'':' hidden')+'>';                         
+      h+=' of ';
+      let l=pairl[i];
+      h+='<nobr id="ex2">'+(l.id!='-'?'pair ':'')+'</nobr>';
+      h+=c.innerHTML;
+      h+='<nobr id="ex3">'+(l.id!='-'?(', '+l.innerHTML):'')+'</nobr>';
+      if(b)
+         xs.style.background=i==0?'#fffff0':'#f0fff0';
+      h+='</span>';          
+      h='<span id="ex6" style="font-weight:'+(b?'bold':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b></span>';                      
+      h+='<br><b>'+c.innerHTML+'</b><span'+(c.id==''?'':' id="fsd"')+(di>0||c.id==''?'':' hidden')+'> fundamental sequence:'; 
       if(c.id=='')
-         h+='<br>'+'<i>empty</i>';
+         h+='<br>'+'   <i>empty</i>';
       else{
-         let n='';
-         let b=c.id.slice(0,2)=='[]';
-      	for(let i=0;i<(b?Math.min(1,di):di);i++){
-   	      n=suc(n);
-      	   h+='<li>   '+i+': '+fs(c.id,n)+'</li>';}
-      	if(!b||di==0)      
-   	      h+='<li>   ...</li>';   
-   	   }               
-      }
-   } 
+         fsn='';
+         fsp=c.id.slice(0,2)!='[]';
+         fsl=c.id;
+      	for(let i=0;i<(fsp?di:1);i++){   	      
+      	   h+='<li>   '+i+': '+fs(fsl,fsn)+'</li>';
+      	   fsn=suc(fsn);}  
+      	if(fsp)      
+   	      h+='<li id="dots">   ...</li>';   
+   	   }
+   	h+='</span>';                  
+   }} 
 xs.hidden=false;   
 xs.innerHTML=h;    
 }}
@@ -359,15 +373,29 @@ document.onmouseout=function(e){
 list.onclick=function(e){
 let c=e.target;
 if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
+   let sc;
+   let sc1=c;
    if(eo<0){
    c=c.previousSibling;
-   if(c!=null&&c.tagName=='UL'){  
-      c=cl(c);
-      count-=countli(c);   
-      c.remove();}	
+   if(c!=null&&c.id!='-')
+   if(c.tagName=='UL'){       
+      c=cl(c);             
+      count-=countli(c);
+      sc=c.previousSibling;   
+      c.remove();}
+   else{
+      let q=c;
+      sc=c.parentNode.previousSibling;
+      while(c!=null){        
+         c=c.previousSibling;
+         count-=countli(q);
+         q.remove();
+         q=c;}        
+      }	
    }
    else{    
       let[l,i]=pl(c);
+      sc=l;
       e=(eo==0?1:eo)-i;    
       while(c!=l){
          if(c.previousSibling==null){
@@ -389,9 +417,18 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
                e+=i;}
             while(c!=l&&(c.id==''||c.id.slice(0,2)=='[]'));
          }                           
-      }
-   counter.innerHTML='Total '+count+' ordinal'+(count==1?'':'s');  
+      }     
+   counter.innerHTML='Total '+count+' ordinal'+(count==1?'':'s');
+   if(sc.getBoundingClientRect().top<0||sc1.getBoundingClientRect().bottom>window.innerHeight)
+   if(eo<0||sc1.getBoundingClientRect().bottom-sc.getBoundingClientRect().top>window.innerHeight)
+      sc.scrollIntoView();
+   else   
+      sc1.scrollIntoView(false);       
    }
+}
+
+window.onunload=function(e){
+window.scrollTo(0,0);
 }
 
 exptable.onclick=function(e){
@@ -475,6 +512,15 @@ if(di==1){
    }    
 }
 
+function resetlist(){
+list.innerHTML='<li id="-"></li><li id="Limit">Limit</li>';
+count=1;
+counter.innerHTML='Total 1 ordinal';
+window.scrollTo(0,0);}
+
+reset.onclick=function(e){
+resetlist();}
+
 document.addEventListener('keydown',function(e){
 let c=e.code;
 if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyC'){
@@ -486,7 +532,7 @@ if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyC'){
       ex1.innerHTML=exp[eo];
    if(document.getElementById('ex6')!=null){
       i=eo<0?0:1;
-      ex4.style.display=exb[i]?'inline':'none';
+      ex4.hidden=!exb[i];
       ex5.innerHTML=exb[i]?'Do ':'';
       ex6.style['font-weight']=exb[i]?'bold':'normal';
       ex6.style['font-style']=exb[i]?'normal':'italic';
@@ -498,7 +544,7 @@ if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyC'){
       ex3.innerHTML=pairb[i]?', '+pairl[i].id:'';
       }          
    if(document.getElementById('extra1')!=null)
-      extra1.style.display=efs>0&&eo>=0?'inline':'none';       
+      extra1.hidden=efs==0||eo<0;       
    }
 else if(c=='Minus'||c=='NumpadSubtract'){
 if(efs>0){
@@ -506,7 +552,7 @@ if(efs>0){
    ecfv.innerHTML='   '+efs+'   ';
    if(document.getElementById('extra1')!=null){
       if(efs==0)
-         extra1.style.display='none';
+         extra1.hidden=true;
       extra2.innerHTML=efs;
       extra3.innerHTML=efs==1?'':'s';   
       }    
@@ -527,7 +573,7 @@ else if(c=='Equal'||c=='NumpadAdd'){
    ecfv.innerHTML='   '+efs+'   '; 
    if(document.getElementById('extra1')!=null){
       if(efs==1&&eo>=0)
-         extra1.style.display='inline';
+         extra1.hidden=false;
       extra2.innerHTML=efs;
       extra3.innerHTML=efs==1?'':'s';   
       }     
@@ -545,7 +591,13 @@ else if(c=='Equal'||c=='NumpadAdd'){
 else if(c=='Comma'){
 if(di>0){
    di--;
-   dis.innerHTML='   '+di+'   ';   
+   dis.innerHTML='   '+di+'   '; 
+   if(document.getElementById('fsd')!=null){ 
+      if(fsp){
+      	fsn=pred(fsn);
+         dots.previousSibling.remove();}             
+      if(di==0)
+         fsd.hidden=true;}        
    if(di==0){
       dis.style.background='#fff';
       decd.style.color='#eeeeee';
@@ -554,13 +606,21 @@ if(di>0){
          xs.style.background='#fff';
          dec1.style['font-style']='italic';
          dec2.style['font-weight']='normal'; 
-         }            
+         }                        
       } 	     
    }
 }     	
 else if(c=='Period'){
    di++;
-   dis.innerHTML='   '+di+'   ';    
+   dis.innerHTML='   '+di+'   '; 
+   if(document.getElementById('fsd')!=null){ 
+      if(fsp){     	
+         let y=document.createElement('li');
+         y.innerHTML='   '+(di-1)+': '+fs(fsl,fsn);
+         fsn=suc(fsn);
+         dots.insertAdjacentHTML('beforebegin',y.outerHTML);}                
+      if(di==1)
+         fsd.hidden=false;}       
    if(di==1){
       decd.style.color='#000';
       decd.style.cursor='pointer';
@@ -569,7 +629,7 @@ else if(c=='Period'){
          xs.style.background='#fffff0';
          dec1.style['font-style']='normal';
          dec2.style['font-weight']='bold';
-         }
+         }        
       }            	 	
    }    
 else if(c=='KeyV')
@@ -586,10 +646,7 @@ else{
    xs.hidden=false;
    } 
 else if(c=='KeyR'){
-   list.innerHTML='<li id="-"></li><li id="Limit">Limit</li>';
-   count=1;
-   counter.innerHTML='Total 1 ordinal';
-   }   	 	       	
+   resetlist();}   	 	       	
 });
 
 let bo='Limit';
@@ -606,6 +663,9 @@ let pairb=[0,1];
 let pairl=[0,1];
 let exb=[0,1];
 let di=6;
+let fsl;
+let fsn;
+let fsp;
 </script
 ></body>
 </html>
