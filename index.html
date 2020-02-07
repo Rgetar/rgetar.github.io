@@ -16,7 +16,7 @@ sup{font-size:0.83rem;}
 </style>
 <body style="font-family:Arial;white-space:pre;"
 ><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;";
-hidden></div>List:<hr/><ul id="list"
+hidden></div><hr/><ul id="list"
 ><li id="-"></li><li id="Limit">Limit</li></ul><hr/><span id="counter"
 >Total 1 ordinal</span>
 <span onmousedown="return false">
@@ -423,10 +423,12 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
    if(eo<0||sc1.getBoundingClientRect().bottom-sc.getBoundingClientRect().top>window.innerHeight)
       sc.scrollIntoView();
    else   
-      sc1.scrollIntoView(false);       
+      sc1.scrollIntoView(false);
+   let u=new Event('mouseover');
+   Object.defineProperty(u,'target',{value:sc1});
+   document.dispatchEvent(u);          
    }
 }
-
 window.onunload=function(e){
 window.scrollTo(0,0);
 }
