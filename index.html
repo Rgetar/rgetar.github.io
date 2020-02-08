@@ -16,7 +16,7 @@ sup{font-size:0.83rem;}
 </style>
 <body style="font-family:Arial;white-space:pre;"
 ><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;";
-hidden></div><hr/><ul id="list"
+hidden></div><h1>Ordinal Explorer</h1>List:<hr/><ul id="list"
 ><li id="-"></li><li id="Limit">Limit</li></ul><hr/><span id="counter"
 >Total 1 ordinal</span>
 <span onmousedown="return false">
@@ -41,7 +41,7 @@ hidden></div><hr/><ul id="list"
 <td id="et9" style="font-size:33px;">   9   </td>
 </tr>
 </table></div>
-<div align="center" onmousedown="return false"><i>Extra fundamental sequence elements:</i>
+<div align="center" onmousedown="return false"><i>Amount of extra fundamental sequence elements:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
 <td id="decef" style="color:#eeeeee;font-size:50px;cursor:default;">◅ </td>
@@ -53,7 +53,7 @@ hidden></div><hr/><ul id="list"
 <td id="incef" style="font-size:50px;"> ▻</td>
 </tr>
 </table></div
-><div align="center" onmousedown="return false"><i>Fundamental sequence elements, displayed near mouse cursor:</i>
+><div align="center" onmousedown="return false"><i>Amount of fundamental sequence elements, displayed near mouse cursor:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
 <td id="decd" style="font-size:50px;">◅ </td>
@@ -287,34 +287,76 @@ if(vt){
 let c=e.target;
 let h;
 if(c.id=='reset'){
-h='<b>Reset list</b>';
-xs.style.background='#fffff0';
-}
+   h='<b>Reset list</b><br/><i>use "R" key</i>';
+   xs.style.background='#fffff0';
+   }
 else if(c.id=='vtext'||c.tagName=='BIG'){
-h='<b>Hide</b> text near mouse cursor';
-xs.style.background='#fffff0';
-}
+   h='<b>Hide</b> text near mouse cursor<br/><i>use "V" key</i>';
+   xs.style.background='#fffff0';
+   }
 else if(c.id=='decef'){
-h='<div id="decd1"'+(efs>0?'':' style="font-style:italic"')+'><nobr id="decd2"'+(efs>0?' style="font-weight:bold"':'')+'>Remove</nobr> extra fs element</div>';
-if(efs>0) 
-   xs.style.background='#fffff0';
-}
+   h='<div id="decd1"'+(efs>0?'':' style="font-style:italic"')+'><nobr id="decd2"'+(efs>0?' style="font-weight:bold"':'')+'>Remove</nobr> extra fs element</div><i>use "-" key</i>';
+   if(efs>0) 
+      xs.style.background='#fffff0';
+   }
 else if(c.id=='incef'){
-h='<b>Add</b> extra fs element';
-xs.style.background='#f0fff0';
-}
+   h='<b>Add</b> extra fs element<br/><i>use "+" key</i>';
+   xs.style.background='#f0fff0';
+   }
 else if(c.id=='decd'){
-h='<div id="dec1"'+(di>0?'':' style="font-style:italic"')+'><nobr id="dec2"'+(di>0?' style="font-weight:bold"':'')+'>Remove</nobr> fs element, displayed near mouse cursor</div>';
-if(di>0) 
-   xs.style.background='#fffff0';
-}
+   h='<div id="dec1"'+(di>0?'':' style="font-style:italic"')+'><nobr id="dec2"'+(di>0?' style="font-weight:bold"':'')+'>Remove</nobr> fs element, displayed near mouse cursor</div><i>use "<" key</i>';
+   if(di>0) 
+      xs.style.background='#fffff0';
+   }
 else if(c.id=='incd'){
-h='<b>Add</b> fs element, displayed near mouse cursor';
-xs.style.background='#f0fff0';
-}
-else if(c.tagName=='TD'&&c.id!='ecfv'&&c.id!='ecfve'&&c.id!='dis'&&c.id!='disp'){
-   h='<b>'+exp[c.id=='etc'?-1:c.id[2]]+'</b>';
-   xs.style.background=c.id=='etc'?'#fffff0':'#f0fff0';}
+   h='<b>Add</b> fs element, displayed near mouse cursor<br/><i>use ">" key</i>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='ecfv'){
+   h='<small><small><div style="line-height:1">Enhance expansions.<br/>After expansion extra fs elements of all expanded elements are added to the list.</div></small></small>'; 
+   xs.style.background='#fff';
+   } 
+else if(c.id=='dis'){
+   h='<small><small><div style="line-height:1">Amount of fs elements, displayed near mouse cursor, when you hover over an ordinal</div></small></small>'; 
+   xs.style.background='#fff';
+   }    
+else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'){
+   let i=c.id=='etc'?-1:c.id[2]; 
+   h='<b>'+exp[i]+'</b><br/><small><small><div style="line-height:1">'
+   if(i<0){
+      h+='Removes elements from the list.<br/>';
+      h+='"Do collapse of pair <b>a, b</b>" means "Remove all elements between <b>a</b> and <b>b</b>".<br/>';
+      h+='"Do collapse of <b>b</b>" means "Remove all elements before <b>b</b>".<br/>';
+      h+='Can revert expansions. For example, to revert small or single expansion, do collapse 1 time;<br/>';
+      h+='to revert double expansion, do collapse 2 times;<br/>';
+      h+='to revert triple expansion, do collapse 3 times; etc.';     
+      }
+   else if(i==0){ 
+      h+='Adds one element to the list.<br/>';
+      h+='"Do small expansion of pair <b>a, b</b>" means "Compute least fs element of <b>b</b> larger than <b>a</b> and insert it between <b>a</b> and <b>b</b>."<br/>';
+      h+='"Do small expansion of <b>b</b>" means "Compute least fs element of <b>b</b> and insert it before <b>b</b>."';     
+      }  
+   else if(i==1){ 
+      h+='"Do single expansion of pair <b>a, b</b>" means "Do small expansion of pair <b>a, b</b> — insert element <b>c</b>;<br/>';
+      h+='then do small expansion of pair <b>a, c</b> — insert element <b>d</b>;<br/>';
+      h+='then do small expansion of pair <b>a, d</b> — insert element <b>e</b>; etc.<br/>';
+      h+='continue until pair <b>a, a + 1</b>".<br/>';
+      h+='"Do single expansion of <b>b</b>" means "Do small expansion of <b>b</b> — insert element <b>c</b>;<br/>';
+      h+='then do small expansion of <b>c</b> — insert element <b>d</b>;<br/>';
+      h+='then do small expansion of <b>d</b> — insert element <b>e</b>; etc.<br/>';
+      h+='continue until <b>0</b>".<br/>';     
+      }  
+   else{
+      h+='"Do '+exp[i]+' of pair <b>a, b</b>" means "Do single expansion of pair <b>a, b</b> — insert elements <b>c, d, e, ...</b>;<br/>'; 
+      h+='then do '+exp[i]+'s of pairs <b>c, b</b>; <b>d, c</b>; <b>e, d</b>; etc."<br/>';
+      h+='"Do '+exp[i]+' of <b>b</b>" means "Do single expansion of <b>b</b> — insert elements <b>c, d, e, ...</b>;<br/>';
+      h+='then do '+exp[i+1]+'s of pairs <b>c, b</b>; <b>d, c</b>; <b>e, d</b>; etc."<br/>';
+      }       
+   h+='</div></small></small>'; 
+   h+='<i>use "';
+   h+=i<0?'C':i==0?'0" or "S':i;  
+   h+='" key</i>';  
+   xs.style.background=c.id=='etc'?'#fffff0':'#f0fff0';}  
 else{
    h='<nobr id="ex1">'+exp[eo]+'</nobr>';
    xs.style.background='#fff';  
@@ -341,8 +383,8 @@ else{
       h+=' of ';
       let l=pairl[i];
       h+='<nobr id="ex2">'+(l.id!='-'?'pair ':'')+'</nobr>';
-      h+=c.innerHTML;
-      h+='<nobr id="ex3">'+(l.id!='-'?(', '+l.innerHTML):'')+'</nobr>';
+      h+='<nobr id="ex3">'+(l.id!='-'?(l.innerHTML+', '):'')+'</nobr>';
+      h+=c.innerHTML;      
       if(b)
          xs.style.background=i==0?'#fffff0':'#f0fff0';
       h+='</span>';          
