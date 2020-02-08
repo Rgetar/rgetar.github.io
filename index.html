@@ -15,62 +15,63 @@ sub{font-size:0.83rem;}
 sup{font-size:0.83rem;}
 </style>
 <body style="font-family:Arial;white-space:pre;"
-><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;";
-hidden></div><h1>Ordinal Explorer</h1>List:<hr/><ul id="list"
+><h1>Ordinal Explorer</h1>List:<hr/><ul id="list"
 ><li id="-"></li><li id="Limit">Limit</li></ul><hr/><span id="counter"
 >Total 1 ordinal</span>
 <span onmousedown="return false">
-<table border="5" cellspacing="0" cellpadding="0" style="border-color:#ffc0c0;">
+<table id="resett" border="5" cellspacing="0" cellpadding="0" style="border-color:#ffc0c0;opacity:0.5;">
 <tr>
 <td id="reset" style="background:#ffffd0;font-size:20px;border-color:#00ff00;">       Reset list       </td>
 </tr>
-</table></span>
-<div align="center" onmousedown="return false"><i>Select collapse and expansion tools:</i>
-<table id="exptable" border="5" cellspacing="0" cellpadding="0">
+</table></span
+><div align="center" onmousedown="return false" style="font-size:13px;"><i>Select collapse and expansion tools:</i>
+<table id="exptable" border="4" cellspacing="0" cellpadding="0">
 <tr>
-<td id="etc"> collapse </td>
-<td id="et0">    small    </td>
-<td id="et1" style="background:#b0ffb0;font-size:33px;">   1   </td>
-<td id="et2" style="font-size:33px;">   2   </td>
-<td id="et3" style="font-size:33px;">   3   </td>
-<td id="et4" style="font-size:33px;">   4   </td>
-<td id="et5" style="font-size:33px;">   5   </td>
-<td id="et6" style="font-size:33px;">   6   </td>
-<td id="et7" style="font-size:33px;">   7   </td>
-<td id="et8" style="font-size:33px;">   8   </td>
-<td id="et9" style="font-size:33px;">   9   </td>
+<td id="et0" style="font-size:11px;">   small   </td>
+<td id="et1" style="font-size:20px;">   1   </td>
+<td id="et2" style="font-size:18px;">   2   </td>
+<td id="et3" style="font-size:18px;">   3   </td>
+<td id="et4" style="font-size:18px;">   4   </td>
+<td id="et5" style="font-size:18px;">   5   </td>
+<td id="et6" style="font-size:18px;">   6   </td>
+<td id="et7" style="font-size:18px;">   7   </td>
+<td id="et8" style="font-size:18px;">   8   </td>
+<td id="et9" style="font-size:18px;">   9   </td>
+<td id="etc" style="font-size:9px;">  collapse  </td>
+<td id="etv" style="background:#b0ffb0;font-size:12px;">   view   </td>
 </tr>
 </table></div>
-<div align="center" onmousedown="return false"><i>Amount of extra fundamental sequence elements:</i>
+<div align="center" onmousedown="return false" style="font-size:13px;"><i>Amount of extra fundamental sequence elements:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
-<td id="decef" style="color:#eeeeee;font-size:50px;cursor:default;">◅ </td>
-<td id="ecfve" style="font-size:25px;cursor:default;"><table border="5" cellspacing="0" cellpadding="0">
+<td id="decef" style="color:#eeeeee;font-size:35px;cursor:default;">◅ </td>
+<td id="ecfve" style="cursor:default;"><table border="4" cellspacing="0" cellpadding="0">
 <tr>
-<td id="ecfv" style="font-size:33px;cursor:default;">   0   </td>
+<td id="ecfv" style="font-size:20px;cursor:default;">   0   </td>
 </tr>
 </table></td>
-<td id="incef" style="font-size:50px;"> ▻</td>
+<td id="incef" style="font-size:35px;"> ▻</td>
 </tr>
 </table></div
-><div align="center" onmousedown="return false"><i>Amount of fundamental sequence elements, displayed near mouse cursor:</i>
+><div align="center" onmousedown="return false" style="font-size:13px;"><i>Amount of fundamental sequence elements, displayed near mouse cursor:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
-<td id="decd" style="font-size:50px;">◅ </td>
-<td id="disp" style="font-size:25px;cursor:default;"><table border="5" cellspacing="0" cellpadding="0">
+<td id="decd" style="font-size:35px;">◅ </td>
+<td id="disp" style="cursor:default;"><table border="4" cellspacing="0" cellpadding="0">
 <tr>
-<td id="dis" style="font-size:33px;cursor:default;background:#b0ffb0">   6   </td>
+<td id="dis" style="font-size:20px;cursor:default;background:#b0ffb0"></td>
 </tr>
 </table></td>
-<td id="incd" style="font-size:50px;"> ▻</td>
+<td id="incd" style="font-size:35px;"> ▻</td>
 </tr>
 </table></div
-><div align="center" onmousedown="return false"><i>Text near mouse cursor:</i>
-<table border="5" cellspacing="0" cellpadding="0">
+><div align="center" onmousedown="return false" style="font-size:13px;"><i>Text near mouse cursor:</i>
+<table border="4" cellspacing="0" cellpadding="0">
 <tr>
-<td id="vtext" style="background:#b0ffb0;font-size:25px;">    <big><big><big>✓</big></big></big>    </td>
+<td id="vtext" style="background:#b0ffb0;font-size:12.5px;">    <big><big><big>✓</big></big></big>    </td>
 </tr>
-</table></div><script
+</table></div><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;";
+hidden></div><script
 >'use strict'
 // get position of last symbol p of string st (if l=true then first)
 function getls(st,p,l=false){
@@ -226,23 +227,21 @@ return st==''?false:st==col||st==bo?true:compare(st,booster(st))<1;}
 
 // get CNF of st
 function cnf(st){
-let c=[],m=[],s,t,e=-1;
+let c=[],s,t,e=-1;
 while(st){
    [s,st]=eps(st)?[st,'']:[booster(st),base(st)];
    if(c.length==0||compare(t,s)<1){
-   	c.push(s);
+      if(e<0||c[e][0]!=s){
+         c.push([s,1]);
+   	   e++;}
+   	else   
+   	   c[e][1]++;
    	t=s;}
    } 	   	
 for(s of c){
-   if(e<0||m[e][0].toString()!=s.toString()){
-   	m.push([s,1]);
-   	e++;}
-   else 
-      m[e][1]++;}
-for(s of m){
 if(!eps(s[0]))
    s[0]=cnf(s[0]);}            
-return m;        	
+return c;        	
 }
 
 function unone(st){
@@ -357,11 +356,12 @@ if(vt){
 let c=e.target;
 let h;
 if(c.id=='reset'){
-   h='<b>Reset list</b><br/><i>use "R" key</i>';
-   xs.style.background='#fffff0';
+   h='<div id="res1"'+(count>1?'':' style="font-style:italic"')+'><nobr id="res2"'+(count>1?' style="font-weight:bold"':'')+'>Reset list</nobr></div><i>use "R" key</i>';
+   if(count>1)
+      xs.style.background='#fffff0';
    }
 else if(c.id=='vtext'||c.tagName=='BIG'){
-   h='<b>Hide</b> text near mouse cursor<br/><i>use "V" key</i>';
+   h='<b>Hide</b> text near mouse cursor<br/><i>use "T" key</i>';
    xs.style.background='#fffff0';
    }
 else if(c.id=='decef'){
@@ -391,40 +391,48 @@ else if(c.id=='dis'){
    xs.style.background='#fff';
    }    
 else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'){
-   let i=c.id=='etc'?-1:c.id[2]; 
+   let i=c.id=='etc'?-1:c.id=='etv'?-2:c.id[2]; 
    h='<b>'+exp[i]+'</b><br/><small><small><div style="line-height:1">'
-   if(i<0){
-      h+='Removes elements from the list.<br/>';
-      h+='"Do collapse of pair <b>a, b</b>" means "Remove all elements between <b>a</b> and <b>b</b>".<br/>';
-      h+='"Do collapse of <b>b</b>" means "Remove all elements before <b>b</b>".<br/>';
-      h+='Can revert expansions. For example, to revert small or single expansion, do collapse 1 time;<br/>';
+   if(i==-2){
+      h+='Just view, do not expand or collapse.';     
+      }   
+   else if(i==-1){
+      h+='Removes elements from the list.<br/><br/>';
+      h+='"Do collapse of pair <b>a, b</b>" means "remove all elements between <b>a</b> and <b>b</b>".<br/><br/>';
+      h+='"Do collapse of <b>b</b>" means "remove all elements before <b>b</b>".<br/><br/>';
+      h+='Can revert expansions. For example,<br/>to revert small or single expansion, do collapse 1 time;<br/>';
       h+='to revert double expansion, do collapse 2 times;<br/>';
       h+='to revert triple expansion, do collapse 3 times; etc.';     
       }
-   else if(i==0){ 
-      h+='Adds one element to the list.<br/>';
-      h+='"Do small expansion of pair <b>a, b</b>" means "Compute least fs element of <b>b</b> larger than <b>a</b> and insert it between <b>a</b> and <b>b</b>."<br/>';
-      h+='"Do small expansion of <b>b</b>" means "Compute least fs element of <b>b</b> and insert it before <b>b</b>."';     
+   else if(i==0){
+      h+='Inserts one element between current element <b>b</b> and previous element <b>a</b>,<br/>'; 
+      h+='or, if <b>b</b> is the first element of the list, inserts one element before <b>b</b>.<br/><br/>';
+      h+='"Do small expansion of pair <b>a, b</b>" means "compute least fs element of <b>b</b> larger than <b>a</b> and insert it between <b>a</b> and <b>b</b>".<br/><br/>';
+      h+='"Do small expansion of <b>b</b>" means "compute least fs element of <b>b</b> and insert it before <b>b</b>".';     
       }  
    else if(i==1){ 
-      h+='"Do single expansion of pair <b>a, b</b>" means "Do small expansion of pair <b>a, b</b> — insert element <b>c</b>;<br/>';
+      h+='Inserts elements between current element <b>b</b> and previous element <b>a</b>,<br/>'; 
+      h+='or, if <b>b</b> is the first element of the list, inserts elements before <b>b</b>.<br/><br/>';
+      h+='"Do single expansion of pair <b>a, b</b>" means "do small expansion of pair <b>a, b</b> — insert element <b>c</b>;<br/>';
       h+='then do small expansion of pair <b>a, c</b> — insert element <b>d</b>;<br/>';
       h+='then do small expansion of pair <b>a, d</b> — insert element <b>e</b>; etc.<br/>';
-      h+='continue until pair <b>a, a + 1</b>".<br/>';
-      h+='"Do single expansion of <b>b</b>" means "Do small expansion of <b>b</b> — insert element <b>c</b>;<br/>';
+      h+='continue until pair <b>a, a + 1</b>".<br/><br/>';
+      h+='"Do single expansion of <b>b</b>" means "do small expansion of <b>b</b> — insert element <b>c</b>;<br/>';
       h+='then do small expansion of <b>c</b> — insert element <b>d</b>;<br/>';
       h+='then do small expansion of <b>d</b> — insert element <b>e</b>; etc.<br/>';
       h+='continue until <b>0</b>".<br/>';     
       }  
    else{
-      h+='"Do '+exp[i]+' of pair <b>a, b</b>" means "Do single expansion of pair <b>a, b</b> — insert elements <b>c, d, e, ...</b>;<br/>'; 
-      h+='then do '+exp[i-1]+'s of pairs <b>c, b</b>; <b>d, c</b>; <b>e, d</b>; etc."<br/>';
-      h+='"Do '+exp[i]+' of <b>b</b>" means "Do single expansion of <b>b</b> — insert elements <b>c, d, e, ...</b>;<br/>';
-      h+='then do '+exp[i-1]+'s of pairs <b>c, b</b>; <b>d, c</b>; <b>e, d</b>; etc."<br/>';
+      h+='Inserts elements between current element <b>b</b> and previous element <b>a</b>,<br/>'; 
+      h+='or, if <b>b</b> is the first element of the list, inserts elements before <b>b</b>.<br/><br/>';
+      h+='"Do '+exp[i]+' of pair <b>a, b</b>" means "do single expansion of pair <b>a, b</b> — insert elements <b>c, d, e, ...</b>;<br/>'; 
+      h+='then do '+exp[i-1]+'s of pair <b>c, b</b>, of pair <b>d, c</b>, of pair <b>e, d</b>, etc."<br/><br/>';
+      h+='"Do '+exp[i]+' of <b>b</b>" means "do single expansion of <b>b</b> — insert elements <b>c, d, e, ...</b>;<br/>';
+      h+='then do '+exp[i-1]+'s of pair <b>c, b</b>, of pair <b>d, c</b>, of pair <b>e, d</b>, etc."<br/>';
       }       
    h+='</div></small></small>'; 
    h+='<i>use "';
-   h+=i<0?'C':i==0?'0" or "S':i;  
+   h+=i==-1?'C':i==-2?'V':i==0?'0" or "S':i;  
    h+='" key</i>';  
    xs.style.background=c.id=='etc'?'#fffff0':'#f0fff0';}  
 else{
@@ -458,11 +466,11 @@ else{
       h+='<nobr id="ex2">'+(l.id!='-'?'pair ':'')+'</nobr>';
       h+='<nobr id="ex3">'+(l.id!='-'?(l.innerHTML+', '):'')+'</nobr>';
       h+=c.innerHTML;      
-      if(b)
+      if(b&&eo!=-2)
          xs.style.background=i==0?'#fffff0':'#f0fff0';
       h+='</span>';          
-      h='<span id="ex6" style="font-weight:'+(b?'bold':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b></span>';                      
-      h+='<br><b>'+c.innerHTML+'</b><span'+(c.id==''?'':' id="fsd"')+(di>0||c.id==''?'':' hidden')+'> fundamental sequence:'; 
+      h='<div id="ex7"'+(eo==-2&&c.tagName=='LI'?' hidden':'')+'><span id="ex6" style="font-weight:'+(b?'bold':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b></span>';                      
+      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(c.id==''?'':' id="fsd"')+(di>0||c.id==''?'':' hidden')+'> fundamental sequence:'; 
       if(c.id=='')
          h+='<br>'+'   <i>empty</i>';
       else{
@@ -476,7 +484,10 @@ else{
    	      h+='<li id="dots">   ...</li>';   
    	   }
    	h+='</span>';                  
-   }} 
+   }
+   else
+   	h='<div id="ex7"'+(eo==-2&&c.tagName=='LI'?' hidden':'')+'>'+h+'</div>';
+   } 
 xs.hidden=false;   
 xs.innerHTML=h;    
 }}
@@ -486,6 +497,7 @@ document.onmouseout=function(e){
 }
 
 list.onclick=function(e){
+if(eo!=-2){
 let c=e.target;
 while(c.tagName=='SUB'||c.tagName=='SUP')
    cc=c.parentNode;
@@ -536,6 +548,7 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
          }                           
       }     
    counter.innerHTML='Total '+count+' ordinal'+(count==1?'':'s');
+   resett.style.opacity=count==1?0.5:1;
    if(sc.getBoundingClientRect().top<0||sc1.getBoundingClientRect().bottom>window.innerHeight)
    if(eo<0||sc1.getBoundingClientRect().bottom-sc.getBoundingClientRect().top>window.innerHeight)
       sc.scrollIntoView();
@@ -548,14 +561,14 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
 }
 window.onunload=function(e){
 window.scrollTo(0,0);
-}
+}}
 
 exptable.onclick=function(e){
 let c=e.target;
 if(c.tagName=='TD'){    
    etar[eo].style.background='#fff';   
-   eo=c.id=='etc'?-1:c.id[2];
-   c.style.background=eo<0?'#ffffb0':'#b0ffb0';
+   eo=c.id=='etc'?-1:c.id=='etv'?-2:c.id[2];
+   c.style.background=eo==-1?'#ffffb0':'#b0ffb0';
    }
 }
 
@@ -635,30 +648,40 @@ function resetlist(){
 list.innerHTML='<li id="-"></li><li id="Limit">Limit</li>';
 count=1;
 counter.innerHTML='Total 1 ordinal';
-window.scrollTo(0,0);}
+window.scrollTo(0,0);
+resett.style.opacity=0.5;
+if(document.getElementById('res2')!=null){
+    xs.style.background='#fff';
+    res1.style['font-style']='italic';
+    res2.style['font-weight']='normal';}
+}
 
 reset.onclick=function(e){
 resetlist();}
 
 document.addEventListener('keydown',function(e){
 let c=e.code;
-if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyC'){
-   let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyS'?0:-1;
+if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyC'||c=='KeyV'){
+   let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyS'?0:c=='KeyV'?-2:-1;
    etar[eo].style.background='#fff';
-   etar[i].style.background=i<0?'#ffffb0':'#b0ffb0';
+   etar[i].style.background=i==-1?'#ffffb0':'#b0ffb0';
    eo=i;
    if(document.getElementById('ex1')!=null)
-      ex1.innerHTML=exp[eo];
-   if(document.getElementById('ex6')!=null){
+      ex1.innerHTML=exp[eo]; 
+   if(document.getElementById('ex7')!=null)
+   if(eo==-2){
+   	ex7.hidden=true;
+   	xs.style.background='#fff';}
+   else{	
       i=eo<0?0:1;
       ex4.hidden=!exb[i];
       ex5.innerHTML=exb[i]?'Do ':'';
       ex6.style['font-weight']=exb[i]?'bold':'normal';
       ex6.style['font-style']=exb[i]?'normal':'italic';
       xs.style.background=exb[i]?(i==0?'#fffff0':'#f0fff0'):'#fff';
-      i=eo<0?0:1;
       ex2.innerHTML=pairb[i]?'pair ':'';
       ex3.innerHTML=pairb[i]?pairl[i].innerHTML+', ':'';
+      ex7.hidden=false;
       }          
    if(document.getElementById('extra1')!=null)
       extra1.hidden=efs==0||eo<0;       
@@ -749,7 +772,7 @@ else if(c=='Period'){
          }        
       }            	 	
    }    
-else if(c=='KeyV')
+else if(c=='KeyT')
 if(vt){
    vtext.style.background='#fff';
    vtext.style.color='#fff';
@@ -775,13 +798,24 @@ else if(c=='KeyF'){
    }      	 	       	
 });
 
-let bo='Limit',col='c',eo=1,efs=0,
+let bo='Limit',col='c',eo=-2,efs=0,
 exp=['small expansion','single expansion','double expansion','triple expansion','quadruple expansion','quintuple expansion','sextuple expansion','septuple expansion','octuple expansion','ninefold expansion'];
-exp[-1]='collapse';
+exp[-1]='collapse',exp[-2]='view';
 let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
-etar[-1]=etc;
-let count=1,vt=true,pairb=[],pairl=[],exb=[],di=6,fsl,fsn,fsp,lea,format=1;
+etar[-1]=etc,etar[-2]=etv;
+let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1;
+dis.innerHTML='   '+di+'   ';
 
+
+//let st=cnf('[][]');
+//let st=omegaex(cnf('[[][[c]]][[c]]'));
+
+//document.write(st);
+//console.log(st);
+//let ar=[];
+//ar=[1,1];
+//document.write(ar==[1,1]);
+//document.write(ar);
 </script
 ></body>
 </html>
