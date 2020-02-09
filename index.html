@@ -386,7 +386,7 @@ else if(c.id=='ecfv'){
    xs.style.background='#fff';
    } 
 else if(c.id=='dis'){
-   h='<small><small><div style="line-height:1">Amount of fs elements, displayed near mouse cursor, when you hover over an ordinal</div></small></small>'; 
+   h='<small><small><div style="line-height:1">Amount of fs elements of element <b>b</b>, displayed near mouse cursor, when it is over <b>b</b>.</div></small></small>'; 
    xs.style.background='#fff';
    }    
 else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'){
@@ -469,7 +469,7 @@ else{
          xs.style.background=i==0?'#fffff0':'#f0fff0';
       h+='</span>';          
       h='<div id="ex7"'+(eo==-2&&c.tagName=='LI'?' hidden':'')+'><span id="ex6" style="font-weight:'+(b?'bold':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b></span>';                      
-      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(c.id==''?'':' id="fsd"')+(di>0||c.id==''?'':' hidden')+'> fundamental sequence:'; 
+      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'> fundamental sequence:'; 
       if(c.id=='')
          h+='<br>'+'   <i>empty</i>';
       else{
