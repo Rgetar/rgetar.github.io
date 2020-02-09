@@ -40,11 +40,11 @@ sup{font-size:0.83rem;}
 <td id="etv" style="background:#b0ffb0;font-size:12px;">   view   </td>
 </tr>
 </table></div>
-<div align="center" onmousedown="return false" style="font-size:13px;"><i>Amount of extra fundamental sequence elements:</i>
+<div align="center" onmousedown="return false" style="font-size:13px;line-height:1.69;"><i>Amount of extra fundamental sequence elements:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
 <td id="decef" style="color:#eeeeee;font-size:35px;cursor:default;">◅ </td>
-<td id="ecfve" style="cursor:default;"><table border="4" cellspacing="0" cellpadding="0">
+<td id="ecfve" style="cursor:default;line-height:2;"><table border="4" cellspacing="0" cellpadding="0">
 <tr>
 <td id="ecfv" style="font-size:20px;cursor:default;">   0   </td>
 </tr>
@@ -52,11 +52,11 @@ sup{font-size:0.83rem;}
 <td id="incef" style="font-size:35px;"> ▻</td>
 </tr>
 </table></div
-><div align="center" onmousedown="return false" style="font-size:13px;"><i>Amount of fundamental sequence elements, displayed near mouse cursor:</i>
+><div align="center" onmousedown="return false" style="font-size:13px;line-height:1.65;"><i>Amount of fundamental sequence elements, displayed near mouse cursor:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
 <td id="decd" style="font-size:35px;">◅ </td>
-<td id="disp" style="cursor:default;"><table border="4" cellspacing="0" cellpadding="0">
+<td id="disp" style="cursor:default;line-height:2;"><table border="4" cellspacing="0" cellpadding="0">
 <tr>
 <td id="dis" style="font-size:20px;cursor:default;background:#b0ffb0"></td>
 </tr>
@@ -220,15 +220,56 @@ else{
    }
 }
 
-// is st epsilon number
-function eps(st){
+// is st ε number
+function isepsilon(st){
 return st==''?false:st==col||st==bo?true:compare(st,booster(st))<1;}
+
+// largest ε nember ≤ CNF st (if st < ε_0 then '')
+function floorepsilon(st){
+if(st==0)
+   return '';
+let t=st[st.length-1][0];   
+while(Array.isArray(t)&&t!=0){
+   st=t;
+   t=st[st.length-1][0];}   
+return t==0?'':t;	
+}
+
+function sepsilon(st,e){
+let s=st[st.length-1];
+if(s[0]==e)
+if(s[1]==1)
+   st.pop();
+else   
+   s[1]--;  
+return st;   
+}
+
+function braintail(st,e){
+let bra,i=0;
+while(floorepsilon([st[i]])!=e)   
+   i++;
+let u=i;
+while(i<st.length){
+   st[i][0]=st[i][0]==e?[]:sepsilon(st[i][0],e);
+   i++;}
+return [st.slice(u),st.slice(0,u)];        
+}
+
+// ω ^ CNF st
+//function omegapower(st){
+//if(st.length=1&&st[0][1]==1){
+//   let e=floorepsilon(st);
+//   if(e!=''&&st[0][0]==e)
+//      return st;}
+//return [[st,1]];  
+//}
 
 // get CNF of st
 function cnf(st){
 let c=[],s,t,e=-1;
 while(st){
-   [s,st]=eps(st)?[st,'']:[booster(st),base(st)];
+   [s,st]=isepsilon(st)?[st,'']:[booster(st),base(st)];
    if(c.length==0||compare(t,s)<1){
       if(e<0||c[e][0]!=s){
          c.push([s,1]);
@@ -237,16 +278,51 @@ while(st){
    	   c[e][1]++;
    	t=s;}
    } 	   	
-for(s of c){
-if(!eps(s[0]))
-   s[0]=cnf(s[0]);}            
+for(s of c)
+if(!isepsilon(s[0]))
+   s[0]=cnf(s[0]);            
 return c;        	
+}
+
+// get extended CNF of CNF st
+function ecnf(st){
+if(floorepsilon(st)=='')
+   return st;
+let e,brain,tail,ec=[],i=-1,m,s;
+for(s of st){
+	e=floorepsilon([s]);
+	if(e==''){
+	   brain=[];
+	   m=s;		
+		}
+	else if(s[0]==e){
+	   brain=[];
+	   m=[[],s[1]];	   
+	   }
+	else{   
+		[brain,tail]=braintail(s[0],e);	
+	   if(brain.length==1&&brain[0][0]==0&&brain[0][1]==1)
+	      brain=[];
+      m=[tail,s[1]];
+		}
+   if(i<0||ec[i][0]!=e||ec[i][1].toString()!=brain.toString()){
+      ec.push([e,brain,[m]]);
+   	i++;}
+   else
+     	ec[i][2].push(m);
+   }
+for(s of ec){
+   s[1]=ecnf(s[1]);
+   s[2]=ecnf(s[2]);}   
+return ec;          	
 }
 
 function unone(st){
 return st=='1'?'':st;}
 
-function omegaex(st){
+function omegaform(st){
+if(st==0)
+   return 0;
 let e=st.length-1;
 let s='';
 let ex;
@@ -259,26 +335,70 @@ while(e>=0){
       else{   
    	   s+='ω';
    	   if(ex.length!=1||ex[0][0]!=0||ex[0][1]!=1)
-   	      s+='<sup>'+omegaex(ex)+'</sup>';
+   	      s+='<sup>'+omegaform(ex)+'</sup>';
    	   s+=unone(st[e][1]);
    	   }   
       }
    else
-   	s+=convertepsilon(ex)+unone(st[e][1]);
+   	s+=convertepsilon(ex,0)+unone(st[e][1]);
    e--;	
    }
-return s==''?'0':s.slice(3);         	
+return s.slice(3);         	
 }
 
-function convertepsilon(st){
+function epsilonform(st){
+if(st==0)
+   return 0;
+if(st[0].length==2)
+   return omegaform(st);   
+let i=st.length-1;
+let s='';
+let e,ex,m;
+while(i>=0){
+   s+=' + ';
+   e=st[i][0];
+   if(e=='')
+      s+=omegaform(st[i][2]);
+   else{  
+      s+=convertepsilon(e,1);
+      ex=st[i][1];
+      if(ex!=0)
+   	   s+='<sup>'+epsilonform(ex)+'</sup>';
+   	m=epsilonform(st[i][2]);
+   	if(st[i][2].length>1)
+   		m='('+m+')';
+      else if(m[0]=='[')
+         m='·'+m;
+      s+=unone(m);
+      }
+   i--;	
+   }
+return s.slice(3);         	
+}
+
+function convertepsilon(st,e){
 if(st==col||st==bo)
    return st; 
+if(st=='[c]')   
+   return 'Ω';
+if(st=='[[c]]')   
+   return 'ε<sub>0</sub>'; 
+if(st=='[[c]c]')   
+   return 'L'; 
+if(st=='[[c][c]c]')   
+   return 'R'; 
+if(st=='[[[[c]c]]c]')   
+   return 'I'; 
+if(st=='[[[[c]c][[c]c]]c]')   
+   return 'M'; 
+if(st=='[[[[c]c][[c]c][[c]c]]c]')   
+   return 'K';    
 let beta=base(st);   
-return bb(omegaex(cnf(booster(st))),beta==''?'':(omegaex(cnf(beta))));
+return e==0?bb(omegaform(cnf(booster(st))),beta==''?'':(omegaform(cnf(beta)))):bb(epsilonform(ecnf(cnf(booster(st)))),beta==''?'':(epsilonform(ecnf(cnf(beta)))));
 }
 
 function convert(st){
-return format==0?st:omegaex(cnf(st));
+return format==2?epsilonform(ecnf(cnf(st))):format==1?omegaform(cnf(st)):st;
 }
 
 function rx(s,c,n,q){
@@ -787,7 +907,9 @@ else{
 else if(c=='KeyR'){
    resetlist();} 
 else if(c=='KeyF'){
-   format=1-format;
+   format--;
+   if(format<0)
+      format=2;
    formatting();
    if(document.getElementById('ex6')!=null){   
       let u=new Event('mouseover');
@@ -802,19 +924,7 @@ exp=['small expansion','single expansion','double expansion','triple expansion',
 exp[-1]='collapse',exp[-2]='view';
 let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
 etar[-1]=etc,etar[-2]=etv;
-let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1;
+let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=2;
 dis.innerHTML='   '+di+'   ';
-
-
-//let st=cnf('[][]');
-//let st=omegaex(cnf('[[][[c]]][[c]]'));
-
-//document.write(st);
-//console.log(st);
-//let ar=[];
-//ar=[1,1];
-//document.write(ar==[1,1]);
-//document.write(ar);
-</script
-></span></body>
+</script></span></body>
 </html>
