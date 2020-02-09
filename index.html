@@ -386,7 +386,7 @@ else if(c.id=='ecfv'){
    xs.style.background='#fff';
    } 
 else if(c.id=='dis'){
-   h='<small><small><div style="line-height:1">Amount of fs elements of element <b>b</b>, displayed near mouse cursor, when it is over <b>b</b>.</div></small></small>'; 
+   h='<small><small><div style="line-height:1">Amount of fs elements of the element <b>b</b>, displayed near mouse cursor, when it is over <b>b</b>.</div></small></small>'; 
    xs.style.background='#fff';
    }    
 else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'){
@@ -404,13 +404,13 @@ else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'){
       h+='to revert triple expansion, do collapse 3 times; etc.';     
       }
    else if(i==0){
-      h+='Inserts one element between current element <b>b</b> and previous element <b>a</b>,<br/>'; 
+      h+='Inserts one element between the element <b>b</b> and previous element <b>a</b>,<br/>'; 
       h+='or, if <b>b</b> is the first element of the list, inserts one element before <b>b</b>.<br/><br/>';
       h+='"Do small expansion of pair <b>a, b</b>" means "compute least fs element of <b>b</b> larger than <b>a</b> and insert it between <b>a</b> and <b>b</b>".<br/><br/>';
       h+='"Do small expansion of <b>b</b>" means "compute least fs element of <b>b</b> and insert it before <b>b</b>".';     
       }  
    else if(i==1){ 
-      h+='Inserts elements between current element <b>b</b> and previous element <b>a</b>,<br/>'; 
+      h+='Inserts elements between the element <b>b</b> and previous element <b>a</b>,<br/>'; 
       h+='or, if <b>b</b> is the first element of the list, inserts elements before <b>b</b>.<br/><br/>';
       h+='"Do single expansion of pair <b>a, b</b>" means "do small expansion of pair <b>a, b</b> — insert element <b>c</b>;<br/>';
       h+='then do small expansion of pair <b>a, c</b> — insert element <b>d</b>;<br/>';
@@ -422,7 +422,7 @@ else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'){
       h+='continue until <b>0</b>".<br/>';     
       }  
    else{
-      h+='Inserts elements between current element <b>b</b> and previous element <b>a</b>,<br/>'; 
+      h+='Inserts elements between the element <b>b</b> and previous element <b>a</b>,<br/>'; 
       h+='or, if <b>b</b> is the first element of the list, inserts elements before <b>b</b>.<br/><br/>';
       h+='"Do '+exp[i]+' of pair <b>a, b</b>" means "do single expansion of pair <b>a, b</b> — insert elements <b>c, d, e, ...</b>;<br/>'; 
       h+='then do '+exp[i-1]+'s of pair <b>c, b</b>, of pair <b>d, c</b>, of pair <b>e, d</b>, etc."<br/><br/>';
