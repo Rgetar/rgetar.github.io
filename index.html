@@ -226,13 +226,28 @@ return st==''?false:st==col||st==bo?true:compare(st,booster(st))<1;}
 
 // largest ε nember ≤ CNF st (if st < ε_0 then '')
 function floorepsilon(st){
-if(st==0)
-   return '';
+if(st=='')
+   return st;
 let t=st[st.length-1][0];   
 while(Array.isArray(t)&&t!=0){
    st=t;
    t=st[st.length-1][0];}   
-return t==0?'':t;	
+return t;	
+}
+
+// is st Ω number
+function isOmega(st){
+return st==''?false:st==col||st==bo?true:compare(col,booster(st))<1;}
+
+// largest Ω nember ≤ CNF st (if st < Ω then '')
+function floorOmega(st){
+if(st=='')
+   return '';
+let t=floorepsilon(st);   
+while(!isOmega(t)){
+   st=t;
+   t=floorepsilon(st);}   
+return t;	
 }
 
 function sepsilon(st,e){
@@ -242,7 +257,7 @@ if(s[1]==1)
    st.pop();
 else   
    s[1]--;  
-return st;   
+return st.length?st:'';   
 }
 
 function braintail(st,e){
@@ -251,22 +266,18 @@ while(floorepsilon([st[i]])!=e)
    i++;
 let u=i;
 while(i<st.length){
-   st[i][0]=st[i][0]==e?[]:sepsilon(st[i][0],e);
+   st[i][0]=st[i][0]==e?'':sepsilon(st[i][0],e);
    i++;}
-return [st.slice(u),st.slice(0,u)];        
+let tail=st.slice(0,u);
+if(!tail.length)
+   tail='';
+return [st.slice(u),tail];        
 }
-
-// ω ^ CNF st
-//function omegapower(st){
-//if(st.length=1&&st[0][1]==1){
-//   let e=floorepsilon(st);
-//   if(e!=''&&st[0][0]==e)
-//      return st;}
-//return [[st,1]];  
-//}
 
 // get CNF of st
 function cnf(st){
+if(st==''||isepsilon(st))
+   return st;
 let c=[],s,t,e=-1;
 while(st){
    [s,st]=isepsilon(st)?[st,'']:[booster(st),base(st)];
@@ -279,30 +290,29 @@ while(st){
    	t=s;}
    } 	   	
 for(s of c)
-if(!isepsilon(s[0]))
    s[0]=cnf(s[0]);            
 return c;        	
 }
 
 // get extended CNF of CNF st
 function ecnf(st){
-if(floorepsilon(st)=='')
+if(!Array.isArray(st)||floorepsilon(st)=='')
    return st;
 let e,brain,tail,ec=[],i=-1,m,s;
 for(s of st){
 	e=floorepsilon([s]);
 	if(e==''){
-	   brain=[];
+	   brain='';
 	   m=s;		
 		}
 	else if(s[0]==e){
-	   brain=[];
-	   m=[[],s[1]];	   
+	   brain='';
+	   m=['',s[1]];	   
 	   }
 	else{   
 		[brain,tail]=braintail(s[0],e);	
-	   if(brain.length==1&&brain[0][0]==0&&brain[0][1]==1)
-	      brain=[];
+	   if(brain.length==1&&!brain[0][0].length&&brain[0][1]==1)
+	      brain='';
       m=[tail,s[1]];
 		}
    if(i<0||ec[i][0]!=e||ec[i][1].toString()!=brain.toString()){
@@ -321,34 +331,34 @@ function unone(st){
 return st=='1'?'':st;}
 
 function omegaform(st){
-if(st==0)
+if(st=='')
    return 0;
+if(!Array.isArray(st))
+   return convertepsilon(st,0);
 let e=st.length-1;
 let s='';
 let ex;
 while(e>=0){
    s+=' + ';
    ex=st[e][0];
-   if(Array.isArray(ex)){
-      if(ex==0)
-         s+=st[e][1];
-      else{   
-   	   s+='ω';
-   	   if(ex.length!=1||ex[0][0]!=0||ex[0][1]!=1)
-   	      s+='<sup>'+omegaform(ex)+'</sup>';
-   	   s+=unone(st[e][1]);
-   	   }   
-      }
+   if(Array.isArray(ex)){  
+   	s+='ω';
+   	if(ex.length!=1||ex[0][0]!=0||ex[0][1]!=1)
+   	   s+='<sup>'+omegaform(ex)+'</sup>';
+   	s+=unone(st[e][1]);
+   	}
    else
-   	s+=convertepsilon(ex,0)+unone(st[e][1]);
+      s+=ex==''?st[e][1]:convertepsilon(ex,0)+unone(st[e][1]);
    e--;	
    }
 return s.slice(3);         	
 }
 
 function epsilonform(st){
-if(st==0)
+if(st=='')
    return 0;
+if(!Array.isArray(st))
+   return convertepsilon(st,1);
 if(st[0].length==2)
    return omegaform(st);   
 let i=st.length-1;
@@ -362,21 +372,22 @@ while(i>=0){
    else{  
       s+=convertepsilon(e,1);
       ex=st[i][1];
-      if(ex!=0)
+      if(ex!='')
    	   s+='<sup>'+epsilonform(ex)+'</sup>';
    	m=epsilonform(st[i][2]);
    	if(st[i][2].length>1)
-   		m='('+m+')';
+   	   s+='('+m+')';
       else if(m[0]=='[')
-         m='·'+m;
-      s+=unone(m);
+         s+='·'+m;
+      else
+         s+=unone(m);
       }
    i--;	
    }
 return s.slice(3);         	
 }
 
-function convertepsilon(st,e){
+function convertepsilon(st,i){
 if(st==col||st==bo)
    return st; 
 if(st=='[c]')   
@@ -392,9 +403,27 @@ if(st=='[[[[c]c]]c]')
 if(st=='[[[[c]c][[c]c]]c]')   
    return 'M'; 
 if(st=='[[[[c]c][[c]c][[c]c]]c]')   
-   return 'K';    
-let beta=base(st);   
-return e==0?bb(omegaform(cnf(booster(st))),beta==''?'':(omegaform(cnf(beta)))):bb(epsilonform(ecnf(cnf(booster(st)))),beta==''?'':(epsilonform(ecnf(cnf(beta)))));
+   return 'K';
+let x=cnf(booster(st));      
+let beta=base(st);
+let cb=cnf(beta);
+
+/*
+let f=floorOmega(x);
+if(f==bb(col,floorOmega(cb))){
+   let ex=ecnf(x);
+   let p=ex[ex.length-1][1];
+   
+   let l=x[x.length-1][0];
+
+   }
+if(x[x.length-1][0].toString()==[[[[[],1],[f,1]],1]].toString()){
+   let ex=ecnf(x);
+   
+   }
+*/
+
+return i==0?bb(omegaform(x),beta==''?'':(omegaform(cb))):bb(epsilonform(ecnf(x)),beta==''?'':(epsilonform(ecnf(cb))));
 }
 
 function convert(st){
@@ -551,7 +580,7 @@ else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'){
       }       
    h+='</div></small></small>'; 
    h+='<i>use "';
-   h+=i==-1?'C':i==-2?'V':i==0?'0" or "S':i;  
+   h+=i==-1?'Q':i==-2?'W':i;  
    h+='" key</i>';  
    xs.style.background=c.id=='etc'?'#fffff0':'#f0fff0';}  
 else{
@@ -619,7 +648,7 @@ list.onclick=function(e){
 if(eo!=-2){
 let c=e.target;
 while(c.tagName=='SUB'||c.tagName=='SUP')
-   cc=c.parentNode;
+   c=c.parentNode;
 if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
    let sc;
    let sc1=c;
@@ -780,14 +809,14 @@ resetlist();}
 
 document.addEventListener('keydown',function(e){
 let c=e.code;
-if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyC'||c=='KeyV'){
-   let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyS'?0:c=='KeyV'?-2:-1;
+if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyQ'||c=='KeyW'){
+   let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyW'?-2:-1;
    etar[eo].style.background='#fff';
    etar[i].style.background=i==-1?'#ffffb0':'#b0ffb0';
    eo=i;
    if(document.getElementById('ex1')!=null)
       ex1.innerHTML=exp[eo]; 
-   if(document.getElementById('ex7')!=null)
+   if(document.getElementById('ex6')!=null)
    if(eo==-2){
    	ex7.hidden=true;
    	xs.style.background='#fff';}
