@@ -293,18 +293,10 @@ if(b1){
 if(b2){
    c=compare(floorepsilon(st1),st2);
    return c==0?1:c;}
-b1=st1[0].length==2;
-b2=st2[0].length==2;
-if(b1^b2){
-   if(b1)
-      st1=cnf(st1,true);
-   else
-      st2=cnf(st2,true);
-   }
 let i1=st1.length-1;
 let i2=st2.length-1;
 do{
-   if(b1&&b2){
+   if(st1[0].length==2&&st2[0].length==2){
       c=comparecnf(st1[i1][0],st2[i2][0]);
       if(c!=0)
          return c;
@@ -325,11 +317,67 @@ do{
    i2--;
    }
 while(i1>=0&&i2>=0);
-//if(i1<0&&i2<0)                // to compare CNF and extended CNF
 //   return 0;
 if(i1<0)
    return -1;
 return 1;
+}
+
+// CNF st1 + CNF st2 
+function sumcnf(st1,st2){
+if(st1=='')
+   return st2;
+if(st2=='')
+   return st1;
+if(!Array.isArray(st1)){
+   let z1=st1;
+   st1=[[st1,1]];}
+if(!Array.isArray(st2)){
+   let z2=st2;
+   st2=[[st2,1]];}
+let b1=st1[0].length==2;
+let b2=st2[0].length==2;
+if(b1^b2){
+   if(b1)
+      st1=[[z1===undefined?floorepsilon(st1):z1,'',st1]];
+   else
+      st2=[[z2===undefined?floorepsilon(st2):z2,'',st2]];
+   }
+let s=st2.slice(-1);
+let i=0;
+if(b1&&b2){
+   let c=comparecnf(s[0][0],st1[i][0]);
+   while(c>0){
+      i++;
+      if(i<st1.length)
+         c=comparecnf(s[0][0],st1[i][0]);
+      else
+      	break;
+      }
+   if(i==st1.length)
+      return st2;
+   if(c==0){
+      st1[i][1]+=s[0][1];
+      st2.pop();}
+   }
+else{
+   let c0=compare(s[0][0],st1[i][0]);
+   let c1=comparecnf(s[0][1],st1[i][1]);
+   while(c0>0||(c0==0&&c1>0)){
+      i++;
+      if(i<st1.length){
+         c0=compare(s[0][0],st1[i][0]);
+         c1=comparecnf(s[0][1],st1[i][1]);}
+      else
+   	   break;
+      }
+   if(i==st1.length)
+      return st2;
+   if(c0==0&&c1==0){
+      st1[i][2]=sumcnf(st1[i][2],s[0][2]);
+      st2.pop();}
+   }
+return st2.concat(st1.slice(i));
 }
 
 // get CNF of st
