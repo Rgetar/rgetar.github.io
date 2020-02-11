@@ -18,7 +18,7 @@ sup{font-size:0.83rem;}
 ><li id="-"></li><li id="Limit">Limit</li></ul><hr/><span id="counter"
 >Total 1 ordinal</span>
 <span onmousedown="return false">
-<table id="resett" border="5" cellspacing="0" cellpadding="0" style="border-color:#ffc0c0;opacity:0.5;">
+<table id="resett" border="5" cellspacing="0" cellpadding="0" style="border-color:#ffc0c0;opacity:0.4;">
 <tr>
 <td id="reset" style="background:#ffffd0;font-size:20px;border-color:#00ff00;">       Reset list       </td>
 </tr>
@@ -115,7 +115,7 @@ return s;}
 
 // compare expressions st1, st2 (if st1<st2 then -1; if st1=st2 then 0; if st1>st2 then 1)
 function compare(st1,st2){
-return st1==st2?0:[...st1].reverse()>[...st2].reverse()?1:-1}
+return st1==st2?0:[...st1].reverse()>[...st2].reverse()?1:-1;}
 
 // delete all boosters of b < b, add a booster
 function bbc(a,b){
@@ -226,7 +226,7 @@ return st==''?false:st==col||st==bo?true:compare(st,booster(st))<1;}
 
 // largest ε nember ≤ CNF st (if st < ε_0 then '')
 function floorepsilon(st){
-if(st=='')
+if(!Array.isArray(st))
    return st;
 let t=st[st.length-1][0];   
 while(Array.isArray(t)&&t!=0){
@@ -274,120 +274,176 @@ if(!tail.length)
 return [st.slice(u),tail];        
 }
 
-// get CNF of st
-function cnf(st){
-if(st==''||isepsilon(st))
-   return st;
-let c=[],s,t,e=-1;
-while(st){
-   [s,st]=isepsilon(st)?[st,'']:[booster(st),base(st)];
-   if(c.length==0||compare(t,s)<1){
-      if(e<0||c[e][0]!=s){
-         c.push([s,1]);
-   	   e++;}
-   	else   
-   	   c[e][1]++;
-   	t=s;}
-   } 	   	
-for(s of c)
-   s[0]=cnf(s[0]);            
-return c;        	
+// compare CNFs st1, st2 (if st1<st2 then -1; if st1=st2 then 0; if st1>st2 then 1)
+function comparecnf(st1,st2){
+if(st1.toString()==st2.toString())
+   return 0;
+if(st1=='')
+   return -1;
+if(st2=='')
+   return 1;
+let b1=!Array.isArray(st1);
+let b2=!Array.isArray(st2);
+if(b1&&b2)
+   return compare(st1,st2);
+let c;
+if(b1){
+   c=compare(st1,floorepsilon(st2));
+   return c==0?-1:c;}
+if(b2){
+   c=compare(floorepsilon(st1),st2);
+   return c==0?1:c;}
+b1=st1[0].length==2;
+b2=st2[0].length==2;
+if(b1^b2){
+   if(b1)
+      st1=cnf(st1,true);
+   else
+      st2=cnf(st2,true);
+   }
+let i1=st1.length-1;
+let i2=st2.length-1;
+do{
+   if(b1&&b2){
+      c=comparecnf(st1[i1][0],st2[i2][0]);
+      if(c!=0)
+         return c;
+      c=st1[i1][1]>st2[i2][1]?1:st1[i1][1]<st2[i2][1]?-1:0;
+      }
+   else{
+      c=compare(st1[i1][0],st2[i2][0]);
+      if(c!=0)
+         return c;
+      c=comparecnf(st1[i1][1],st2[i2][1]);
+      if(c!=0)
+         return c;
+      c=comparecnf(st1[i1][2],st2[i2][2]);       
+      }
+   if(c!=0)
+      return c;
+   i1--;
+   i2--;
+   }
+while(i1>=0&&i2>=0);
+//if(i1<0&&i2<0)                // to compare CNF and extended CNF
+//   return 0;
+if(i1<0)
+   return -1;
+return 1;
 }
 
-// get extended CNF of CNF st
-function ecnf(st){
-if(!Array.isArray(st)||floorepsilon(st)=='')
+// get CNF of st
+function cnf(st,ext=false){
+if(!Array.isArray(st)&&(st==''||isepsilon(st)))
    return st;
-let e,brain,tail,ec=[],i=-1,m,s;
-for(s of st){
-	e=floorepsilon([s]);
-	if(e==''){
-	   brain='';
-	   m=s;		
-		}
-	else if(s[0]==e){
-	   brain='';
-	   m=['',s[1]];	   
-	   }
-	else{   
-		[brain,tail]=braintail(s[0],e);	
-	   if(brain.length==1&&!brain[0][0].length&&brain[0][1]==1)
-	      brain='';
-      m=[tail,s[1]];
-		}
-   if(i<0||ec[i][0]!=e||ec[i][1].toString()!=brain.toString()){
-      ec.push([e,brain,[m]]);
-   	i++;}
-   else
-     	ec[i][2].push(m);
+let c=[],s,t,i=-1;   
+if(ext){
+   if(!Array.isArray(st))  
+      st=cnf(st);
+   if(floorepsilon(st)=='')
+      return st;
+   let e,brain,m,y=-1;
+	for(s of st){
+		e=floorepsilon([s]);
+		if(e==''){
+		   brain='';
+		   m=s;		
+			}
+		else if(s[0]==e){
+		   brain='';
+		   m=['',s[1]];	   
+		   }
+		else{   
+			[brain,t]=braintail(s[0],e);	
+		   if(brain.length==1&&!brain[0][0].length&&brain[0][1]==1)
+		      brain='';
+  	   m=[t,s[1]];
+			}
+ 	   if(i<0||c[i][0]!=e||c[i][1].toString()!=brain.toString()){
+  	      c.push([e,brain,[m]]);
+ 	  	   i++;}
+ 	   else
+     	   c[i][2].push(m);
+      }
+	for(s of c){
+  	 s[1]=cnf(s[1],true);
+    s[2]=cnf(s[2],true);}   
    }
-for(s of ec){
-   s[1]=ecnf(s[1]);
-   s[2]=ecnf(s[2]);}   
-return ec;          	
+else{
+   while(st){
+      [s,st]=isepsilon(st)?[st,'']:[booster(st),base(st)];
+      if(c.length==0||compare(t,s)<1){
+         if(i<0||c[i][0]!=s){
+            c.push([s,1]);
+   	      i++;}
+   	   else   
+   	      c[i][1]++;
+   	   t=s;}
+     } 	   	
+   for(s of c)
+      s[0]=cnf(s[0]); 
+   }            
+return c;        	
 }
 
 function unone(st){
 return st=='1'?'':st;}
 
-function omegaform(st){
+function displayform(st,ext=false){
 if(st=='')
-   return 0;
+    return 0;
 if(!Array.isArray(st))
-   return convertepsilon(st,0);
-let e=st.length-1;
-let s='';
-let ex;
-while(e>=0){
-   s+=' + ';
-   ex=st[e][0];
-   if(Array.isArray(ex)){  
-   	s+='ω';
-   	if(ex.length!=1||ex[0][0]!=0||ex[0][1]!=1)
-   	   s+='<sup>'+omegaform(ex)+'</sup>';
-   	s+=unone(st[e][1]);
-   	}
-   else
-      s+=ex==''?st[e][1]:convertepsilon(ex,0)+unone(st[e][1]);
-   e--;	
-   }
-return s.slice(3);         	
-}
-
-function epsilonform(st){
-if(st=='')
-   return 0;
-if(!Array.isArray(st))
-   return convertepsilon(st,1);
-if(st[0].length==2)
-   return omegaform(st);   
-let i=st.length-1;
-let s='';
-let e,ex,m;
-while(i>=0){
-   s+=' + ';
-   e=st[i][0];
-   if(e=='')
-      s+=omegaform(st[i][2]);
-   else{  
-      s+=convertepsilon(e,1);
-      ex=st[i][1];
-      if(ex!='')
-   	   s+='<sup>'+epsilonform(ex)+'</sup>';
-   	m=epsilonform(st[i][2]);
-   	if(st[i][2].length>1)
-   	   s+='('+m+')';
-      else if(m[0]=='[')
-         s+='·'+m;
-      else
-         s+=unone(m);
+   return convertepsilon(st,ext);
+if(ext){
+   if(st[0].length==2)
+      return displayform(st);   
+   let i=st.length-1;
+   let s='';
+   let e,ex,m;
+   while(i>=0){
+      s+=' + ';
+      e=st[i][0];
+      if(e=='')
+         s+=displayform(st[i][2]);
+      else{  
+         s+=convertepsilon(e,true);
+         ex=st[i][1];
+         if(ex!='')
+      	   s+='<sup>'+displayform(ex,true)+'</sup>';
+      	m=displayform(st[i][2],true);
+      	if(st[i][2].length>1)
+      	   s+='('+m+')';
+         else if(m[0]=='[')
+            s+='·'+m;
+         else
+            s+=unone(m);
+         }
+      i--;	
       }
-   i--;	
+   return s.slice(3); 
    }
-return s.slice(3);         	
+else{
+   let i=st.length-1;
+   let s='';
+   let ex;
+   while(i>=0){
+      s+=' + ';
+      ex=st[i][0];
+      if(Array.isArray(ex)){  
+   	   s+='ω';
+   	   if(ex.length!=1||ex[0][0]!=0||ex[0][1]!=1)
+   	      s+='<sup>'+displayform(ex)+'</sup>';
+      	s+=unone(st[i][1]);
+      	}
+      else
+         s+=ex==''?st[i][1]:convertepsilon(ex)+unone(st[i][1]);
+      i--;	
+      }
+   return s.slice(3);
+   }
 }
 
-function convertepsilon(st,i){
+function convertepsilon(st,ext=false){
 if(st==col||st==bo)
    return st; 
 if(st=='[c]')   
@@ -404,9 +460,9 @@ if(st=='[[[[c]c][[c]c]]c]')
    return 'M'; 
 if(st=='[[[[c]c][[c]c][[c]c]]c]')   
    return 'K';
-let x=cnf(booster(st));      
+let x=cnf(booster(st),ext);      
 let beta=base(st);
-let cb=cnf(beta);
+let cb=cnf(beta,ext);
 
 /*
 let f=floorOmega(x);
@@ -422,12 +478,11 @@ if(x[x.length-1][0].toString()==[[[[[],1],[f,1]],1]].toString()){
    
    }
 */
-
-return i==0?bb(omegaform(x),beta==''?'':(omegaform(cb))):bb(epsilonform(ecnf(x)),beta==''?'':(epsilonform(ecnf(cb))));
+return bb(displayform(x,ext),beta==''?'':(displayform(cb,ext)));
 }
 
 function convert(st){
-return format==2?epsilonform(ecnf(cnf(st))):format==1?omegaform(cnf(st)):st;
+return format<0?st:displayform(cnf(st,format),format);
 }
 
 function rx(s,c,n,q){
@@ -598,7 +653,7 @@ else{
       let b=exb[i]; 
       if(exb[0]){  
          pairl[0]=(q.tagName=='UL'?cl(q):q.parentNode).previousSibling;
-         pairb[0]=pairl[0].id!='-';}
+         pairb[0]=pairl[0].id&&pairl[0].id!='-';}
       else{ 
       	pairb[0]=false;
       	pairl[0]='-';}   
@@ -696,7 +751,7 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
          }                           
       }     
    counter.innerHTML='Total '+count+' ordinal'+(count==1?'':'s');
-   resett.style.opacity=count==1?0.5:1;
+   resett.style.opacity=count==1?0.4:1;
    if(sc.getBoundingClientRect().top<0||sc1.getBoundingClientRect().bottom>window.innerHeight)
    if(eo<0||sc1.getBoundingClientRect().bottom-sc.getBoundingClientRect().top>window.innerHeight)
       sc.scrollIntoView();
@@ -797,7 +852,7 @@ list.innerHTML='<li id="-"></li><li id="Limit">Limit</li>';
 count=1;
 counter.innerHTML='Total 1 ordinal';
 window.scrollTo(0,0);
-resett.style.opacity=0.5;
+resett.style.opacity=0.4;
 if(document.getElementById('res2')!=null){
     xs.style.background='#fff';
     res1.style['font-style']='italic';
@@ -935,10 +990,10 @@ else{
    } 
 else if(c=='KeyR'){
    resetlist();} 
-else if(c=='KeyF'){
+else if(c=='KeyU'){
    format--;
-   if(format<0)
-      format=2;
+   if(format<-1)
+      format=1;
    formatting();
    if(document.getElementById('ex6')!=null){   
       let u=new Event('mouseover');
@@ -953,7 +1008,7 @@ exp=['small expansion','single expansion','double expansion','triple expansion',
 exp[-1]='collapse',exp[-2]='view';
 let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
 etar[-1]=etc,etar[-2]=etv;
-let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=2;
+let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1;
 dis.innerHTML='   '+di+'   ';
 </script></span></body>
 </html>
