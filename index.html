@@ -14,7 +14,7 @@ sub{font-size:0.83rem;}
 sup{font-size:0.83rem;}
 </style>
 <body style="font-family:Arial;white-space:pre;line-height:0;"
-><span style="line-height:2;"><h1>Ordinal Explorer</h1>List:<hr/><ul id="list"
+><span style="line-height:2;"><h1>Ordinal Explorer online</h1>List:<hr/><ul id="list"
 ><li id="-"></li><li id="Limit">Limit</li></ul><hr/><span id="counter"
 >Total 1 ordinal</span>
 <span onmousedown="return false">
@@ -114,7 +114,13 @@ for(let i=0;i<e;i++)
 return s;}
 
 // compare expressions st1, st2 (if st1<st2 then -1; if st1=st2 then 0; if st1>st2 then 1)
-function compare(st1,st2){
+function compare(st1,st2,b=false){
+if(b){
+   let ccnf=comparecnf(cnf(st1),cnf(st2));
+   let c=st1==st2?0:[...st1].reverse()>[...st2].reverse()?1:-1;
+   if(ccnf!=c)
+      return ccnf;
+   return c;}
 return st1==st2?0:[...st1].reverse()>[...st2].reverse()?1:-1;}
 
 // delete all boosters of b < b, add a booster
@@ -239,8 +245,15 @@ return t;
 function isOmega(st){
 return st==''?false:st==col||st==bo?true:compare(col,booster(st))<1;}
 
-// largest Ω nember ≤ CNF st (if st < Ω then '')
-function floorOmega(st){
+// largest Ω number ≤ st (if st < Ω then '')
+function floorOmega(st,c=col){   
+while(st!=''&&compare(c,booster(st))==1)
+   st=base(st); 
+return st;	
+}
+
+// largest Ω number ≤ CNF st (if st < Ω then '')
+function floorOmegacnf(st){
 if(st=='')
    return '';
 let t=floorepsilon(st);   
@@ -261,17 +274,26 @@ return st.length?st:'';
 }
 
 function braintail(st,e){
-let bra,i=0;
+let bra,i=0,s=[];
 while(floorepsilon([st[i]])!=e)   
    i++;
 let u=i;
 while(i<st.length){
-   st[i][0]=st[i][0]==e?'':sepsilon(st[i][0],e);
+   s.push([st[i][0]==e?'':sepsilon(st[i][0],e),st[i][1]]);
    i++;}
 let tail=st.slice(0,u);
 if(!tail.length)
    tail='';
-return [st.slice(u),tail];        
+else if(tail.length==1&&tail[0][1]==1&&tail[0][0]!=''&&!Array.isArray(tail[0][0]))
+   tail=tail[0][0];
+return [s,tail];        
+}
+
+// ω ^ CNF st
+function omegapower(st){
+if(st!=''&&!Array.isArray(st))
+   return st;
+return [[st,1]];  
 }
 
 // compare CNFs st1, st2 (if st1<st2 then -1; if st1=st2 then 0; if st1>st2 then 1)
@@ -381,17 +403,18 @@ return st2.concat(st1.slice(i));
 }
 
 // get CNF of st
-function cnf(st,ext=false){
+function cnf(st,ext=false,b=true){
 if(!Array.isArray(st)&&(st==''||isepsilon(st)))
    return st;
-let c=[],s,t,i=-1;   
+let c=[];
 if(ext){
    if(!Array.isArray(st))  
       st=cnf(st);
    if(floorepsilon(st)=='')
       return st;
-   let e,brain,m,y=-1;
+   let s,t,i=-1,e,brain,m,y=-1,h;
 	for(s of st){
+	   h=false;
 		e=floorepsilon([s]);
 		if(e==''){
 		   brain='';
@@ -405,19 +428,25 @@ if(ext){
 			[brain,t]=braintail(s[0],e);	
 		   if(brain.length==1&&!brain[0][0].length&&brain[0][1]==1)
 		      brain='';
-  	   m=[t,s[1]];
+  	      m=[t,s[1]];
+  	      h=t!=''&&s[1]==1&&!Array.isArray(t);
 			}
  	   if(i<0||c[i][0]!=e||c[i][1].toString()!=brain.toString()){
-  	      c.push([e,brain,[m]]);
+  	      c.push([e,brain,h?t:[m]]);
  	  	   i++;}
- 	   else
+ 	   else{
+ 	      if(!Array.isArray(c[i][2]))
+ 	         c[i][2]=[[c[i][2],1]];
      	   c[i][2].push(m);
+     	   }
       }
+   if(b)
 	for(s of c){
   	 s[1]=cnf(s[1],true);
     s[2]=cnf(s[2],true);}   
    }
 else{
+   let s,t,i=-1;
    while(st){
       [s,st]=isepsilon(st)?[st,'']:[booster(st),base(st)];
       if(c.length==0||compare(t,s)<1){
@@ -491,13 +520,26 @@ else{
    }
 }
 
+function getle(f,x,ex,b){
+let le='';
+if(x!=f&&b){
+   let u=0;
+   while(comparecnf(f,ex[u][0])>0)
+      u++;
+   if(u>0)
+      le=ex.slice(0,u);}
+if(le.length==1&&le[0][1]==1&&le[0][0]!=''&&!Array.isArray(le[0][0]))
+   return le[0][0];
+else   
+   return omegapower(le);
+return le;
+}
+
 function convertepsilon(st,ext=false){
 if(st==col||st==bo)
    return st; 
 if(st=='[c]')   
    return 'Ω';
-if(st=='[[c]]')   
-   return 'ε<sub>0</sub>'; 
 if(st=='[[c]c]')   
    return 'L'; 
 if(st=='[[c][c]c]')   
@@ -508,25 +550,75 @@ if(st=='[[[[c]c][[c]c]]c]')
    return 'M'; 
 if(st=='[[[[c]c][[c]c][[c]c]]c]')   
    return 'K';
-let x=cnf(booster(st),ext);      
-let beta=base(st);
-let cb=cnf(beta,ext);
-
-/*
+let x=booster(st);
 let f=floorOmega(x);
-if(f==bb(col,floorOmega(cb))){
-   let ex=ecnf(x);
-   let p=ex[ex.length-1][1];
-   
-   let l=x[x.length-1][0];
-
+let ex=cnf(x);
+let beta=base(st);
+if(f==bb(col,floorOmega(beta)))
+if(compare(bb(bb(bb('',f),f),f),x)>0){
+   let fx=floorOmega(x,f);
+   let eex=cnf(ex,true,false);
+   let b=eex[0][0]!=f?1:0;
+   let le=getle(f,x,ex,b);
+   while(beta){
+      let x1=booster(beta);
+      let fx1=floorOmega(x1,f);
+      if(fx1==fx){
+         let ex1=cnf(x1);
+         le=sumcnf(getle(f,x1,ex1,cnf(ex1,true,false)[0][0]!=f),le);
+         beta=base(beta);}
+      else{
+         if(fx==f)
+            le=sumcnf(beta,le);
+         else{
+            let u=eex.length-1;
+            while(u>=0&&eex[u][0]==f)
+            	u--;
+            u++;
+            let ca=comparecnf(eex[u][2],cnf(beta));
+            le=sumcnf(ca==1?'':ca==0?[['',1]]:beta,le);
+            }
+         break;
+         }
+      }
+   if(ext)   
+      le=cnf(le,true);
+   le=displayform(le,ext);
+   if(isFinite(le))
+      le--;
+   if(fx==f)
+      return 'ε<sub>'+le+'</sub>';
+   if(fx==bb(f,f))
+      return 'ζ<sub>'+le+'</sub>';
+   if(fx==bb(f,bb(f,f)))
+      return 'η<sub>'+le+'</sub>';
+   if(fx==bb(bb(f,f),f))
+      return 'Γ<sub>'+le+'</sub>';
+   let s='';
+   let i=eex.length-1;
+   let p=eex[i][1];
+   let m=eex[i][2];
+   p=p==''?1:p[0][1];
+   let q=p;
+   while(q>0){
+      s+=', ';
+      if(q==p){
+         i--;
+         if(ext)
+            m=cnf(m,true);
+         s+=displayform(m,ext);
+         if(i>=0){
+            p=eex[i][1];
+            m=eex[i][2];
+            p=p==''?1:p[0][1];}
+         }
+      else
+         s+=0;
+      q--;
+      }
+   return 'φ('+s.slice(2)+', '+le+')';
    }
-if(x[x.length-1][0].toString()==[[[[[],1],[f,1]],1]].toString()){
-   let ex=ecnf(x);
-   
-   }
-*/
-return bb(displayform(x,ext),beta==''?'':(displayform(cb,ext)));
+return bb(displayform(ext?cnf(ex,true):ex,ext),beta==''?'':(displayform(cnf(beta,ext),ext)));
 }
 
 function convert(st){
@@ -557,7 +649,7 @@ let s;
 do{
    s=fs(c,n);
    n=suc(n);}
-while(l!='-'&&compare(s,l)<1)
+while(l!='-'&&compare(s,l,true)<1)
 return q==-1?s:rx(s,c,n,q);  	
 }
 
