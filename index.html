@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml">
 <head>
@@ -797,11 +796,13 @@ far[format].style.background='#b0ffb0';
 function psb(b=false){
 if(b)
    ps.forEach(function(i){
-      i.removeAttribute('style');
+      if(i.id)
+         i.removeAttribute('style');
       });
 else
    ps.forEach(function(i){
-      i.style.background='#fffff0';
+      if(i.id)
+         i.style.background='#fffff0';
       });
 }
 
