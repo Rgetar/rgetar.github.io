@@ -583,7 +583,7 @@ if(sy!=''&&compare(bb(bb(bb('',f),f),f),x)>0&&(sy!='Ω'||compare(bb(j,col),x)==1
       let fx1=floorOmega(x1,j);
       if(fx1==fx){
          let ex1=cnf(x1);
-         le=sumcnf(getle(cf,x1,ex1,x!=j&&cnf(ex1,true,false)[0][0]!=j),le);
+         le=sumcnf(getle(cf,x1,ex1,x1!=j&&cnf(ex1,true,false)[0][0]!=j),le);
          beta=base(beta);}
       else{
          if(fx==f)
