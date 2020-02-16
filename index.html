@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml">
 <head>
@@ -625,10 +626,23 @@ if(f==col){
    j=bb(j,col);
    j=bb(j,floorOmega(beta,j));  
    }
-else if(f==bb(col,col))
+else if(f==bb(col,col)){
    sy='L';
-else if(f==bb(col,bb(col,col)))
+   j=bb(col,col);
+   j=bb(col,j);
+   j=bb(j,floorOmega(beta,j));
+   j=bb(j,col);
+   j=bb(j,floorOmega(beta,j));  
+   }
+else if(f==bb(col,bb(col,col))){
    sy='R';
+   j=bb(col,col);
+   j=bb(col,j);
+   j=bb(col,j);
+   j=bb(j,floorOmega(beta,j));
+   j=bb(j,col);
+   j=bb(j,floorOmega(beta,j)); 
+   }
 else{
    if(f==bb(col,floorOmega(beta)))
       sy='φ';
