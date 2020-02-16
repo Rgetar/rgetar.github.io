@@ -233,6 +233,50 @@ else{
    }
 }
 
+function minimize(st){
+let s=st;
+if(st==bo)                         // L
+   s=st;
+else if (st==''||st==col)            // 1, 6
+   s=st;
+else{
+   let x=booster(st);
+   if(x=='')                       // 2
+      s=st;
+   else{
+      let c=cof(x);
+      if(c=='[]')                // 3
+         s=bb(bb('',booster(minimize(bb(base(x),base(st))))),base(st));
+      else if(compare(st,c)==1)       // > C
+         s=st;
+         //s=cascade(x,c,st);
+      else{
+         let l=ledge(st);
+         if(compare(l,c)<1)
+            //s=st;                    // 7
+            //s=cascade(x,c,st);
+            //minimize(bb(base(x),base(st)))
+            s=bb(bb(booster(x),booster(minimize(bb(base(x),base(st))))),base(st));
+         else{
+            let ca=compare(bbc(ceill(l,x),base(st)),c);
+            if(ca==1)   // 4, 5, 8
+               s=st;
+               //s=cascade(x,c,st);
+            else if(ca==0)
+               s=st; 
+               //s=cascade(x,c,st);  
+            else{
+               s=cascade(x,c,st);
+               //let s=cascade(x,c,st);
+               //return s=st?s:minimize(s);
+               }
+            }
+         }
+      }
+   }
+return s==st?s:minimize(s);
+}
+
 // is st ε number
 function isepsilon(st){
 return st==''?false:st==col||st==bo?true:compare(st,booster(st))<1;}
@@ -300,6 +344,10 @@ return [s,tail];
 
 // ω ^ CNF st
 function omegapower(st){
+//if(st.length==1&&st[0][1]==1){
+//   let e=floorepsilon(st);
+//   if(e!=''&&st[0][0]==e)
+//      return st;}
 if(st!=''&&!Array.isArray(st))
    return st;
 return [[st,1]];  
@@ -324,9 +372,18 @@ if(b1){
 if(b2){
    c=compare(floorepsilon(st1),st2);
    return c==0?1:c;}
+/*b1=st1[0].length==2;            // to compare CNF and extended CNF
+b2=st2[0].length==2;
+if(b1^b2){
+   if(b1)
+      st1=cnf(st1,true);
+   else
+      st2=cnf(st2,true);
+   }*/
 let i1=st1.length-1;
 let i2=st2.length-1;
 do{
+   //if(b1&&b2){                  // to compare CNF and extended CNF
    if(st1[0].length==2&&st2[0].length==2){
       c=comparecnf(st1[i1][0],st2[i2][0]);
       if(c!=0)
@@ -348,6 +405,8 @@ do{
    i2--;
    }
 while(i1>=0&&i2>=0);
+//if(i1<0&&i2<0)                // to compare CNF and extended CNF
+//   return 0;
 if(i1<0)
    return -1;
 return 1;
@@ -552,8 +611,10 @@ if(st=='[[[[c]c][[c]c]]c]')
    return 'M'; 
 if(st=='[[[[c]c][[c]c][[c]c]]c]')   
    return 'K';
+//st=minimize(st);
 let x=booster(st);
 let beta=base(st);
+
 let f=floorOmega(x);
 let j=f;
 let sy='';
@@ -571,6 +632,9 @@ else if(f==bb(col,bb(col,col)))
 else{
    if(f==bb(col,floorOmega(beta)))
       sy='φ';
+   //else if(x!=''&&x[x.length-1]==col){
+   //   if(f==bb(col,floorOmega(beta,bb(col,col))))
+   //      sy='φ';}
    }
 if(sy!=''&&compare(bb(bb(bb('',f),f),f),x)>0&&(sy!='Ω'||compare(bb(j,col),x)==1)){
    let cf=cnf(f);
@@ -648,6 +712,7 @@ return bb(displayform(cnf(x,ext),ext),beta==''?'':(displayform(cnf(beta,ext),ext
 
 function convert(st){
 return format>1?st:displayform(cnf(st,format),format);
+//return format>1?st:displayform(cnf(minimize(st),format),format);
 }
 
 function rx(s,c,n,q){
@@ -715,6 +780,17 @@ for(let l=c.firstChild;l!=null;l=l.nextSibling)
 far[format].style.background='#b0ffb0';    
 }
 
+function psb(b=false){
+if(b)
+   ps.forEach(function(i){
+      i.removeAttribute('style');
+      });
+else
+   ps.forEach(function(i){
+      i.style.background='#fffff0';
+      });
+}
+
 document.onmousemove=function(e){
    xs.style.left=e.clientX+35+'px';
    xs.style.top=e.clientY-5+'px';  
@@ -723,6 +799,12 @@ document.onmousemove=function(e){
 document.onmouseover=function(e){
 if(vt){
 let c=e.target;
+if(lea){
+   lea.removeAttribute('style');
+   psb(true);
+   pairl[0].removeAttribute('style');
+   pairl[1].removeAttribute('style');}
+   
 let h;
 if(c.id=='reset'){
    h='<div id="res1"'+(count>1?'':' style="font-style:italic"')+'><nobr id="res2"'+(count>1?' style="font-weight:bold"':'')+'>Reset list</nobr></div><i>use "R" key</i>';
@@ -830,26 +912,43 @@ else{
       exb[1]=c.id!=''&&c.id.slice(0,2)!='[]';
       let i=eo<0?0:1;
       let b=exb[i]; 
-      if(exb[0]){  
-         pairl[0]=(q.tagName=='UL'?cl(q):q.parentNode).previousSibling;
-         pairb[0]=pairl[0].id&&pairl[0].id!='-';}
+      if(exb[0]){
+         let cc=q;
+         ps=[];
+         if(q.tagName=='UL'){
+            cc=cl(cc);
+            pairl[0]=cc.previousSibling;
+            cc=cc.lastChild;
+            }
+         else
+            pairl[0]=q.parentNode.previousSibling;
+         while(cc){
+            ps.push(cc);
+            cc=cc.previousSibling;
+            }
+         }
       else{ 
       	pairb[0]=false;
-      	pairl[0]='-';}   
+      	pairl[0]=document.getElementById('-');}   
       if(exb[1]){
          pairl[1]=pl(c)[0];
          pairb[1]=pairl[1].id!='-';}
       else{ 
       	pairb[1]=false; 
-      	pairl[0]='-';}     	  
+      	pairl[1]=document.getElementById('-');}     	  
       h+='<span id="ex4"'+(b?'':' hidden')+'>';                         
       h+=' of ';
       let l=pairl[i];
       h+='<nobr id="ex2">'+(l.id!='-'?'pair ':'')+'</nobr>';
       h+='<nobr id="ex3">'+(l.id!='-'?(l.innerHTML+', '):'')+'</nobr>';
       h+=c.innerHTML;      
-      if(b&&eo!=-2)
+      if(b&&eo!=-2){
          xs.style.background=i==0?'#fffff0':'#f0fff0';
+         l.style.background=i==0?'#fffae0':'#f4fff7';
+         c.style.background=i==0?'#fff0e0':'#e0ffff';
+         if(i==0)
+            psb();
+         }
       h+='</span>';          
       h='<div id="ex7"'+(eo==-2&&c.tagName=='LI'?' hidden':'')+'><span id="ex6" style="font-weight:'+(b?'bold':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b></span>';                      
       h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'> fundamental sequence:'; 
@@ -1067,8 +1166,13 @@ if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyQ'||c=='KeyW'){
    if(document.getElementById('ex6')!=null)
    if(eo==-2){
    	ex7.hidden=true;
-   	xs.style.background='#fff';}
-   else{	
+   	xs.style.background='#fff';
+   	lea.removeAttribute('style');
+   	psb(true);
+      pairl[0].removeAttribute('style');
+      pairl[1].removeAttribute('style');
+   	}
+   else{
       i=eo<0?0:1;
       ex4.hidden=!exb[i];
       ex5.innerHTML=exb[i]?'Do ':'';
@@ -1077,6 +1181,10 @@ if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyQ'||c=='KeyW'){
       xs.style.background=exb[i]?(i==0?'#fffff0':'#f0fff0'):'#fff';
       ex2.innerHTML=pairb[i]?'pair ':'';
       ex3.innerHTML=pairb[i]?pairl[i].innerHTML+', ':'';
+   	lea.style.background=i==0?'#fff0e0':'#e0ffff';
+   	pairl[1-i].removeAttribute('style');
+   	psb(i);
+      pairl[i].style.background=i==0?'#fffae0':'#f4fff7';
       ex7.hidden=false;
       }          
    if(document.getElementById('extra1')!=null)
@@ -1203,7 +1311,7 @@ exp=['small expansion','single expansion','double expansion','triple expansion',
 exp[-1]='collapse',exp[-2]='view';
 let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
 etar[-1]=etc,etar[-2]=etv;
-let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1;
+let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[];
 let far=[for0,for1,for2];
 dis.innerHTML='   '+di+'   ';
 </script></span></body>
