@@ -59,6 +59,11 @@ sup{font-size:0.83rem;}
 <td id="for0" style="font-size:16px;">     ω<sup>ω<sup>ω<sup>ε<sub>0</sub>2</sub></sub></sub>     </td>
 <td id="for1" style="background:#b0ffb0;font-size:16px;">      ε<sub>0</sub><sup>ε<sub>0</sub><sup>ε<sub>0</sub></sup></sup>     </td>
 </tr>
+</table></div><div align="center" onmousedown="return false" style="font-size:13px;"><i>"Minimized" forms:</i>
+<table border="4" cellspacing="0" cellpadding="0">
+<tr>
+<td id="minf" style="background:#fff;color:#fff;font-size:12.5px;">    <big><big><big>✓</big></big></big>    </td>
+</tr>
 </table></div><div align="center" onmousedown="return false" style="font-size:13px;line-height:1.65;"><i>Amount of fundamental sequence elements, displayed near mouse cursor:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
@@ -246,17 +251,18 @@ else{
    else{
       let c=cof(x);
       if(c=='[]')                // 3
-         s=bb(bb('',booster(minimize(bb(base(x),base(st))))),base(st));
+         s=st;
+         //s=bb(bb('',booster(minimize(bb(base(x),base(st))))),base(st));
       else if(compare(st,c)==1)       // > C
          s=st;
          //s=cascade(x,c,st);
       else{
          let l=ledge(st);
          if(compare(l,c)<1)
-            //s=st;                    // 7
+            s=st;                    // 7
             //s=cascade(x,c,st);
             //minimize(bb(base(x),base(st)))
-            s=bb(bb(booster(x),booster(minimize(bb(base(x),base(st))))),base(st));
+            //s=bb(bb(booster(x),booster(minimize(bb(base(x),base(st))))),base(st));
          else{
             let ca=compare(bbc(ceill(l,x),base(st)),c);
             if(ca==1)   // 4, 5, 8
@@ -274,7 +280,8 @@ else{
          }
       }
    }
-return s==st?s:minimize(s);
+return s;
+//return s==st?s:minimize(s);
 }
 
 // is st ε number
@@ -724,8 +731,16 @@ return bb(displayform(cnf(x,ext),ext),beta==''?'':(displayform(cnf(beta,ext),ext
 }
 
 function convert(st){
-return format>1?st:displayform(cnf(st,format),format);
-//return format>1?st:displayform(cnf(minimize(st),format),format);
+let d=format>1?st:displayform(cnf(st,format),format);
+if(mf){
+   let s=minimize(st);
+   while(s!=st){
+      d=d+' = '+(format>1?s:displayform(cnf(s,format),format));
+      st=s;
+      s=minimize(st);
+      }
+   }
+return d;
 }
 
 function rx(s,c,n,q){
@@ -796,12 +811,12 @@ far[format].style.background='#b0ffb0';
 function psb(b=false){
 if(b)
    ps.forEach(function(i){
-      if(i.id)
+      if(i.id||i.tagName=='UL')
          i.removeAttribute('style');
       });
 else
    ps.forEach(function(i){
-      if(i.id)
+      if(i.id||i.tagName=='UL')
          i.style.background='#fffff0';
       });
 }
@@ -814,21 +829,30 @@ document.onmousemove=function(e){
 document.onmouseover=function(e){
 if(vt){
 let c=e.target;
+while(c.tagName=='SUB'||c.tagName=='SUP'||c.tagName=='BIG')
+   c=c.parentNode;
 if(lea){
    lea.removeAttribute('style');
    psb(true);
    pairl[0].removeAttribute('style');
    pairl[1].removeAttribute('style');}
-   
 let h;
 if(c.id=='reset'){
    h='<div id="res1"'+(count>1?'':' style="font-style:italic"')+'><nobr id="res2"'+(count>1?' style="font-weight:bold"':'')+'>Reset list</nobr></div><i>use "R" key</i>';
    if(count>1)
       xs.style.background='#fffff0';
    }
-else if(c.id=='vtext'||c.tagName=='BIG'){
+else if(c.id=='vtext'){
    h='<b>Hide</b> text near mouse cursor<br/><i>use "T" key</i>';
-   xs.style.background='#fffff0';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='minf'){
+   if(mf)
+      {h='<b id="mfs">Hide</b> "minimized" forms<br/><small><small>(like right side of equality</small></small> [Ω<sub>2</sub>] = [ε<sub>Ω + 1</sub>]<small><small>)</small></small><br/><i>use "M" key</i>';
+      xs.style.background='#fffff0';}
+   else{
+      h='<b id="mfs">Show</b> "minimized" forms<br/><small><small>(like right side of equality</small></small> [Ω<sub>2</sub>] = [ε<sub>Ω + 1</sub>]<small><small>)</small></small><br/><i>use "M" key</i>';
+      xs.style.background='#f0fff0';}
    }
 else if(c.id=='decef'){
    h='<div id="decd1"'+(efs>0?'':' style="font-style:italic"')+'><nobr id="decd2"'+(efs>0?' style="font-weight:bold"':'')+'>Remove</nobr> extra fs element</div><i>use "-" key</i>';
@@ -905,18 +929,15 @@ else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'
    h+=i==-1?'Q':i==-2?'W':i;  
    h+='" key</i>';  
    xs.style.background=c.id=='etc'?'#fffff0':'#f0fff0';} 
+else if(c.id=='for0'){
+   h='<i>use "O" key</i>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='for1'){
+   h='<i>use "P" key</i>';
+   xs.style.background='#f0fff0';
+   }
 else{
-   while(c.tagName=='SUB'||c.tagName=='SUP')
-      c=c.parentNode;
-   if(c.id=='for0'){
-      h='<i>use "O" key</i>';
-      xs.style.background='#f0fff0';
-      }
-   else if(c.id=='for1'){
-      h='<i>use "P" key</i>';
-      xs.style.background='#f0fff0';
-      }
-   else{
    h='<nobr id="ex1">'+exp[eo]+'</nobr>';
    xs.style.background='#fff';  
    h+='<span id="extra1"'+(efs==0||eo<0?' hidden':'')+'> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></span>';   
@@ -980,10 +1001,10 @@ else{
    	      h+='<li id="dots">   ...</li>';   
    	   }
    	h+='</span>';                  
-   }
+      }
    else
    	h='<div id="ex7"'+(eo==-2&&c.tagName=='LI'?' hidden':'')+'>'+h+'</div>';
-   }}
+   }
 xs.hidden=false;   
 xs.innerHTML=h;    
 }}
@@ -1045,14 +1066,16 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
       }     
    counter.innerHTML='Total '+count+' ordinal'+(count==1?'':'s');
    resett.style.opacity=count==1?0.4:1;
-   if(sc.getBoundingClientRect().top<0||sc1.getBoundingClientRect().bottom>window.innerHeight)
-   if(eo<0||sc1.getBoundingClientRect().bottom-sc.getBoundingClientRect().top>window.innerHeight)
-      sc.scrollIntoView();
-   else   
-      sc1.scrollIntoView(false);
+   if(sc!=null){
+      if(sc.getBoundingClientRect().top<0||sc1.getBoundingClientRect().bottom>window.innerHeight)
+      if(eo<0||sc1.getBoundingClientRect().bottom-sc.getBoundingClientRect().top>window.innerHeight)
+         sc.scrollIntoView();
+      else   
+         sc1.scrollIntoView(false);
+      }
    let u=new Event('mouseover');
    Object.defineProperty(u,'target',{value:sc1});
-   document.dispatchEvent(u);          
+   document.dispatchEvent(u); 
    }
 }
 window.onunload=function(e){
@@ -1098,6 +1121,26 @@ else{
    vt=true;
    xs.hidden=false;
    }      
+}
+
+minf.onclick=function(e){
+let c=e.target;
+while(c.tagName!='TD')
+   c=c.parentNode;
+if(mf){
+   c.style.background='#fff';
+   c.style.color='#fff';
+   mf=false;
+   }
+else{
+   c.style.background='#b0ffb0';
+   c.style.color='#000';
+   mf=true;
+   }
+formatting();
+let u=new Event('mouseover');
+Object.defineProperty(u,'target',{value:c});
+document.dispatchEvent(u); 
 }
 
 decef.onclick=function(e){
@@ -1303,7 +1346,33 @@ else{
    vtext.style.color='#000';
    vt=true;
    xs.hidden=false;
-   } 
+   }
+else if(c=='KeyM'){
+if(mf){
+   minf.style.background='#fff';
+   minf.style.color='#fff';
+   mf=false;
+   if(document.getElementById('mfs')!=null){
+   	mfs.innerHTML='Show';
+   	xs.style.background='#f0fff0';
+      }
+   }
+else{
+   minf.style.background='#b0ffb0';
+   minf.style.color='#000';
+   mf=true;
+   if(document.getElementById('mfs')!=null){
+   	mfs.innerHTML='Hide';
+   	xs.style.background='#fffff0';
+      }
+   }
+formatting();
+if(document.getElementById('ex6')!=null){   
+   let u=new Event('mouseover');
+   Object.defineProperty(u,'target',{value:lea});
+   document.dispatchEvent(u);
+   }
+}
 else if(c=='KeyR'){
    resetlist();} 
 else if(c=='KeyI'||c=='KeyO'||c=='KeyP'){
@@ -1326,7 +1395,7 @@ exp=['small expansion','single expansion','double expansion','triple expansion',
 exp[-1]='collapse',exp[-2]='view';
 let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
 etar[-1]=etc,etar[-2]=etv;
-let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[];
+let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[],mf=false;
 let far=[for0,for1,for2];
 dis.innerHTML='   '+di+'   ';
 </script></span></body>
