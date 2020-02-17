@@ -719,7 +719,7 @@ if(sy!=''&&compare(bb(bb(bb('',f),f),f),x)>0&&(sy!='Ω'||compare(bb(j,col),x)==1
          if(i>=0){
             p=eex[i][1];
             m=eex[i][2];
-            p=p==''?1:p[0][1];}
+            p=eex[i][0]!=f?0:p==''?1:p[0][1];}
          }
       else
          s+=0;
