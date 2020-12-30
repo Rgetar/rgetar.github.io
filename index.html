@@ -12,59 +12,56 @@ li{list-style-type:none;cursor:pointer;}
 td{cursor:pointer;}
 sub{font-size:0.83rem;}
 sup{font-size:0.83rem;}
+//ul{display:flex;flex-direction:column-reverse;}
 </style>
 <body style="font-family:Arial;white-space:pre;line-height:0;"
-><span style="line-height:2;"><h1>Ordinal Explorer Online</h1>List:<hr/><ul id="list"
-><li id="-"></li><li id="Limit">Limit</li></ul><hr/><span id="counter"
->Total 1 ordinal</span>
-<span onmousedown="return false">
-<table id="resett" border="5" cellspacing="0" cellpadding="0" style="border-color:#ffc0c0;opacity:0.4;">
+><span id="sidebar" style="line-height:2;position:absolute;right:0px;width:215px;padding-left:42px;top:0;bottom:0;overflow:auto;float:right;background:#f5fdff";
+hidden><h4>Ordinal Explorer Online</h4><span onmousedown="return false"><table id="resett" border="5" cellspacing="0" cellpadding="0" style="border-color:#ffc0c0;opacity:0.4;">
 <tr>
 <td id="reset" style="background:#ffffd0;font-size:20px;border-color:#00ff00;">       Reset list       </td>
 </tr>
-</table></span
-><div align="center" onmousedown="return false" style="font-size:13px;"><i>Select collapse and expansion tools:</i>
-<table id="exptable" border="4" cellspacing="0" cellpadding="0">
+</table></span>
+<div align="left" onmousedown="return false" style="font-size:13px"><i>Expansion and collapse tools:</i>
+<table id="exptable" border="4" cellspacing="0" cellpadding="0" style="background:#ffffff">
 <tr>
 <td id="et0" style="font-size:11px;">   small   </td>
 <td id="et1" style="background:#b0ffb0;font-size:20px;">   1   </td>
 <td id="et2" style="font-size:18px;">   2   </td>
+</tr><tr>
 <td id="et3" style="font-size:18px;">   3   </td>
 <td id="et4" style="font-size:18px;">   4   </td>
 <td id="et5" style="font-size:18px;">   5   </td>
+</tr><tr>
 <td id="et6" style="font-size:18px;">   6   </td>
 <td id="et7" style="font-size:18px;">   7   </td>
 <td id="et8" style="font-size:18px;">   8   </td>
+</tr><tr>
 <td id="et9" style="font-size:18px;">   9   </td>
 <td id="etc" style="font-size:9px;">  collapse  </td>
 <td id="etv" style="font-size:12px;">   view   </td>
 </tr>
 </table></div>
-<div align="center" onmousedown="return false" style="font-size:13px;line-height:1.69;"><i>Amount of extra fundamental sequence elements:</i>
+<div align="left" onmousedown="return false" style="font-size:13px;line-height:1.69;"><i>Extra fs elements:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
 <td id="decef" style="color:#eeeeee;font-size:35px;cursor:default;">◅ </td>
 <td id="ecfve" style="cursor:default;line-height:2;"><table border="4" cellspacing="0" cellpadding="0">
 <tr>
-<td id="ecfv" style="font-size:20px;cursor:default;">   0   </td>
+<td id="ecfv" style="background:#ffffff;font-size:20px;cursor:default;">   0   </td>
 </tr>
 </table></td>
 <td id="incef" style="font-size:35px;"> ▻</td>
 </tr>
 </table></div
-><div align="center" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Switch format:</i>
-<table id="switchformat" border="4" cellspacing="0" cellpadding="3">
-<tr height='69px'>
-<td id="for2" style="font-size:9px;">[[[[[[c]]][[c]]][[c]]][[c]]][[c]]</td>
-<td id="for0" style="font-size:16px;">     ω<sup>ω<sup>ω<sup>ε<sub>0</sub>2</sub></sub></sub>     </td>
-<td id="for1" style="background:#b0ffb0;font-size:16px;">      ε<sub>0</sub><sup>ε<sub>0</sub><sup>ε<sub>0</sub></sup></sup>     </td>
+><div align="left" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Format:</i>
+<table id="switchformat" border="4" cellspacing="0" cellpadding="3" style="background:#ffffff">
+<tr height='30px' style="font-size:15px;">
+<td id="for2">c[c[c]]</td>
+<td id="for0">  ω<sup>c2</sub>  </td>
+<td id="for1">   c<sup>2</sup>  </td>
 </tr>
-</table></div><div align="center" onmousedown="return false" style="font-size:13px;"><i>"Minimized" forms:</i>
-<table border="4" cellspacing="0" cellpadding="0">
-<tr>
-<td id="minf" style="background:#fff;color:#fff;font-size:12.5px;">    <big><big><big>✓</big></big></big>    </td>
-</tr>
-</table></div><div align="center" onmousedown="return false" style="font-size:13px;line-height:1.65;"><i>Amount of fundamental sequence elements, displayed near mouse cursor:</i>
+</table></div>
+<div align="left" onmousedown="return false" style="font-size:13px;line-height:1.65;"><i>Displayed fs elements:</i>
 <table cellspacing="0" cellpadding="0">
 <tr>
 <td id="decd" style="font-size:35px;">◅ </td>
@@ -75,44 +72,69 @@ sup{font-size:0.83rem;}
 </table></td>
 <td id="incd" style="font-size:35px;"> ▻</td>
 </tr>
-</table></div
-><div align="center" onmousedown="return false" style="font-size:13px;"><i>Text near mouse cursor:</i>
-<table border="4" cellspacing="0" cellpadding="0">
+</table></div>
+<div align="left" onmousedown="return false" style="font-size:13px;"><table border="3" cellspacing="0" cellpadding="0" style="float:left">
 <tr>
-<td id="vtext" style="background:#b0ffb0;font-size:12.5px;">    <big><big><big>✓</big></big></big>    </td>
+<td id="vtext" style="background:#b0ffb0;font-size:8px;">    <big><big><big>✓</big></big></big>    </td>
 </tr>
-</table></div><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;";
-hidden></div><script
+</table><i style="line-height:35px;">  show text near cursor</i></div>
+<a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (February 2020).html">February 2020 version</a>
+</div></span><span id="listc" style="line-height:2;position: absolute;top:0;bottom:0;left:10px;right:0;overflow:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><ul id="list"
+></ul></span><span id="vsidebars" onmousedown="return false" style="background:#e0ffe0;line-height:0.5;position: fixed;right:17px;top:0;float:right;font-size:25px"><table>
+<tr>
+<td id="vsidebar">«</td>
+</tr>
+</table></span><span id="counter" onmousedown="return false" style="position:fixed;right:30px;bottom:14px;float:right;font-size:12px;cursor:default"
+>Counter: 1</span><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;";
+hidden><script
 >'use strict'
-// get position of last symbol p of string st (if l=true then first)
-function getls(st,p,l=false){
-let e=l?-1:st.length;
+// get position of last symbol '[' of string st
+function getls(st){
+let e=st.length;
 let np=0;
-while(((!l&&e>-1)||(l&&e<st.length))&&(np!=0||st[e]!=p)){
-   l?e++:e--;
+while((e>-1)&&(np!=0||st[e]!='[')){
+   e--;
    if (st[e]=='[') np--;
-   else if (st[e]==']') np++;}
+   else if (st[e]=='!') np++;}
 return e;}
 
-// create [booster]base string
-function bb(booster,base){
-return '['+booster+']'+base;}
+// get position of first symbol '!' of string st (if l==true then first)
+function getfs(st){
+let e=-1;
+let np=0;
+while((e<st.length)&&(np!=0||st[e]!='!')){
+   e++;
+   if (st[e]=='[') np--;
+   else if (st[e]=='!') np++;}
+return e;}
+
+// create base]booster[ string
+function bb(base,booster){
+return base+'['+booster+'!';}
 
 // get base of string st
 function base(st){
-return st.slice(getls(st,']',true)+1);}
+return st.slice(0,getls(st));}
 
 // get booster of string st
 function booster(st){
-return st.slice(1,getls(st,']',true));}
+return st.slice(getls(st)+1,-1);}
+
+// get antibase of string st
+function antibase(st){
+return st.slice(getfs(st)+1);}
+
+// get antibooster of string st
+function antibooster(st){
+return st.slice(1,getfs(st));}
 
 // get successor of ordinal st
 function suc(st){
-return '[]'+st;}
+return st+'[!';}
 
 // get predecessor of successor ordinal st = X + 1
 function pred(st){
-return st.slice(2);}
+return st.slice(0,-2);}
 
 // finite ordinal string st to number
 function fostn(st){
@@ -125,163 +147,148 @@ for(let i=0;i<e;i++)
    s=suc(s)
 return s;}
 
-// compare expressions st1, st2 (if st1<st2 then -1; if st1=st2 then 0; if st1>st2 then 1)
+// compare expressions st1, st2 (if st1<st2 then -1; if st1==st2 then 0; if st1>st2 then 1)
 function compare(st1,st2,b=false){
-if(b){
+/*if(b){
    let ccnf=comparecnf(cnf(st1),cnf(st2));
-   let c=st1==st2?0:[...st1].reverse()>[...st2].reverse()?1:-1;
+   let c=st1.localeCompare(st2);
    if(ccnf!=c)
       return ccnf;
-   return c;}
-return st1==st2?0:[...st1].reverse()>[...st2].reverse()?1:-1;}
+   return c;}*/
+return st1.localeCompare(st2);}
 
-// delete all boosters of b < b, add a booster
-function bbc(a,b){
+// delete all boosters of b < a, add a booster
+function bbc(b,a){
 while(b!=''&&b!=col&&compare(a,booster(b))==1)
    b=base(b);
-return bb(a,b);}
+return bb(b,a);}
+
+function buff(b,a,c){
+//return b==''||b==col||compare(c,booster(b))<1?b+a:bb(buff(base(b),a,c),buff(booster(b),a,c));}
+//return b==''||b==col||compare(c,booster(b))<1?b+a:bbc(buff(base(b),a,c),buff(booster(b),a,c));}
+//return b==''||b==col||compare(c,booster(b))<1?a?bbc(b,antibooster(a))+antibase(a):b:bbc(buff(base(b),a,c),buff(booster(b),a,c));}
+//return b==''||b==col||compare(c,booster(b))<1?a&&b!=col?bbc(b,antibooster(a))+antibase(a):b:bbc(buff(base(b),a,c),buff(booster(b),a,c));}
+return !a||b==col?b:b==''||compare(c,booster(b))<1?bbc(b,antibooster(a))+antibase(a):bbc(buff(base(b),a,c),buff(booster(b),a,c));}
+//return b==''||b==col||compare(c,booster(b))<1?a&&b?bbc(b,antibooster(a))+antibase(a):b:bbc(buff(base(b),a,c),buff(booster(b),a,c));}
+//return b==''||b==c||compare(col,booster(b))<1?a?fs(c,bbc(b,antibooster(a))+antibase(a)):fs(c,b):fs(c,bbc(buff(base(b),a,c),buff(booster(b),a,c)));}
+//return b==''||b==col||compare(c,booster(b))<1?bbc(b,antibooster(a))+antibase(a):bbc(buff(base(b),a,c),buff(booster(b),a,c));}
+
+function power(st,c){
+while(antibooster(st)==antibooster(c)){
+st=antibase(st);
+c=antibase(c);}
+return c;}
 
 function rest(l,st){
 return compare(l,st)==1?st:rest(l,booster(st));}
 
 function ceill(l,st){
-return compare(l,st)==1?l:bbc(ceill(l,booster(st)),st);}
+return compare(l,st)==1?l:bbc(base(st),ceill(l,booster(st)));}
 
-function ledge(st){
-let x=booster(st);
-return compare(col,x)==1?col:bbc(ceill(col,x),base(st));}
-
-function cascade(x,c,st){
-let y=booster(c);
-let d=cof(y);
-let s=d==col||d==ledge(c)?bb(fs(y,rest(d,x)),base(c)):cascade(y,d,c);
-return bb(fs(x,s),base(st));}
+function ledge(l,st){
+return bbc(base(st),ceill(l,booster(st)));}
 
 // get cofinality of ordinal st
 function cof(st){
-if(st==bo)                         // L
-   return '[[]]';
-else if (st==''||st==col)            // 1, 6
+if(st==bo)                                      // limit rule
+   return '[[!!';
+else if(st==''||st==col)                        // no booster rule
    return st;
 else{
    let x=booster(st);
-   if(x=='')                       // 2
-      return '[]';
+   if(x=='')                                    // empty booster rule
+      return '[!';
    else{
       let c=cof(x);
-      if(c=='[]')                // 3
-         return '[[]]';
-      else if(c=='[[]]'||compare(st,c)==1)       // > C
+      if(c=='[!')                               // successor booster rule
+         return '[[!!';
+      else if(c=='[[!!'||compare(st,c)==1)      // special reduction rule
          return c;
-      else{
-         let l=ledge(st);
-         if(compare(l,c)<1)
-            return st;                    // 7
-         else{
-            let ca=compare(bbc(ceill(l,x),base(st)),c);
-            if(ca==1)   // 4, 5, 8
-               return c;
-            else if(ca==0)
-               return '[[]]';   
-            else 
-               return cof(cascade(x,c,st));
-            }
-         }
+      else if (c==col)                          // regular rule
+      	return st;
+      else                                      // main rule
+         return '[[!!';
       }
    }
 }
 
 // get n-th element of fs of ordinal st
 function fs(st,n){
-if(st==bo){
-   let s=col;
+//if(st==bo){                                     // limit rule
+if(st==ititlargeordinal){
+   /*let t='';
    for(let i=0;i<fostn(n);i++)
-      s=bb(s,col);
-   for(let i=0;i<2;i++)
-      s=bb(s,'');
+      t=bb(t,col);
+   let s=t;
+   for(let i=0;i<fostn(n);i++){
+      t=base(t);
+      s=bb(t,s);
+      }*/
+   let t=col;
+   for(let i=0;i<fostn(n);i++)
+      t=bb(t,col);
+   let s=bb('',t);
+   for(let i=0;i<fostn(n);i++){
+      t=base(t);
+      s=bb('',bb(t,s));
+      }
+   s=bb('',s);
    return s;}
-else if(st==''||st==col)     // 1, 6
+else if(st==''||st==col)                        // no booster rule
    return n;
 else{
    let x=booster(st);
    let beta=base(st);
-   if(x=='')                         // 2
+   if(x=='')                                    // empty booster rule
       return beta;
    else{
       let c=cof(x);
-      if(c=='[]'){                    // 3
+      if(c=='[!'){                              // successor booster rule
          let s=beta;
          x=pred(x);
          for(let i=0;i<fostn(n);i++)
-            s=bb(x,s);
+            s=bb(s,x);
          return s;}
-      else if(c=='[[]]'||compare(st,c)==1)     // > C
-         return bb(fs(x,n),beta);
-      else{
-         let l=ledge(st);
-         if(compare(l,c)<1)       // 7
-            return n;
-         else{
-            let ca=compare(bbc(ceill(l,x),base(st)),c);
-            if(ca==1)                   // 4, 5, 8
-               return bb(fs(x,n),beta);
-            else if(ca==0){              // 9
-               let s=beta;
-               for(let i=0;i<fostn(n);i++)
-                  s=bb(fs(x,s),beta);
-               return s;}
+      else if(c=='[[!!'||compare(st,c)==1)      // special reduction rule
+         return bb(beta,fs(x,n));
+         //return x==c?beta+n:bb(beta,fs(x,n));
+      else if (c==col)                          // regular rule
+      	return n;
+      else{                                      // main rule
+         let s=beta;
+         let p=base(power(beta,c));
+         //let q=booster(power(beta,c));
+         //if(booster(c)!=col)
+         //   s=base(c);
+         //let t=fs(x,base(c));
+         //let s=bb(beta,fs(x,base(c)));
+         //let s='';
+         let t;
+         for(let i=0;i<fostn(n);i++)
+            //s=bb(beta,fs(x,bb(base(c),fs(booster(c),buff(booster(s),p,q)))));
+            //s=bb(beta,fs(x,s));
+            //s=bb(beta,fs(x,buff(s,p,q)));
+            //{t=fs(x,bb(base(c),fs(booster(c),buff(t,p,q))));
+            //s=bb(beta,t);}
+            {t=buff(s,p,antibooster(p));
+            if(compare(c,t)<1)    
+               s=bb(beta,fs(x,bb(base(c),fs(booster(c),t))));
             else
-               return fs(cascade(x,c,st),n);
+               s=bb(beta,fs(x,buff(s,p,antibooster(p))));
             }
+            //if(booster(c)==col)
+            //   s=bb(beta,fs(x,buff(s,p,q)));
+            //else
+            //   s=bb(base(c),fs(booster(c),buff(s,p,col))); 
+         //if(booster(c)!=col)
+            //s=bb(beta,fs(x,s)); 
+            //s=bb(beta,fs(x,bb(base(c),fs(booster(c),buff(s,p,col)))));                
+            //s=bb(beta,fs(x,buff(rest(col,s),p,q)));
+            //s=bb(beta,fs(x,buff(s,p,col)));
+         return s;
          }
       }
    }
-}
-
-function minimize(st){
-let s=st;
-if(st==bo)                         // L
-   s=st;
-else if (st==''||st==col)            // 1, 6
-   s=st;
-else{
-   let x=booster(st);
-   if(x=='')                       // 2
-      s=st;
-   else{
-      let c=cof(x);
-      if(c=='[]')                // 3
-         s=st;
-         //s=bb(bb('',booster(minimize(bb(base(x),base(st))))),base(st));
-      else if(c=='[[]]'||compare(st,c)==1)       // > C
-         s=st;
-         //s=cascade(x,c,st);
-      else{
-         let l=ledge(st);
-         if(compare(l,c)<1)
-            s=st;                    // 7
-            //s=cascade(x,c,st);
-            //minimize(bb(base(x),base(st)))
-            //s=bb(bb(booster(x),booster(minimize(bb(base(x),base(st))))),base(st));
-         else{
-            let ca=compare(bbc(ceill(l,x),base(st)),c);
-            if(ca==1)   // 4, 5, 8
-               s=st;
-               //s=cascade(x,c,st);
-            else if(ca==0)
-               s=st; 
-               //s=cascade(x,c,st);  
-            else{
-               s=cascade(x,c,st);
-               //let s=cascade(x,c,st);
-               //return s=st?s:minimize(s);
-               }
-            }
-         }
-      }
-   }
-return s;
-//return s==st?s:minimize(s);
 }
 
 // is st ε number
@@ -360,7 +367,7 @@ if(st!=''&&!Array.isArray(st))
 return [[st,1]];  
 }
 
-// compare CNFs st1, st2 (if st1<st2 then -1; if st1=st2 then 0; if st1>st2 then 1)
+// compare CNFs st1, st2 (if st1<st2 then -1; if st1==st2 then 0; if st1>st2 then 1)
 function comparecnf(st1,st2){
 if(st1.toString()==st2.toString())
    return 0;
@@ -566,7 +573,8 @@ if(ext){
       		m=unone(m);
          if(ex!='')
       	   s+='<sup>'+displayform(ex,true)+'</sup>';
-      	else if(m&&(s[s.length-1]==']'||m[0]=='['))
+      	else if(m&&(s[s.length-1]=='!'||m[0]=='['))
+      	//else if(m)
       		s+='·';
          s+=m;
          }
@@ -592,7 +600,7 @@ else{
       else{
          s+=convertepsilon(ex);
          if(st[i][1]!='1'){
-            if(s[s.length-1]==']')
+            if(s[s.length-1]=='!')
                s+='·';
             s+=st[i][1];
             } 
@@ -618,14 +626,13 @@ else
 return le;
 }
 
-function convertepsilon(st,ext=false){
+function convertepsilon0(st,ext=false){
 if(st==col||st==bo)
    return st; 
-if(st=='[[[[c]c]]c]')   
+if(st=='[[[[c!c!!c!')   
    return 'I'; 
-if(st=='[[[c][[c]c]]c]')   
+if(st=='[[[c![[c!c!!c!')   
    return 'M'; 
-//st=minimize(st);
 let x=booster(st);
 let beta=base(st);
 
@@ -635,35 +642,32 @@ let sy='';
 if(f==col){
    sy='Ω';
    j=bb(col,col);
-   j=bb(j,floorOmega(beta,j));
-   j=bb(j,col);
-   j=bb(j,floorOmega(beta,j));  
+   j=bb(floorOmega(beta,j),j);
+   j=bb(col,j);
+   j=bb(floorOmega(beta,j),j);
    }
-else if(f==bb(col,col)){
+/*else if(f==bb(col,col)){
    sy='L';
    j=bb(col,col);
-   j=bb(col,j);
-   j=bb(j,floorOmega(beta,j));
    j=bb(j,col);
-   j=bb(j,floorOmega(beta,j));  
+   j=bb(floorOmega(beta,j),j);
+   j=bb(col,j);
+   j=bb(floorOmega(beta,j),j);  
    }
 else if(f==bb(col,bb(col,col))){
    sy='R';
    j=bb(col,col);
-   j=bb(col,j);
-   j=bb(col,j);
-   j=bb(j,floorOmega(beta,j));
    j=bb(j,col);
-   j=bb(j,floorOmega(beta,j)); 
-   }
+   j=bb(j,col);
+   j=bb(floorOmega(beta,j),j);
+   j=bb(col,j);
+   j=bb(floorOmega(beta,j),j); 
+   }*/
 else{
-   if(f==bb(col,floorOmega(beta)))
+   if(f==bb(floorOmega(beta),col))
       sy='φ';
-   //else if(x!=''&&x[x.length-1]==col){
-   //   if(f==bb(col,floorOmega(beta,bb(col,col))))
-   //      sy='φ';}
-   }
-if(sy!=''&&compare(bb(bb(bb('',f),f),f),x)>0&&(sy!='Ω'||compare(bb(j,col),x)==1)){
+   }  
+if(sy!=''&&compare(bb(f,bb(f,bb(f,''))),x)>0&&(sy!='Ω'||compare(bb(col,j),x)==1)){
    let cf=cnf(f);
    let fx=floorOmega(x,f);
    let ex=cnf(x); 
@@ -704,9 +708,9 @@ if(sy!=''&&compare(bb(bb(bb('',f),f),f),x)>0&&(sy!='Ω'||compare(bb(j,col),x)==1
          return 'ε<sub>'+le+'</sub>';
       if(fx==bb(f,f))
          return 'ζ<sub>'+le+'</sub>';
-      if(fx==bb(f,bb(f,f)))
-         return 'η<sub>'+le+'</sub>';
       if(fx==bb(bb(f,f),f))
+         return 'η<sub>'+le+'</sub>';
+      if(fx==bb(f,bb(f,f)))
          return 'Γ<sub>'+le+'</sub>';}
    if(sy!='φ'||fx==f)
       return sy+(le==''?'':'<sub>'+le+'</sub>');
@@ -734,28 +738,180 @@ if(sy!=''&&compare(bb(bb(bb('',f),f),f),x)>0&&(sy!='Ω'||compare(bb(j,col),x)==1
       }
    return sy+'('+s.slice(2)+', '+le+')';
    }
-return bb(displayform(cnf(x,ext),ext),beta==''?'':(displayform(cnf(beta,ext),ext)));
+return bb(beta==''?'':(displayform(cnf(beta,ext),ext)),displayform(cnf(x,ext),ext));
+}
+
+function convertepsilon(st,ext=false){
+if(st==col||st==bo)
+   return st; 
+/*if(st=='[[[[c!c!!c!')   
+   return 'I'; 
+if(st=='[[[c![[c!c!!c!')   
+   return 'M';*/
+let x=booster(st);
+let beta=base(st);
+
+let sy='';
+let f=floorOmega(x);
+//let j,maxx,ff;
+let j,maxx;
+
+if(f==col){
+   sy='Φ';
+   //ff=bb(col,col);
+   //f=bb(floorOmega(beta,ff),ff);
+   f=bb(col,col);
+   f=bb(floorOmega(beta,f),f);
+   j=bb(col,f);
+   j=bb(floorOmega(beta,j),j);
+   //maxx=bb(col,bb(f,bb(f,bb(f,''))));
+   maxx=bb(col,bb(f,bb(f,'')));
+   //ff=fs(ff,f);
+   }
+if(f==bb(col,col)){
+   sy='I-Φ';
+   f=bb(f,col);
+   f=bb(floorOmega(beta,f),f);
+   j=bb(bb(col,col),f);
+   j=bb(floorOmega(beta,j),j);
+   maxx=bb(bb(col,col),bb(f,bb(f,'')));
+   }
+/*else if(f==bb(col,col)){
+   sy='L';
+   j=bb(col,col);
+   j=bb(j,col);
+   j=bb(floorOmega(beta,j),j);
+   j=bb(col,j);
+   j=bb(floorOmega(beta,j),j);  
+   }
+else if(f==bb(col,bb(col,col))){
+   sy='R';
+   j=bb(col,col);
+   j=bb(j,col);
+   j=bb(j,col);
+   j=bb(floorOmega(beta,j),j);
+   j=bb(col,j);
+   j=bb(floorOmega(beta,j),j); 
+   }*/
+else if(f==bb(floorOmega(beta),col)){
+   sy='φ';
+   j=f;
+   maxx=bb(f,bb(f,bb(f,'')));
+   //ff=f;
+   }
+/*else if(compare(bb(col,col),x)<1){
+//else if(beta==''&&compare(bb(col,col),x)<1){
+   sy='I';
+   f=col;
+   j=f;
+   maxx=bb(f,bb(f,bb(f,'')));
+   }*/
+//if(sy!=''&&compare(bb(f,bb(f,bb(f,''))),x)>0&&(sy!='Ω'||compare(bb(col,j),x)==1)){
+//if(sy!=''&&compare(bb(f,bb(f,bb(f,''))),x)>0){
+if(sy!=''&&compare(maxx,x)>0){
+//{
+   let cf=cnf(f);
+   let fx=floorOmega(x,f);
+   let ex=cnf(x); 
+   let eex=cnf(ex,true,false);
+   let le=getle(cf,x,ex,x!=f&&eex[0][0]!=f);
+   while(beta){
+      let x1=booster(beta);
+      let fx1=floorOmega(x1,j);
+      if(fx1==fx){
+         let ex1=cnf(x1);
+         le=sumcnf(getle(cf,x1,ex1,x1!=j&&cnf(ex1,true,false)[0][0]!=j),le);
+         beta=base(beta);}
+      else{
+         //if(fx==ff)
+         //if(comparecnf(fx,ff)<1)
+         if(!Array.isArray(eex))
+            le=sumcnf(beta,le);
+         else{
+            let u=eex.length-1;
+            //while(u>=0&&eex[u][0]==f)
+            //alert(st);
+            //if((u>=0&&compare(f,eex[u][0])<1)!=(u>=0&&comparecnf(f,eex[u][0])<1))
+            //   alert(st);
+            //while(u>=0&&compare(f,eex[u][0])<1)
+            while(u>=0&&comparecnf(f,eex[u][0])<1)
+            	u--;
+            u++;
+            let ca=comparecnf(eex[u][2],cnf(beta));
+            le=sumcnf(ca==1?'':ca==0?[['',1]]:beta,le);
+            }
+         break;
+         }
+      }
+   if(sy!='φ'&&(sy!='Φ'||fx==col)&&(sy!='I-Φ'||fx==bb(col,col))&&le.length==1&&le[0][1]==1&&le[0][0]=='')
+      le='';
+   else{
+      if(ext)   
+         le=cnf(le,true);
+      le=displayform(le,ext);
+      if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col)))&&isFinite(le))
+         le--;
+      }
+   if(sy=='φ'){
+      if(fx==f)
+         return 'ε<sub>'+le+'</sub>';
+      if(fx==bb(f,f))
+         return 'ζ<sub>'+le+'</sub>';
+      if(fx==bb(bb(f,f),f))
+         return 'η<sub>'+le+'</sub>';
+      if(fx==bb(f,bb(f,f)))
+         return 'Γ<sub>'+le+'</sub>';}
+   if(sy=='Φ'&&fx==col)
+      return 'Ω'+(le==''?'':'<sub>'+le+'</sub>');
+   if(sy=='I-Φ'&&fx==bb(col,col))
+      return 'I'+(le==''?'':'<sub>'+le+'</sub>');
+   if(sy!='φ'&&sy!='Φ'&&sy!='I-Φ')
+      return sy+(le==''?'':'<sub>'+le+'</sub>');
+   let s='';
+   let i,p,m;
+   if(Array.isArray(eex)){
+      i=eex.length-1;
+      while(eex[i][0]!=f)i--;
+      p=eex[i][1];
+      p=p?p[0][1]:1;
+      m=eex[i][2];
+      }
+   else{
+   	i=0;
+   	p=1;
+   	m=[["",1]];
+   	}
+   let q=p;
+   while(q>0){
+      s+=', ';
+      if(q==p){
+         i--;
+         if(ext)
+            m=cnf(m,true);
+         s+=displayform(m,ext);
+         if(i>=0){
+            p=eex[i][1];
+            m=eex[i][2];
+            p=eex[i][0]!=f?0:p==''?1:p[0][1];}
+         }
+      else
+         s+=0;
+      q--;
+      }
+   return sy+'('+s.slice(2)+', '+le+')';
+   }
+return bb(beta==''?'':(displayform(cnf(beta,ext),ext)),displayform(cnf(x,ext),ext));
 }
 
 function convert(st){
-let d=format>1?st:displayform(cnf(st,format),format);
-if(mf){
-   let s=minimize(st);
-   while(s!=st){
-      d=d+' = '+(format>1?s:displayform(cnf(s,format),format));
-      st=s;
-      s=minimize(st);
-      }
-   }
-return d;
-}
+return (format>1?st:displayform(cnf(st,format),format)).toString().replaceAll('!',']');}
 
 function rx(s,c,n,q){
 count++;
 let x=document.createElement('li');
 x.id=s;
 x.innerHTML=convert(s);
-if(s==''||s.slice(0,2)=='[]')
+if(s==''||s.slice(-2)=='[!')
    x.style.cursor='default';
 x=x.outerHTML;
 if(q>0){
@@ -810,8 +966,8 @@ function formatting(c=list){
 for(let l=c.firstChild;l!=null;l=l.nextSibling)
    if(l.tagName=='UL')
       formatting(l);
-   else if(l.id!='-') 
-      l.innerHTML=convert(l.id); 
+   else if(l.id!='-')
+      l.innerHTML=convert(l.id);
 far[format].style.background='#b0ffb0';    
 }
 
@@ -828,13 +984,20 @@ else
       });
 }
 
+function mousetextupdate(x,y){
+   xs.style.left=x+(x*2<window.innerWidth?35:-xs.offsetWidth-15)+'px';
+   xs.style.top=y-(y*2<window.innerHeight?5:xs.offsetHeight-30)+'px';
+}
+
 document.onmousemove=function(e){
-   xs.style.left=e.clientX+35+'px';
-   xs.style.top=e.clientY-5+'px';  
+   mousex=e.clientX;
+   mousey=e.clientY;
+   mousetextupdate(mousex,mousey);
 }
 
 document.onmouseover=function(e){
-if(vt){
+//if(vt){
+{
 let c=e.target;
 while(c.tagName=='SUB'||c.tagName=='SUP'||c.tagName=='BIG')
    c=c.parentNode;
@@ -844,7 +1007,14 @@ if(lea){
    pairl[0].removeAttribute('style');
    pairl[1].removeAttribute('style');}
 let h;
-if(c.id=='reset'){
+if(c.id=='counter'){
+   h='<small>Total number of ordinals in the list</small>';
+   xs.style.background='#ffffff';
+   }
+else if(c.id=='oldversionlink'){
+   h='<small>Link to old version</small>';
+   }
+else if(c.id=='reset'){
    h='<div id="res1"'+(count>1?'':' style="font-style:italic"')+'><nobr id="res2"'+(count>1?' style="font-weight:bold"':'')+'>Reset list</nobr></div><i>use "R" key</i>';
    if(count>1)
       xs.style.background='#fffff0';
@@ -853,13 +1023,9 @@ else if(c.id=='vtext'){
    h='<b>Hide</b> text near mouse cursor<br/><i>use "T" key</i>';
    xs.style.background='#f0fff0';
    }
-else if(c.id=='minf'){
-   if(mf)
-      {h='<b id="mfs">Hide</b> "minimized" forms<br/><small><small>(like right side of equality</small></small> [Ω<sub>2</sub>] = [ε<sub>Ω + 1</sub>]<small><small>)</small></small><br/><i>use "M" key</i>';
-      xs.style.background='#fffff0';}
-   else{
-      h='<b id="mfs">Show</b> "minimized" forms<br/><small><small>(like right side of equality</small></small> [Ω<sub>2</sub>] = [ε<sub>Ω + 1</sub>]<small><small>)</small></small><br/><i>use "M" key</i>';
-      xs.style.background='#f0fff0';}
+else if(c.id=='vsidebar'){
+   h='<b>'+(sidebar.hidden?'Show':'Hide')+'</b> options<br/><i>use "Tab" key</i>';
+   xs.style.background='#f0fff0';
    }
 else if(c.id=='decef'){
    h='<div id="decd1"'+(efs>0?'':' style="font-style:italic"')+'><nobr id="decd2"'+(efs>0?' style="font-weight:bold"':'')+'>Remove</nobr> extra fs element</div><i>use "-" key</i>';
@@ -948,11 +1114,11 @@ else{
    h='<nobr id="ex1">'+exp[eo]+'</nobr>';
    xs.style.background='#fff';  
    h+='<span id="extra1"'+(efs==0||eo<0?' hidden':'')+'> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></span>';   
-   if(c.tagName=='LI'){
+   if(c.tagName=='LI'&&c.id!=null&&c.id!='dots'){
       lea=c;
       let q=c.previousSibling;
       exb[0]=q!=null&&q.id!='-';
-      exb[1]=c.id!=''&&c.id.slice(0,2)!='[]';
+      exb[1]=c.id!=''&&c.id.slice(-2)!='[!';
       let i=eo<0?0:1;
       let b=exb[i]; 
       if(exb[0]){
@@ -999,21 +1165,22 @@ else{
          h+='<br>'+'   <i>empty</i>';
       else{
          fsn='';
-         fsp=c.id.slice(0,2)!='[]';
+         fsp=c.id.slice(-2)!='[!';
          fsl=c.id;
       	for(let i=0;i<(fsp?di:1);i++){   	      
       	   h+='<li>   '+i+': '+convert(fs(fsl,fsn))+'</li>';
       	   fsn=suc(fsn);}  
       	if(fsp)      
-   	      h+='<li id="dots">   ...</li>';   
+   	      h+='<li id="dots">   ... '+(gtkey||ltkey?'<i><small>(use "<", ">" keys)</small></i>':'')+'</li>';   
    	   }
    	h+='</span>';                  
       }
    else
    	h='<div id="ex7"'+(eo==-2&&c.tagName=='LI'?' hidden':'')+'>'+h+'</div>';
    }
-xs.hidden=false;   
-xs.innerHTML=h;    
+if(vt)xs.hidden=false;   
+xs.innerHTML=h; 
+mousetextupdate(mousex,mousey);  
 }}
 
 document.onmouseout=function(e){
@@ -1021,11 +1188,12 @@ document.onmouseout=function(e){
 }
 
 list.onclick=function(e){
+let initscroll=listc.scrollTop;
 if(eo!=-2){
 let c=e.target;
 while(c.tagName=='SUB'||c.tagName=='SUP')
    c=c.parentNode;
-if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
+if(c.id!='list'&&c.id!=''&&c.id.slice(-2)!='[!'){
    let sc;
    let sc1=c;
    if(eo<0){
@@ -1054,6 +1222,12 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
          if(c.previousSibling==null){
             if(e>=0)
                c.insertAdjacentHTML('beforebegin',se(c.id,pl(c)[0].id,e+efs));}
+               /*{let[q,i]=pl(c);
+               i=e+i-1;
+               if(i>=0){
+                  let y=document.createElement('ul');
+                  y.innerHTML=se(c.id,q.id,i+efs);
+                  c.insertAdjacentHTML('beforebegin',y.outerHTML);}}}*/
          else{
             let[q,i]=pl(c);
             i=e+i-1;
@@ -1068,26 +1242,28 @@ if(c.id!='list'&&c.id!=''&&c.id.slice(0,2)!='[]'){
             do{
                [c,i]=pl(c);
                e+=i;}
-            while(c!=l&&(c.id==''||c.id.slice(0,2)=='[]'));
+            while(c!=l&&(c.id==''||c.id.slice(-2)=='[!'));
          }                           
       }     
-   counter.innerHTML='Total '+count+' ordinal'+(count==1?'':'s');
+   counter.innerHTML='Counter: '+count;
    resett.style.opacity=count==1?0.4:1;
-   if(sc!=null){
+   /*if(sc!=null){
       if(sc.getBoundingClientRect().top<0||sc1.getBoundingClientRect().bottom>window.innerHeight)
       if(eo<0||sc1.getBoundingClientRect().bottom-sc.getBoundingClientRect().top>window.innerHeight)
          sc.scrollIntoView();
       else   
          sc1.scrollIntoView(false);
-      }
+      }*/
    let u=new Event('mouseover');
    Object.defineProperty(u,'target',{value:sc1});
    document.dispatchEvent(u); 
    }
 }
-window.onunload=function(e){
-window.scrollTo(0,0);
-}}
+//window.onunload=function(e){
+//window.scrollTo(0,0);
+//}
+listc.scrollTop=initscroll;
+}
 
 exptable.onclick=function(e){
 let c=e.target;
@@ -1103,7 +1279,7 @@ let c=e.target;
 while(c.tagName=='SUB'||c.tagName=='SUP')
    c=c.parentNode;
 if(c.tagName=='TD'){
-   let i=c.id[3];
+   let i=parseInt(c.id[3]);
    if(i!=format){
       far[format].style.background='#fff';
       format=i;
@@ -1130,24 +1306,21 @@ else{
    }      
 }
 
-minf.onclick=function(e){
-let c=e.target;
-while(c.tagName!='TD')
-   c=c.parentNode;
-if(mf){
-   c.style.background='#fff';
-   c.style.color='#fff';
-   mf=false;
+vsidebar.onclick=function(e){
+if(sidebar.hidden){
+   sidebar.hidden=false;
+   listc.style.right='240px';
+   vsidebars.style.right='257px';
+   counter.style.right='260px';
+   vsidebar.innerHTML='»';
    }
 else{
-   c.style.background='#b0ffb0';
-   c.style.color='#000';
-   mf=true;
-   }
-formatting();
-let u=new Event('mouseover');
-Object.defineProperty(u,'target',{value:c});
-document.dispatchEvent(u); 
+   sidebar.hidden=true;
+   listc.style.right='0';
+   vsidebars.style.right='17px';
+   counter.style.right='20px';
+   vsidebar.innerHTML='«';
+   }  
 }
 
 decef.onclick=function(e){
@@ -1205,9 +1378,13 @@ if(di==1){
 }
 
 function resetlist(){
-list.innerHTML='<li id="-"></li><li id="Limit">Limit</li>';
+list.innerHTML='<li id="-"></li>';
+let y=document.createElement('li');
+y.id=ititlargeordinal;
+y.innerHTML=convert(ititlargeordinal);
+document.getElementById('-').insertAdjacentHTML('afterend',y.outerHTML);
 count=1;
-counter.innerHTML='Total 1 ordinal';
+counter.innerHTML='Counter: 1';
 window.scrollTo(0,0);
 resett.style.opacity=0.4;
 if(document.getElementById('res2')!=null){
@@ -1221,7 +1398,7 @@ resetlist();}
 
 document.addEventListener('keydown',function(e){
 let c=e.code;
-if(c.slice(0,5)=='Digit'||c=='KeyS'||c=='KeyQ'||c=='KeyW'){
+if(c.slice(0,5)=='Digit'||c=='KeyQ'||c=='KeyW'){
    let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyW'?-2:-1;
    etar[eo].style.background='#fff';
    etar[i].style.background=i==-1?'#ffffb0':'#b0ffb0';
@@ -1300,6 +1477,10 @@ else if(c=='Equal'||c=='NumpadAdd'){
 else if(c=='Comma'){
 if(di>0){
    di--;
+   if(ltkey){
+      ltkey--;
+      if(!gtkey&&!ltkey)dots.innerHTML='   ... ';
+      }
    dis.innerHTML='   '+di+'   '; 
    if(document.getElementById('fsd')!=null){ 
       if(fsp){
@@ -1316,11 +1497,15 @@ if(di>0){
          dec1.style['font-style']='italic';
          dec2.style['font-weight']='normal'; 
          }                        
-      } 	     
+      }
    }
 }     	
 else if(c=='Period'){
    di++;
+   if(gtkey){
+      gtkey--;
+      if(!gtkey&&!ltkey)dots.innerHTML='   ... ';
+      }
    dis.innerHTML='   '+di+'   '; 
    if(document.getElementById('fsd')!=null){ 
       if(fsp){     	
@@ -1339,7 +1524,7 @@ else if(c=='Period'){
          dec1.style['font-style']='normal';
          dec2.style['font-weight']='bold';
          }        
-      }            	 	
+      }
    }    
 else if(c=='KeyT')
 if(vt){
@@ -1354,30 +1539,21 @@ else{
    vt=true;
    xs.hidden=false;
    }
-else if(c=='KeyM'){
-if(mf){
-   minf.style.background='#fff';
-   minf.style.color='#fff';
-   mf=false;
-   if(document.getElementById('mfs')!=null){
-   	mfs.innerHTML='Show';
-   	xs.style.background='#f0fff0';
-      }
+else if(c=='Tab'){
+e.preventDefault();
+if(sidebar.hidden){
+   sidebar.hidden=false;
+   listc.style.right='240px';
+   vsidebars.style.right='257px';
+   counter.style.right='260px';
+   vsidebar.innerHTML='»';
    }
 else{
-   minf.style.background='#b0ffb0';
-   minf.style.color='#000';
-   mf=true;
-   if(document.getElementById('mfs')!=null){
-   	mfs.innerHTML='Hide';
-   	xs.style.background='#fffff0';
-      }
-   }
-formatting();
-if(document.getElementById('ex6')!=null){   
-   let u=new Event('mouseover');
-   Object.defineProperty(u,'target',{value:lea});
-   document.dispatchEvent(u);
+   sidebar.hidden=true;
+   listc.style.right='0';
+   vsidebars.style.right='17px';
+   counter.style.right='20px';
+   vsidebar.innerHTML='«';
    }
 }
 else if(c=='KeyR'){
@@ -1394,16 +1570,59 @@ else if(c=='KeyI'||c=='KeyO'||c=='KeyP'){
          document.dispatchEvent(u);
          }
       }  
-   }      	 	       	
-});
+   }     
+mousetextupdate(mousex,mousey);	 	       	
+}
+);
 
 let bo='Limit',col='c',eo=1,efs=0,
 exp=['small expansion','single expansion','double expansion','triple expansion','quadruple expansion','quintuple expansion','sextuple expansion','septuple expansion','octuple expansion','ninefold expansion'];
 exp[-1]='collapse',exp[-2]='view';
 let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
 etar[-1]=etc,etar[-2]=etv;
-let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[],mf=false;
+let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[],ledgelevels=1;
 let far=[for0,for1,for2];
+let mousex,mousey;
+let gtkey=3,ltkey=3;
+let ititlargeordinal='[[c[c!!!';
+//let ititlargeordinal=bo;
+//let ititlargeordinal='[[c[[c!!!!';
+//let ititlargeordinal=bb('',bb(bb('',col),bb(bb('',col),col)));
+resetlist();
+
+//list.innerHTML+=convert('[c[c!!');
+//list.innerHTML+=convert('[c[c!!');
+//list.innerHTML+=convert('[c[[c[c!!!!');
+//list.innerHTML+=convert('[c[c!![c!');
+//list.innerHTML+=convert('[c[c!![c[[c[c!!!!');
+//list.innerHTML+=convert('[c[c!![c[[c[c!![c[c!!!!');
+//list.innerHTML+=convert('[c![[c![c!!');
+//list.innerHTML+=convert('[[c![[c!![[c!!![[c![[c!!![[c![[c!!![[c![[c!!!');
+//list.innerHTML+=convert('[c[[c[c!!![[c[c!!!!');
+//list.innerHTML+=convert('[c[[c[c!![[c[c!!!!!');
+//list.innerHTML+=convert('[c[[c[c!![[c[c!!![[c[c!!![[c[c!!!!!');
+//alert('123');
+//list.innerHTML+=convert('[c[[c[c!!!![c[[c[c!!!![c[[c[c!!!!');
+//list.innerHTML+=convert('[c[c![[c[c!![[c[c!!!!!');
+//list.innerHTML+=convert('[[c!![[c!!');
+//list.innerHTML+=convert('[[c![[c!!!');
+//document.write(convert(buff('[[c[c!!!','[c!','c[c!')));
+//document.write(convert(buff('[[c[c!!!','[c!','c[c![c!')));
+//document.write(convert(buff('[[c!!','[c!','c')));
+//document.write(convert(buff('[[c[c!!!','[c[c!!','c[c!')));
+//document.write(convert(fs('[[c![c!!','[![![!')));
+//document.write(convert(buff('[c[c!!','[c[c!!','c[c!')));
+//document.write(convert(fs('[c[[c[c!![c[c!!!!','[![!')));
+//[c[[c2]]]   [c2]
+//document.write('<p id="testx">'+convert(fs(ititlargeordinal,'[![![![!'))+'</p>');
+//document.write(fs('[[[c]c]]',''));
+//document.write(cof('[[[[c]c]]c]'));
+//document.write(cof('[[[[c]c]]c]'));
+//document.write(cof('[[[[[[[[[c]c]][[[[]c][[c]c]]c]]c]][[[[]c][[c]c]]c]]c]][[[[]c][[c]c]]c]'));
+//document.write(fs('[[[[[[[[c]c]][[[[]c][[c]c]]c]]c][[c]c]]]]',''));
+
+
 dis.innerHTML='   '+di+'   ';
-</script></span></body>
-</html>
+far[format].style.background='#b0ffb0';
+
+</script></div></body></html>
