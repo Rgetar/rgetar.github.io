@@ -255,13 +255,17 @@ else{
       else if (c==col)                          // regular rule
       	return n;
       else{                                      // main rule
-         let s=beta;
+         //let s=beta;
+         //let p=power(beta,c);
+         //let q=booster(p);
+         //p=base(p);
          let p=base(power(beta,c));
-         //let q=booster(power(beta,c));
+         let q=antibooster(p);
+         while(cof(q)!=col&&cof(q)!='')q=base(q);
          //if(booster(c)!=col)
          //   s=base(c);
          //let t=fs(x,base(c));
-         //let s=bb(beta,fs(x,base(c)));
+         let s=bb(beta,fs(x,base(c)));
          //let s='';
          let t;
          for(let i=0;i<fostn(n);i++)
@@ -270,11 +274,15 @@ else{
             //s=bb(beta,fs(x,buff(s,p,q)));
             //{t=fs(x,bb(base(c),fs(booster(c),buff(t,p,q))));
             //s=bb(beta,t);}
-            {t=buff(s,p,antibooster(p));
+            {
+            //t=buff(s,p,antibooster(p));
+            //q=antibooster(p);
+            t=buff(s,p,q);
             if(compare(c,t)<1)    
                s=bb(beta,fs(x,bb(base(c),fs(booster(c),t))));
             else
-               s=bb(beta,fs(x,buff(s,p,antibooster(p))));
+               //s=bb(beta,fs(x,buff(s,p,antibooster(p))));
+               s=bb(beta,fs(x,t));
             }
             //if(booster(c)==col)
             //   s=bb(beta,fs(x,buff(s,p,q)));
@@ -1590,6 +1598,9 @@ let ititlargeordinal='[[c[c!!!';
 //let ititlargeordinal=bb('',bb(bb('',col),bb(bb('',col),col)));
 resetlist();
 
+//list.innerHTML+=convert(fs('[[c[!![c![c!!','[![![!'));
+//list.innerHTML+=convert(cof('[c[[c!!!'));
+//list.innerHTML+=convert('[c[[c!!!');
 //list.innerHTML+=convert('[c[c!!');
 //list.innerHTML+=convert('[c[c!!');
 //list.innerHTML+=convert('[c[[c[c!!!!');
