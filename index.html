@@ -204,8 +204,11 @@ else{
    else 
       {
       while(floor(x)>floor(st))
-         {//if(bb(beta,x)>st&&floor(bb(beta,x))<=floor(st))
-         if(bb('',x)>st&&floor(bb('',x))<=floor(st))
+         {let s=bb(beta,x);
+         if(x<col&&s>st&&floor(s)<=floor(st))
+         //if(s>st&&!checkstring(s)&&floor(s)<=floor(st))
+         //if(bb(beta,x)>st&&floor(bb(beta,x))<=floor(st))
+         //if(bb('',x)>st&&floor(bb('',x))<=floor(st))
             return true;
          x=booster(x);         
          }
@@ -1503,12 +1506,12 @@ let gtkey=3,ltkey=3;
 let processing=true;
 
 //let ititlargeordinal=bo;
-let ititlargeordinal='[[c![c!!';
-//let ititlargeordinal=col;
+//let ititlargeordinal='[[c![c!!';
+let ititlargeordinal=col;
 //let ititlargeordinal=col;
 resetlist();
 
-//list.innerHTML+=checkstring('[[c![[c![c!!!')+'<br/>';
+//list.innerHTML+=checkstring('[[c!![[c!!')+'<br/>';
 //list.innerHTML+=checkstring('[[c![[[c![[c!!!!!')+'<br/>';
 
 dis.innerHTML='   '+di+'   ';
