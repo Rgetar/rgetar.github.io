@@ -18,69 +18,75 @@ sup{font-size:0.83rem;}
 //ul{display:flex;flex-direction:column-reverse;}
 </style>
 <body style="font-family:Arial;white-space:pre;line-height:0;"
-><span id="sidebar" style="line-height:2;position:absolute;right:0px;width:215px;padding-left:42px;top:0;bottom:0;overflow:auto;float:right;background:#f5fdff";
-hidden><h4>Ordinal Explorer Online</h4><span onmousedown="return false"><table id="resett" border="5" cellspacing="0" cellpadding="0" style="border-color:#ffc0c0;opacity:0.4;">
+><span id="sidebar" style="line-height:2;position:absolute;right:0px;width:215px;padding-left:42px;top:0;bottom:0;overflow:auto;float:right;background:#f5fdff;line-height:1.5;";
+hidden>
+<b style="font-size:16px;">Ordinal Explorer Online</b>
+<span onmousedown="return false"><table id="resett" border="3" cellspacing="0" cellpadding="0" style="border-color:#ffc0c0;margin-top:10px;opacity:0.4;">
 <tr>
-<td id="reset" style="background:#ffffd0;font-size:20px;border-color:#00ff00;">       Reset list       </td>
+<td id="reset" style="background:#ffffd0;border-color:#00ff00;">            Reset list            </td>
 </tr>
 </table></span>
 <div align="left" onmousedown="return false" style="font-size:13px"><i>Expansion and collapse tools:</i>
-<table id="exptable" border="4" cellspacing="0" cellpadding="0" style="background:#ffffff">
+<table id="exptable" border="3" cellspacing="0" cellpadding="0" style="background:#ffffff;text-align:center">
 <tr>
-<td id="et0" style="font-size:11px;">   small   </td>
-<td id="et1" style="background:#b0ffb0;font-size:20px;">   1   </td>
-<td id="et2" style="font-size:18px;">   2   </td>
+<td id="et0old" style="font-size:11px;" hidden>   small   </td>
+<td id="et1old" hidden>   1   </td>
+<td id="et0" style="font-size:11px;">add</td>
+<td id="et1" style="font-size:11px;">   recursive add   </td>
+<td id="et2" hidden>   2   </td>
 </tr><tr>
-<td id="et3" style="font-size:18px;">   3   </td>
-<td id="et4" style="font-size:18px;">   4   </td>
-<td id="et5" style="font-size:18px;">   5   </td>
+<td id="etc" style="font-size:11px;">     	 remove       </td>
+<td id="etv" style="font-size:11px;">view</td>
+<td id="et3" hidden>   3   </td>
+<td id="et4" hidden>   4   </td>
+<td id="et5" hidden>   5   </td>
 </tr><tr>
-<td id="et6" style="font-size:18px;">   6   </td>
-<td id="et7" style="font-size:18px;">   7   </td>
-<td id="et8" style="font-size:18px;">   8   </td>
+<td id="et6" hidden>   6   </td>
+<td id="et7" hidden>   7   </td>
+<td id="et8" hidden>   8   </td>
 </tr><tr>
-<td id="et9" style="font-size:18px;">   9   </td>
-<td id="etc" style="font-size:9px;">  collapse  </td>
-<td id="etv" style="font-size:12px;">   view   </td>
+<td id="et9" hidden>   9   </td>
+<td id="etcold" style="font-size:9px;" hidden>  collapse  </td>
+<td id="etvold" style="font-size:12px;" hidden>   view   </td>
 </tr>
 </table></div>
-<div align="left" onmousedown="return false" style="font-size:13px;line-height:1.69;"><i>Extra fs elements:</i>
-<table cellspacing="0" cellpadding="0">
+<div align="left" onmousedown="return false" style="font-size:13px;line-height:1.69;margin-left:-21px;margin-top:-18px"><table cellspacing="0" cellpadding="0" style="float:left">
 <tr>
-<td id="decef" style="color:#eeeeee;font-size:35px;cursor:default;">◅ </td>
-<td id="ecfve" style="cursor:default;line-height:2;"><table border="4" cellspacing="0" cellpadding="0">
+<td id="decef" style="color:#eeeeee;font-size:25px;cursor:default;">◅ </td>
+<td id="ecfve" style="cursor:default;line-height:2;"><table border="3" cellspacing="0" cellpadding="0">
 <tr>
-<td id="ecfv" style="background:#ffffff;font-size:20px;cursor:default;">   0   </td>
+<td id="ecfv" style="background:#ffffff;font-size:15px;cursor:default;">   0   </td>
 </tr>
 </table></td>
-<td id="incef" style="font-size:35px;"> ▻</td>
+<td id="incef" style="font-size:25px;"> ▻</td>
 </tr>
-</table></div
-><div align="left" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Format:</i>
-<table id="switchformat" border="4" cellspacing="0" cellpadding="3" style="background:#ffffff">
-<tr height='30px' style="font-size:15px;">
-<td id="for2">c[c[c]]</td>
-<td id="for0">  ω<sup>c2</sub>  </td>
-<td id="for1">   c<sup>2</sup>  </td>
+</table><i style="line-height:40px;font-size:13px">  extra fs elements</i></div
+>
+<div align="left" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Format:</i>
+<table id="switchformat" border="3" cellspacing="0" cellpadding="3" style="background:#ffffff">
+<tr style="font-size:12px;line-height:1.4;">
+<td id="for2">[[c]][[[c]][]]</td>
+<td id="for0">ω<sup>ε<sub>0</sub> + 1</sup></td>
+<td id="for1" style="font-size:15px;"> ε<sub>0</sub>ω </td>
 </tr>
 </table></div>
-<div align="left" onmousedown="return false" style="font-size:13px;line-height:1.65;"><i>Displayed fs elements:</i>
-<table cellspacing="0" cellpadding="0">
+<div align="left" onmousedown="return false" style="font-size:13px;line-height:1.65;margin-left:-16px;margin-top:-23px"><table cellspacing="0" cellpadding="0" style="float:left">
 <tr>
-<td id="decd" style="font-size:35px;">◅ </td>
-<td id="disp" style="cursor:default;line-height:2;"><table border="4" cellspacing="0" cellpadding="0">
+<td id="decd" style="font-size:25px;">◅ </td>
+<td id="disp" style="cursor:default;line-height:2;"><table border="3" cellspacing="0" cellpadding="0">
 <tr>
-<td id="dis" style="font-size:20px;cursor:default;background:#b0ffb0"></td>
+<td id="dis" style="font-size:15px;cursor:default;background:#d0ffd0"></td>
 </tr>
 </table></td>
-<td id="incd" style="font-size:35px;"> ▻</td>
+<td id="incd" style="font-size:25px;"> ▻</td>
 </tr>
-</table></div>
-<div align="left" onmousedown="return false" style="font-size:13px;"><table border="3" cellspacing="0" cellpadding="0" style="float:left">
+</table><i style="line-height:40px;font-size:13px">  displayed fs elements</i></div>
+<div align="left" onmousedown="return false" style="font-size:13px;margin-left:7px;margin-top:-15px"><table border="3" cellspacing="0" cellpadding="0" style="float:left">
 <tr>
-<td id="vtext" style="background:#b0ffb0;font-size:8px;">    <big><big><big>✓</big></big></big>    </td>
+<td id="vtext" style="background:#d0ffd0;font-size:8px;line-height:1.95;">    <big><big><big>✓</big></big></big>    </td>
 </tr>
 </table><i style="line-height:35px;">  show text near cursor</i></div>
+
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">other versions</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:10px;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><ul style="float:left;min-width:calc(100% - 40px);" id="list"
 ></ul></span><span id="vsidebars" onmousedown="return false" style="background:#e0ffe0;line-height:0.5;position: fixed;right:17px;top:0;float:right;font-size:25px"><table>
@@ -240,7 +246,7 @@ function cst(x,beta,st)
       return x>st;
    }
 
-function checkstring(st){
+function checkstringcurrent(st){
 if(st==''||st==col)
    return false;
 else{
@@ -251,6 +257,202 @@ else{
    else 
       {
       return cst(x,beta,st);
+      }
+   }
+}
+
+function cpart(st)
+{if(!st)
+   return '';
+if(st[0]==col)
+   return col;
+return '';
+}
+
+function omegapart(st)
+{if(!st)
+   return '';
+if(st[0]==col)
+   return col;
+let m=cpart(st);
+while(st&&cpart(booster(st))<=m)
+	st=base(st);
+return st;
+}
+
+function epsilonpart(st)
+{if(!st)
+   return '';
+if(st[0]==col)
+   return col;
+let m=omegapart(st);
+while(st&&omegapart(booster(st))<=m)
+	st=base(st);
+return st;
+}
+
+function checkmaxepsilon(st,e,omega)
+{if(st==''||st==col)
+   return false;
+let x=booster(st);
+if(omegapart(x)==omega&&epsilonpart(x)>e)
+   return true;
+let beta=base(st);
+if(omegapart(beta)==omega&&epsilonpart(beta)>e)
+   return true;
+if(checkmaxepsilon(x,e,omega)||checkmaxepsilon(beta,e,omega))
+   return true;
+return false;
+}
+
+/*function checkmaxepsilon1(st,e,omega)
+{if(st==''||st==col)
+   return false;
+let x=booster(st);
+if(omegapart(x)==omega&&x>e)
+   return true;
+let beta=base(st);
+if(omegapart(beta)==omega&&beta>e)
+   return true;
+if(checkmaxepsilon(x,e,omega)||checkmaxepsilon(beta,e,omega))
+   return true;
+return false;
+}*/
+
+function checkmaxomega(st,omega,c)
+{if(st==''||st==col)
+   return false;
+let x=booster(st);
+if(cpart(x)==c&&omegapart(x)>omega)
+   return true;
+let beta=base(st);
+if(cpart(beta)==c&&omegapart(beta)>omega)
+   return true;
+if(checkmaxomega(x,omega,c)||checkmaxomega(beta,omega,c))
+   return true;
+return false;
+}
+
+/*function checkmaxomega1(st,omega,c)
+{if(st==''||st==col)
+   return false;
+let x=booster(st);
+if(cpart(x)==c&&x>omega)
+   return true;
+let beta=base(st);
+if(cpart(beta)==c&&beta>omega)
+   return true;
+if(checkmaxomega(x,omega,c)||checkmaxomega(beta,omega,c))
+   return true;
+return false;
+}*/
+
+function checkmaxc(st,c)
+{if(st==''||st==col)
+   return false;
+let x=booster(st);
+if(x>c)
+   return true;
+let beta=base(st);
+if(beta>c)
+   return true;
+if(checkmaxc(omegapart(x),c)||checkmaxomega(omegapart(beta),c))
+//if(checkmaxc(x,c)||checkmaxomega(beta,c))
+   return true;
+return false;
+}
+
+function checkstring(st){
+if(st==''||st==col)
+   return false;
+if(checkstring(booster(st))||checkstring(base(st)))
+   return true;
+let e=epsilonpart(st);
+let omega=omegapart(st);
+if(checkmaxepsilon(st,e,omega))
+   return true;
+   
+/*let c=cpart(st);
+if(checkmaxomega(st,omega,c))
+   return true;*/
+   
+e=e.slice(omega.length);
+let u=e;
+while(base(u))
+   u=base(u);
+u=booster(u);
+//u=omegapart(u);
+let uc=cpart(u);
+let x;
+while(e)
+   {x=booster(e);
+   if(checkmaxomega(x,u,uc))
+      return true;
+   e=base(e);
+   }
+
+omega=omega.slice(cpart(st).length);
+u=omega;
+while(base(u))
+   u=base(u);
+u=booster(u);
+//u=omegapart(u);
+while(omega)
+   {x=booster(omega);
+   if(checkmaxc(x,u))
+      return true;
+   omega=base(omega);
+   }
+   
+/*omega=omega.slice(c.length);
+u=omega;
+while(base(u))
+   u=base(u);
+u=booster(u);
+u=omegapart(u);
+uc=cpart(u);
+while(e)
+   {x=booster(e);
+   if(checkmaxomega(x,u,uc))
+      return true;
+   e=base(e);
+   }*/
+return false;
+}
+
+function cheetah(st,t)
+{
+let x=booster(t);
+let beta=base(t);
+if(!x&&!beta)
+   return false;
+if(cheetah(st,x)||cheetah(st,beta))
+   return true;
+while(x>=bb('',col))
+   x=bb('',x);
+while(beta>=bb('',col))
+   beta=bb('',beta);
+return x>st||beta>st;
+}
+
+function checkstring2(st,t=''){
+if(st==''||st==col)
+   return false;
+else{
+   let x=booster(st);
+   let beta=base(st);
+   if(checkstring(x)||checkstring(beta))
+      return true;
+   else 
+      {
+      return cheetah(st,st);
+      /*let y=booster(x);
+      while(x>=bb('',col))
+         x=bb('',x);
+      while(y>=bb('',col))
+         y=bb('',y);
+      return x>st||y>st;*/
+      
       }
    }
 }
@@ -814,16 +1016,68 @@ do
 	   i--;
 	if(i>1)
 	   {s=uo+stt.slice(i);
-	   
+	   /*
 	   //if(ocd(s)>0&&s>fsperiod0&&(!fsperiod0||s!=fsperiod0.repeat(Math.ceil(s.length/fsperiod0.length)).slice(0,s.length)))
 	   if(ocd(s)>0&&(!fsperiod0||s>fsperiod0.repeat(Math.ceil(s.length/fsperiod0.length))))
 	      //if(!checkstring(st0+s.repeat(1)+'!'.repeat(ocd(s)).repeat(1)+st1))
 	      if(!fsperiod0&&(!stt.slice(0,i).includes(col))||!checkstring(st0+s+'!'.repeat(ocd(s))+st1))
 	         fsperiod0=s;
-	        
-	   /*
+	        */
+	   
 	   if(ocd(s)>0&&(!fsperiod0||s>fsperiod0.repeat(Math.ceil(s.length/fsperiod0.length))))
-	         fsperiod0=s;*/
+	   if(!checkstring(st0+s+'!'.repeat(ocd(st0+s))))
+	      fsperiod0=s;
+	   if(false) 
+	      {
+	      if(fsperiod0)
+	         {
+	         let per=s.slice(u);
+	         let y=stt.length-1;
+	         let b=false;
+	         while(!b&&y>1)
+	            {
+	            //if(stt[y]==col&&per>stt.slice(y))
+	            //if(stt.slice(y-u,y+1)==uo+col&&stt[y-u-1]!='!'&&per>stt.slice(y))
+	            if(stt.slice(y-u,y+1)==uo+col&&per>stt.slice(y))
+	            //if(stt.slice(y-2,y)!='!['&&stt.slice(y-3,y)!='![['&&stt.slice(y-4,y)!='![[[')
+	            //if(stt.slice(y-2,y)!='!['&&stt.slice(y-3,y)!='![[')
+	            
+	            /*if(stt.slice(y-u,y+1)==uo+col)
+	               {for(let j=0;j<u;j++)
+                      {let yn=0;
+                      let yy=y;
+                      while(yn<=j&&yy<stt.length-1)
+                         {yy++;
+                         if(stt[yy]=='[')
+                            yn--;
+                         else if(stt[yy]=='!')
+                            yn++;
+                         }
+                      let pern=0;
+                      let pery=0;
+                      while(pern<=j&&pery<per.length-1)
+                         {pery++;
+                         if(per[pery]=='[')
+                            pern--;
+                         else if(per[pery]=='!')
+                            pern++;
+                         }
+                         
+                      if(per.slice(0,pery)>stt.slice(y,yy))
+                         b=true;
+                      }
+	               }*/
+	            
+	               b=true;
+	            y--;
+	            }
+	         if(!b)
+	            fsperiod0=s;
+	         }
+	      else
+	      	fsperiod0=s;
+	      }
+	         
 
 
 	   i--;
@@ -1542,13 +1796,14 @@ while(c!=l);
 }	
 
 function multipleexp(c,extra,n){
-if(n==1)
+/*if(n==1)
    singleexp(c,extra);
-else
-	{let l=pl(c)[0];
+else*/
+	{if(!nextl)
+	   nextl=pl(c)[0];
 	   do 
 	      {n--;
-	   	singleexplong(c,l,n?0:extra);}
+	   	singleexplong(c,nextl,n?0:extra);}
       while(n);
 	}
 }	
@@ -1571,7 +1826,7 @@ for(let l=c.firstChild;l!=null;l=l.nextSibling)
       formatting(l);
    else if(l.id!='-')
       l.innerHTML=convert(l.id);
-far[format].style.background='#b0ffb0';    
+far[format].style.background='#d0ffd0';    
 }
 
 function setmarkedli(c){
@@ -1804,9 +2059,12 @@ else if(c.id!='xs'&&!xs.contains(c)){
    if(c!=mousetag&&c.tagName=='LI')
       mousetagp=c;
    h='<nobr id="ex1">'+exp[eo]+'</nobr>';
+   //h+='<br/><small><i>Click "'+convert(initlargeordinal)+'" to add more elements of its fundamental sequence</i></small>';
+   //h+='<br/><small><i>Click "'+convert(initlargeordinal)+'" to add more strings</i></small>';
    xs.style.background='#fff';  
    h+='<span id="extra1"'+(efs==0||eo<0?' hidden':'')+'> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></span>';   
-   if(c.tagName=='LI'&&c.id!=null&&c.id!='dots'){
+   //if(c.tagName=='LI'&&c.id!=null&&c.id!='dots'){
+   if(c.tagName=='LI'){
       lea=c;
 
       setps(c);
@@ -1949,17 +2207,77 @@ else if(listc.clientWidth>listc.scrollWidth)
 	{listc.style.right=0;}*/
 }
 
-function scrollli(c)
+/*function scrollli(c)
 {if(c)
 {$(c).wrapInner('<ul1 style="padding-right: 27px">');
 c=c.firstChild;
-c.scrollIntoView();
+let r=c.getBoundingClientRect();
+if(r.left<0||r.right>listc.getBoundingClientRect().right)
+   {listc.scrollLeft=0;
+   c.scrollIntoView();}
 c.removeAttribute('style');
-$(c).contents().unwrap();}}
+$(c).contents().unwrap();}}*/
+
+function scrollli(c)
+{if(c)
+{let lx=listc.scrollLeft;
+let ly=listc.scrollTop;
+$(c).wrapInner('<ul1 style="padding-right: 27px">');
+let u=c.firstChild;
+let r=u.getBoundingClientRect();
+let rc=c.getBoundingClientRect();
+let r1=listc.getBoundingClientRect();
+let bx=r.left<r1.left?-1:r.right>r1.right?1:0;
+let by=rc.top<r1.top+3?-1:rc.bottom>r1.bottom-3?1:0;
+if(by<0)
+   if(c.id=='')
+      listc.scrollTop=-listc.scrollHeight;
+   else
+      {u.scrollIntoView({inline: 'end'});
+      listc.scrollTop-=3+r.top-rc.top;}
+else 
+   if(by>0)
+   {listc.style.overflowX='auto';
+   if(c.id==initlargeordinal)
+      listc.scrollTop=0;
+   else
+      {u.scrollIntoView({block: 'end', inline: 'end'});
+      listc.scrollTop+=3-r.bottom+rc.bottom;}
+   listc.style.overflowX='overlay';
+   }
+else
+	u.scrollIntoView({inline: 'end'});
+if(!bx)
+   listc.scrollLeft=lx;
+if(!by)
+   listc.scrollTop=ly;
+u.removeAttribute('style');
+$(u).contents().unwrap();}}
+
+/*function scrolly(c)
+{if(c.getBoundingClientRect().top<0)
+   if(c.id=='')
+      listc.scrollTop=-listc.scrollHeight;
+   else
+      {c.scrollIntoView();
+      listc.scrollTop-=3;}
+else 
+   if(c.getBoundingClientRect().bottom>window.innerHeight)
+   {listc.style.overflowX='auto';
+   if(c.id==initlargeordinal)
+      listc.scrollTop=0;
+   else
+      {c.scrollIntoView({block: 'end'});
+      listc.scrollTop+=3;}
+   listc.style.overflowX='overlay';
+   }
+}*/
 
 list.onclick=function(e){
 processing=false;
 let initscroll=listc.scrollTop;
+if(!nextlb)
+   nextl='';
 //if(markedli)
 //   markedli.style.outline='';
 //markedli='';
@@ -2016,8 +2334,9 @@ if(c.id!=''){
       	multipleexp(c,efs,eo);
       //list.hidden=false;
       scrollli(pl(c)[0]);
-      let u=new KeyboardEvent("keydown", {code: "Digit0" });
-      document.dispatchEvent(u);
+      if(eo>1)
+         {let u=new KeyboardEvent("keydown",{code:"Digit0"});
+         document.dispatchEvent(u);}
       }
        
    counter.innerHTML='Counter: '+count;
@@ -2046,20 +2365,23 @@ else if(listc.clientWidth>listc.scrollWidth)
 	{listc.style.right=0;}*/
 }
 
+function seteo(i)
+{etar[eo].style.background='#fff';
+eo=i;
+etar[i].style.background=eo==-1?'#ffffb0':eo==-2?'#f0f0f0':'#d0ffd0';
+}
+
 /*list.ondblclick=function(e){
 let eo1=eo;
-eo=1;
+seteo(1);
 e.target.click();
-eo=eo1;
+seteo(eo1);
 }*/
 
 exptable.onclick=function(e){
 let c=e.target;
-if(c.tagName=='TD'){    
-   etar[eo].style.background='#fff';
-   eo=c.id=='etc'?-1:c.id=='etv'?-2:c.id[2];
-   c.style.background=eo==-1?'#ffffb0':'#b0ffb0';
-   }
+if(c.tagName=='TD')
+   seteo(c.id=='etc'?-1:c.id=='etv'?-2:c.id[2]);
 }
 
 switchformat.onclick=function(e){
@@ -2087,7 +2409,7 @@ if(vt){
    xs.hidden=true;
    }
 else{
-   c.style.background='#b0ffb0';
+   c.style.background='#d0ffd0';
    c.style.color='#000';
    vt=true;
    xs.hidden=false;
@@ -2143,7 +2465,7 @@ ecfv.innerHTML='   '+efs+'   ';
 if(efs==1){
    decef.style.color='#000';
    decef.style.cursor='pointer';
-   ecfv.style.background='#b0ffb0';
+   ecfv.style.background='#d0ffd0';
    }    
 }
 
@@ -2170,14 +2492,14 @@ dis.innerHTML='   '+di+'   ';
 if(di==1){
    decd.style.color='#000';
    decd.style.cursor='pointer';
-   dis.style.background='#b0ffb0';
+   dis.style.background='#d0ffd0';
    }    
 }
 
 function resetlist(){
 ps=[];
 prevsmallexp='-';
-list.innerHTML='<li id="-"></li>';
+list.innerHTML='<li id="-" hidden></li>';
 let y=document.createElement('li');
 y.id=initlargeordinal;
 y.innerHTML=convert(initlargeordinal);
@@ -2262,9 +2584,7 @@ if(!e.ctrlKey){
 let c=e.code;
 if(c.slice(0,5)=='Digit'||c=='KeyQ'||c=='KeyW'){
    let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyW'?-2:-1;
-   etar[eo].style.background='#fff';
-   etar[i].style.background=i==-1?'#ffffb0':'#b0ffb0';
-   eo=i;
+   seteo(i);
    if(document.getElementById('ex1')!=null)
       ex1.innerHTML=exp[eo]; 
    if(document.getElementById('ex6')!=null)
@@ -2328,7 +2648,7 @@ else if(c=='Equal'||c=='NumpadAdd'){
    if(efs==1){
       decef.style.color='#000';
       decef.style.cursor='pointer';
-      ecfv.style.background='#b0ffb0';
+      ecfv.style.background='#d0ffd0';
       if(document.getElementById('decd1')!=null){
          xs.style.background='#fffff0';
          decd1.style['font-style']='normal';
@@ -2380,7 +2700,7 @@ else if(c=='Period'){
    if(di==1){
       decd.style.color='#000';
       decd.style.cursor='pointer';
-      dis.style.background='#b0ffb0';
+      dis.style.background='#d0ffd0';
       if(document.getElementById('dec1')!=null){
          xs.style.background='#fffff0';
          dec1.style['font-style']='normal';
@@ -2397,7 +2717,7 @@ if(vt){
    keytcheck=false;
    }
 else{
-   vtext.style.background='#b0ffb0';
+   vtext.style.background='#d0ffd0';
    vtext.style.color='#000';
    vt=true;
    xs.hidden=false;
@@ -2448,11 +2768,10 @@ else if(c=='KeyI'||c=='KeyO'||c=='KeyP'){
          mouseoverupdate(lea);}
       }  
    }  
-else if(c=='KeyM'){
+/*else if(c=='KeyM'){
    let initscroll=listc.scrollTop;
    indenttransform();
    mousetag='';
-   listc.scrollLeft=0;
    scrollli(lea);
    scrollli(pairl[1]);
    listc.scrollTop=initscroll;
@@ -2463,43 +2782,56 @@ else if(c=='KeyN'){
    indentvisible=1-indentvisible;
    indentvisibletransform(list,false);
    mousetag='';
-   listc.scrollLeft=0;
    scrollli(lea);
    scrollli(pairl[1]);
    listc.scrollTop=initscroll;
    mouseoverupdate();
-   }  
-else if(c=='Space'){
-   if(markedli)
-      {let eo1=eo;
-      eo=0;
-      mouseoverupdate(markedli);
-      markedli.click();
-      eo=eo1;
-      mousetag='';mousetagp=xs;
+   }*/
+else if(c=='KeyJ'||c=='KeyK'||c=='KeyL'){
+  if((c=='KeyK'&&!indentmode)||(c=='KeyL'&&indentmode))
+      {
+      //let initscroll=listc.scrollTop;
+      indenttransform();
+      mousetag='';
+      if(lea&&lea.style.background)
+        {scrollli(lea);
+         scrollli(pairl[1]);}
+      //listc.scrollTop=initscroll;
+      mouseoverupdate();
+      }
+   if(((c=='KeyK'||c=='KeyL')&&!indentvisible)||(c=='KeyJ'&&indentvisible))
+      {
+      //let initscroll=listc.scrollTop;
+      indentvisible=1-indentvisible;
+      indentvisibletransform(list,false);
+      mousetag='';
+      if(lea)
+         lea=document.getElementById(lea.id);
+      if(pairl[0])
+         pairl[0]=document.getElementById(pairl[0].id);
+      if(pairl[1])
+         pairl[1]=document.getElementById(pairl[1].id);
+      if(lea&&lea.style.background)
+        {scrollli(lea);
+         scrollli(pairl[1]);}
+      //listc.scrollTop=initscroll;
       mouseoverupdate();
       }
    }
-else if(c=='Enter'){
+else if(c=='Space'||c=='Enter'||c=='KeyC'||c=='Backspace'){
    if(markedli)
       {let eo1=eo;
-      eo=1;
+      seteo(c=='Space'?0:c=='Backspace'?-1:1);
+      if(c=='KeyC')
+         nextlb=true;
       mouseoverupdate(markedli);
       markedli.click();
-      eo=eo1;
+      //scrolly(markedli);
+      scrollli(markedli);
+      seteo(eo1);
       mousetag='';mousetagp=xs;
       mouseoverupdate();
-      }
-   }
-else if(c=='Backspace'){
-   if(markedli)
-      {let eo1=eo;
-      eo=-1;
-      mouseoverupdate(markedli);
-      markedli.click();
-      eo=eo1;
-      mousetag='';mousetagp=xs;
-      mouseoverupdate();
+      nextlb=false;
       }
    }
 else if(c=='ArrowUp'){
@@ -2508,24 +2840,10 @@ else if(c=='ArrowUp'){
       if(c.id=='-')
          c=markedli;
          {setmarkedli(c);
-         if(c.getBoundingClientRect().top<0)
-            if(markedli.id=='')
-               listc.scrollTop=-listc.scrollHeight;
-            else
-               {c.scrollIntoView();
-               listc.scrollTop-=3;
-               }
-         else if(c.getBoundingClientRect().bottom>window.innerHeight)
-               if(markedli.id==initlargeordinal)
-               listc.scrollTop=0;
-            else
-               {c.scrollIntoView({block: 'end'});
-               listc.scrollTop+=3;
-               }
-         let initscroll=listc.scrollTop;
-         listc.scrollLeft=0;
+         //scrolly(c);
+         //let initscroll=listc.scrollTop;
          scrollli(c);
-         listc.scrollTop=initscroll;
+         //listc.scrollTop=initscroll;
          mousetag='';mousetagp=xs;
          mouseoverupdate();
          }
@@ -2534,24 +2852,10 @@ else if(c=='ArrowUp'){
 else if(c=='ArrowDown'){
    let c=(markedli&&markedli.id!=initlargeordinal)?nl(markedli):markedli;
       {  setmarkedli(c);
-         if(c.getBoundingClientRect().bottom>window.innerHeight)
-            if(markedli.id==initlargeordinal)
-               listc.scrollTop=0;
-            else
-               {c.scrollIntoView({block: 'end'});
-               listc.scrollTop+=3;
-               }
-         else if(c.getBoundingClientRect().top<0)
-            if(markedli.id=='')
-               listc.scrollTop=-listc.scrollHeight;
-            else
-               {c.scrollIntoView();
-               listc.scrollTop-=3;
-               }
-         let initscroll=listc.scrollTop;
-         listc.scrollLeft=0;
+         //scrolly(c);
+         //let initscroll=listc.scrollTop;
          scrollli(c);
-         listc.scrollTop=initscroll;
+         //listc.scrollTop=initscroll;
          mousetag='';mousetagp=xs;
          mouseoverupdate();
       }
@@ -2574,7 +2878,7 @@ let far=[for0,for1,for2];
 let mousex,mousey;
 let gtkey=3,ltkey=3;
 let processing=true;
-let indentmode=1;
+let indentmode=0;
 let indentvisible=1;
 let keytcheck=true;
 let mousetag,mousetagp=xs;
@@ -2582,13 +2886,24 @@ let fscurrent,fsopening,fsperiod0,fsperiod1,fsending;
 let ulnar=['UL1','UL'];
 let markedli;
 let prevsmallexp,nextsmallexpn;
+let nextl,nextlb=false;
 
 let initlargeordinal=bo;
 //let initlargeordinal='[[c![c!!';
 //let initlargeordinal=col;
 //let initlargeordinal=bb('',col);
 resetlist();
+seteo(eo);
 
+
+/*
+let st='[c[[c[c!!!!';
+//st='[c![[c[[c!!!!';
+list.innerHTML+=convert(st)+'<br/>';
+list.innerHTML+=checkstring(st)+'<br/>';
+*/
+   
+   
 /*let st='[[c[c!![[c[[c[[c[c!!!!!!!!';
 st='[c[c!![[c[[c[[c[c!!!!!!!';
 st='[[c[[c[[c[c!!!!!!!';
@@ -2604,7 +2919,9 @@ list.innerHTML+=checkstring(st)+'<br/>';*/
 //list.innerHTML+=fs('[[![!!','',1);
 //list.innerHTML+=fs('[c[[c!!!','',1);
 
+/*for(let e of etar.slice(1))
+   e.style.fontSize='18px';*/
 dis.innerHTML='   '+di+'   ';
-far[format].style.background='#b0ffb0';
+far[format].style.background='#d0ffd0';
 
 </script></div></body></html>
