@@ -319,7 +319,7 @@ if(checkmaxepsilon(x,e,omega)||checkmaxepsilon(beta,e,omega))
 return false;
 }*/
 
-function checkmaxomega(st,omega,c)
+function checkmaxomega0(st,omega,c)
 {if(st==''||st==col)
    return false;
 let x=booster(st);
@@ -333,7 +333,7 @@ if(checkmaxomega(x,omega,c)||checkmaxomega(beta,omega,c))
 return false;
 }
 
-/*function checkmaxomega1(st,omega,c)
+function checkmaxomega(st,omega,c)
 {if(st==''||st==col)
    return false;
 let x=booster(st);
@@ -345,7 +345,7 @@ if(cpart(beta)==c&&beta>omega)
 if(checkmaxomega(x,omega,c)||checkmaxomega(beta,omega,c))
    return true;
 return false;
-}*/
+}
 
 function checkmaxc(st,c)
 {if(st==''||st==col)
@@ -362,7 +362,7 @@ if(checkmaxc(x,c)||checkmaxomega(beta,c))
 return false;
 }
 
-function checkstring(st){
+function checkstring3(st){
 if(st==''||st==col)
    return false;
 if(checkstring(booster(st))||checkstring(base(st)))
@@ -417,6 +417,75 @@ while(e)
       return true;
    e=base(e);
    }*/
+return false;
+}
+
+function getline(st,omega=bb('',col))
+{//let omega=bb('',col);
+if(st<omega)
+   return ''
+while(st&&st!=col&&booster(st)<omega)
+	st=base(st);
+return st;
+}
+
+function checkline(st,e,line,omega=bb('',col))
+{if(st==''||st==col)
+   return false;
+let x=booster(st);
+if(getline(x,omega)==line&&x>e)
+   return true;
+let beta=base(st);
+if(getline(beta,omega)==line&&beta>e)
+   return true;
+if(checkline(x,e,line,omega)||checkline(beta,e,line,omega))
+   return true;
+return false;
+}
+
+function checkstring(st){
+if(st==''||st==col)
+   return false;
+if(checkstring(booster(st))||checkstring(base(st)))
+   return true;
+/*let line=getline(st);
+if(checkline(st,st,line))
+   return true;*/
+  
+let e=epsilonpart(st);
+let omega=omegapart(st);
+if(checkmaxepsilon(st,e,omega))
+   return true;
+
+e=e.slice(omega.length);
+let u=e;
+while(base(u))
+   u=base(u);
+u=booster(u);
+//u=omegapart(u);
+let uc=cpart(u);
+let x;
+while(e)
+   {x=booster(e);
+   if(checkmaxomega(x,u,uc))
+      return true;
+   e=base(e);
+   }
+
+omega=omega.slice(cpart(st).length);
+u=omega;
+while(base(u))
+   u=base(u);
+u=booster(u);
+//u=omegapart(u);
+uc=getline(u,col);
+while(omega)
+   {x=booster(omega);
+   if(checkline(x,u,uc,col))
+      return true;
+   omega=base(omega);
+   }
+
 return false;
 }
 
@@ -932,7 +1001,7 @@ return fsopening+(period.repeat(nn))+(fsperiod1.repeat(nn))+fsending;
 }
 
 // get n-th element of fs of ordinal st
-function fs(st,n,nn=0){
+function fs5(st,n,nn=0){
 if(st==fscurrent)
    return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
 
@@ -1011,11 +1080,40 @@ u++;
 let uo='['.repeat(u);
 i=stt.length-1;
 fsperiod0='';
+let alear=[u];
+let alex=0;
+let maxs,maxl;
+let ooc=u-2;
+let cb=[st];
+let cbn=[0];
+let cc=[];
+while(cb.at(-1).length>1)
+   {cb.push(booster(cb.at(-1)));
+   cbn.push(0);
+   cc.push('');
+   }
+
+let ce;
+cc[cb.length-1]=cb[cb.length-1];
+for(ce=cb.length-2;ce>=0;ce--)
+   //cc[ce]=base(cb[ce])>=cc[ce+1]?cc[ce+1]:cc[ce+1]==col?cb[ce]:cb[ce+1]>col?cc[ce+1]:'[[!!';
+   cc[ce]=base(cb[ce])>=cc[ce+1]?cc[ce+1]:cc[ce+1]==col?cb[ce]:cb[ce+1]>booster(cc[ce+1])?cc[ce+1]:'[[!!';
+   //cc[ce]=base(cb[ce])>=cc[ce+1]?cc[ce+1]:cc[ce+1]==col?cb[ce]:cb[ce+1]!=cc[ce+1]?cc[ce+1]:'[[!!';
+
+for(ce=0;ce<cb.length;ce++)
+   while(cb[ce][0]=='[')
+      {cb[ce]=cb[ce].slice(1);
+      cbn[ce]++;
+      }
 do
    {while(i>1&&stt[i]!=col)
+	   {/*if(stt.slice(i-2,i+1)=='[[['&&ocd(stt.slice(i))>-2)
+	      i=1;*/
 	   i--;
+	   }
 	if(i>1)
 	   {s=uo+stt.slice(i);
+	   alear.push(ocd(s));
 	   /*
 	   //if(ocd(s)>0&&s>fsperiod0&&(!fsperiod0||s!=fsperiod0.repeat(Math.ceil(s.length/fsperiod0.length)).slice(0,s.length)))
 	   if(ocd(s)>0&&(!fsperiod0||s>fsperiod0.repeat(Math.ceil(s.length/fsperiod0.length))))
@@ -1025,8 +1123,13 @@ do
 	        */
 	   
 	   if(ocd(s)>0&&(!fsperiod0||s>fsperiod0.repeat(Math.ceil(s.length/fsperiod0.length))))
+	   {maxs=alear.length-1;
+	   maxl=s.slice(u);
 	   if(!checkstring(st0+s+'!'.repeat(ocd(st0+s))))
-	      fsperiod0=s;
+	      {fsperiod0=s;
+	      alex=alear.length-1;
+	      }
+	   }
 	   if(false) 
 	      {
 	      if(fsperiod0)
@@ -1079,77 +1182,296 @@ do
 	      }
 	         
 
-
+	   /*if(stt.slice(i-2,i+1)=='[['+col&&(i<3||stt[i-3]!='['))
+	      ooc++;
+	   if(ooc>1)
+	      i=1;*/
 	   i--;
 	   }
    }
 while(i>1);
-if(!fsperiod0)
-   fsperiod0=s;
+let alest='';
+for(i=0;i<alear.length;i++)
+   {alest+=alear[i];
+   if(i==alex)
+      alest+=' *';
+   if(i==maxs)
+      alest+=' L';
+   alest+='\n';
+   }
+//if(alear.length>2)
+//if(alex!=1&&alex!=alear.length-1)
+
+
+//if(!fsperiod0)
+//   fsperiod0=s;
 //while(i>1&&(!fsperiod0||stt.slice(Math.abs(i+1-3),i+1)!='[[['));
 //while(i>1&&(!fsperiod0||stt.slice(Math.abs(i+1-u),i+1)!=uo));
 fsopening=st0;
 fsperiod1='!'.repeat(ocd(fsperiod0));
 fsending=st1;
-return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
 
-
-
-let dl=3*st.length+6;
-let st00=st0;
-let st01=st1;
-
-let s0='';
-  
-i=0;
-s=st0+st1;
-while(s.length<dl)
-   {i++;
-   s=st0+'[!'+st1;
-   while(s>=st||checkstring(s))
-      {st0+=st1[0];
-      s0+=st1[0];
-      st1=st1.slice(1);
-      s=st0+'[!'+st1;
-      }
-   e=false;
-   if(st0[st0.length-1]=='[')
-      {s1=st0+col+st1;
-      if(s1<st&&!checkstring(s1))
-         {s=s1;
-         e=true;
-         }
-      }
-   st0=st0+(e?col:'[');
-   s0=s0+(e?col:'[');
-   st1=(e?'':'!')+st1;
+//alest=convert(fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending)+'\n'+alest;
+alest=st+'\n'+convert(st)+'\n'+alest;
+/*if(alex!=maxs&&!maxl.includes('[[['))
+   alert(alest);*/
+   
+let b=false;
+let bi=0;
+for(i=0;i<cb.length;i++)
+if(fsperiod0.length==cb[i].length-cb.length+i+1)
+   {b=true;
+   bi=i;
    }
+   
+alest+=fsperiod0.length+': ';
+for(i=cb.length-1;i>0;i--)
+   alest+=cb[i].length+', ';
+alest+=cb[0].length+'\n';
+for(i=cb.length-1;i>0;i--)
+   alest+=cbn[i]+', ';
+alest+=cbn[0]+' '+b;
 
-let pc=stt.length-st00.length;
-s1=s0.slice(pc);   
-let pl=1;
-while(s1.slice(0,pl).repeat(Math.ceil(s1.length/pl)).slice(0,s1.length)!=s1)pl++;
-let period=s1.slice(0,pl);
-let pp=pl-1;
-while(pc>0&&s0[pc-1]==period[pp])
-   {pc--;
-   pp--;
-   if(pp<0)pp=pl-1;
-   }
-period=s0.slice(pc,pc+pl);
-s0=s0.slice(0,pc);
-
-fsopening=st00+s0;
-fsperiod0=period;
-fsperiod1='!'.repeat(ocd(period));
-fsending=('!'.repeat(ocd(s0)))+st01;
-
-return fsopening+(period.repeat(nn))+(fsperiod1.repeat(nn))+fsending;
+i=cb.length-1;
+let chi=0;
+while(i>0&&chi<2)
+//while(i>0&&cbn[i]<=cbn[i-1])
+{if(cbn[i]==2)
+   chi=2;
+else
+   {if(cbn[i]>cbn[i-1])
+      chi++;
+   i--;}
 }
+  
+alest+='\n';
+for(i=cb.length-1;i>0;i--)
+   alest+=cc[i]+', ';
+alest+=cc[0]; 
+  
+i=cb.length-1;
+while(cc[i]!='[[!!')
+   i--;
+
+let np=cb.length-1;
+for(ce=cb.length-2;ce>=i;ce--)
+   if(cb[ce]>=cb[np]+'!'.repeat(cb[ce].length-cb[np].length))
+      np=ce;
+
+alest+='\n'+bi+' '+i+' '+np;
+
+//if(!b)
+//if(alex!=maxs)
+//if(alex!=maxs&&!maxl.includes('[[['))
+//if(fsperiod0.length&&bi<i)
+//if(np!=bi)
+if(np!=i)
+   alert(alest);
+   
+fsperiod0=uo+cb[np].slice(0,-cb.length+np+1-u);
+fsperiod1='!'.repeat(ocd(fsperiod0));
+   
+return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+}
+
+// get n-th element of fs of ordinal st
+function fs(st,n,nn=0){
+if(st==fscurrent)
+   return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
+
+fscurrent=st;
+
+if(st==bo)
+   {fsopening='[';
+   fsperiod0='['+col;
+   fsperiod1='!';
+   fsending='!';
+   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+   }
+
+let i=st.length-1;
+while(st[i]=='!')
+   i--;
+let e=st[i]=='[';
+let st0=st.slice(0,i);
+let st1=st.slice(i+(e?2:1));
+let s1;
+
+if(e)
+   {
+   st0+='!';
+   st1=st1.slice(1);
+   s1=bb('',booster(st0));
+   fsopening=base(st0);
+   fsperiod0=s1;
+   fsperiod1='';
+   fsending=st1;
+   return fsopening+fsperiod0.repeat(nn)+fsending;
+   }
+
+if(st0=='[[')
+   {fsopening='';
+   fsperiod0='[';
+   fsperiod1='!';
+   fsending='';
+   return fsperiod0.repeat(nn)+fsperiod1.repeat(nn);
+   }
+
+let stt=st0;
+let u=i-1;
+
+while(st0[u]=='[')
+  u--;
+u=i-u-1;
+
+st0=st0.slice(0,-u);
+
+if(u==3)
+   {
+   fsopening=st0;
+   fsperiod0='[';
+   fsperiod1='!';
+   fsending=st1.slice(3);
+   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+   }
+
+
+
+st1=st1.slice(u);
+let s;
+
+stt='[['+st0;
+u++;
+let uo='['.repeat(u);
+i=stt.length-1;
+fsperiod0='';
+let alear=[u];
+let alex=0;
+let maxs,maxl;
+let ooc=u-2;
+let cb=[st];
+let fcb=[];
+let cbn=[0];
+let cc=[];
+while(cb.at(-1).length>1)
+   {cb.push(booster(cb.at(-1)));
+   cbn.push(0);
+   cc.push('');
+   }
+
+let lrn=cb.length-1;
+while(cb[lrn-1]>=col)
+   lrn--;
+lrn--;
+let pn=lrn-1;
+while(cb[pn]>=cb[lrn])
+   pn--;
+
+let ce;
+/*cc[cb.length-1]=cb[cb.length-1];
+for(ce=cb.length-2;ce>=0;ce--)
+   cc[ce]=base(cb[ce])>=cc[ce+1]?cc[ce+1]:cc[ce+1]==col?cb[ce]:cb[ce+1]>booster(cc[ce+1])?cc[ce+1]:'[[!!';*/
+
+for(ce=0;ce<cb.length;ce++)
+   while(cb[ce][0]=='[')
+      {cb[ce]=cb[ce].slice(1);
+      //cbn[ce]++;
+      }
+
+for(ce=0;ce<cb.length;ce++)
+   fcb.push(uo+cb[ce].slice(0,-cb.length+ce+1-u));
+
+/*let alest='';
+for(i=0;i<alear.length;i++)
+   {alest+=alear[i];
+   if(i==alex)
+      alest+=' *';
+   if(i==maxs)
+      alest+=' L';
+   alest+='\n';
+   }
+
+alest=st+'\n'+convert(st)+'\n'+alest;
+   
+let b=false;
+let bi=0;
+for(i=0;i<cb.length;i++)
+if(fsperiod0.length==cb[i].length-cb.length+i+1)
+   {b=true;
+   bi=i;
+   }
+   
+alest+=fsperiod0.length+': ';
+for(i=cb.length-1;i>0;i--)
+   alest+=cb[i].length+', ';
+alest+=cb[0].length+'\n';
+for(i=cb.length-1;i>0;i--)
+   alest+=cbn[i]+', ';
+alest+=cbn[0]+' '+b;
+
+i=cb.length-1;
+let chi=0;
+while(i>0&&chi<2)
+//while(i>0&&cbn[i]<=cbn[i-1])
+{if(cbn[i]==2)
+   chi=2;
+else
+   {if(cbn[i]>cbn[i-1])
+      chi++;
+   i--;}
+}
+  
+alest+='\n';
+for(i=cb.length-1;i>0;i--)
+   alest+=cc[i]+', ';
+alest+=cc[0]; */
+  
+/*i=cb.length-1;
+while(cc[i]!='[[!!')
+   i--;
+
+let np=cb.length-1;
+for(ce=cb.length-2;ce>=i;ce--)
+   //if(cb[ce]>=cb[np]+'!'.repeat(cb[ce].length-cb[np].length))
+   if(fcb[ce]>fcb[np].repeat(Math.ceil(fcb[ce].length/fcb[np].length)))
+      np=ce;*/
+
+let np=cb.length-1;
+for(ce=cb.length-2;ce>=pn;ce--)
+   //if(cb[ce]>=cb[np]+'!'.repeat(cb[ce].length-cb[np].length))
+   if(fcb[ce]>fcb[np].repeat(Math.ceil(fcb[ce].length/fcb[np].length)))
+      np=ce;
+
+/*alest+='\n'+bi+' '+i+' '+np;
+
+//if(!b)
+//if(alex!=maxs)
+//if(alex!=maxs&&!maxl.includes('[[['))
+//if(fsperiod0.length&&bi<i)
+//if(np!=bi)
+if(np!=i)
+   alert(alest);*/
+
+fsopening=st0;
+//fsperiod0=uo+cb[np].slice(0,-cb.length+np+1-u);
+fsperiod0=fcb[np];
+fsperiod1='!'.repeat(ocd(fsperiod0));
+fsending=st1;
+
+//if(fsperiod0!=uo+st0.slice(cb[lrn].length-cb[pn].length-lrn+pn-1))
+//   alert(st+'\n'+convert(st)+'\n'+fsperiod0+'\n'+uo+st0.slice(cb[lrn].length-cb[pn].length-lrn+pn-1));
+/*if(pn!=i)
+   alert(st+'\n'+convert(st)+'\n'+np+'\n'+pn);*/
+
+return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+}
+
+
 
 // is st ε number
 function isepsilon(st){
-return st==''?false:st==col||st==bo?true:compare(st,booster(st))<1;}
+return st==''?false:st==col||st==bo?true:compare(st,booster(st))<1;}     // original
+//return st==''?false:st==col||st==bo?true:(base(st)==''||isepsilon(base(st)))&&compare(st,booster(st))<1;}  // for non-standard forms
 
 // largest ε nember ≤ CNF st (if st < ε_0 then '')
 function floorepsilon(st){
@@ -1555,6 +1877,7 @@ if(sy!=''&&compare(maxx,x)>0){
    let fx=floorOmega(x,f);
    let ex=cnf(x); 
    let eex=cnf(JSON.parse(JSON.stringify(ex)),true,false);
+   //let eex=cnf(ex,true,false);
    let le=getle(cf,x,ex,x!=f&&eex[0][0]!=f);
    while(beta){
       let x1=booster(beta);
@@ -2048,7 +2371,7 @@ else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'
    h+='<i>use "';
    h+=i==-1?'Q':i==-2?'W':i;  
    h+='" key</i>';  
-   xs.style.background=c.id=='etc'?'#fffff0':'#f0fff0';} 
+   xs.style.background=c.id=='etc'?'#fffff0':c.id=='etv'?'#fafafa':'#f0fff0';} 
 else if(c.id=='for0'){
    h='<i>use "O" key</i>';
    xs.style.background='#f0fff0';
@@ -2900,7 +3223,9 @@ seteo(eo);
 
 /*
 let st='[c[[c[c!!!!';
-//st='[c![[c[[c!!!!';
+st='[c[[c[[c[c!!!!!!';
+st='[[c![[c![c!!!';
+st='[[c[[c[[c!!!!![c[[c[[[c[[c!!!!![c[[c!!!!!!!';
 list.innerHTML+=convert(st)+'<br/>';
 list.innerHTML+=checkstring(st)+'<br/>';
 */
