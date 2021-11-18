@@ -1282,10 +1282,12 @@ if(st==fscurrent)
 fscurrent=st;
 
 if(st==bo)
-   {fsopening='[';
+   {//fsopening='['.repeat(nlevels-1);
+   fsopening='['.repeat(nlevels)+col;
    fsperiod0='['+col;
    fsperiod1='!';
-   fsending='!';
+   //fsending='!'.repeat(nlevels-1);
+   fsending='!'.repeat(nlevels);
    return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
    }
 
@@ -1309,7 +1311,7 @@ if(e)
    return fsopening+fsperiod0.repeat(nn)+fsending;
    }
 
-if(st0=='[[')
+if(st0=='['.repeat(nlevels))
    {fsopening='';
    fsperiod0='[';
    fsperiod1='!';
@@ -1326,12 +1328,12 @@ u=i-u-1;
 
 st0=st0.slice(0,-u);
 
-if(u==3)
+if(u==nlevels+1)
    {
    fsopening=st0;
    fsperiod0='[';
    fsperiod1='!';
-   fsending=st1.slice(3);
+   fsending=st1.slice(nlevels+1);
    return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
    }
 
@@ -1340,46 +1342,50 @@ if(u==3)
 st1=st1.slice(u);
 let s;
 
-stt='[['+st0;
+//stt='[['+st0;
 u++;
 let uo='['.repeat(u);
-i=stt.length-1;
+
+/*i=stt.length-1;
 fsperiod0='';
 let alear=[u];
 let alex=0;
 let maxs,maxl;
 let ooc=u-2;
-let cb=[st];
 let fcb=[];
 let cbn=[0];
-let cc=[];
+let cc=[];*/
+
+let cb=[st];
 while(cb.at(-1).length>1)
    {cb.push(booster(cb.at(-1)));
-   cbn.push(0);
-   cc.push('');
+   //cbn.push(0);
+   //cc.push('');
    }
 
-let lrn=cb.length-1;
-while(cb[lrn-1]>=col)
+let lrn=cb.length-nlevels;
+while(cb[lrn]>=leastr)
    lrn--;
-lrn--;
 let pn=lrn-1;
 while(cb[pn]>=cb[lrn])
    pn--;
 
-let ce;
+//let ce;
 /*cc[cb.length-1]=cb[cb.length-1];
 for(ce=cb.length-2;ce>=0;ce--)
    cc[ce]=base(cb[ce])>=cc[ce+1]?cc[ce+1]:cc[ce+1]==col?cb[ce]:cb[ce+1]>booster(cc[ce+1])?cc[ce+1]:'[[!!';*/
 
-for(ce=0;ce<cb.length;ce++)
-   while(cb[ce][0]=='[')
-      {cb[ce]=cb[ce].slice(1);
+for(i=pn;i<cb.length;i++)
+   {while(cb[i][0]=='[')
+      {cb[i]=cb[i].slice(1);
       //cbn[ce]++;
       }
+   //cb[ce]=uo+cb[ce].slice(0,-cb.length+ce+1-u);
+   cb[i]=cb[i].slice(0,-cb.length+i)+'[';
+   }
 
-for(ce=0;ce<cb.length;ce++)
-   fcb.push(uo+cb[ce].slice(0,-cb.length+ce+1-u));
+/*for(ce=0;ce<cb.length;ce++)
+   fcb.push(uo+cb[ce].slice(0,-cb.length+ce+1-u));*/
 
 /*let alest='';
 for(i=0;i<alear.length;i++)
@@ -1437,10 +1443,10 @@ for(ce=cb.length-2;ce>=i;ce--)
       np=ce;*/
 
 let np=cb.length-1;
-for(ce=cb.length-2;ce>=pn;ce--)
+for(i=cb.length-2;i>=pn;i--)
    //if(cb[ce]>=cb[np]+'!'.repeat(cb[ce].length-cb[np].length))
-   if(fcb[ce]>fcb[np].repeat(Math.ceil(fcb[ce].length/fcb[np].length)))
-      np=ce;
+   if(cb[i]>cb[np].repeat(Math.ceil(cb[i].length/cb[np].length)))
+      np=i;
 
 /*alest+='\n'+bi+' '+i+' '+np;
 
@@ -1454,7 +1460,8 @@ if(np!=i)
 
 fsopening=st0;
 //fsperiod0=uo+cb[np].slice(0,-cb.length+np+1-u);
-fsperiod0=fcb[np];
+//fsperiod0=cb[np];
+fsperiod0=uo+cb[np].slice(0,-u);
 fsperiod1='!'.repeat(ocd(fsperiod0));
 fsending=st1;
 
@@ -2601,8 +2608,6 @@ else
 list.onclick=function(e){
 processing=false;
 let initscroll=listc.scrollTop;
-if(!nextlb)
-   nextl='';
 //if(markedli)
 //   markedli.style.outline='';
 //markedli='';
@@ -2612,6 +2617,8 @@ let c=e.target;
 while(c.tagName=='SUB'||c.tagName=='SUP')
    c=c.parentNode;
 if(c.id!='list'&&c.tagName=='LI'){
+   if(!nextlb)
+      nextl='';
    setmarkedli(c);
 if(c.id!=''){
    if(eo!=-2){
@@ -2738,6 +2745,7 @@ else{
    c.style.color='#000';
    vt=true;
    xs.hidden=false;
+   mouseoverupdate();
    }      
 }
 
@@ -2823,6 +2831,7 @@ if(di==1){
 
 function resetlist(){
 ps=[];
+nextl='';
 prevsmallexp='-';
 list.innerHTML='<li id="-" hidden></li>';
 let y=document.createElement('li');
@@ -3185,9 +3194,37 @@ else if(c=='ArrowDown'){
          mouseoverupdate();
       }
    }
+else if(c=='KeyM'){
+   nlevels++;
+   initlargeordinalupdate();
+   }
+else if(c=='KeyN'){
+   if(nlevels)
+      nlevels--;
+   initlargeordinalupdate();
+   }
+else if(c=='KeyB'){
+   if(bolevels<nlevels)
+      bolevels++;
+   initlargeordinalupdate();
+   }
+else if(c=='KeyV'){
+   if(bolevels)
+      bolevels--;
+   initlargeordinalupdate();
+   }
 mousetextupdate(mousex,mousey);	 	       	
 }}
 );
+
+function initlargeordinalupdate()
+{if(bolevels>nlevels)
+   bolevels=nlevels;
+fscurrent='';
+leastr=nlevels>1?'['.repeat(nlevels-2)+col+'!'.repeat(nlevels-2):'d';
+initlargeordinal=nlevels==bolevels?bo:'['.repeat(bolevels)+('['.repeat(nlevels-bolevels)+col+'!'.repeat(nlevels-bolevels)).repeat(2)+'!'.repeat(bolevels);
+resetlist();
+}
 
 window.onkeydown = function(e) { 
   return !((e.keyCode==32||e.keyCode==38||e.keyCode==40) && e.target == document.body);
@@ -3198,12 +3235,12 @@ exp=['small expansion','single expansion','double expansion','triple expansion',
 exp[-1]='collapse',exp[-2]='view';
 let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
 etar[-1]=etc,etar[-2]=etv;
-let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[],ledgelevels=1;
+let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[];
 let far=[for0,for1,for2];
 let mousex,mousey;
 let gtkey=3,ltkey=3;
 let processing=true;
-let indentmode=1;
+let indentmode=0;
 let indentvisible=1;
 let keytcheck=true;
 let mousetag,mousetagp=xs;
@@ -3212,8 +3249,12 @@ let ulnar=['UL1','UL'];
 let markedli;
 let prevsmallexp,nextsmallexpn;
 let nextl,nextlb=false;
+let nlevels=2;
+let bolevels=2;
+let leastr;
 
 let initlargeordinal=bo;
+initlargeordinalupdate();
 //let initlargeordinal='[[c![c!!';
 //let initlargeordinal=col;
 //let initlargeordinal=bb('',col);
