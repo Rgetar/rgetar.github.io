@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml">
 <head>
@@ -2244,7 +2245,8 @@ if(sy!=''&&compare(maxx,x)>0){
       let fx1=floorOmega(x1,j);
       if(fx1==fx){
          let ex1=cnf(x1);
-         le=sumcnf(getle(cf,x1,ex1,x1!=j&&cnf(ex1,true,false)[0][0]!=j),le);
+         //le=sumcnf(getle(cf,x1,ex1,x1!=j&&cnf(ex1,true,false)[0][0]!=j),le);
+         le=sumcnf(getle(cf,x1,ex1,x1!=j&&cnf(JSON.parse(JSON.stringify(ex1)),true,false)[0][0]!=j),le);
          beta=base(beta);}
       else{
          //if(fx==ff)
