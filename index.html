@@ -63,14 +63,22 @@ hidden>
 </tr>
 </table><i style="line-height:40px;font-size:13px">  extra fs elements</i></div
 >
-<div align="left" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Format:</i>
+<div align="left" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Format of ordinals:</i>
 <table id="switchformat" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
 <tr style="font-size:12px;line-height:1.4;">
 <td id="for2">[[c]][[[c]][]]</td>
 <td id="for0">ω<sup>ε<sub>0</sub> + 1</sup></td>
 <td id="for1" style="font-size:15px;"> ε<sub>0</sub>ω </td>
 </tr>
+</table></div><div align="left" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Indentition mode:</i>
+<table id="switchindentmode" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
+<tr style="font-size:12px;line-height:1;">
+<td id="indentmode2">   NO   </td>
+<td id="indentmode1" style="font-size:11px;">fundamental<br/>sequence<br/>alignment</td>
+<td id="indentmode0" style="font-size:12px;">expansion<br/>alignment</td>
+</tr>
 </table></div>
+
 <div align="left" onmousedown="return false" style="font-size:13px;line-height:1.65;margin-left:-16px;margin-top:-23px"><table cellpadding="0" style="float:left;border-spacing:0;">
 <tr>
 <td id="decd" style="font-size:25px;">◅ </td>
@@ -2686,7 +2694,19 @@ else if(c.id=='dis'){
    xs.style.background='#fff';
    }    
 else if(c.id=='for2'){
-   h='<i>use "I" key</i>';
+   h='<small><div style="line-height:1.2">"Computer format", used by this program.<br/>(Note: in the list strings are displayed using <b>]</b>, <b>[</b>, <b>c</b> alphabet,<br/>but the program itself uses <b>!</b> instead of <b>]</b> to match Unicode order).</div></small><i>use "I" key</i>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='indentmode2'){
+   h='<small>No indentition</small><br/><i>use "J" key</i>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='indentmode1'){
+   h='<small>Indentition, aligned by fundamental sequences</small><br/><i>use "K" key</i>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='indentmode0'){
+   h='<small>Indentition, aligned by expansions</small><br/><i>use "L" key</i>';
    xs.style.background='#f0fff0';
    }
 else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'){
@@ -2735,13 +2755,13 @@ else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'
    h+='" key</i>';  
    xs.style.background=c.id=='etc'?'#fffff0':c.id=='etv'?'#fafafa':'#f0fff0';} 
 else if(c.id=='for0'){
-   h='<i>use "O" key</i>';
+   h='<small><div style="line-height:1.2">With two exceptions (0 and Some large ordinal),<br/>ordinals are displayed as sums of ω<sup>x</sup>n terms, n ∈ ℕ.<br/>ω<sup>1</sup>n is displayed as ωn.<br/>If x > 0, then ω<sup>x</sup>1 is displayed as ω<sup>x</sup>.<br/>If ω<sup>x</sup> = x (i. e. x is an epsilon number), then ω<sup>x</sup> is displayed as x.<br/>ω<sup>0</sup>n is displayed as n.<br/>x is displayed in the same format.<br/>Epsilon numbers are displayed using some special designations<br/>(e. g. Veblen function), or using "Computer format".</div></small><i>use "O" key</i>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='for1'){
-   h='<i>use "P" key</i>';
+   h='<small><div style="line-height:1.2">Similar to the previous format, but if x ≥ ε<sub>0</sub>, then ω<sup>x</sup>n is<br/>displayed as ε<sup>y</sup>α, where ε is the largest epsilon number ≤ x.<br/>ε<sup>y</sup>1 is displayed as ε<sup>y</sup>.<br/>ε<sup>1</sup>α is displayed as εα.<br/>y and α are displayed in the same format.</div></small><i>use "P" key</i>';
    xs.style.background='#f0fff0';
-   }
+   }    
 else if(c.id!='xs'&&!xs.contains(c)){
    if(c!=mousetag&&c.tagName=='LI')
       mousetagp=c;
@@ -3081,6 +3101,28 @@ if(c.tagName=='TD'){
       far[format].style.background='#fff';
       format=i;
       formatting();
+      }
+   }
+}
+
+switchindentmode.onclick=function(e){
+let c=e.target;
+if(c.tagName=='TD'){
+   let i=parseInt(c.id[10]);
+   if(i==2&&indentvisible)
+      {
+      indentar[indentmode].style.background='#fff';
+      let u=new KeyboardEvent("keydown",{code:"KeyJ"});
+      document.dispatchEvent(u);
+      indentar[2].style.background='#d0ffd0';
+      }
+   else if(i<2&&(!indentvisible||i!=indentmode))
+      {
+   	indentar[2].style.background='#fff';
+   	indentar[indentmode].style.background='#fff';
+      let u=new KeyboardEvent("keydown",{code:i?"KeyK":"KeyL"});
+      document.dispatchEvent(u);
+      indentar[i].style.background='#d0ffd0';
       }
    }
 }
@@ -3592,6 +3634,7 @@ let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
 etar[-1]=etc,etar[-2]=etv;
 let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[];
 let far=[for0,for1,for2];
+let indentar=[indentmode0,indentmode1,indentmode2];
 let mousex,mousey;
 let gtkey=3,ltkey=3;
 let processing=true;
@@ -3646,5 +3689,6 @@ list.innerHTML+=checkstring(st)+'<br/>';*/
    e.style.fontSize='18px';*/
 dis.innerHTML='   '+di+'   ';
 far[format].style.background='#d0ffd0';
+indentar[indentvisible?indentmode:2].style.background='#d0ffd0';
 
 </script></div></body></html>
