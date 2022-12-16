@@ -2341,7 +2341,24 @@ return s+le;
 
 function convertepsilon(st,ext=false){
 if(st==col||st==bo)
-   return st; 
+   return st;
+   
+if(spn)
+   {
+   if(st=='[[c![[c![[c![!!!!')
+      return 'SVO';
+   else if(st=='[[c![[c![[c![[c!!!!!')
+      return 'LVO';
+   else if(st=='[[c![c!!')
+      return 'BHO';
+   else if(st=='[[c[!!!')
+      return 'BO';
+   else if(st=='[[c[!![c!!')
+      return 'TFB';
+   else if(st=='[[c[c!![c!!')
+      return 'SRO';
+   }
+
 /*if(st=='[[[[c!c!!c!')   
    return 'I'; 
 if(st=='[[[c![[c!c!!c!')   
@@ -2527,6 +2544,8 @@ return (format>1?st:displayform(cnf(st,format),format)).toString().replaceAll('!
 function convert(st,b=true){
 if(b||!st||st==col||st==bo)
    {
+   if(st=='[[c![[c![[c![!!!!'||st=='[[c![[c![[c![[c!!!!!'||st=='[[c![c!!'||st=='[[c[!!!'||st=='[[c[!![c!!'||st=='[[c[c!![c!!')
+      spn=false;
    let s=(format>1?st:displayform(cnf(st,format),format)).toString().replaceAll('!',']');
    if(st=='[[c!!')
       s+=' <small>(Small Cantor ordinal)</small>';
@@ -2539,17 +2558,18 @@ if(b||!st||st==col||st==bo)
    else if(st=='[[c![[c![[c!![[c!!!!')
       s+=' <small>(Ackermann ordinal)</small>';
    else if(st=='[[c![[c![[c![!!!!')
-      s+=' <small>(Small Veblen ordinal)</small>';
+      s+=' <small>(Small Veblen ordinal, SVO)</small>';
    else if(st=='[[c![[c![[c![[c!!!!!')
-      s+=' <small>(Large Veblen ordinal)</small>';
+      s+=' <small>(Large Veblen ordinal, LVO)</small>';
    else if(st=='[[c![c!!')
-      s+=' <small>(Bachmann-Howard ordinal)</small>';
+      s+=' <small>(Bachmann-Howard ordinal, BHO)</small>';
    else if(st=='[[c[!!!')
-      s+=' <small>(Buchholz ordinal)</small>';
+      s+=' <small>(Buchholz ordinal, BO)</small>';
    else if(st=='[[c[!![c!!')
-      s+=' <small>(Takeuti-Feferman-Buchholz ordinal)</small>';
+      s+=' <small>(Takeuti-Feferman-Buchholz ordinal, TFB)</small>';
    else if(st=='[[c[c!![c!!')
-      s+=' <small>(Small Rathjen ordinal)</small>';
+      s+=' <small>(Small Rathjen ordinal, SRO)</small>';
+   spn=true;
    return s;
    }
 else
@@ -4051,6 +4071,7 @@ let nlevels=2;
 let bolevels=2;
 let leastr;
 let vero=0;
+let spn=true;
 
 let initlargeordinal=bo;
 initlargeordinalupdate();
