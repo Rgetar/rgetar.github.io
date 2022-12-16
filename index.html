@@ -2857,8 +2857,10 @@ else
 }
 
 function mousetextupdate(x,y){
-   xs.style.left=x+(x*2<window.innerWidth?35:-xs.offsetWidth-15)+'px';
-   xs.style.top=y-(y*2<window.innerHeight?(vero?-18:5):xs.offsetHeight-(vero+30))+'px';
+   //xs.style.left=x+(x*2<window.innerWidth?35:-xs.offsetWidth-15)+'px';
+   xs.style.left=x+(25*Math.round(x/25)+15+xs.offsetWidth<window.innerWidth?35:-xs.offsetWidth-15)+'px';
+   //xs.style.top=y-(y*2<window.innerHeight?(vero?-18:5):xs.offsetHeight-(vero+30))+'px';
+   xs.style.top=y-(25*Math.round(y/25)-50+xs.offsetHeight<window.innerHeight?(vero?-18:5):xs.offsetHeight-(vero+30))+'px';
 }
 
 document.onmousemove=function(e){
@@ -2919,7 +2921,8 @@ else if(indentmode)
       	{ps.push(q);
       	q=pl(q)[0];
          }
-      while(q!=pairl[0]&&q.offsetTop+q.offsetHeight>listc.scrollTop-10);
+      //while(q!=pairl[0]&&q.offsetTop+q.offsetHeight>listc.scrollTop-10);
+      while(q!=pairl[0]);
             }
    else
       {let cc=q;
@@ -2929,7 +2932,8 @@ else if(indentmode)
          cc=cc.lastChild;}
       else
          pairl[0]=q.parentNode.previousSibling;
-      while(cc&&cc.offsetTop+cc.offsetHeight>listc.scrollTop-10)
+      //while(cc&&cc.offsetTop+cc.offsetHeight>listc.scrollTop-10)
+      while(cc)
          {ps.push(cc);
          cc=cc.previousSibling;}}
 else
