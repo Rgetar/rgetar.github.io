@@ -2381,8 +2381,8 @@ if(f==col){
    j=bb(floorOmega(beta,j),j);
    //maxx=bb(col,bb(f,bb(f,bb(f,''))));
    //maxx=bb(col,bb(f,bb(f,'')));
-   maxx=bb(col,bb(f,bb(f,f)));
-   //maxx=bb(col,bb(f,bb(col,col)));      // problem!!!
+   //maxx=bb(col,bb(f,bb(f,f)));
+   maxx=bb(col,bb(f,col));
    //ff=fs(ff,f);
    }
 if(f==bb(col,col)){
@@ -2392,8 +2392,8 @@ if(f==bb(col,col)){
    j=bb(bb(col,col),f);
    j=bb(floorOmega(beta,j),j);
    //maxx=bb(bb(col,col),bb(f,bb(f,'')));
-   maxx=bb(bb(col,col),bb(f,bb(f,f)));
-   //maxx=bb(bb(col,col),bb(f,bb(bb(col,col),col)));     // problem!!!
+   //maxx=bb(bb(col,col),bb(f,bb(f,f)));
+   maxx=bb(bb(col,col),bb(f,col));
    }
 /*else if(f==bb(col,col)){
    sy='L';
