@@ -95,7 +95,7 @@ hidden>
 </tr>
 </table><i style="line-height:35px;">  text near mouse cursor</i></div>
 
-<span style="font-size:12px">last updated: 16 December 2022</span>
+<span style="font-size:12px">last updated: 17 December 2022</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:10px;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
@@ -2858,9 +2858,9 @@ else
 
 function mousetextupdate(x,y){
    //xs.style.left=x+(x*2<window.innerWidth?35:-xs.offsetWidth-15)+'px';
-   xs.style.left=x+(25*Math.round(x/25)+15+xs.offsetWidth<window.innerWidth?35:-xs.offsetWidth-15)+'px';
+   xs.style.left=x+(x*2<window.innerWidth||25*Math.round(x/25)+15+xs.offsetWidth<window.innerWidth?35:-xs.offsetWidth-15)+'px';
    //xs.style.top=y-(y*2<window.innerHeight?(vero?-18:5):xs.offsetHeight-(vero+30))+'px';
-   xs.style.top=y-(25*Math.round(y/25)-50+xs.offsetHeight<window.innerHeight?(vero?-18:5):xs.offsetHeight-(vero+30))+'px';
+   xs.style.top=y-(y*2<window.innerHeight||25*Math.round(y/25)-50+xs.offsetHeight<window.innerHeight?(vero?-18:5):xs.offsetHeight-(vero+30))+'px';
 }
 
 document.onmousemove=function(e){
@@ -4062,7 +4062,7 @@ let indentar=[indentmode0,indentmode1,indentmode2];
 let mousex,mousey;
 let gtkey=3,ltkey=3;
 let processing=true;
-let indentmode=0;
+let indentmode=1;
 let indentvisible=1;
 let keytcheck=true;
 let mousetag,mousetagp=xs;
