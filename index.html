@@ -95,7 +95,7 @@ hidden>
 </tr>
 </table><i style="line-height:35px;">  text near mouse cursor</i></div>
 
-<span style="font-size:12px">last updated: 17 December 2022</span>
+<span style="font-size:12px">last updated: 18 December 2022</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:10px;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
@@ -2355,6 +2355,8 @@ if(spn)
       return 'BO';
    else if(st=='[[c[!![c!!')
       return 'TFB';
+   else if(st=='[[c[c!!!')
+      return 'EBO';
    else if(st=='[[c[c!![c!!')
       return 'SRO';
    }
@@ -2544,9 +2546,11 @@ return (format>1?st:displayform(cnf(st,format),format)).toString().replaceAll('!
 function convert(st,b=true){
 if(b||!st||st==col||st==bo)
    {
-   if(st=='[[c![[c![[c![!!!!'||st=='[[c![[c![[c![[c!!!!!'||st=='[[c![c!!'||st=='[[c[!!!'||st=='[[c[!![c!!'||st=='[[c[c!![c!!')
+   if(format<2&&(st=='[[c![[c![[c![!!!!'||st=='[[c![[c![[c![[c!!!!!'||st=='[[c![c!!'||st=='[[c[!!!'||st=='[[c[!![c!!'||st=='[[c[c!![c!!'))
       spn=false;
    let s=(format>1?st:displayform(cnf(st,format),format)).toString().replaceAll('!',']');
+   if(format<2)
+   {
    if(st=='[[c!!')
       s+=' <small>(Small Cantor ordinal)</small>';
    else if(st=='[[c![[c!!!')
@@ -2567,9 +2571,12 @@ if(b||!st||st==col||st==bo)
       s+=' <small>(Buchholz ordinal, BO)</small>';
    else if(st=='[[c[!![c!!')
       s+=' <small>(Takeuti-Feferman-Buchholz ordinal, TFB)</small>';
+   else if(st=='[[c[c!!!')
+      s+=' <small>(Extended Buchholz ordinal, EBO)</small>';
    else if(st=='[[c[c!![c!!')
       s+=' <small>(Small Rathjen ordinal, SRO)</small>';
    spn=true;
+   }
    return s;
    }
 else
@@ -4083,6 +4090,14 @@ initlargeordinalupdate();
 //let initlargeordinal=col;
 //let initlargeordinal=bb('',col);
 seteo(eo);
+
+/*
+let st=`let str='';
+for(let j=1;j<50;j++)
+   str+='[]';
+list.innerHTML+=str;`;
+eval(st);
+*/
 
 /*
 //format=0;
