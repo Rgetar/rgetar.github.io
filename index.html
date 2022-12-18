@@ -97,11 +97,11 @@ hidden>
 
 <span style="font-size:12px">last updated: 18 December 2022</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
-</span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:10px;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
+</span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
  id="expmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0ffd0;cursor:pointer;" hidden>+</div><div
  id="smexmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:16px;line-height:1.2;border:1px solid #909090;border-radius:8px;padding:0;background:#e0ffff;cursor:pointer;" hidden>+</div><div
- id="colmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.57;border:1px solid #909090;border-radius:8px;padding:0;background:#fff0b0;cursor:pointer;" hidden>-</div><ul style="padding-left:99px;float:left;min-width:calc(100% - 99px);" id="list"
+ id="colmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.57;border:1px solid #909090;border-radius:8px;padding:0;background:#fff0b0;cursor:pointer;" hidden>-</div><ul style="padding-left:104px;float:left;min-width:calc(100% - 104px);" id="list"
 ></ul></span><span id="vsidebars" onmousedown="return false" style="background:#e0ffe0;line-height:0.5;position: fixed;right:17px;top:0;float:right;font-size:25px"><table>
 <tr>
 <td id="vsidebar">«</td>
@@ -2766,7 +2766,7 @@ return n;
 
 function expcolmarksupdate(){
 let r=markedli.getBoundingClientRect();
-let h=r.left-37+listc.scrollLeft;
+let h=r.left-27+listc.scrollLeft;
 let vc=listc.scrollTop+(r.top+r.bottom)/2;
 //let vc=listc.clientHeight-listc.scrollTop-(r.top+r.bottom)/2;
 let s=markedli.previousSibling;
@@ -3574,7 +3574,7 @@ if(sidebar.hidden){
    listc.style.right='240px';
    listc.style.overflowY='overlay';
    //listc.style.marginRight='17px';
-   list.style.minWidth='calc(100% - 116px)';
+   list.style.minWidth='calc(100% - 121px)';
    vsidebars.style.right='257px';
    counter.style.right='260px';
    vsidebar.innerHTML='»';
@@ -3587,7 +3587,7 @@ else{
    let ssw=listc.scrollWidth-listc.clientWidth;
    if(listc.scrollLeft>=ssw-17)
       listc.scrollLeft=ssw;
-   list.style.minWidth='calc(100% - 99px)';
+   list.style.minWidth='calc(100% - 104px)';
    vsidebars.style.right='17px';
    counter.style.right='30px';
    vsidebar.innerHTML='«';
@@ -3890,7 +3890,7 @@ if(sidebar.hidden){
    listc.style.overflowY='overlay';
    listc.scrollBy(240,0);
    //listc.style.marginRight='17px';
-   list.style.minWidth='calc(100% - 116px)';
+   list.style.minWidth='calc(100% - 121px)';
    //listc.style.left='-230px';
    vsidebars.style.right='257px';
    counter.style.right='260px';
@@ -3905,7 +3905,7 @@ else{
    let ssw=listc.scrollWidth-listc.clientWidth;
    if(listc.scrollLeft>=ssw-17)
       listc.scrollLeft=ssw;
-   list.style.minWidth='calc(100% - 99px)';
+   list.style.minWidth='calc(100% - 104px)';
    //listc.style.left='10px';
    vsidebars.style.right='17px';
    counter.style.right='30px';
