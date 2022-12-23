@@ -95,7 +95,7 @@ hidden>
 </tr>
 </table><i style="line-height:35px;">  text near mouse cursor</i></div>
 
-<span style="font-size:12px">last updated: 18 December 2022</span>
+<span style="font-size:12px">last updated: 23 December 2022</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
@@ -2387,7 +2387,7 @@ if(f==col){
    maxx=bb(col,bb(f,col));
    //ff=fs(ff,f);
    }
-if(f==bb(col,col)){
+else if(f==bb(col,col)){
    sy='I-Φ';
    f=bb(f,col);
    f=bb(floorOmega(beta,f),f);
@@ -2421,6 +2421,14 @@ else if(f==bb(floorOmega(beta),col)){
    //maxx=bb(f,bb(f,bb(f,f)));
    maxx=bb(f,bb(f,col));
    //ff=f;
+   }
+else if(x>col){
+   sy='I';
+   f=col;
+   j=f;
+   maxx='d';
+   //if(x<bb(col,bb(col,'')))
+   //   x=col+x.slice(4);
    }
 /*else if(compare(bb(col,col),x)<1){
 //else if(beta==''&&compare(bb(col,col),x)<1){
@@ -2472,13 +2480,13 @@ if(sy!=''&&compare(maxx,x)>0){
          break;
          }
       }
-   if(sy!='φ'&&(sy!='Φ'||fx==col)&&(sy!='I-Φ'||fx==bb(col,col))&&le.length==1&&le[0][1]==1&&le[0][0]=='')
+   if(sy!='φ'&&(sy!='Φ'||fx==col)&&(sy!='I-Φ'||fx==bb(col,col))&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
       le='';
    else{
       if(ext)   
          le=cnf(le,true);
       le=displayform(le,ext);
-      if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col)))&&isFinite(le))
+      if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col))||sy=='I')&&isFinite(le))
          le--;
       }
    if(sy=='φ'){
@@ -2494,8 +2502,8 @@ if(sy!=''&&compare(maxx,x)>0){
       return 'Ω'+(le==''?'':'<sub>'+le+'</sub>');
    if(sy=='I-Φ'&&fx==bb(col,col))
       return 'I'+(le==''?'':'<sub>'+le+'</sub>');
-   if(sy!='φ'&&sy!='Φ'&&sy!='I-Φ')
-      return sy+(le==''?'':'<sub>'+le+'</sub>');
+   //if(sy!='φ'&&sy!='Φ'&&sy!='I-Φ')
+   //   return sy+(le==''?'':'<sub>'+le+'</sub>');
 
    // old version (without @)	
    /*	   
@@ -2529,6 +2537,17 @@ if(sy!=''&&compare(maxx,x)>0){
       q--;
       }
       */
+   
+   if(sy=='I')
+      {
+      let lene=eex.length-1;
+      if(!eex[lene][1])
+         {
+         let lenee=eex[lene][2].length-1;
+         if(!eex[lene][2][lenee][0])
+            eex[lene][2][lenee][1]--;
+         }
+      }
    
    let s=cnftoarray(eex,ext,f,le);
    
