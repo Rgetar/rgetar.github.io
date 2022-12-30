@@ -100,6 +100,7 @@ hidden>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
  id="expmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0ffd0;cursor:pointer;" hidden>+</div><div
+ id="expmark_" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;margina-left:-15px;background:#d0ffd0;cursor:pointer;letter-spacing:-6px;" hidden>+<sup style="font-size:11px;vertical-align:11px">+</sup>    </div><div
  id="smexmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:16px;line-height:1.2;border:1px solid #909090;border-radius:8px;padding:0;background:#e0ffff;cursor:pointer;" hidden>+</div><div
  id="colmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.57;border:1px solid #909090;border-radius:8px;padding:0;background:#fff0b0;cursor:pointer;" hidden>-</div><ul style="padding-left:104px;float:left;min-width:calc(100% - 104px);" id="list"
 ></ul></span><span id="vsidebars" onmousedown="return false" style="background:#e0ffe0;line-height:0.5;position: fixed;right:17px;top:0;float:right;font-size:25px"><table>
@@ -3108,7 +3109,7 @@ document.onmouseover=function(e){
 //if(vt){
 if(e.target&&processing)
 {
-let onli=true;
+let onli=xs.hidden;
 if(mousetag!=e.target&&!mousetagp.contains(e.target))
 {
 //count++;
