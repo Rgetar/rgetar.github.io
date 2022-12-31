@@ -69,7 +69,20 @@ hidden>
 <td id="for0">ω<sup>ε<sub>0</sub> + 1</sup></td>
 <td id="for1" style="font-size:15px;"> ε<sub>0</sub>ω </td>
 </tr>
-</table></div><div align="left" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Indentation mode:</i>
+</table></div>
+
+<div align="left" onmousedown="return false" style="font-size:13px;line-height:1.05;margin-left:-16px;margin-top:-23px;"><table cellpadding="0" style="float:left;border-spacing:0;">
+<tr>
+<td id="decdec" style="color:#eeeeee;font-size:25px;cursor:default;">◅ </td>
+<td id="decintoboosterslp" style="cursor:default;line-height:2;"><table border="3" cellpadding="0" style="float:left;border-spacing:0;">
+<tr>
+<td id="decintoboostersl" style="font-size:15px;cursor:default;background:#ffffff;"></td>
+</tr>
+</table></td>
+<td id="incdec" style="font-size:25px;"> ▻</td>
+</tr>
+</table><i><sub style="font-size:12px;">   levels of decomposition<br/>   into boosters</sub></i></div>
+<div align="left" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Indentation mode:</i>
 <table id="switchindentmode" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
 <tr style="font-size:12px;line-height:1;">
 <td id="indentmode2">   NO   </td>
@@ -95,7 +108,7 @@ hidden>
 </tr>
 </table><i style="line-height:35px;">  text near mouse cursor</i></div>
 
-<span style="font-size:12px">last updated: 30 December 2022</span>
+<span style="font-size:12px">last updated: 1 January 2023</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
@@ -2669,13 +2682,16 @@ function convert_old(st){
 return (format>1?st:displayform(cnf(st,format),format)).toString().replaceAll('!',']');}
 //return (format>1?st:JSON.stringify(cnf(st,format))).toString().replaceAll('!',']').replaceAll('"','');}
 
-function convert(st,b=true){
-if(b||!st||st==col||st==bo)
+//function convert(st,b=true){
+function convert(st,b=decompositionintoboosterslevels){
+//if(b||!st||st==col||st==bo)
+if(!b||!st||st==col||st==bo)
    {
    if(format<2&&(st=='[[c![[c![[c![!!!!'||st=='[[c![[c![[c![[c!!!!!'||st=='[[c![c!!'||st=='[[c[!!!'||st=='[[c[!![c!!'||st=='[[c[c!!!'||st=='[[c[c!![c!!'))
       spn=false;
    let s=(format>1?st:displayform(cnf(st,format),format)).toString().replaceAll('!',']');
-   if(format<2)
+   //if(format<2)
+   if(!decompositionintoboosterslevels&&format<2)
    {
    if(st=='[[c!!')
       s+=' <small>(Small Cantor ordinal)</small>';
@@ -2701,14 +2717,15 @@ if(b||!st||st==col||st==bo)
       s+=' <small>(Extended Buchholz ordinal, EBO)</small>';
    else if(st=='[[c[c!![c!!')
       s+=' <small>(Small Rathjen ordinal, SRO)</small>';
-   spn=true;
    }
+   spn=true;
    return s;
    }
 else
    {
    let beta=base(st);
-   return (beta?convert(beta):'')+'['+convert(booster(st),true)+']';
+   //return (beta?convert(beta):'')+'['+convert(booster(st),true)+']';
+   return (beta?convert(beta,b):'')+'['+convert(booster(st),b-1)+']';
    }
 }
 //return (format>1?st:JSON.stringify(cnf(st,format))).toString().replaceAll('!',']').replaceAll('"','');}
@@ -3114,7 +3131,7 @@ if(mousetag!=e.target&&!mousetagp.contains(e.target))
 {
 //count++;
 keytcheck=true;
-vero=0;
+vero=70;
 onli=false;
 let c=e.target;
 mousetag=c;
@@ -3131,9 +3148,10 @@ let h;
 if(c.id=='counter'){
    h='<small>Total number of ordinals in the list</small>';
    xs.style.background='#ffffff';
+   vero=0;
    }
 else if(c.id=='oldversionlink'){
-   h='<small>Link to old versions</small>';
+   h='<small>Link to old versions and other projects</small>';
    }
 else if(c.id=='reset'){
    h='<div id="res1"'+(count>1?'':' style="font-style:italic"')+'><nobr id="res2"'+(count>1?' style="font-weight:bold"':'')+'>Reset list</nobr></div><i>use "R" key</i>';
@@ -3157,6 +3175,15 @@ else if(c.id=='incef'){
    h='<b>Add</b> extra fs element<br/><i>use "+" key</i>';
    xs.style.background='#f0fff0';
    }
+else if(c.id=='decdec'){
+   h='<div id="decdec1"'+(decompositionintoboosterslevels?'':' style="font-style:italic"')+'><nobr id="decdec2"'+(decompositionintoboosterslevels?' style="font-weight:bold"':'')+'>Decrease</nobr> number of levels of decomposition into boosters</div><i>use Digit keys</i>';
+   if(decompositionintoboosterslevels) 
+      xs.style.background='#fffff0';
+   }
+else if(c.id=='incdec'){
+   h='<b>Increase</b> number of levels of decomposition into boosters<br/><i>use Digit keys</i>';
+   xs.style.background='#f0fff0';
+   }
 else if(c.id=='decd'){
    h='<div id="dec1"'+(di>0?'':' style="font-style:italic"')+'><nobr id="dec2"'+(di>0?' style="font-weight:bold"':'')+'>Remove</nobr> fs element, displayed near mouse cursor</div><i>use "<" key</i>';
    if(di>0) 
@@ -3169,7 +3196,11 @@ else if(c.id=='incd'){
 else if(c.id=='ecfv'){
    h='<small><small><div style="line-height:1">Enhance expansions.<br/>After expansion extra fs elements of all expanded elements are added to the list.</div></small></small>'; 
    xs.style.background='#fff';
-   } 
+   }
+else if(c.id=='decintoboostersl'){
+   h='<small><small><div style="line-height:1">Number of levels of decomposition into boosters.</div></small></small>'; 
+   xs.style.background='#fff';
+   }
 else if(c.id=='dis'){
    h='<small><small><div style="line-height:1">Amount of fs elements of the element <b>b</b>, displayed near mouse cursor, when it is over <b>b</b>.</div></small></small>'; 
    xs.style.background='#fff';
@@ -3246,6 +3277,7 @@ else if(c.id=='for1'){
 else if(c.id!='xs'&&!xs.contains(c)){
 
 let eo1=-3;
+vero=0;
 if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
    {
    eo1=eo;
@@ -3762,6 +3794,35 @@ if(efs==1){
    }    
 }
 
+decdec.onclick=function(e){
+if(decompositionintoboosterslevels>0){
+   decompositionintoboosterslevels--;
+   formatting();
+   decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
+   if(!decompositionintoboosterslevels){
+      decintoboostersl.style.background='#fff';
+      decdec.style.color='#eeeeee';
+      decdec.style.cursor='default';
+      xs.style.background='#fff';
+      if(document.getElementById('decdec1')!=null){
+         decdec1.style['font-style']='italic';
+         decdec2.style['font-weight']='normal';
+         }
+      }
+   }      
+}
+
+incdec.onclick=function(e){
+decompositionintoboosterslevels++;
+formatting();
+decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
+if(decompositionintoboosterslevels==1){
+   decdec.style.color='#000';
+   decdec.style.cursor='pointer';
+   decintoboostersl.style.background='#d0ffd0';
+   }    
+}
+
 decd.onclick=function(e){
 if(di>0){
    di--;
@@ -3884,6 +3945,26 @@ if(fsp&&document.getElementById('fsd')!=null)
 document.addEventListener('keydown',function(e){
 if(!e.ctrlKey){
 let c=e.code;
+if(c.slice(0,5)=='Digit')
+{
+let i=c.slice(5);
+if(i!=decompositionintoboosterslevels)
+   {
+   decompositionintoboosterslevels=parseInt(i);
+   formatting();
+   decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
+   decintoboostersl.style.background=decompositionintoboosterslevels?'#d0ffd0':'#fff';
+   decdec.style.color=decompositionintoboosterslevels?'#000':'#eeeeee';
+   decdec.style.cursor=decompositionintoboosterslevels?'pointer':'default';
+   if(document.getElementById('decdec1')!=null)
+      {
+      xs.style.background=decompositionintoboosterslevels?'#fffff0':'#fff';
+      decdec1.style['font-style']=decompositionintoboosterslevels?'normal':'italic';
+      decdec2.style['font-weight']=decompositionintoboosterslevels?'bold':'normal'; 
+      }
+   }
+}
+
 /*
 if(c.slice(0,5)=='Digit'||c=='KeyQ'||c=='KeyW'){
    let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyW'?-2:-1;
@@ -3919,7 +4000,7 @@ if(c.slice(0,5)=='Digit'||c=='KeyQ'||c=='KeyW'){
    }
 else
 */
-if(c=='Minus'||c=='NumpadSubtract'){
+else if(c=='Minus'||c=='NumpadSubtract'){
 if(efs>0){
    efs--;
    ecfv.innerHTML='   '+efs+'   ';
@@ -3938,7 +4019,7 @@ if(efs>0){
          decd1.style['font-style']='italic';
          decd2.style['font-weight']='normal'; 
          }            
-      } 	     
+      }
    }
 }     	
 else if(c=='Equal'||c=='NumpadAdd'){
@@ -3959,8 +4040,8 @@ else if(c=='Equal'||c=='NumpadAdd'){
          decd1.style['font-style']='normal';
          decd2.style['font-weight']='bold';
          }
-      }            	 	
-   } 
+      }    	 	
+   }
 else if(c=='Comma'){
 if(di>0){
    di--;
@@ -4249,6 +4330,7 @@ let leastr;
 let vero=0;
 let spn=true;
 let subperiodpositionshift=0;
+let decompositionintoboosterslevels=0;
 
 let initlargeordinal=bo;
 initlargeordinalupdate();
@@ -4300,6 +4382,7 @@ list.innerHTML+=checkstring(st)+'<br/>';*/
 /*for(let e of etar.slice(1))
    e.style.fontSize='18px';*/
 dis.innerHTML='   '+di+'   ';
+decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
 far[format].style.background='#d0ffd0';
 indentar[indentvisible?indentmode:2].style.background='#d0ffd0';
 
