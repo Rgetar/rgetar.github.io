@@ -2969,7 +2969,8 @@ else
 }
 
 function formatting(c=list){
-let r=markedli.getBoundingClientRect();
+let l=lea?lea:markedli;
+let r=l.getBoundingClientRect();
 let vc=(r.top+r.bottom)/2;
 
 for(let l=c.firstChild;l!=null;l=l.nextSibling)
@@ -2980,9 +2981,9 @@ for(let l=c.firstChild;l!=null;l=l.nextSibling)
 expcolmarksupdate();
 far[format].style.background='#d0ffd0'; 
 
-r=markedli.getBoundingClientRect();
+r=l.getBoundingClientRect();
 listc.scrollTop+=(r.top+r.bottom)/2-vc;
-scrollli(markedli);
+scrollli(l);
 }
 
 function updateli(c){
