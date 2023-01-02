@@ -1654,6 +1654,8 @@ if(st==bo)
    fsperiod0='['+col;
    fsperiod1='!';
    fsending='';
+   cofcurrent='[[!!';
+   cofclass=0;
    return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
    }
 
@@ -1665,10 +1667,12 @@ let st0=st.slice(0,i);
 let st1=st.slice(i+(e?2:1));
 let s1;
 
-// plain rule
+// successor and plain rule
 if(e)
    {
    st0+='!';
+   cofcurrent=st1?'[[!!':'[!';
+   cofclass=st1?st==cofcurrent?3:0:2;
    st1=st1.slice(1);
    s1=bb('',booster(st0));
    fsopening=base(st0);
@@ -1791,6 +1795,8 @@ while(nl)
             fsopening=fsopening.slice(0,-2);
          fsperiod1='!';
          fsending='!'.repeat(ocd(fsopening));
+         cofcurrent=lr;
+         cofclass=st==cofcurrent?3:0;
          return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
          }
       
@@ -2000,6 +2006,9 @@ fsending='!'.repeat(ocd(fsopening));
 /*if(pn!=i)
    alert(st+'\n'+convert(st)+'\n'+np+'\n'+pn);*/
 
+cofcurrent='[[!!';
+cofclass=0;
+
 return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
 }
 
@@ -2022,8 +2031,12 @@ return t;
 }
 
 // is st Ω number
-function isOmega(st){
-return st==''?false:st==col||st==bo?true:compare(col,booster(st))<1;}
+function isOmega(st)
+{
+//return st==''?false:st==col||st==bo?true:compare(col,booster(st))<1;
+return st==''||st==bo?false:st==col?true:st<col&&compare(col,booster(st))<1;
+}
+
 
 // remove boosters of st < c
 function floorOmega(st,c=col){   
@@ -3361,7 +3374,20 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
       
       if(eo1==-3)
       {
-      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'> fundamental sequence:'; 
+      //h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'> fundamental sequence:'; 
+      if(c.id=='')
+         {
+         cofcurrent='';
+         cofclass=1;
+         fscurrent='';
+         }
+      else
+         {
+         fs(c.id,'',0);
+         if(!cofclass&&isOmega(c.id))
+            cofclass=4;
+         }
+      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>fs:'; 
       if(c.id=='')
          h+='<br>'+'   <i>empty</i>';
       else
@@ -4070,13 +4096,14 @@ if(di>0){
    di--;
    if(ltkey){
       ltkey--;
-      if(!gtkey&&!ltkey&&dots)dots.innerHTML='   ... ';
+      if(!gtkey&&!ltkey&&typeof dots!=='undefined')dots.innerHTML='   ... ';
       }
    dis.innerHTML='   '+di+'   '; 
    if(document.getElementById('fsd')!=null){
       if(fsp){
       	fsn--;
-         dots.previousSibling.remove();}             
+      	if(typeof dots!=='undefined')
+            dots.previousSibling.remove();}             
       if(di==0)
          fsd.hidden=true;}        
    if(di==0){
@@ -4095,7 +4122,7 @@ else if(c=='Period'){
    di++;
    if(gtkey){
       gtkey--;
-      if(!gtkey&&!ltkey)dots.innerHTML='   ... ';
+      if(!gtkey&&!ltkey&&typeof dots!=='undefined')dots.innerHTML='   ... ';
       }
    dis.innerHTML='   '+di+'   '; 
    if(document.getElementById('fsd')!=null){ 
@@ -4104,7 +4131,8 @@ else if(c=='Period'){
          y.id='fselement'+fsn;
          y.innerHTML='   '+(di-1)+': '+convert(fs(fsl,'',fsn));
          fsn++;
-         dots.insertAdjacentHTML('beforebegin',y.outerHTML);}                
+         if(typeof dots!=='undefined')
+            dots.insertAdjacentHTML('beforebegin',y.outerHTML);}                
       if(di==1)
          fsd.hidden=false;}       
    if(di==1){
@@ -4328,7 +4356,7 @@ window.onkeydown = function(e) {
 };
 
 //let bo='Some large ordinal',col='c',eo=0,efs=0,
-let bo='Some large cardinal',col='c',eo=0,efs=0,
+let bo='Some large ordinal',col='c',eo=0,efs=0,
 exp=['small expansion','single expansion','double expansion','triple expansion','quadruple expansion','quintuple expansion','sextuple expansion','septuple expansion','octuple expansion','ninefold expansion'];
 exp[-1]='collapse',exp[-2]='view';
 let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
@@ -4343,7 +4371,8 @@ let indentmode=1;
 let indentvisible=1;
 let keytcheck=true;
 let mousetag,mousetagp=xs;
-let fscurrent,fsopening,fsperiod0,fsperiod1,fsending;
+let fscurrent,fsopening,fsperiod0,fsperiod1,fsending,cofcurrent,cofclass;
+let cofclasslist=['','zero','successor','regular','singular'];
 let ulnar=['UL1','UL'];
 let markedli;
 let prevsmallexp,nextsmallexpn;
@@ -4409,5 +4438,6 @@ dis.innerHTML='   '+di+'   ';
 decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
 far[format].style.background='#d0ffd0';
 indentar[indentvisible?indentmode:2].style.background='#d0ffd0';
+fs(initlargeordinal,'',0);
 
 </script></div></body></html>
