@@ -1644,20 +1644,20 @@ if(st==bo)
    cofclass=0;
    
    //countable
-   fsopening=nlevels?'['.repeat(nlevels-1):col;
+   /*fsopening=nlevels?'['.repeat(nlevels-1):col;
    //fsopening='['.repeat(nlevels)+col;
    fsperiod0='['+col;
    fsperiod1='!';
    fsending=nlevels?'!'.repeat(nlevels-1):'';
    //fsending='!'.repeat(nlevels);
-   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;*/
    
    //uncountable
-   /*fsopening=col;
+   fsopening=col;
    fsperiod0='['+col;
    fsperiod1='!';
    fsending='';
-   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;*/
+   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
    }
 
 let i=st.length-1;
