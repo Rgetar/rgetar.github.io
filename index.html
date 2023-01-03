@@ -1628,12 +1628,54 @@ for(let e=1;e<st.length;e++)
 return i?st0.slice(0,-i):st0;
 }
 
+function setfsarrays()
+{
+fsnumber=1;
+fsopeningarray=[fsopening];
+fsperiodarray=[fsperiod0];
+fsendingarray=[fsending];
+let i=fsending.length;
+let u=fsperiod1.length;
+let j=fsperiod0.length;
+let y=fsopening.length;
+let q=j-1;
+while(fsperiod0[q]=='!')
+   q--;
+let b=true;
+for(let e=1;e<=q;e++)
+   {
+   let a=fsperiod0[e-1];
+   if(a=='[')
+      i++;
+   else if(a=='!')
+      i--;
+   if(a!='!')
+      {
+      fsopeningarray.push(fsopening+fsperiod0.slice(0,e));
+      if(!b)
+         fsopeningarray[fsnumber]=fsopeningarray[fsnumber].slice(0,-j);
+      fsperiodarray.push(fsperiod0.slice(e)+fsperiod0.slice(0,e));
+      if(b&&y+e>=j&&fsopeningarray[fsnumber].slice(-j)==fsperiodarray[fsnumber])
+         {
+         fsopeningarray[fsnumber]=fsopeningarray[fsnumber].slice(0,-j);
+         i-=u;
+         b=false;
+         }
+      fsendingarray.push('!'.repeat(i));
+      if(ocd(fsopeningarray[fsnumber]+fsperiodarray[fsnumber]+fsperiod1+fsendingarray[fsnumber])!=0)
+         alert(fsopeningarray[fsnumber]+fsperiodarray[fsnumber]+fsperiod1+fsendingarray[fsnumber]);
+      fsnumber++;
+      }
+   }
+}
+
 // get n-th element of fs of ordinal st
 function fs(st,n,nn=0){
 
 // optimization
 if(st==fscurrent)
-   return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
+   //return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
+   return fsopeningarray[subperiodpositionshift]+(fsperiodarray[subperiodpositionshift].repeat(nn))+(fsperiod1.repeat(nn)+fsendingarray[subperiodpositionshift]);
 
 if(fscurrent)
    subperiodpositionshift=0;
@@ -1653,6 +1695,7 @@ if(st==bo)
       fsperiod0='['+col;
       fsperiod1='!';
       fsending='';
+      setfsarrays();
       return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
       }
    else
@@ -1664,6 +1707,7 @@ if(st==bo)
       fsperiod1='!';
       fsending=nlevels?'!'.repeat(nlevels-1):'';
       //fsending='!'.repeat(nlevels);
+      setfsarrays();
       return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
       }
    }
@@ -1682,12 +1726,17 @@ if(e)
    st0+='!';
    cofcurrent=st1?'[[!!':'[!';
    cofclass=st1?st==cofcurrent?3:0:2;
+   let st2=st1;
    st1=st1.slice(1);
    s1=bb('',booster(st0));
    fsopening=base(st0);
    fsperiod0=s1;
    fsperiod1='';
    fsending=st1;
+   if(st2)
+      setfsarrays();
+   else
+      fsnumber=1;
    return fsopening+fsperiod0.repeat(nn)+fsending;
    }
 
@@ -1806,6 +1855,7 @@ while(nl)
          fsending='!'.repeat(ocd(fsopening));
          cofcurrent=lr;
          cofclass=st==cofcurrent?3:0;
+         setfsarrays();
          return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
          }
       
@@ -1959,8 +2009,8 @@ rr=cb[rr].length;
 while(rr<st0.length&&st0.at(-rr-1)=='[')
    rr++;*/
 
-//let rr=cb[np].length-getpos(cb[np]);
-let rr=cb[np].length-mod(getpos(cb[np])+subperiodpositionshift,cb[np].length);
+let rr=cb[np].length-getpos(cb[np]);
+//let rr=cb[np].length-mod(getpos(cb[np])+subperiodpositionshift,cb[np].length);
 
 //rr=cb[np].length;
    
@@ -2017,6 +2067,7 @@ fsending='!'.repeat(ocd(fsopening));
 
 cofcurrent='[[!!';
 cofclass=0;
+setfsarrays();
 
 return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
 }
@@ -3453,6 +3504,7 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
          cofcurrent='';
          cofclass=1;
          fscurrent='';
+         fsnumber=1;
          }
       else
          {
@@ -3460,7 +3512,7 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
          if(!cofclass&&isOmega(c.id))
             cofclass=4;
          }
-      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>fs:'; 
+      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>fs'+(fsnumber>1?' <small>(<span id="spps">'+(subperiodpositionshift+1)+'</span>/'+fsnumber+') <i>(use "←", "→" keys)</i></small>':'')+':'; 
       if(c.id=='')
          h+='<br>'+'   <i>empty</i>';
       else
@@ -4073,8 +4125,12 @@ resetlist(1);
 function fselementsupdate()
 {
 if(fsp&&document.getElementById('fsd')!=null)
+   {
+   fs(fsl,'',0);
+   document.getElementById('spps').innerHTML=subperiodpositionshift+1;
    for (let e=0;e<fsn;e++)
       document.getElementById('fselement'+e).innerHTML='   '+e+': '+convert(fs(fsl,'',e));
+   }
 }
 
 document.addEventListener('keydown',function(e){
@@ -4392,14 +4448,24 @@ else if(c=='ArrowDown'){
       }
    }
 else if(c=='ArrowLeft'){
-   fscurrent='';
-   subperiodpositionshift--;
-   fselementsupdate();
+   if(fsnumber>1)
+      {
+      fscurrent='';
+      subperiodpositionshift--;
+      if(subperiodpositionshift<0)
+         subperiodpositionshift=fsnumber-1;
+      fselementsupdate();
+      }
    }
 else if(c=='ArrowRight'){
-   fscurrent='';
-   subperiodpositionshift++;
-   fselementsupdate();
+   if(fsnumber>1)
+      {
+      fscurrent='';
+      subperiodpositionshift++;
+      if(subperiodpositionshift>=fsnumber)
+         subperiodpositionshift=0;
+      fselementsupdate();
+      }
    }
 else if(c=='KeyM'){
    nlevels++;
@@ -4462,6 +4528,7 @@ let indentvisible=1;
 let keytcheck=true;
 let mousetag,mousetagp=xs;
 let fscurrent,fsopening,fsperiod0,fsperiod1,fsending,cofcurrent,cofclass;
+let fsnumber=1,fsopeningarray,fsperiodarray,fsendingarray;
 let cofclasslist=['','zero','successor','regular cardinal','singular cardinal'];
 let ulnar=['UL1','UL'];
 let markedli;
