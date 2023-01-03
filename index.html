@@ -108,7 +108,7 @@ hidden>
 </tr>
 </table><i style="line-height:35px;">  text near mouse cursor</i></div>
 
-<span style="font-size:12px">last updated: 1 January 2023</span>
+<span style="font-size:12px">last updated: 3 January 2023</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
@@ -1639,13 +1639,25 @@ fscurrent=st;
 
 // limit rule
 if(st==bo)
-   {fsopening=nlevels?'['.repeat(nlevels-1):col;
+   {
+   cofcurrent='[[!!';
+   cofclass=0;
+   
+   //countable
+   fsopening=nlevels?'['.repeat(nlevels-1):col;
    //fsopening='['.repeat(nlevels)+col;
    fsperiod0='['+col;
    fsperiod1='!';
    fsending=nlevels?'!'.repeat(nlevels-1):'';
    //fsending='!'.repeat(nlevels);
    return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+   
+   //uncountable
+   /*fsopening=col;
+   fsperiod0='['+col;
+   fsperiod1='!';
+   fsending='';
+   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;*/
    }
 
 let i=st.length-1;
@@ -1656,10 +1668,12 @@ let st0=st.slice(0,i);
 let st1=st.slice(i+(e?2:1));
 let s1;
 
-// plain rule
+// successor and plain rule
 if(e)
    {
    st0+='!';
+   cofcurrent=st1?'[[!!':'[!';
+   cofclass=st1?st==cofcurrent?3:0:2;
    st1=st1.slice(1);
    s1=bb('',booster(st0));
    fsopening=base(st0);
@@ -1772,6 +1786,21 @@ while(nl)
       {
       pn--;
       //nc[pn]=nc[pn+1];
+      
+      // uncountable
+      if(pn<0)
+         {
+         fsopening=st0.slice(0,-1);
+         fsperiod0='['+col;
+         while(fsopening.slice(-2)==fsperiod0)
+            fsopening=fsopening.slice(0,-2);
+         fsperiod1='!';
+         fsending='!'.repeat(ocd(fsopening));
+         cofcurrent=lr;
+         cofclass=st==cofcurrent?3:0;
+         return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+         }
+      
       }
    }
 //lar.push(-1);
@@ -1978,6 +2007,9 @@ fsending='!'.repeat(ocd(fsopening));
 /*if(pn!=i)
    alert(st+'\n'+convert(st)+'\n'+np+'\n'+pn);*/
 
+cofcurrent='[[!!';
+cofclass=0;
+
 return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
 }
 
@@ -2000,8 +2032,12 @@ return t;
 }
 
 // is st Ω number
-function isOmega(st){
-return st==''?false:st==col||st==bo?true:compare(col,booster(st))<1;}
+function isOmega(st)
+{
+//return st==''?false:st==col||st==bo?true:compare(col,booster(st))<1;
+return st==''||st==bo?false:st==col?true:st<col&&compare(col,booster(st))<1;
+}
+
 
 // remove boosters of st < c
 function floorOmega(st,c=col){   
@@ -2459,6 +2495,16 @@ if(le=='-')
 return s+le;
 }
 
+function mtoc(st)
+{
+let m='[c[c[c!!!';
+if(st==col||st<m)
+   return st;
+if(st==m)
+   return col;
+return bb(mtoc(base(st)),mtoc(booster(st)));
+}
+
 function convertepsilon(st,ext=false){
 if(st==col||st==bo)
    return st;
@@ -2479,11 +2525,13 @@ if(spn)
       return 'EBO';
    else if(st=='[[c[c!![c!!')
       return 'SRO';
+   else if(st=='[[c[c[c!!![c!!')
+      return 'RO';
    }
 
 /*if(st=='[[[[c!c!!c!')   
-   return 'I'; 
-if(st=='[[[c![[c!c!!c!')   
+   return 'I';
+if(st=='[c[c[c!!!')   
    return 'M';*/
 let x=booster(st);
 let beta=base(st);
@@ -2492,6 +2540,7 @@ let sy='';
 let f=floorOmega(x);
 //let j,maxx,ff;
 let j,maxx;
+//let exa;
 
 if(f==col){
    sy='Φ';
@@ -2542,13 +2591,53 @@ else if(f==bb(floorOmega(beta),col)){
    maxx=bb(f,bb(f,col));
    //ff=f;
    }
-else if(x>col){
+/*else if(x>col){
    sy='I';
    f=col;
    j=f;
    maxx='d';
-   //if(x<bb(col,bb(col,'')))
-   //   x=col+x.slice(4);
+   }*/
+else if(x>='c[c[c!!'&&st<'[c[c[c!![[c[c[c!![c!!!!'){
+   sy='M';
+   //f='[c[c[c!!!';
+   f=col;
+   j=f;
+   maxx='d';
+   }
+else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!')
+   {
+   let x1=x;
+   let x2='';
+   let y1=booster(x1);
+   while(y1<'c[[c[c[c!!!!')
+      {
+      x2=bb('',y1)+x2;
+      x1=base(x1);
+      y1=x1==col?'c[c!':booster(x1);
+      }
+   if(x<'c[c[[c[c[c!!!!!'||x2>='[c!')
+      {
+      let x3=x;
+      while(booster(x3)<col)
+         x3=base(x3);
+      x3=bb(x3,col);
+      x3=bb(beta,x3);
+      if(x2<x3)
+         {
+         if(x1>col&&x2.length>2&&x2.slice(0,3)=='[c!')
+            x2=x2.slice(3);
+         while(x1>col)
+            {
+            x2=bb('',mtoc(booster(x1)))+x2;
+            x1=base(x1);
+            }
+         x=col+x2;
+         sy='I';
+         f=col;
+         j=f;
+         maxx='d';
+         }
+      }
    }
 /*else if(compare(bb(col,col),x)<1){
 //else if(beta==''&&compare(bb(col,col),x)<1){
@@ -2565,6 +2654,7 @@ if(sy!=''&&compare(maxx,x)>0){
    let fx=floorOmega(x,f);
    let ex=cnf(x);
    let eex=cnf(JSON.parse(JSON.stringify(x)),true,false);
+   //let eex=sy=='I'?exa:cnf(JSON.parse(JSON.stringify(x)),true,false);
    //let eex=cnf(JSON.parse(JSON.stringify(ex)),true,false);
    //let eex=cnf(JSON.parse(JSON.stringify(ex)),true);
    //let eex=cnf(ex,true,false);
@@ -2624,7 +2714,10 @@ if(sy!=''&&compare(maxx,x)>0){
       return 'I'+(le==''?'':'<sub>'+le+'</sub>');
    //if(sy!='φ'&&sy!='Φ'&&sy!='I-Φ')
    //   return sy+(le==''?'':'<sub>'+le+'</sub>');
-
+   //if(sy=='M'&&fx=='c[c[c!!')
+   if(sy=='M')
+      return 'M'+(le==''?'':'<sub>'+le+'</sub>');
+      
    // old version (without @)	
    /*	   
    if(Array.isArray(eex)){
@@ -2717,6 +2810,8 @@ if(!b||!st||st==col||st==bo)
       s+=' <small>(Extended Buchholz ordinal, EBO)</small>';
    else if(st=='[[c[c!![c!!')
       s+=' <small>(Small Rathjen ordinal, SRO)</small>';
+   else if(st=='[[c[c[c!!![c!!')
+      s+=' <small>(Rathjen ordinal, RO)</small>';
    }
    spn=true;
    return s;
@@ -3268,7 +3363,7 @@ else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'
    h+='" key</i>';  
    xs.style.background=c.id=='etc'?'#fffff0':c.id=='etv'?'#fafafa':'#f0fff0';} 
 else if(c.id=='for0'){
-   h='<small><div style="line-height:1.2">With two exceptions (0 and Some large ordinal),<br/>ordinals are displayed as sums of ω<sup>x</sup>n terms, n ∈ ℕ.<br/>ω<sup>1</sup>n is displayed as ωn.<br/>If x > 0, then ω<sup>x</sup>1 is displayed as ω<sup>x</sup>.<br/>If ω<sup>x</sup> = x (i. e. x is an epsilon number), then ω<sup>x</sup> is displayed as x.<br/>ω<sup>0</sup>n is displayed as n.<br/>x is displayed in the same format.<br/>Epsilon numbers are displayed using some special designations<br/>(e. g. Veblen function), or using "Computer format".</div></small><i>use "O" key</i>';
+   h='<small><div style="line-height:1.2">With two exceptions (0 and '+bo+'),<br/>ordinals are displayed as sums of ω<sup>x</sup>n terms, n ∈ ℕ.<br/>ω<sup>1</sup>n is displayed as ωn.<br/>If x > 0, then ω<sup>x</sup>1 is displayed as ω<sup>x</sup>.<br/>If ω<sup>x</sup> = x (i. e. x is an epsilon number), then ω<sup>x</sup> is displayed as x.<br/>ω<sup>0</sup>n is displayed as n.<br/>x is displayed in the same format.<br/>Epsilon numbers are displayed using some special designations<br/>(e. g. Veblen function), or using "Computer format".</div></small><i>use "O" key</i>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='for1'){
@@ -3339,7 +3434,20 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
       
       if(eo1==-3)
       {
-      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'> fundamental sequence:'; 
+      //h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'> fundamental sequence:'; 
+      if(c.id=='')
+         {
+         cofcurrent='';
+         cofclass=1;
+         fscurrent='';
+         }
+      else
+         {
+         fs(c.id,'',0);
+         if(!cofclass&&isOmega(c.id))
+            cofclass=4;
+         }
+      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>fs:'; 
       if(c.id=='')
          h+='<br>'+'   <i>empty</i>';
       else
@@ -4048,13 +4156,14 @@ if(di>0){
    di--;
    if(ltkey){
       ltkey--;
-      if(!gtkey&&!ltkey&&dots)dots.innerHTML='   ... ';
+      if(!gtkey&&!ltkey&&typeof dots!=='undefined')dots.innerHTML='   ... ';
       }
    dis.innerHTML='   '+di+'   '; 
    if(document.getElementById('fsd')!=null){
       if(fsp){
       	fsn--;
-         dots.previousSibling.remove();}             
+      	if(typeof dots!=='undefined')
+            dots.previousSibling.remove();}             
       if(di==0)
          fsd.hidden=true;}        
    if(di==0){
@@ -4073,7 +4182,7 @@ else if(c=='Period'){
    di++;
    if(gtkey){
       gtkey--;
-      if(!gtkey&&!ltkey)dots.innerHTML='   ... ';
+      if(!gtkey&&!ltkey&&typeof dots!=='undefined')dots.innerHTML='   ... ';
       }
    dis.innerHTML='   '+di+'   '; 
    if(document.getElementById('fsd')!=null){ 
@@ -4082,7 +4191,8 @@ else if(c=='Period'){
          y.id='fselement'+fsn;
          y.innerHTML='   '+(di-1)+': '+convert(fs(fsl,'',fsn));
          fsn++;
-         dots.insertAdjacentHTML('beforebegin',y.outerHTML);}                
+         if(typeof dots!=='undefined')
+            dots.insertAdjacentHTML('beforebegin',y.outerHTML);}                
       if(di==1)
          fsd.hidden=false;}       
    if(di==1){
@@ -4305,6 +4415,7 @@ window.onkeydown = function(e) {
   return !((e.keyCode==32||e.keyCode==38||e.keyCode==40) && e.target == document.body);
 };
 
+//let bo='Some large ordinal',col='c',eo=0,efs=0,
 let bo='Some large ordinal',col='c',eo=0,efs=0,
 exp=['small expansion','single expansion','double expansion','triple expansion','quadruple expansion','quintuple expansion','sextuple expansion','septuple expansion','octuple expansion','ninefold expansion'];
 exp[-1]='collapse',exp[-2]='view';
@@ -4320,7 +4431,8 @@ let indentmode=1;
 let indentvisible=1;
 let keytcheck=true;
 let mousetag,mousetagp=xs;
-let fscurrent,fsopening,fsperiod0,fsperiod1,fsending;
+let fscurrent,fsopening,fsperiod0,fsperiod1,fsending,cofcurrent,cofclass;
+let cofclasslist=['','zero','successor','regular cardinal','singular cardinal'];
 let ulnar=['UL1','UL'];
 let markedli;
 let prevsmallexp,nextsmallexpn;
@@ -4386,5 +4498,6 @@ dis.innerHTML='   '+di+'   ';
 decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
 far[format].style.background='#d0ffd0';
 indentar[indentvisible?indentmode:2].style.background='#d0ffd0';
+fs(initlargeordinal,'',0);
 
 </script></div></body></html>
