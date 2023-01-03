@@ -108,7 +108,7 @@ hidden>
 </tr>
 </table><i style="line-height:35px;">  text near mouse cursor</i></div>
 
-<span style="font-size:12px">last updated: 2 January 2023</span>
+<span style="font-size:12px">last updated: 3 January 2023</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
@@ -1640,23 +1640,24 @@ fscurrent=st;
 // limit rule
 if(st==bo)
    {
+   cofcurrent='[[!!';
+   cofclass=0;
+   
    //countable
-   /*fsopening=nlevels?'['.repeat(nlevels-1):col;
+   fsopening=nlevels?'['.repeat(nlevels-1):col;
    //fsopening='['.repeat(nlevels)+col;
    fsperiod0='['+col;
    fsperiod1='!';
    fsending=nlevels?'!'.repeat(nlevels-1):'';
    //fsending='!'.repeat(nlevels);
-   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;*/
+   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
    
    //uncountable
-   fsopening=col;
+   /*fsopening=col;
    fsperiod0='['+col;
    fsperiod1='!';
    fsending='';
-   cofcurrent='[[!!';
-   cofclass=0;
-   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;*/
    }
 
 let i=st.length-1;
@@ -2494,6 +2495,16 @@ if(le=='-')
 return s+le;
 }
 
+function mtoc(st)
+{
+let m='[c[c[c!!!';
+if(st==col||st<m)
+   return st;
+if(st==m)
+   return col;
+return bb(mtoc(base(st)),mtoc(booster(st)));
+}
+
 function convertepsilon(st,ext=false){
 if(st==col||st==bo)
    return st;
@@ -2514,11 +2525,13 @@ if(spn)
       return 'EBO';
    else if(st=='[[c[c!![c!!')
       return 'SRO';
+   else if(st=='[[c[c[c!!![c!!')
+      return 'RO';
    }
 
 /*if(st=='[[[[c!c!!c!')   
-   return 'I'; 
-if(st=='[[[c![[c!c!!c!')   
+   return 'I';
+if(st=='[c[c[c!!!')   
    return 'M';*/
 let x=booster(st);
 let beta=base(st);
@@ -2527,6 +2540,7 @@ let sy='';
 let f=floorOmega(x);
 //let j,maxx,ff;
 let j,maxx;
+//let exa;
 
 if(f==col){
    sy='Φ';
@@ -2577,13 +2591,53 @@ else if(f==bb(floorOmega(beta),col)){
    maxx=bb(f,bb(f,col));
    //ff=f;
    }
-else if(x>col){
+/*else if(x>col){
    sy='I';
    f=col;
    j=f;
    maxx='d';
-   //if(x<bb(col,bb(col,'')))
-   //   x=col+x.slice(4);
+   }*/
+else if(x>='c[c[c!!'&&st<'[c[c[c!![[c[c[c!![c!!!!'){
+   sy='M';
+   //f='[c[c[c!!!';
+   f=col;
+   j=f;
+   maxx='d';
+   }
+else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!')
+   {
+   let x1=x;
+   let x2='';
+   let y1=booster(x1);
+   while(y1<'c[[c[c[c!!!!')
+      {
+      x2=bb('',y1)+x2;
+      x1=base(x1);
+      y1=x1==col?'c[c!':booster(x1);
+      }
+   if(x<'c[c[[c[c[c!!!!!'||x2>='[c!')
+      {
+      let x3=x;
+      while(booster(x3)<col)
+         x3=base(x3);
+      x3=bb(x3,col);
+      x3=bb(beta,x3);
+      if(x2<x3)
+         {
+         if(x1>col&&x2.length>2&&x2.slice(0,3)=='[c!')
+            x2=x2.slice(3);
+         while(x1>col)
+            {
+            x2=bb('',mtoc(booster(x1)))+x2;
+            x1=base(x1);
+            }
+         x=col+x2;
+         sy='I';
+         f=col;
+         j=f;
+         maxx='d';
+         }
+      }
    }
 /*else if(compare(bb(col,col),x)<1){
 //else if(beta==''&&compare(bb(col,col),x)<1){
@@ -2600,6 +2654,7 @@ if(sy!=''&&compare(maxx,x)>0){
    let fx=floorOmega(x,f);
    let ex=cnf(x);
    let eex=cnf(JSON.parse(JSON.stringify(x)),true,false);
+   //let eex=sy=='I'?exa:cnf(JSON.parse(JSON.stringify(x)),true,false);
    //let eex=cnf(JSON.parse(JSON.stringify(ex)),true,false);
    //let eex=cnf(JSON.parse(JSON.stringify(ex)),true);
    //let eex=cnf(ex,true,false);
@@ -2659,7 +2714,10 @@ if(sy!=''&&compare(maxx,x)>0){
       return 'I'+(le==''?'':'<sub>'+le+'</sub>');
    //if(sy!='φ'&&sy!='Φ'&&sy!='I-Φ')
    //   return sy+(le==''?'':'<sub>'+le+'</sub>');
-
+   //if(sy=='M'&&fx=='c[c[c!!')
+   if(sy=='M')
+      return 'M'+(le==''?'':'<sub>'+le+'</sub>');
+      
    // old version (without @)	
    /*	   
    if(Array.isArray(eex)){
@@ -2752,6 +2810,8 @@ if(!b||!st||st==col||st==bo)
       s+=' <small>(Extended Buchholz ordinal, EBO)</small>';
    else if(st=='[[c[c!![c!!')
       s+=' <small>(Small Rathjen ordinal, SRO)</small>';
+   else if(st=='[[c[c[c!!![c!!')
+      s+=' <small>(Rathjen ordinal, RO)</small>';
    }
    spn=true;
    return s;
