@@ -23,11 +23,11 @@ hidden>
 <b style="font-size:16px;">Ordinal Explorer Online</b>
 <span onmousedown="return false"><table id="resett" border="3" cellpadding="0" style="font-size:14px;border-color:#ffc0c0;margin-top:10px;opacity:0.4;border-spacing:0;">
 <tr>
-<td id="reset" style="background:#ffffd0;border-color:#00ff00;min-width:175px;text-align:center;">Reset list <small>(countable mode)</small></td>
+<td id="reset" style="background:#ffffd0;border-color:#00ff00;min-width:175px;text-align:center;">Reset list</td>
 </tr>
-</table></span><span onmousedown="return false"><table id="uncresett" border="3" cellpadding="0" style="font-size:14px;border-color:#c0c0ff;margin-top:5px;opacity:0.4;border-spacing:0;">
+</table></span><span onmousedown="return false"><table id="uncresett" border="3" cellpadding="0" style="font-size:14px;border-color:#c0c0ff;margin-top:5px;border-spacing:0;">
 <tr>
-<td id="uncreset" style="background:#d0d0ff;border-color:#ffff00;min-width:175px;text-align:center;">Reset list <small>(uncountable mode)</small></td>
+<td id="uncreset" style="background:#d0d0ff;border-color:#ffff00;min-width:175px;text-align:center;">Change mode</td>
 </tr>
 </table></span>
 <div align="left" onmousedown="return false" style="font-size:13px" hidden><i>Expansion and collapse tools:</i>
@@ -111,7 +111,7 @@ hidden>
 <td id="vtext" style="background:#d0ffd0;font-size:8px;line-height:1.95;">    <big><big><big>✓</big></big></big>    </td>
 </tr>
 </table><i style="line-height:35px;font-size:12px">  text near mouse cursor</i></div>
-<span style="font-size:12px">last updated: 3 January 2023</span>
+<span style="font-size:12px">last updated: 5 January 2023</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
@@ -1649,12 +1649,22 @@ for(let e=1;e<=q;e++)
       i++;
    else if(a=='!')
       i--;
-   if(a!='!')
+   //if(a!='!')
+   if(fsperiod0[e]!='!')
       {
       fsopeningarray.push(fsopening+fsperiod0.slice(0,e));
       if(!b)
          fsopeningarray[fsnumber]=fsopeningarray[fsnumber].slice(0,-j);
       fsperiodarray.push(fsperiod0.slice(e)+fsperiod0.slice(0,e));
+      /*let o=0;
+      while(fsperiodarray[fsnumber][o]=='!')
+         o++;
+      if(o)
+         {
+         let s=fsperiodarray[fsnumber].slice(0,o);
+         fsopeningarray[fsnumber]+=s;
+         fsperiodarray[fsnumber]==fsperiodarray[fsnumber].slice(o)+s;
+         }*/
       if(b&&y+e>=j&&fsopeningarray[fsnumber].slice(-j)==fsperiodarray[fsnumber])
          {
          fsopeningarray[fsnumber]=fsopeningarray[fsnumber].slice(0,-j);
@@ -1662,8 +1672,8 @@ for(let e=1;e<=q;e++)
          b=false;
          }
       fsendingarray.push('!'.repeat(i));
-      if(ocd(fsopeningarray[fsnumber]+fsperiodarray[fsnumber]+fsperiod1+fsendingarray[fsnumber])!=0)
-         alert(fsopeningarray[fsnumber]+fsperiodarray[fsnumber]+fsperiod1+fsendingarray[fsnumber]);
+      //if(ocd(fsopeningarray[fsnumber]+fsperiodarray[fsnumber]+fsperiod1+fsendingarray[fsnumber])!=0)
+      //   alert(fsopeningarray[fsnumber]+fsperiodarray[fsnumber]+fsperiod1+fsendingarray[fsnumber]);
       fsnumber++;
       }
    }
@@ -3309,14 +3319,13 @@ else if(c.id=='oldversionlink'){
    h='<small>Link to old versions and other projects</small>';
    }
 else if(c.id=='reset'){
-   h='<div id="res1"'+(count>1||uncountablemode?'':' style="font-style:italic"')+'><nobr id="res2"'+(count>1||uncountablemode?' style="font-weight:bold"':'')+'>Reset list to countable mode</nobr></div><i>use "R" key</i>';
-   if(count>1||uncountablemode)
+   h='<div id="res1"'+(count>1?'':' style="font-style:italic"')+'><nobr id="res2"'+(count>1?' style="font-weight:bold"':'')+'>Reset list</nobr></div><i>use "R" key</i>';
+   if(count>1)
       xs.style.background='#fffff0';
    }
 else if(c.id=='uncreset'){
-   h='<div id="res1"'+(count>1||!uncountablemode?'':' style="font-style:italic"')+'><nobr id="res2"'+(count>1||!uncountablemode?' style="font-weight:bold"':'')+'>Reset list to uncountable mode</nobr></div><i>use "U" key</i>';
-   if(count>1||!uncountablemode)
-      xs.style.background='#fffff0';
+   h='<div><nobr id="res3" style="font-weight:bold">Set '+(uncountablemode?'':'un')+'countable mode and reset list</nobr></div><i>use "U" key</i>';
+   xs.style.background='#fffff0';
    }
 else if(c.id=='vtext'){
    h='<b>Hide</b> text near mouse cursor<br/><i>use "T" key</i>';
@@ -3512,7 +3521,7 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
          if(!cofclass&&isOmega(c.id))
             cofclass=4;
          }
-      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>fs'+(fsnumber>1?' <small>(<span id="spps">'+(subperiodpositionshift+1)+'</span>/'+fsnumber+') <i>(use "←", "→" keys)</i></small>':'')+':'; 
+      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>fs <small>(<span id="spps">'+(subperiodpositionshift+1)+'</span>/'+fsnumber+')'+(fsnumber>1?' <i>(use "←", "→" keys)</i>':'')+'</small>:'; 
       if(c.id=='')
          h+='<br>'+'   <i>empty</i>';
       else
@@ -3778,8 +3787,8 @@ else if(c.id!=''){
       }
        
    counter.innerHTML='Counter: '+count;
-   resett.style.opacity=count==1&&!uncountablemode?0.4:1;
-   uncresett.style.opacity=count==1&&uncountablemode?0.4:1;
+   resett.style.opacity=count==1?0.4:1;
+   uncreset.innerHTML=count==1?'Change mode':'Change mode and reset list';
    /*if(sc!=null){
       if(sc.getBoundingClientRect().top<0||sc1.getBoundingClientRect().bottom>window.innerHeight)
       if(eo<0||sc1.getBoundingClientRect().bottom-sc.getBoundingClientRect().top>window.innerHeight)
@@ -4043,12 +4052,17 @@ setmarkedli(document.getElementById(initlargeordinal));
 count=1;
 counter.innerHTML='Counter: 1';
 window.scrollTo(0,0);
-resett.style.opacity=uncountablemode?1:0.4;
-uncresett.style.opacity=uncountablemode?0.4:1;
-if(document.getElementById('res2')!=null){
-    xs.style.background='#fff';
-    res1.style['font-style']='italic';
-    res2.style['font-weight']='normal';}
+resett.style.opacity=0.4;
+uncreset.innerHTML='Change mode';
+if(document.getElementById('res2')!=null)
+   {
+   xs.style.background='#fff';
+   res1.style['font-style']='italic';
+   res2.style['font-weight']='normal';
+   }
+else if(document.getElementById('res3')!=null)
+   res3.innerHTML='Set '+(uncountablemode?'':'un')+'countable mode and reset list';
+mouseoverupdate();
 }
 
 function indentul0(c){
@@ -4114,12 +4128,12 @@ function indentvisibletransform(e,b=true){
 
 reset.onclick=function(e)
 {
-resetlist(0);
+resetlist();
 }
 
 uncreset.onclick=function(e)
 {
-resetlist(1);
+resetlist(1-uncountablemode);
 }
 
 function fselementsupdate()
@@ -4336,9 +4350,9 @@ else{
    }
 }
 else if(c=='KeyR'){
-   resetlist(0);} 
+   resetlist();} 
 else if(c=='KeyU'){
-   resetlist(1);} 
+   resetlist(1-uncountablemode);} 
 else if(c=='KeyI'||c=='KeyO'||c=='KeyP'){
    let i=c=='KeyI'?2:c=='KeyP'?1:0;
    if(i!=format){
@@ -4511,7 +4525,7 @@ window.onkeydown = function(e) {
 
 //let bo='Some large ordinal',col='c',eo=0,efs=0,
 let uncountablemode=0;
-let uncountablemodeinitnames=['Some large ordinal','Some large uncountable ordinal'];
+let uncountablemodeinitnames=['Some large countable ordinal','Some large uncountable ordinal'];
 let bo=uncountablemodeinitnames[uncountablemode],col='c',eo=0,efs=0,
 exp=['small expansion','single expansion','double expansion','triple expansion','quadruple expansion','quintuple expansion','sextuple expansion','septuple expansion','octuple expansion','ninefold expansion'];
 exp[-1]='collapse',exp[-2]='view';
