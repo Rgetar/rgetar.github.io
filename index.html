@@ -4050,7 +4050,7 @@ nextl='';
 mulcounter=1;
 prevsmallexp='-';
 uncountablemode=m;
-bo=uncountablemodeinitnames[m];
+bo=uncountablemodeinitnames[m]+(nlevels==2?'':', nlevels = '+nlevels);
 initlargeordinal=bo;
 list.innerHTML='<li id="-" hidden></li>';
 let y=document.createElement('li');
@@ -4492,14 +4492,18 @@ else if(c=='ArrowRight'){
    }
 else if(c=='KeyM'){
    nlevels++;
+   bolevels++;
    initlargeordinalupdate();
    }
 else if(c=='KeyN'){
    if(nlevels)
+      {
       nlevels--;
+      bolevels--;
+      }
    initlargeordinalupdate();
    }
-else if(c=='KeyB'){
+/*else if(c=='KeyB'){
    if(bolevels<nlevels)
       bolevels++;
    initlargeordinalupdate();
@@ -4508,7 +4512,7 @@ else if(c=='KeyV'){
    if(bolevels)
       bolevels--;
    initlargeordinalupdate();
-   }
+   }*/
 else if(c=='KeyA'){
    window.prompt("Copy to clipboard: Ctrl+C", markedli.id);
    }
