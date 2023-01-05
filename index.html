@@ -1674,6 +1674,15 @@ for(let e=1;e<=q;e++)
       fsendingarray.push('!'.repeat(i));
       //if(ocd(fsopeningarray[fsnumber]+fsperiodarray[fsnumber]+fsperiod1+fsendingarray[fsnumber])!=0)
       //   alert(fsopeningarray[fsnumber]+fsperiodarray[fsnumber]+fsperiod1+fsendingarray[fsnumber]);
+      if(fsperiod0[e]==col)
+         {
+         fsopeningarray.push(fsopeningarray[fsnumber]);
+         fsperiodarray.push(fsperiodarray[fsnumber]);
+         fsendingarray.push('[!'+fsendingarray[fsnumber]);
+         //if(ocd(fsopeningarray[fsnumber]+fsperiodarray[fsnumber]+fsperiod1+fsendingarray[fsnumber])!=0)
+         //   alert(fsopeningarray[fsnumber]+fsperiodarray[fsnumber]+fsperiod1+fsendingarray[fsnumber]);
+         fsnumber++;
+         }
       fsnumber++;
       }
    }
