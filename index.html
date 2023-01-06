@@ -1697,11 +1697,11 @@ return beta?leftbase(beta):st;
 //return x>st?st:leftbase(base(st));
 }
 
-// if st is not epsilon - -1
-// epsilon - 0
-// Omega - 1
-// L - 2
-// R - 3
+// if st is not epsilon: -1
+// epsilon: 0
+// Omega: 1
+// L: 2
+// R: 3
 // ...
 function getepslevel(st)
 {
@@ -1776,7 +1776,8 @@ cardclass=2;
 return leftbase(st);*/
 
 cardclass=2;
-while(getepslevel(st)<=0)
+//while(getepslevel(st)<=0)
+while(st>booster(st))
    st=base(st);
 return st;
 }
