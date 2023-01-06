@@ -111,7 +111,7 @@ hidden>
 <td id="vtext" style="background:#d0ffd0;font-size:8px;line-height:1.95;">    <big><big><big>✓</big></big></big>    </td>
 </tr>
 </table><i style="line-height:35px;font-size:12px">  text near mouse cursor</i></div>
-<span style="font-size:12px">last updated: 6 January 2023</span>
+<span style="font-size:12px">last updated: 7 January 2023</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
@@ -1693,6 +1693,8 @@ function leftbase(st)
 {
 let beta=base(st);
 return beta?leftbase(beta):st;
+//let x=booster(st);
+//return x>st?st:leftbase(base(st));
 }
 
 // if st is not epsilon - -1
@@ -1701,7 +1703,7 @@ return beta?leftbase(beta):st;
 // L - 2
 // R - 3
 // ...
-function getepslevel(st,b=true)
+function getepslevel(st)
 {
 if(st==bo)
    return 0;
@@ -1713,6 +1715,26 @@ let x=booster(st);
 if(st>x)
    return -1;
 return getepslevel(leftbase(x))-1;
+}
+
+function flooreps(st,n)
+{
+if(!st||getepslevel(st)>=n)
+   return st;
+return flooreps(base(st),n);
+}
+
+// n = 0: least epsilon above epsilon or zero st
+// n = 1: least Omega above Omega or zero st
+// n = 2: least L above L or zero st
+//...
+function nexteps(st,n)
+{
+if(st==col)
+   return 'd';
+if(n==nlevels)
+   return col;
+return bb(flooreps(st,n),nexteps(st,n+1));
 }
 
 function card(st)
@@ -1743,14 +1765,29 @@ if(st<leastuncounable)
    cardclass=1;
    return '[[!!';
    }
-if(getepslevel(st)>0)
+   
+/*if(getepslevel(st)>0)
    {
    //cardclass=4;
    cardclass=2;
    return st;
    }
 cardclass=2;
-return leftbase(st);
+return leftbase(st);*/
+
+cardclass=2;
+while(getepslevel(st)<=0)
+   st=base(st);
+return st;
+}
+
+// card, but if < Ω, returns empty string
+function ecard(st)
+{
+let c=card(st);
+if(c<leastuncounable)
+   return '';
+return st;
 }
 
 // get n-th element of fs of ordinal st
@@ -2649,9 +2686,12 @@ return bb(mtoc(base(st)),mtoc(booster(st)));
 }
 
 function convertepsilon(st,ext=false){
+if(!nlevels&&st==col)
+   return 'ε<sub>0</sub>';
+
 if(st==col||st==bo)
    return st;
-   
+    
 if(spn)
    {
    if(st=='[[c![[c![[c![!!!!')
@@ -2685,7 +2725,19 @@ let f=floorOmega(x);
 let j,maxx;
 //let exa;
 
-if(f==col){
+let f1=card(x);
+//let f2=ecard(beta);
+//f2=nexteps(ecard(beta),1);
+
+//if(f1==f2)
+if(f1==nexteps(ecard(beta),1))
+   {
+   sy='φ';
+   f=f1;
+   j=f;
+   maxx=nexteps(f,0);
+   }
+else if(f==col){
    sy='Φ';
    //ff=bb(col,col);
    //f=bb(floorOmega(beta,ff),ff);
@@ -2726,14 +2778,14 @@ else if(f==bb(col,bb(col,col))){
    j=bb(col,j);
    j=bb(floorOmega(beta,j),j); 
    }*/
-else if(f==bb(floorOmega(beta),col)){
+/*else if(f==bb(floorOmega(beta),col)){
    sy='φ';
    j=f;
    //maxx=bb(f,bb(f,bb(f,'')));
    //maxx=bb(f,bb(f,bb(f,f)));
    maxx=bb(f,bb(f,col));
    //ff=f;
-   }
+   }*/
 /*else if(x>col){
    sy='I';
    f=col;
@@ -3593,10 +3645,13 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
       else
          {
          fs(c.id,'',0);
-         if(!cofclass&&isOmega(c.id))
+         //if(!cofclass&&isOmega(c.id))
+         if(!cofclass&&getepslevel(c.id)>0)
             cofclass=4;
          }
-      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>card: '+convert(card(c.id))+'<small> ('+cardclasslist[cardclass]+')</small>'+'<br/>fs <small>(<span id="spps">'+(subperiodpositionshift+1)+'</span>/'+fsnumber+')'+(fsnumber>1?' <i>(use "←", "→" keys)</i>':'')+'</small>:'; 
+      let cc=card(c.id);
+      let ccc=cardclass;
+      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>card: '+convert(cc)+'<small> ('+cardclasslist[ccc]+')</small>'+'<br/>fs <small>(<span id="spps">'+(subperiodpositionshift+1)+'</span>/'+fsnumber+')'+(fsnumber>1?' <i>(use "←", "→" keys)</i>':'')+'</small>:'; 
       if(c.id=='')
          h+='<br>'+'   <i>empty</i>';
       else
@@ -4596,7 +4651,7 @@ fscurrent='';
 leastr=nlevels>1?'['.repeat(nlevels-2)+col+'!'.repeat(nlevels-2):'d';
 leastuncounable=nlevels?'['.repeat(nlevels-1)+col+'!'.repeat(nlevels-1):'d';
 initlargeordinal=nlevels==bolevels?bo:'['.repeat(bolevels)+('['.repeat(nlevels-bolevels)+col+'!'.repeat(nlevels-bolevels)).repeat(2)+'!'.repeat(bolevels);
-resetlist(0);
+resetlist();
 }
 
 window.onkeydown = function(e) { 
