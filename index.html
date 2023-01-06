@@ -91,7 +91,7 @@ hidden>
 <tr style="font-size:12px;line-height:1;">
 <td id="indentmode2">   NO   </td>
 <td id="indentmode1" style="font-size:11px;">fundamental<br/>sequence<br/>alignment</td>
-<td id="indentmode0" style="font-size:12px;">expansion<br/>alignment</td>
+<td id="indentmode0" style="font-size:11px;">recursive<br/>expansion<br/>alignment</td>
 </tr>
 </table></div>
 
@@ -2106,7 +2106,7 @@ let t=st[st.length-1][0];
 while(Array.isArray(t)&&t!=0){
    st=t;
    t=st[st.length-1][0];}   
-return t;	
+return t;
 }
 
 // is st Ω number
@@ -2836,7 +2836,8 @@ if(sy!=''&&compare(maxx,x)>0){
          {
          let lenee=eex[lene][2].length-1;
          if(!eex[lene][2][lenee][0])
-            eex[lene][2][lenee][1]--;
+            //eex[lene][2][lenee][1]--;
+            eex[lene][2][lenee][1]-=2;
          }
       }
    
