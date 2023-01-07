@@ -1855,10 +1855,11 @@ if(e)
    fsperiod0=s1;
    fsperiod1='';
    fsending=st1;
-   if(st2)
+   setfsarrays();
+   /*if(st2)
       setfsarrays();
    else
-      fsnumber=1;
+      fsnumber=1;*/
    return fsopening+fsperiod0.repeat(nn)+fsending;
    }
 
@@ -2676,14 +2677,40 @@ if(le=='-')
 return s+le;
 }
 
-function mtoc(st)
+function mtoc(st,n=0)
 {
 let m='[c[c[c!!!';
-if(st==col||st<m)
+if(st==col||!st||(n<=0&&st<m))
    return st;
 if(st==m)
    return col;
-return bb(mtoc(base(st)),mtoc(booster(st)));
+return bb(mtoc(base(st),n),mtoc(booster(st),n-1));
+}
+
+function finremc(st)
+{
+if(st.length<2)
+   return st;
+let x1=st;
+let x2='';
+let y1=booster(x1);
+while(y1<col)
+   {
+   x2=bb('',y1)+x2;
+   x1=base(x1);
+   y1=x1==col?'c[c!':booster(x1);
+   }
+if(booster(x1)==col)
+   {
+   let x5=x1;
+   while(booster(x5)==col)
+      x5=base(x5);
+   x5=booster(x5);
+   x5=x5?booster(x5):col;
+   if(x5>='[c[c[c!!!')
+      return base(x1)+x2;
+   }
+return st;
 }
 
 function convertepsilon(st,ext=false){
@@ -2805,28 +2832,55 @@ else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!')
    let x1=x;
    let x2='';
    let y1=booster(x1);
-   while(y1<'c[[c[c[c!!!!')
+   //while(y1<'c[[c[c[c!!!!')
+   while(y1<col)
       {
       x2=bb('',y1)+x2;
       x1=base(x1);
       y1=x1==col?'c[c!':booster(x1);
       }
-   if(x<'c[c[[c[c[c!!!!!'||x2>='[c!')
+   //if(x<'c[c[[c[c[c!!!!!'||x2>='[c!')
+   let x4=booster(x1);
+   x4=x4?booster(x4):col;
+   //if(x<'c[c[[c[c[c!!!!!'||x2>='[c!'||(x>='c[c[[c[c[c!!!!!'&&x4<'[c[c[c!!!'))
+   //if(x<'c[c[[c[c[c!!!!!'||x2>='[c!'||x4<'[c[c[c!!!')
+   if(x4<'[c[c[c!!!')
       {
-      let x3=x;
+      /*let x3=x;
       while(booster(x3)<col)
          x3=base(x3);
-      x3=bb(x3,col);
+      x3=bb(x3,col);*/
+      let x3=bb(x1,col);
       x3=bb(beta,x3);
       if(x2<x3)
          {
-         if(x1>col&&x2.length>2&&x2.slice(0,3)=='[c!')
-            x2=x2.slice(3);
+         //if(x1>col&&x2.length>2&&x2.slice(0,3)=='[c!')
+         //   x2=x2.slice(3);
+         /*if(booster(x1)==col)
+            {
+            let x5=x1;
+            while(booster(x5)==col)
+               x5=base(x5);
+            x5=booster(x5);
+            x5=x5?booster(x5):col;
+            if(x5>='[c[c[c!!!')
+               x1=base(x1);
+            //x1=base(x1);
+            }*/
+         x1=finremc(x1);
          while(x1>col)
             {
             x2=bb('',mtoc(booster(x1)))+x2;
             x1=base(x1);
             }
+         let x5='';
+         while(beta.length>1)
+            {
+            x5=bb('',finremc(booster(beta)))+x5;
+            beta=base(beta);
+            }
+         beta+=x5;
+         beta=mtoc(beta,2);
          x=col+x2;
          sy='I';
          f=col;
