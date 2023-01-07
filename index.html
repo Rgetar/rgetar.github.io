@@ -2977,7 +2977,7 @@ function convert(st,b=decompositionintoboosterslevels){
 //if(b||!st||st==col||st==bo)
 if(!b||!st||st==col||st==bo)
    {
-   if(format<2&&(st=='[[c![[c![[c![!!!!'||st=='[[c![[c![[c![[c!!!!!'||st=='[[c![c!!'||st=='[[c[!!!'||st=='[[c[!![c!!'||st=='[[c[c!!!'||st=='[[c[c!![c!!'))
+   if(format<2&&(st=='[[c![[c![[c![!!!!'||st=='[[c![[c![[c![[c!!!!!'||st=='[[c![c!!'||st=='[[c[!!!'||st=='[[c[!![c!!'||st=='[[c[c!!!'||st=='[[c[c!![c!!'||st=='[[c[c[c!!![c!!'))
       spn=false;
    let s=(format>1?st:displayform(cnf(st,format),format)).toString().replaceAll('!',']');
    //if(format<2)
