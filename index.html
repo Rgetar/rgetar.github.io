@@ -1724,13 +1724,13 @@ if(!st||getepslevel(st)>=n)
 return flooreps(base(st),n);
 }
 
-// n = 0: least epsilon above epsilon or zero st
-// n = 1: least Omega above Omega or zero st
-// n = 2: least L above L or zero st
+// n = 0: least epsilon above st
+// n = 1: least Omega above st
+// n = 2: least L above L st
 //...
 function nexteps(st,n)
 {
-if(st==col)
+if(st>=col||n>nlevels)
    return 'd';
 if(n==nlevels)
    return col;
@@ -1739,6 +1739,17 @@ return bb(flooreps(st,n),nexteps(st,n+1));
 
 function card(st)
 {
+if(st==col)
+if(nlevels)
+   {
+   cardclass=2;
+   return col;
+   }
+else
+   {
+   cardclass=1;
+   return '[[!!';
+   }
 if(st==bo)
    {
    if(nlevels&&uncountablemode)
@@ -1777,7 +1788,7 @@ return leftbase(st);*/
 
 cardclass=2;
 //while(getepslevel(st)<=0)
-while(st>booster(st))
+while(st.length>1&&st>booster(st))
    st=base(st);
 return st;
 }
@@ -2717,6 +2728,9 @@ function convertepsilon(st,ext=false){
 if(!nlevels&&st==col)
    return 'ε<sub>0</sub>';
 
+if(nlevels==1&&st==col)
+   return 'Ω';
+
 if(st==col||st==bo)
    return st;
     
@@ -2754,17 +2768,28 @@ let j,maxx;
 //let exa;
 
 let f1=card(x);
-//let f2=ecard(beta);
+let f2=ecard(beta);
 //f2=nexteps(ecard(beta),1);
+//let l=nexteps(f2,2);
 
 //if(f1==f2)
-if(f1==nexteps(ecard(beta),1))
+if(f1==nexteps(f2,1))
    {
    sy='φ';
    f=f1;
    j=f;
    maxx=nexteps(f,0);
    }
+//else if(f1==l)
+/*else if(floorOmega(x,l)==l)
+   {
+   sy='Φ';
+   f=bb(l,l);
+   f=bb(beta,f);
+   j=bb(l,f);
+   j=bb(beta,j);
+   maxx=bb(l,nexteps(f,0));
+   }*/
 else if(f==col){
    sy='Φ';
    //ff=bb(col,col);
@@ -2941,6 +2966,7 @@ if(sy!=''&&compare(maxx,x)>0){
          }
       }
    if(sy!='φ'&&(sy!='Φ'||fx==col)&&(sy!='I-Φ'||fx==bb(col,col))&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
+   //if(sy!='φ'&&(sy!='Φ'||fx==l)&&(sy!='I-Φ'||fx==bb(l,l))&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
       le='';
    else{
       if(ext)   
