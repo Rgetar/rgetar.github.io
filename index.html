@@ -65,7 +65,7 @@ hidden>
 <td id="incef" style="font-size:25px;"> ▻</td>
 </tr>
 </table><i style="line-height:40px;font-size:12px">  extra fs elements</i></div
->
+><div style="float:left;outline: 1px solid black;border-radius:5px 0 0 5px;padding:0 5px;line-height:1.5;" hidden>1</div><div style="float:left;outline: 1px solid black;margin-left:1px;padding:0 5px;line-height:1.5;" hidden>2</div><div style="float:left;outline: 1px solid black;border-radius:0 5px 5px 0;margin-left:1px;padding:0 5px;line-height:1.5;" hidden>3</div>
 <div align="left" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Format of ordinals:</i>
 <table id="switchformat" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
 <tr style="font-size:12px;line-height:1.4;">
@@ -111,7 +111,7 @@ hidden>
 <td id="vtext" style="background:#d0ffd0;font-size:8px;line-height:1.95;">    <big><big><big>✓</big></big></big>    </td>
 </tr>
 </table><i style="line-height:35px;font-size:12px">  text near mouse cursor</i></div>
-<span style="font-size:12px">last updated: 7 January 2023</span>
+<span style="font-size:12px">last updated: 8 January 2023</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
@@ -2718,7 +2718,10 @@ if(booster(x1)==col)
       x5=base(x5);
    x5=booster(x5);
    x5=x5?booster(x5):col;
-   if(x5>='[c[c[c!!!')
+   while(x5&&x5<col)
+      x5=x5?booster(x5):col;
+   //if(x5>='[c[c[c!!!')
+   if(x5>='c[c[c!!')
       return base(x1)+x2;
    }
 return st;
@@ -2867,9 +2870,14 @@ else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!')
    //if(x<'c[c[[c[c[c!!!!!'||x2>='[c!')
    let x4=booster(x1);
    x4=x4?booster(x4):col;
+   while(x4&&x4<col)
+      x4=x4?booster(x4):col;
+   //if(x5>='[c[c[c!!!')
+   
    //if(x<'c[c[[c[c[c!!!!!'||x2>='[c!'||(x>='c[c[[c[c[c!!!!!'&&x4<'[c[c[c!!!'))
    //if(x<'c[c[[c[c[c!!!!!'||x2>='[c!'||x4<'[c[c[c!!!')
-   if(x4<'[c[c[c!!!')
+   //if(x4<'[c[c[c!!!')
+   if(x4<'c[c[c!!')
       {
       /*let x3=x;
       while(booster(x3)<col)
@@ -2892,21 +2900,26 @@ else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!')
                x1=base(x1);
             //x1=base(x1);
             }*/
-         x1=finremc(x1);
-         while(x1>col)
+            
+         if(x>='c[c[[c[c[c!!!!!')
             {
-            x2=bb('',mtoc(booster(x1)))+x2;
-            x1=base(x1);
+            x1=finremc(x1);
+            while(x1>col)
+               {
+               x2=bb('',mtoc(booster(x1)))+x2;
+               x1=base(x1);
+               }
+            let x5='';
+            while(beta.length>1)
+               {
+               x5=bb('',finremc(booster(beta)))+x5;
+               beta=base(beta);
+               }
+            beta+=x5;
+            beta=mtoc(beta,2);
+            x=col+x2;
             }
-         let x5='';
-         while(beta.length>1)
-            {
-            x5=bb('',finremc(booster(beta)))+x5;
-            beta=base(beta);
-            }
-         beta+=x5;
-         beta=mtoc(beta,2);
-         x=col+x2;
+            
          sy='I';
          f=col;
          j=f;
