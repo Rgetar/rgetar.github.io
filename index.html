@@ -111,7 +111,7 @@ hidden>
 <td id="vtext" style="background:#d0ffd0;font-size:8px;line-height:1.95;">    <big><big><big>✓</big></big></big>    </td>
 </tr>
 </table><i style="line-height:35px;font-size:12px">  text near mouse cursor</i></div>
-<span style="font-size:12px">last updated: 8 January 2023</span>
+<span style="font-size:12px">last updated: 9 January 2023</span>
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
@@ -2718,7 +2718,8 @@ if(booster(x1)==col)
       x5=base(x5);
    x5=booster(x5);
    x5=x5?booster(x5):col;
-   while(x5&&x5<col)
+   while(x5>='[c[c[c!!!'&&x5<col)
+   //while(x5&&x5<col)
       x5=x5?booster(x5):col;
    //if(x5>='[c[c[c!!!')
    if(x5>='c[c[c!!')
@@ -2870,7 +2871,8 @@ else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!')
    //if(x<'c[c[[c[c[c!!!!!'||x2>='[c!')
    let x4=booster(x1);
    x4=x4?booster(x4):col;
-   while(x4&&x4<col)
+   //while(x4&&x4<col)
+   while(x4>='[c[c[c!!!'&&x4<col)
       x4=x4?booster(x4):col;
    //if(x5>='[c[c[c!!!')
    
