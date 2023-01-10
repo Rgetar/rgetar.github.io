@@ -250,7 +250,7 @@ cursor:pointer;
 <td id="vsidebar">«</td>
 </tr>
 </table></span><span id="counter" onmousedown="return false" style="position:fixed;right:30px;bottom:14px;float:right;font-size:12px;cursor:default"
->Counter: 1</span><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;"
+></span><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;"
 hidden><script
 >'use strict'
 
@@ -1982,16 +1982,17 @@ if(exb[1])
 }
 
 function expwords(n){
-let ord='th';
+/*let ord='th';
 if (n %10 == 1 && n % 100 != 11)
    ord = 'st';
 else if (n % 10 == 2 && n % 100 != 12)
    ord = 'nd';
 else if (n % 10 == 3 && n % 100 != 13)
-   ord = 'rd';
+   ord = 'rd';*/
 
 //return n<10?exp[n]:n+'-fold recursive expansion';
-return n<10?exp[n]:'Recursivly expand '+n+ord+' times';
+//return n<10?exp[n]:'Recursivly expand '+n+ord+' times';
+return n<10?exp[n]:'Recursivly expand';
 }
 
 listc.onscroll=function(e){
@@ -2151,6 +2152,12 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
       let l=eo1>-3&&eo>1?nextl:pairl[i];
       //h+='<nobr id="ex2">'+(l.id!='-'?'pair ':'')+'</nobr>';
       //h+='<nobr id="ex3">'+(l.id!='-'?(l.innerHTML+', '):'')+'</nobr>';
+      
+      
+      if(eo>1)
+         h+='all '+multicount+' strings'+(l.id=='-'?'':(' from '+l.innerHTML))+' up to ';
+      
+      
       h+=c.innerHTML;
       if(b&&eo!=-2&&c==markedli){
          xs.style.background=i==0?'#fffaf0':eo1>-3&&eo>1?'#f0f0ff':eo>0?'#f0fff0':'#f0ffff';
@@ -2297,6 +2304,7 @@ if(c!=markedli)
    setmarkedli(c)
 else if(c.id!=''){
    if(eo!=-2){
+   countdifference=count;
    let sc;
    let sc1=c;
    if(eo<0){
@@ -2344,6 +2352,7 @@ else if(c.id!=''){
        
    counter.innerHTML='Counter: '+count;
    reset.style.opacity=count==1?0.4:1;
+   countdifference=count-countdifference;
    uncreset.innerHTML=count==1?'Change mode':'Change mode and reset list';
    mouseoverupdate(sc1);
    expcolmarksupdate();
@@ -2371,15 +2380,21 @@ if(c=='KeyC')
    if(m.length<4||m.slice(-4)!='[[!!')
       mulcounter++;
    }
-else if(c=='Enter')
+else
    {
-   nextlb=true;
-   nextl='';
-   if(m.length<4||m.slice(-4)!='[[!!')
-      mulcounter=2;
+   multicount=1;
+   if(c=='Enter')
+      {
+      nextlb=true;
+      nextl='';
+      if(m.length<4||m.slice(-4)!='[[!!')
+         mulcounter=2;
+      }
    }
 mouseoverupdate(markedli);
 markedli.click();
+if(c=='KeyC'||c=='Enter')
+   multicount+=countdifference;
 //scrolly(markedli);
 scrollli(markedli);
 seteo(eo1);
@@ -2582,6 +2597,7 @@ function resetlist(m=uncountablemode)
 ps=[];
 nextl='';
 mulcounter=1;
+multicount=1;
 prevsmallexp='-';
 uncountablemode=m;
 bo=uncountablemodeinitnames[m]+(nlevels==2?'':', nlevels = '+nlevels);
@@ -3018,9 +3034,10 @@ let uncountablemodeinitnames=['Some large countable ordinal','Some large uncount
 let bo=uncountablemodeinitnames[uncountablemode],col='c',eo=0,efs=0,
 //exp=['expansion','recursive expansion','double recursive expansion','triple recursive expansion','quadruple recursive expansion','quintuple recursive expansion','sextuple recursive expansion','septuple recursive expansion','octuple recursive expansion','ninefold recursive expansion'];
 //exp[-1]='collapse',exp[-2]='view';
-exp=['Expand','Recursivly expand','Recursivly expand 2nd time','Recursivly expand 3rd time','Recursivly expand 4th time','Recursivly expand 5th time','Recursivly expand 6th time','Recursivly expand 7th time','Recursivly expand 8th time','Recursivly expand 9th time'];
+exp=['Expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand'];
 exp[-1]='Collapse',exp[-2]='view';
 let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[];
+let countdifference,multicount;
 let far=[for0,for1,for2];
 let indentar=[indentmode0,indentmode1,indentmode2];
 let mousex,mousey;
