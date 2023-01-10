@@ -81,12 +81,12 @@ cursor:pointer;
 <td id="decef" style="color:#eeeeee;font-size:25px;cursor:default;">◅ </td>
 <td id="ecfve" style="cursor:default;line-height:2;"><table border="3" cellpadding="0" style="border-spacing:0;">
 <tr>
-<td id="ecfv" style="background:#ffffff;font-size:15px;cursor:default;">   0   </td>
+<td id="ecfv" style="background:#ffffff;font-size:15px;cursor:default;">   1   </td>
 </tr>
 </table></td>
 <td id="incef" style="font-size:25px;"> ▻</td>
 </tr>
-</table><i style="line-height:40px;font-size:12px">  extra fs elements</i></div
+</table><i style="line-height:40px;font-size:11px">  strings per expansion</i></div
 ><div style="float:left;outline: 1px solid #909090;border-radius:5px 0 0 5px;padding:0 5px;line-height:1.5;" hidden>1</div><div style="float:left;outline: 1px solid #909090;margin-left:1px;padding:0 5px;line-height:1.5;" hidden>2</div><div style="float:left;outline: 1px solid #909090;border-radius:0 5px 5px 0;margin-left:1px;padding:0 5px;line-height:1.5;" hidden>3</div>
 <div align="left" style="font-size:13px;padding:5px;"><i>Format of ordinals:</i>
 <table id="switchformat" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
@@ -3592,12 +3592,12 @@ else if(c.id=='vsidebar'){
    xs.style.background='#f0fff0';
    }
 else if(c.id=='decef'){
-   h='<div id="decd1"'+(efs>0?'':' style="font-style:italic"')+'><nobr id="decd2"'+(efs>0?' style="font-weight:bold"':'')+'>Remove</nobr> extra fs element</div><i>use "-" key</i>';
+   h='<div id="decd1"'+(efs>0?'':' style="font-style:italic"')+'><nobr id="decd2"'+(efs>0?' style="font-weight:bold"':'')+'>Decrease</nobr> maximal number of new strings per expansion</div><i>use "-" key</i>';
    if(efs>0) 
       xs.style.background='#fffff0';
    }
 else if(c.id=='incef'){
-   h='<b>Add</b> extra fs element<br/><i>use "+" key</i>';
+   h='<b>Increase</b> maximal number of new strings per expansion<br/><i>use "+" key</i>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='decdec'){
@@ -3619,7 +3619,7 @@ else if(c.id=='incd'){
    xs.style.background='#f0fff0';
    }
 else if(c.id=='ecfv'){
-   h='<small><small><div style="line-height:1">Enhance expansions.<br/>After expansion extra fs elements of all expanded elements are added to the list.</div></small></small>'; 
+   h='<small><small><div style="line-height:1">Maximal number of new strings per expansion.</div></small></small>'; 
    xs.style.background='#fff';
    }
 else if(c.id=='decintoboostersl'){
@@ -3717,7 +3717,8 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
    //h+='<br/><small><i>Click "'+convert(initlargeordinal)+'" to add more elements of its fundamental sequence</i></small>';
    //h+='<br/><small><i>Click "'+convert(initlargeordinal)+'" to add more strings</i></small>';
    xs.style.background='#fff';
-   h+='<span id="extra1"'+(efs==0||eo<0?' hidden':'')+'> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></span>';   
+   //h+='<span id="extra1"'+(efs==0||eo<0?' hidden':'')+'> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></span>';  
+   h+='<span id="extra1" hidden> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></span>';  
    //if(c.tagName=='LI'&&c.id!=null&&c.id!='dots'){
    if(c.tagName=='LI'){
       lea=c;
@@ -4213,7 +4214,7 @@ else{
 decef.onclick=function(e){
 if(efs>0){
    efs--;
-   ecfv.innerHTML='   '+efs+'   ';
+   ecfv.innerHTML='   '+(efs+1)+'   ';
    if(efs==0){
       ecfv.style.background='#fff';
       decef.style.color='#eeeeee';
@@ -4229,7 +4230,7 @@ if(efs>0){
 
 incef.onclick=function(e){
 efs++;
-ecfv.innerHTML='   '+efs+'   ';
+ecfv.innerHTML='   '+(efs+1)+'   ';
 if(efs==1){
    decef.style.color='#000';
    decef.style.cursor='pointer';
@@ -4467,7 +4468,7 @@ else
 else if(c=='Minus'||c=='NumpadSubtract'){
 if(efs>0){
    efs--;
-   ecfv.innerHTML='   '+efs+'   ';
+   ecfv.innerHTML='   '+(efs+1)+'   ';
    if(document.getElementById('extra1')!=null){
       if(efs==0)
          extra1.hidden=true;
@@ -4488,7 +4489,7 @@ if(efs>0){
 }     	
 else if(c=='Equal'||c=='NumpadAdd'){
    efs++;
-   ecfv.innerHTML='   '+efs+'   '; 
+   ecfv.innerHTML='   '+(efs+1)+'   '; 
    if(document.getElementById('extra1')!=null){
       if(efs==1&&eo>=0)
          extra1.hidden=false;
