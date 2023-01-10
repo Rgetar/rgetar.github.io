@@ -127,7 +127,7 @@ cursor:pointer;
 </table></td>
 <td id="incd" style="font-size:25px;"> ▻</td>
 </tr>
-</table><i style="line-height:40px;font-size:12px">  displayed fs elements</i></div>
+</table><i style="line-height:40px;font-size:11px">  displayed fs elements</i></div>
 <div id="vtext" style="
 background:#d0ffd0;
 margin-top:7px;
@@ -3610,12 +3610,12 @@ else if(c.id=='incdec'){
    xs.style.background='#f0fff0';
    }
 else if(c.id=='decd'){
-   h='<div id="dec1"'+(di>0?'':' style="font-style:italic"')+'><nobr id="dec2"'+(di>0?' style="font-weight:bold"':'')+'>Remove</nobr> fs element, displayed near mouse cursor</div><i>use "<" key</i>';
+   h='<small><div id="dec1" style="line-height:1.2'+(di>0?'':' ;font-style:italic')+'"><nobr id="dec2"'+(di>0?' style="font-weight:bold"':'')+'>Decrease</nobr> maximal number of<br/>fundamental sequence elements,<br/>displayed near mouse cursor</div></small><i>use "<" key</i>';
    if(di>0) 
       xs.style.background='#fffff0';
    }
 else if(c.id=='incd'){
-   h='<b>Add</b> fs element, displayed near mouse cursor<br/><i>use ">" key</i>';
+   h='<small><div style="line-height:1.2"><b>Increase</b> maximal number of<br/>fundamental sequence elements,<br/>displayed near mouse cursor</div></small><i>use ">" key</i>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='ecfv'){
@@ -3627,7 +3627,7 @@ else if(c.id=='decintoboostersl'){
    xs.style.background='#fff';
    }
 else if(c.id=='dis'){
-   h='<small><small><div style="line-height:1">Amount of fs elements of the element <b>b</b>, displayed near mouse cursor, when it is over <b>b</b>.</div></small></small>'; 
+   h='<small><small><div style="line-height:1">Maximal number of fundamental sequence elements, displayed near mouse cursor.</div></small></small>'; 
    xs.style.background='#fff';
    }    
 else if(c.id=='for2'){
