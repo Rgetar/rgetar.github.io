@@ -2364,16 +2364,19 @@ function doexpcol(c)
 {
 let eo1=eo;
 seteo(c=='Space'?0:c=='Backspace'?-1:1);
+let m=markedli.id;
 if(c=='KeyC')
    {
    nextlb=true;
-   mulcounter++;
+   if(m.length<4||m.slice(-4)!='[[!!')
+      mulcounter++;
    }
 else if(c=='Enter')
    {
    nextlb=true;
    nextl='';
-   mulcounter=2;
+   if(m.length<4||m.slice(-4)!='[[!!')
+      mulcounter=2;
    }
 mouseoverupdate(markedli);
 markedli.click();
