@@ -10,7 +10,7 @@ a{text-decoration:none;color:blue;}
 a:hover{text-decoration:underline;}
 a:visited{color:blue;}
 li{list-style-type:none;cursor:pointer;padding-left: 7px;padding-right: 27px; min-height:32px;}
-//li{list-style-type:none;cursor:pointer;padding-left: 7px;outline: 1px solid black}
+//li{list-style-type:none;cursor:pointer;padding-left: 7px;outline: 1px solid black;}
 //ul{margin-right:auto;widthq:100%}
 td{cursor:pointer;}
 sub{font-size:0.83rem;}
@@ -56,7 +56,7 @@ cursor:pointer;
 <div style="
 float:left;
 min-height:16px;
-min-width:12px;
+min-width:10px;
 "></div><div id="decef" style="
 float:left;
 outline:1px solid #909090;
@@ -72,8 +72,8 @@ cursor:default;
 ">◅</div><div id="ecfv" style="
 float:left;
 outlinea:1px solid #909090;
-min-width:65px;
-max-width:65px;
+min-width:70px;
+max-width:70px;
 min-height:16px;
 margin-left:1px;
 padding:0 20px;
@@ -94,6 +94,46 @@ background:#d0ffd0;
 cursor:pointer;
 ">▻</div>
 
+<div style="
+float:left;
+min-height:16px;
+min-width:10px;
+"></div><div id="decdec" style="
+float:left;
+outline:1px solid #909090;
+border-radius:5px 0 0 5px;
+min-height:16px;
+line-height:16px;
+text-align:center;
+padding:3px 5px;
+font-size:25px;
+background:#ffffd0;
+opacity:0.4;
+cursor:default;
+">◅</div><div id="decintoboostersl" style="
+float:left;
+outlinea:1px solid #909090;
+min-width:70px;
+max-width:70px;
+min-height:16px;
+margin-left:1px;
+padding:0 20px;
+font-size:11px;
+line-height:1;
+backgrounda:#ffffff;
+cursor:pointer;
+">decomposition<br/>into boosters: 0</div><div id="incdec" style="
+float:left;
+outline:1px solid #909090;
+min-height:16px;
+line-height:16px;
+border-radius:0 5px 5px 0;
+margin-left:1px;
+padding:3px 5px;
+font-size:25px;
+background:#d0ffd0;
+cursor:pointer;
+">▻</div>
 <div align="left" style="font-size:13px;padding:5px;"><i>Format of ordinals:</i>
 <table id="switchformat" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
 <tr style="font-size:12px;line-height:1.4;">
@@ -102,24 +142,12 @@ cursor:pointer;
 <td id="for1" style="font-size:15px;"> ε<sub>0</sub>ω </td>
 </tr>
 </table></div>
-
-<div align="left" style="font-size:13px;line-height:1.05;margin-left:-16px;margin-top:-23px;"><table cellpadding="0" style="float:left;border-spacing:0;">
-<tr>
-<td id="decdec" style="color:#eeeeee;font-size:25px;cursor:default;">◅ </td>
-<td id="decintoboosterslp" style="cursor:default;line-height:2;"><table border="3" cellpadding="0" style="float:left;border-spacing:0;">
-<tr>
-<td id="decintoboostersl" style="font-size:15px;cursor:default;background:#ffffff;"></td>
-</tr>
-</table></td>
-<td id="incdec" style="font-size:25px;"> ▻</td>
-</tr>
-</table><i><sub style="font-size:11px;">   levels of decomposition<br/>   into boosters</sub></i></div>
 <div id="switchindentmode" align="left" style="font-size:13px;"><i>Indentation mode:</i>
 <div id="indentmode2" style="
 float:left;
 outline:1px solid #909090;
 border-radius:5px 0 0 5px;
-min-width:30px;
+min-width:39px;
 min-height:34px;
 text-align:center;
 padding:3px 5px;
@@ -2458,10 +2486,12 @@ decdec.onclick=function(e){
 if(decompositionintoboosterslevels>0){
    decompositionintoboosterslevels--;
    formatting();
-   decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
+   //decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
+   decintoboostersl.innerHTML='decomposition<br/>into boosters: '+decompositionintoboosterslevels;
    if(!decompositionintoboosterslevels){
-      decintoboostersl.style.background='#fff';
-      decdec.style.color='#eeeeee';
+      //decintoboostersl.style.background='#fff';
+      //decdec.style.color='#eeeeee';
+      decdec.style.opacity=0.4;
       decdec.style.cursor='default';
       xs.style.background='#fff';
       if(document.getElementById('decdec1')!=null){
@@ -2475,11 +2505,13 @@ if(decompositionintoboosterslevels>0){
 incdec.onclick=function(e){
 decompositionintoboosterslevels++;
 formatting();
-decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
+//decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
+decintoboostersl.innerHTML='decomposition<br/>into boosters: '+decompositionintoboosterslevels;
 if(decompositionintoboosterslevels==1){
-   decdec.style.color='#000';
+   //decdec.style.color='#000';
+   decdec.style.opacity=1;
    decdec.style.cursor='pointer';
-   decintoboostersl.style.background='#d0ffd0';
+   //decintoboostersl.style.background='#d0ffd0';
    }    
 }
 
@@ -2633,9 +2665,11 @@ if(i!=decompositionintoboosterslevels)
    {
    decompositionintoboosterslevels=parseInt(i);
    formatting();
-   decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
-   decintoboostersl.style.background=decompositionintoboosterslevels?'#d0ffd0':'#fff';
-   decdec.style.color=decompositionintoboosterslevels?'#000':'#eeeeee';
+   //decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
+   decintoboostersl.innerHTML='decomposition<br/>into boosters: '+decompositionintoboosterslevels;
+   //decintoboostersl.style.background=decompositionintoboosterslevels?'#d0ffd0':'#fff';
+   //decdec.style.color=decompositionintoboosterslevels?'#000':'#eeeeee';
+   decdec.style.opacity=decompositionintoboosterslevels?1:0.4;
    decdec.style.cursor=decompositionintoboosterslevels?'pointer':'default';
    if(document.getElementById('decdec1')!=null)
       {
@@ -3004,7 +3038,8 @@ list.innerHTML+=(JSON.stringify(st)).toString().replaceAll('!',']').replaceAll('
 */
 
 dis.innerHTML='   '+di+'   ';
-decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
+//decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
+decintoboostersl.innerHTML='decomposition<br/>into boosters: '+decompositionintoboosterslevels;
 far[format].style.background='#d0ffd0';
 indentar[indentvisible?indentmode:2].style.background='#d0ffd0';
 fs(initlargeordinal,'',0);
