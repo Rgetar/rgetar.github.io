@@ -108,14 +108,45 @@ cursor:pointer;
 <td id="incdec" style="font-size:25px;"> ▻</td>
 </tr>
 </table><i><sub style="font-size:11px;">   levels of decomposition<br/>   into boosters</sub></i></div>
-<div align="left" style="font-size:13px;padding:5px;"><i>Indentation mode:</i>
-<table id="switchindentmode" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
-<tr style="font-size:12px;line-height:1;">
-<td id="indentmode2">   NO   </td>
-<td id="indentmode1" style="font-size:11px;">fundamental<br/>sequence<br/>alignment</td>
-<td id="indentmode0" style="font-size:11px;">recursive<br/>expansion<br/>alignment</td>
-</tr>
-</table></div>
+<div id="switchindentmode" align="left" style="font-size:13px;"><i>Indentation mode:</i>
+<div id="indentmode2" style="
+float:left;
+outline:1px solid #909090;
+border-radius:5px 0 0 5px;
+min-width:30px;
+min-height:34px;
+text-align:center;
+padding:3px 5px;
+font-size:12px;
+line-height:34px;
+background:#ffffff;
+cursor:pointer;
+">NO</div><div id="indentmode1" style="
+float:left;
+outline:1px solid #909090;
+min-width:40px;
+min-height:34px;
+margin-left:1px;
+padding:3px 5px;
+font-size:11px;
+line-height:1;
+background:#ffffff;
+cursor:pointer;
+">fundamental<br/>sequence<br/>alignment</div><div id="indentmode0" style="
+float:left;
+outline:1px solid #909090;
+min-width:40px;
+min-height:34px;
+border-radius:0 5px 5px 0;
+margin-left:1px;
+padding:3px 5px;
+font-size:11px;
+line-height:1;
+background:#ffffff;
+cursor:pointer;
+">recursive<br/>expansion<br/>alignment</div></div>
+
+
 
 <div align="left" style="font-size:13px;line-height:1.65;margin-left:-16px;margin-top:-23px"><table cellpadding="0" style="float:left;border-spacing:0;">
 <tr>
@@ -4151,7 +4182,8 @@ if(c.tagName=='TD'){
 
 switchindentmode.onclick=function(e){
 let c=e.target;
-if(c.tagName=='TD'){
+//if(c.tagName=='TD'){
+if(c.tagName=='DIV'){
    let i=parseInt(c.id[10]);
    if(i==2&&indentvisible)
       {
