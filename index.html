@@ -52,42 +52,44 @@ cursor:pointer;
 >
 
 
-<div align="left" style="font-size:13px" hidden><i>Expansion and collapse tools:</i>
-<table id="exptable" border="3" cellpadding="0" style="background:#ffffff;text-align:center;border-spacing:0;">
-<tr>
-<td id="et0old" style="font-size:11px;" hidden>   small   </td>
-<td id="et1old" hidden>   1   </td>
-<td id="et0" style="font-size:11px;">add</td>
-<td id="et1" style="font-size:11px;">   recursive add   </td>
-<td id="et2" hidden>   2   </td>
-</tr><tr>
-<td id="etc" style="font-size:11px;">     	 remove       </td>
-<td id="etv" style="font-size:11px;">view</td>
-<td id="et3" hidden>   3   </td>
-<td id="et4" hidden>   4   </td>
-<td id="et5" hidden>   5   </td>
-</tr><tr>
-<td id="et6" hidden>   6   </td>
-<td id="et7" hidden>   7   </td>
-<td id="et8" hidden>   8   </td>
-</tr><tr>
-<td id="et9" hidden>   9   </td>
-<td id="etcold" style="font-size:9px;" hidden>  collapse  </td>
-<td id="etvold" style="font-size:12px;" hidden>   view   </td>
-</tr>
-</table></div>
-<div align="left" style="font-size:13px;line-height:1.69;margin-left:-21px;margin-top:-18px"><table cellpadding="0" style="float:left;border-spacing:0;">
-<tr>
-<td id="decef" style="color:#eeeeee;font-size:25px;cursor:default;">◅ </td>
-<td id="ecfve" style="cursor:default;line-height:2;"><table border="3" cellpadding="0" style="border-spacing:0;">
-<tr>
-<td id="ecfv" style="background:#ffffff;font-size:15px;cursor:default;">   1   </td>
-</tr>
-</table></td>
-<td id="incef" style="font-size:25px;"> ▻</td>
-</tr>
-</table><i style="line-height:40px;font-size:11px">  strings per expansion</i></div
-><div style="float:left;outline: 1px solid #909090;border-radius:5px 0 0 5px;padding:0 5px;line-height:1.5;" hidden>1</div><div style="float:left;outline: 1px solid #909090;margin-left:1px;padding:0 5px;line-height:1.5;" hidden>2</div><div style="float:left;outline: 1px solid #909090;border-radius:0 5px 5px 0;margin-left:1px;padding:0 5px;line-height:1.5;" hidden>3</div>
+
+<div id="decef" style="
+float:left;
+outline:1px solid #909090;
+border-radius:5px 0 0 5px;
+min-height:16px;
+line-height:16px;
+text-align:center;
+padding:3px 5px;
+font-size:25px;
+background:#ffffd0;
+opacity:0.4;
+cursor:default;
+">◅</div><div id="ecfv" style="
+float:left;
+outlinea:1px solid #909090;
+min-width:65px;
+max-width:65px;
+min-height:16px;
+margin-left:1px;
+padding:0 20px;
+font-size:11px;
+line-height:1;
+backgrounda:#ffffff;
+cursor:pointer;
+">strings per<br/>expansion: 1</div><div id="incef" style="
+float:left;
+outline:1px solid #909090;
+min-height:16px;
+line-height:16px;
+border-radius:0 5px 5px 0;
+margin-left:1px;
+padding:3px 5px;
+font-size:25px;
+background:#d0ffd0;
+cursor:pointer;
+">▻</div>
+<div style="float:left;outline: 1px solid #909090;border-radius:5px 0 0 5px;padding:0 5px;line-height:1.5;" hidden>1</div><div style="float:left;outline: 1px solid #909090;margin-left:1px;padding:0 5px;line-height:1.5;" hidden>2</div><div style="float:left;outline: 1px solid #909090;border-radius:0 5px 5px 0;margin-left:1px;padding:0 5px;line-height:1.5;" hidden>3</div>
 <div align="left" style="font-size:13px;padding:5px;"><i>Format of ordinals:</i>
 <table id="switchformat" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
 <tr style="font-size:12px;line-height:1.4;">
@@ -2037,7 +2039,8 @@ else if(c.id=='indentmode0'){
    h='<small>Indentation, aligned by recursive expansions</small><br/><i>use "L" key</i>';
    xs.style.background='#f0fff0';
    }
-else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'){
+//else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'){
+else if(c.tagName=='TD'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'){
    let i=c.id=='etc'?-1:c.id=='etv'?-2:c.id[2]; 
    h='<b>'+exp[i]+'</b><br/><small><small><div style="line-height:1">'
    if(i==-2){
@@ -2328,9 +2331,8 @@ mouseoverupdate();
 }
 
 function seteo(i)
-{etar[eo].style.background='#fff';
+{
 eo=i;
-etar[i].style.background=eo==-1?'#ffffb0':eo==-2?'#f0f0f0':'#d0ffd0';
 }
 
 function doexpcol(c)
@@ -2373,12 +2375,6 @@ doexpcol('Space');
 
 colmark.onclick=function(e){
 doexpcol('Backspace');
-}
-
-exptable.onclick=function(e){
-let c=e.target;
-if(c.tagName=='TD')
-   seteo(c.id=='etc'?-1:c.id=='etv'?-2:c.id[2]);
 }
 
 switchformat.onclick=function(e){
@@ -2461,10 +2457,12 @@ else{
 decef.onclick=function(e){
 if(efs>0){
    efs--;
-   ecfv.innerHTML='   '+(efs+1)+'   ';
+   //ecfv.innerHTML='   '+(efs+1)+'   ';
+   ecfv.innerHTML='strings per<br/>expansion: '+(efs+1);
    if(efs==0){
-      ecfv.style.background='#fff';
-      decef.style.color='#eeeeee';
+      //ecfv.style.background='#fff';
+      //decef.style.color='#eeeeee';
+      decef.style.opacity=0.4;
       decef.style.cursor='default';
       xs.style.background='#fff';
       if(document.getElementById('decd1')!=null){
@@ -2477,11 +2475,13 @@ if(efs>0){
 
 incef.onclick=function(e){
 efs++;
-ecfv.innerHTML='   '+(efs+1)+'   ';
+//ecfv.innerHTML='   '+(efs+1)+'   ';
+ecfv.innerHTML='strings per<br/>expansion: '+(efs+1);
 if(efs==1){
-   decef.style.color='#000';
+   //decef.style.color='#000';
+   decef.style.opacity=1;
    decef.style.cursor='pointer';
-   ecfv.style.background='#d0ffd0';
+   //ecfv.style.background='#d0ffd0';
    }    
 }
 
@@ -2679,7 +2679,8 @@ if(i!=decompositionintoboosterslevels)
 else if(c=='Minus'||c=='NumpadSubtract'){
 if(efs>0){
    efs--;
-   ecfv.innerHTML='   '+(efs+1)+'   ';
+   //ecfv.innerHTML='   '+(efs+1)+'   ';
+   ecfv.innerHTML='strings per<br/>expansion: '+(efs+1);
    if(document.getElementById('extra1')!=null){
       if(efs==0)
          extra1.hidden=true;
@@ -2687,8 +2688,9 @@ if(efs>0){
       extra3.innerHTML=efs==1?'':'s';   
       }    
    if(efs==0){
-      ecfv.style.background='#fff';
-      decef.style.color='#eeeeee';
+      //ecfv.style.background='#fff';
+      //decef.style.color='#eeeeee';
+      decef.style.opacity=0.4;
       decef.style.cursor='default';
       if(document.getElementById('decd1')!=null){
          xs.style.background='#fff';
@@ -2700,7 +2702,8 @@ if(efs>0){
 }     	
 else if(c=='Equal'||c=='NumpadAdd'){
    efs++;
-   ecfv.innerHTML='   '+(efs+1)+'   '; 
+   //ecfv.innerHTML='   '+(efs+1)+'   '; 
+   ecfv.innerHTML='strings per<br/>expansion: '+(efs+1);
    if(document.getElementById('extra1')!=null){
       if(efs==1&&eo>=0)
          extra1.hidden=false;
@@ -2708,9 +2711,10 @@ else if(c=='Equal'||c=='NumpadAdd'){
       extra3.innerHTML=efs==1?'':'s';   
       }     
    if(efs==1){
-      decef.style.color='#000';
+      //decef.style.color='#000';
+      decef.style.opacity=1;
       decef.style.cursor='pointer';
-      ecfv.style.background='#d0ffd0';
+      //ecfv.style.background='#d0ffd0';
       if(document.getElementById('decd1')!=null){
          xs.style.background='#fffff0';
          decd1.style['font-style']='normal';
@@ -2972,8 +2976,6 @@ let uncountablemodeinitnames=['Some large countable ordinal','Some large uncount
 let bo=uncountablemodeinitnames[uncountablemode],col='c',eo=0,efs=0,
 exp=['small expansion','single expansion','double expansion','triple expansion','quadruple expansion','quintuple expansion','sextuple expansion','septuple expansion','octuple expansion','ninefold expansion'];
 exp[-1]='collapse',exp[-2]='view';
-let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
-etar[-1]=etc,etar[-2]=etv;
 let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[];
 let far=[for0,for1,for2];
 let indentar=[indentmode0,indentmode1,indentmode2];
