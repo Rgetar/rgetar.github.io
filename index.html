@@ -89,7 +89,7 @@ font-size:25px;
 background:#d0ffd0;
 cursor:pointer;
 ">▻</div>
-<div style="float:left;outline: 1px solid #909090;border-radius:5px 0 0 5px;padding:0 5px;line-height:1.5;" hidden>1</div><div style="float:left;outline: 1px solid #909090;margin-left:1px;padding:0 5px;line-height:1.5;" hidden>2</div><div style="float:left;outline: 1px solid #909090;border-radius:0 5px 5px 0;margin-left:1px;padding:0 5px;line-height:1.5;" hidden>3</div>
+
 <div align="left" style="font-size:13px;padding:5px;"><i>Format of ordinals:</i>
 <table id="switchformat" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
 <tr style="font-size:12px;line-height:1.4;">
@@ -181,8 +181,8 @@ cursor:pointer;
 <a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:0;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><div
  id="mulmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:20px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0d0ff;cursor:pointer;" hidden>↑</div><div
- id="expmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0ffd0;cursor:pointer;" hidden>+</div><div
- id="expmark_" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;margina-left:-15px;background:#d0ffd0;cursor:pointer;letter-spacing:-6px;" hidden>+<sup style="font-size:11px;vertical-align:11px">+</sup>    </div><div
+ id="expmark_" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;background:#d0ffd0;cursor:pointer;" hidden>+</div><div
+ id="expmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.7;border:1px solid #909090;border-radius:8px;padding:0;margina-left:-15px;background:#d0ffd0;cursor:pointer;letter-spacing:-6px;" hidden>+<sup style="font-size:11px;vertical-align:11px">+</sup>    </div><div
  id="smexmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:16px;line-height:1.2;border:1px solid #909090;border-radius:8px;padding:0;background:#e0ffff;cursor:pointer;" hidden>+</div><div
  id="colmark" align="center" style="position:absolute;min-width:20px;min-height:20px;max-width:20px;max-height:20px;font-size:28px;line-height:0.57;border:1px solid #909090;border-radius:8px;padding:0;background:#fff0b0;cursor:pointer;" hidden>-</div><ul style="padding-left:104px;float:left;min-width:calc(100% - 104px);" id="list"
 ></ul></span><span id="vsidebars" onmousedown="return false" style="background:#e0ffe0;line-height:0.5;position: fixed;right:17px;top:0;float:right;font-size:25px"><table>
@@ -1922,7 +1922,16 @@ if(exb[1])
 }
 
 function expwords(n){
-return n<10?exp[n]:n+'-fold expansion'
+let ord='th';
+if (n %10 == 1 && n % 100 != 11)
+   ord = 'st';
+else if (n % 10 == 2 && n % 100 != 12)
+   ord = 'nd';
+else if (n % 10 == 3 && n % 100 != 13)
+   ord = 'rd';
+
+//return n<10?exp[n]:n+'-fold recursive expansion';
+return n<10?exp[n]:'Recursivly expand '+n+ord+' times';
 }
 
 listc.onscroll=function(e){
@@ -2039,52 +2048,6 @@ else if(c.id=='indentmode0'){
    h='<small>Indentation, aligned by recursive expansions</small><br/><i>use "L" key</i>';
    xs.style.background='#f0fff0';
    }
-//else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'){
-else if(c.tagName=='TD'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'){
-   let i=c.id=='etc'?-1:c.id=='etv'?-2:c.id[2]; 
-   h='<b>'+exp[i]+'</b><br/><small><small><div style="line-height:1">'
-   if(i==-2){
-      h+='Just view, do not expand or collapse.';     
-      }   
-   else if(i==-1){
-      h+='Removes elements from the list.<br/><br/>';
-      h+='"Do collapse of pair <b>a, b</b>" means "remove all elements between <b>a</b> and <b>b</b>".<br/><br/>';
-      h+='"Do collapse of <b>b</b>" means "remove all elements before <b>b</b>".<br/><br/>';
-      h+='Can revert expansions. For example,<br/>to revert small or single expansion, do collapse 1 time;<br/>';
-      h+='to revert double expansion, do collapse 2 times;<br/>';
-      h+='to revert triple expansion, do collapse 3 times; etc.';     
-      }
-   else if(i==0){
-      h+='Inserts one element between the element <b>b</b> and previous element <b>a</b>,<br/>'; 
-      h+='or, if <b>b</b> is the first element of the list, inserts one element before <b>b</b>.<br/><br/>';
-      h+='"Do small expansion of pair <b>a, b</b>" means "compute least fs element of <b>b</b> larger than <b>a</b> and insert it between <b>a</b> and <b>b</b>".<br/><br/>';
-      h+='"Do small expansion of <b>b</b>" means "compute least fs element of <b>b</b> and insert it before <b>b</b>".';     
-      }  
-   else if(i==1){ 
-      h+='Inserts elements between the element <b>b</b> and previous element <b>a</b>,<br/>'; 
-      h+='or, if <b>b</b> is the first element of the list, inserts elements before <b>b</b>.<br/><br/>';
-      h+='"Do single expansion of pair <b>a, b</b>" means "do small expansion of pair <b>a, b</b> — insert element <b>c</b>;<br/>';
-      h+='then do small expansion of pair <b>a, c</b> — insert element <b>d</b>;<br/>';
-      h+='then do small expansion of pair <b>a, d</b> — insert element <b>e</b>; etc.<br/>';
-      h+='continue until pair <b>a, a + 1</b>".<br/><br/>';
-      h+='"Do single expansion of <b>b</b>" means "do small expansion of <b>b</b> — insert element <b>c</b>;<br/>';
-      h+='then do small expansion of <b>c</b> — insert element <b>d</b>;<br/>';
-      h+='then do small expansion of <b>d</b> — insert element <b>e</b>; etc.<br/>';
-      h+='continue until <b>0</b>".<br/>';     
-      }  
-   else{
-      h+='Inserts elements between the element <b>b</b> and previous element <b>a</b>,<br/>'; 
-      h+='or, if <b>b</b> is the first element of the list, inserts elements before <b>b</b>.<br/><br/>';
-      h+='"Do '+exp[i]+' of pair <b>a, b</b>" means "do single expansion of pair <b>a, b</b> — insert elements <b>c, d, e, ...</b>;<br/>'; 
-      h+='then do '+exp[i-1]+'s of pair <b>c, b</b>, of pair <b>d, c</b>, of pair <b>e, d</b>, etc."<br/><br/>';
-      h+='"Do '+exp[i]+' of <b>b</b>" means "do single expansion of <b>b</b> — insert elements <b>c, d, e, ...</b>;<br/>';
-      h+='then do '+exp[i-1]+'s of pair <b>c, b</b>, of pair <b>d, c</b>, of pair <b>e, d</b>, etc."<br/>';
-      }       
-   h+='</div></small></small>'; 
-   h+='<i>use "';
-   h+=i==-1?'Q':i==-2?'W':i;  
-   h+='" key</i>';  
-   xs.style.background=c.id=='etc'?'#fffff0':c.id=='etv'?'#fafafa':'#f0fff0';} 
 else if(c.id=='for0'){
    h='<small><div style="line-height:1.2">With two exceptions (0 and '+bo+'),<br/>ordinals are displayed as sums of ω<sup>x</sup>n terms, n ∈ ℕ.<br/>ω<sup>1</sup>n is displayed as ωn.<br/>If x > 0, then ω<sup>x</sup>1 is displayed as ω<sup>x</sup>.<br/>If ω<sup>x</sup> = x (i. e. x is an epsilon number), then ω<sup>x</sup> is displayed as x.<br/>ω<sup>0</sup>n is displayed as n.<br/>x is displayed in the same format.<br/>Epsilon numbers are displayed using some special designations<br/>(e. g. Veblen function), or using "Computer format".</div></small><i>use "O" key</i>';
    xs.style.background='#f0fff0';
@@ -2121,8 +2084,9 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
 
       let i=eo<0||c!=markedli?0:1;
       let b=exb[i]; 
-      h+='<span id="ex4"'+(b?'':' hidden')+'>';                         
-      h+=' of ';
+      //h+='<span id="ex4"'+(b?'':' hidden')+'>';                    
+      //h+=' of ';
+      h+='<span id="ex4"'+(b?'':' hidden')+'> ';
       //let l=pairl[i];
       let l=eo1>-3&&eo>1?nextl:pairl[i];
       h+='<nobr id="ex2">'+(l.id!='-'?'pair ':'')+'</nobr>';
@@ -2146,7 +2110,8 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
          c.style.background='#fbfbfb';
          }
       h+='</span>';          
-      h='<div id="ex7"'+(!b||((eo==-2||c!=markedli)&&c.tagName=='LI')?' hidden':'')+'><span id="ex6" style="font-weight:'+(b?'bolda':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b>';                      
+      //h='<div id="ex7"'+(!b||((eo==-2||c!=markedli)&&c.tagName=='LI')?' hidden':'')+'><span id="ex6" style="font-weight:'+(b?'bolda':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b>';   
+      h='<div id="ex7"'+(!b||((eo==-2||c!=markedli)&&c.tagName=='LI')?' hidden':'')+'><span id="ex6" style="font-weight:'+(b?'bolda':'normal')+';font-style:'+(b?'normal':'italic')+'">'+h+'</b>';        
       if(eo1>-3&&markedli.id==initlargeordinal)
          {
          h+=' ';
@@ -2974,8 +2939,10 @@ window.onkeydown = function(e) {
 let uncountablemode=0;
 let uncountablemodeinitnames=['Some large countable ordinal','Some large uncountable ordinal'];
 let bo=uncountablemodeinitnames[uncountablemode],col='c',eo=0,efs=0,
-exp=['small expansion','single expansion','double expansion','triple expansion','quadruple expansion','quintuple expansion','sextuple expansion','septuple expansion','octuple expansion','ninefold expansion'];
-exp[-1]='collapse',exp[-2]='view';
+//exp=['expansion','recursive expansion','double recursive expansion','triple recursive expansion','quadruple recursive expansion','quintuple recursive expansion','sextuple recursive expansion','septuple recursive expansion','octuple recursive expansion','ninefold recursive expansion'];
+//exp[-1]='collapse',exp[-2]='view';
+exp=['Expand','Recursivly expand','Recursivly expand 2nd time','Recursivly expand 3rd time','Recursivly expand 4th time','Recursivly expand 5th time','Recursivly expand 6th time','Recursivly expand 7th time','Recursivly expand 8th time','Recursivly expand 9th time'];
+exp[-1]='Collapse',exp[-2]='view';
 let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[];
 let far=[for0,for1,for2];
 let indentar=[indentmode0,indentmode1,indentmode2];
