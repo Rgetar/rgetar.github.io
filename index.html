@@ -122,7 +122,7 @@ font-size:11px;
 line-height:1;
 backgrounda:#ffffff;
 cursor:pointer;
-">decomposition<br/>into boosters: 0</div><div id="incdec" style="
+"></div><div id="incdec" style="
 float:left;
 outline:1px solid #909090;
 min-height:16px;
@@ -181,18 +181,46 @@ cursor:pointer;
 ">recursive<br/>expansion<br/>alignment</div></div>
 
 
+<div style="
+float:left;
+min-height:16px;
+min-width:10px;
+"></div><div id="decd" style="
+float:left;
+outline:1px solid #909090;
+border-radius:5px 0 0 5px;
+min-height:16px;
+line-height:16px;
+text-align:center;
+padding:3px 5px;
+font-size:20px;
+background:#ffffd0;
+cursor:pointer;
+">◅</div><div id="dis" style="
+float:left;
+outlinea:1px solid #909090;
+min-width:70px;
+max-width:70px;
+min-height:16px;
+margin-left:1px;
+padding:0 20px;
+font-size:11px;
+line-height:1;
+backgrounda:#ffffff;
+cursor:pointer;
+"></div><div id="incd" style="
+float:left;
+outline:1px solid #909090;
+min-height:16px;
+line-height:16px;
+border-radius:0 5px 5px 0;
+margin-left:1px;
+padding:3px 5px;
+font-size:20px;
+background:#d0ffd0;
+cursor:pointer;
+">▻</div>
 
-<div align="left" style="font-size:13px;line-height:1.65;margin-left:-16px;margin-top:-23px"><table cellpadding="0" style="float:left;border-spacing:0;">
-<tr>
-<td id="decd" style="font-size:25px;">◅ </td>
-<td id="disp" style="cursor:default;line-height:2;"><table border="3" cellpadding="0" style="float:left;border-spacing:0;">
-<tr>
-<td id="dis" style="font-size:15px;cursor:default;background:#d0ffd0"></td>
-</tr>
-</table></td>
-<td id="incd" style="font-size:25px;"> ▻</td>
-</tr>
-</table><i style="line-height:40px;font-size:11px">  displayed fs elements</i></div>
 <div id="vtext" style="
 background:#d0ffd0;
 margin-top:7px;
@@ -2518,10 +2546,12 @@ if(decompositionintoboosterslevels==1){
 decd.onclick=function(e){
 if(di>0){
    di--;
-   dis.innerHTML='   '+di+'   ';
+   //dis.innerHTML='   '+di+'   ';
+   dis.innerHTML='displayed<br/>fs elements: '+di;
    if(di==0){
-      dis.style.background='#fff';
-      decd.style.color='#eeeeee';
+      //dis.style.background='#fff';
+      //decd.style.color='#eeeeee';
+      decd.style.opacity=0.4;
       decd.style.cursor='default';
       xs.style.background='#fff';
       if(document.getElementById('dec1')!=null){
@@ -2534,11 +2564,13 @@ if(di>0){
 
 incd.onclick=function(e){
 di++;
-dis.innerHTML='   '+di+'   ';
+//dis.innerHTML='   '+di+'   ';
+dis.innerHTML='displayed<br/>fs elements: '+di;
 if(di==1){
-   decd.style.color='#000';
+   //decd.style.color='#000';
+   decd.style.opacity=1;
    decd.style.cursor='pointer';
-   dis.style.background='#d0ffd0';
+   //dis.style.background='#d0ffd0';
    }    
 }
 
@@ -2732,7 +2764,8 @@ if(di>0){
       ltkey--;
       if(!gtkey&&!ltkey&&typeof dots!=='undefined')dots.innerHTML='   ... ';
       }
-   dis.innerHTML='   '+di+'   '; 
+   //dis.innerHTML='   '+di+'   '; 
+   dis.innerHTML='displayed<br/>fs elements: '+di;
    if(document.getElementById('fsd')!=null){
       if(fsp){
       	fsn--;
@@ -2741,8 +2774,9 @@ if(di>0){
       if(di==0)
          fsd.hidden=true;}        
    if(di==0){
-      dis.style.background='#fff';
-      decd.style.color='#eeeeee';
+      //dis.style.background='#fff';
+      //decd.style.color='#eeeeee';
+      decd.style.opacity=0.4;
       decd.style.cursor='default';
       if(document.getElementById('dec1')!=null){
          xs.style.background='#fff';
@@ -2758,7 +2792,8 @@ else if(c=='Period'){
       gtkey--;
       if(!gtkey&&!ltkey&&typeof dots!=='undefined')dots.innerHTML='   ... ';
       }
-   dis.innerHTML='   '+di+'   '; 
+   //dis.innerHTML='   '+di+'   ';
+   dis.innerHTML='displayed<br/>fs elements: '+di;
    if(document.getElementById('fsd')!=null){ 
       if(fsp){     	
          let y=document.createElement('li');
@@ -2770,9 +2805,10 @@ else if(c=='Period'){
       if(di==1)
          fsd.hidden=false;}       
    if(di==1){
-      decd.style.color='#000';
+      //decd.style.color='#000';
+      decd.style.opacity=1;
       decd.style.cursor='pointer';
-      dis.style.background='#d0ffd0';
+      //dis.style.background='#d0ffd0';
       if(document.getElementById('dec1')!=null){
          xs.style.background='#fffff0';
          dec1.style['font-style']='normal';
@@ -3037,7 +3073,8 @@ list.innerHTML+=(JSON.stringify(st)).toString().replaceAll('!',']').replaceAll('
 //list.innerHTML+=checkstring(st)+'<br/>';
 */
 
-dis.innerHTML='   '+di+'   ';
+//dis.innerHTML='   '+di+'   ';
+dis.innerHTML='displayed<br/>fs elements: '+di;
 //decintoboostersl.innerHTML='   '+decompositionintoboosterslevels+'   ';
 decintoboostersl.innerHTML='decomposition<br/>into boosters: '+decompositionintoboosterslevels;
 far[format].style.background='#d0ffd0';
