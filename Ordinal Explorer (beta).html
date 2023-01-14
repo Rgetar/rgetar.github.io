@@ -9,8 +9,8 @@
 a{text-decoration:none;color:blue;}
 a:hover{text-decoration:underline;}
 a:visited{color:blue;}
-li{list-style-type:none;cursor:pointer;padding-left: 7px;padding-right: 27px;}
-//li{list-style-type:none;cursor:pointer;padding-left: 7px;outline: 1px solid black}
+li{list-style-type:none;cursor:pointer;padding-left: 7px;padding-right: 27px; min-height:32px;}
+//li{list-style-type:none;cursor:pointer;padding-left: 7px;outline: 1px solid black;}
 //ul{margin-right:auto;widthq:100%}
 td{cursor:pointer;}
 sub{font-size:0.83rem;}
@@ -18,88 +18,701 @@ sup{font-size:0.83rem;}
 //ul{display:flex;flex-direction:column-reverse;}
 </style>
 <body style="font-family:Arial;white-space:pre;line-height:0;"
-><span id="sidebar" style="line-height:2;position:absolute;right:0px;width:215px;padding-left:42px;top:0;bottom:0;overflow:auto;float:right;background:#f5fdff;line-height:1.5;";
+><span onmousedown="return false" id="sidebar" style="line-height:2;position:absolute;right:0px;width:215px;padding-left:42px;top:0;bottom:0;overflow:auto;float:right;background:#f5fdff;line-height:1.5;"
 hidden>
 <b style="font-size:16px;">Ordinal Explorer Online</b>
-<span onmousedown="return false"><table id="resett" border="3" cellspacing="0" cellpadding="0" style="border-color:#ffc0c0;margin-top:10px;opacity:0.4;">
-<tr>
-<td id="reset" style="background:#ffffd0;border-color:#00ff00;">            Reset list            </td>
-</tr>
-</table></span>
-<div align="left" onmousedown="return false" style="font-size:13px"><i>Expansion and collapse tools:</i>
-<table id="exptable" border="3" cellspacing="0" cellpadding="0" style="background:#ffffff;text-align:center">
-<tr>
-<td id="et0old" style="font-size:11px;" hidden>   small   </td>
-<td id="et1old" hidden>   1   </td>
-<td id="et0" style="font-size:11px;">add</td>
-<td id="et1" style="font-size:11px;">   recursive add   </td>
-<td id="et2" hidden>   2   </td>
-</tr><tr>
-<td id="etc" style="font-size:11px;">     	 remove       </td>
-<td id="etv" style="font-size:11px;">view</td>
-<td id="et3" hidden>   3   </td>
-<td id="et4" hidden>   4   </td>
-<td id="et5" hidden>   5   </td>
-</tr><tr>
-<td id="et6" hidden>   6   </td>
-<td id="et7" hidden>   7   </td>
-<td id="et8" hidden>   8   </td>
-</tr><tr>
-<td id="et9" hidden>   9   </td>
-<td id="etcold" style="font-size:9px;" hidden>  collapse  </td>
-<td id="etvold" style="font-size:12px;" hidden>   view   </td>
-</tr>
-</table></div>
-<div align="left" onmousedown="return false" style="font-size:13px;line-height:1.69;margin-left:-21px;margin-top:-18px"><table cellspacing="0" cellpadding="0" style="float:left">
-<tr>
-<td id="decef" style="color:#eeeeee;font-size:25px;cursor:default;">◅ </td>
-<td id="ecfve" style="cursor:default;line-height:2;"><table border="3" cellspacing="0" cellpadding="0">
-<tr>
-<td id="ecfv" style="background:#ffffff;font-size:15px;cursor:default;">   0   </td>
-</tr>
-</table></td>
-<td id="incef" style="font-size:25px;"> ▻</td>
-</tr>
-</table><i style="line-height:40px;font-size:13px">  extra fs elements</i></div
+<div id="reset" style="
+background:#ffffd0;
+margin-top:10px;
+min-width:180px;
+min-height:21px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:5px;
+line-height:1.5;
+opacity:0.4;
+font-size:14px;
+cursor:pointer;
+">Reset list</div
+><div id="uncreset" style="
+background:#d0d0ff;
+margin-top:7px;
+margin-bottom:10px;
+min-width:180px;
+min-height:21px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:5px;
+line-height: 21px;
+font-size:12px;
+cursor:pointer;
+">Change mode</div
 >
-<div align="left" onmousedown="return false" style="font-size:13px;padding:5px;"><i>Format:</i>
-<table id="switchformat" border="3" cellspacing="0" cellpadding="3" style="background:#ffffff">
+
+
+<div style="
+float:left;
+min-height:16px;
+min-width:10px;
+"></div><div id="decef" style="
+float:left;
+outline:1px solid #909090;
+border-radius:5px 0 0 5px;
+min-height:16px;
+line-height:16px;
+text-align:center;
+padding:3px 5px;
+font-size:20px;
+background:#ffffd0;
+opacity:0.4;
+cursor:default;
+">◅</div><div id="ecfv" style="
+float:left;
+outlinea:1px solid #909090;
+min-width:70px;
+max-width:70px;
+min-height:16px;
+margin-left:1px;
+padding:0 20px;
+font-size:11px;
+line-height:1;
+backgrounda:#ffffff;
+cursor:pointer;
+">strings per<br/>expansion: 1</div><div id="incef" style="
+float:left;
+outline:1px solid #909090;
+min-height:16px;
+line-height:16px;
+border-radius:0 5px 5px 0;
+margin-left:1px;
+padding:3px 5px;
+font-size:20px;
+background:#d0ffd0;
+cursor:pointer;
+">▻</div>
+
+<div align="left" style="
+font-size:12px;
+margin-bottom:5px;
+">               Syntax sugar:</div><div id="sugarbutton0" style="
+background:#d0e0ff;
+margin-right:5px;
+min-width:32px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:14px;
+font-size:11px;
+cursor:pointer;
+">sugar</div
+><div id="sugarbutton1" style="
+background:#fff080;
+margin-right:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:14px;
+font-size:11px;
+cursor:pointer;
+">]</div
+><div id="sugarbutton2" style="
+background:#d0ffd0;
+margin-right:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:16px;
+font-size:11px;
+cursor:pointer;
+">0</div
+><div id="sugarbutton3" hidden style="
+background:#d0ffff;
+margin-right:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:14px;
+font-size:11px;
+cursor:pointer;
+">c</div
+><div id="sugarbutton8" style="
+background:#ffff00;
+margin-right:5px;
+min-width:20px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:9px;
+font-size:11px;
+cursor:pointer;
+">ω<sup style="font-size:9px;">p</sup></div
+><div id="sugarbutton9" style="
+background:#d0ffff;
+margin-right:5px;
+min-width:23px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:9px;
+font-size:11px;
+cursor:pointer;
+">ω<sup style="font-size:9px;">p</sup>n</div
+><div id="sugarbutton10" style="
+background:#d0ffd0;
+margin-right:5px;
+min-width:25px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:9px;
+font-size:11px;
+cursor:pointer;
+margin-bottom:5px;
+margin-right:25px;
+">ε<sup style="font-size:9px;">p</sup>m</div
+><div id="sugarbutton11" style="
+background:#d0ffd0;
+margin-right:5px;
+min-width:32px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:9px;
+font-size:11px;
+cursor:pointer;
+">ε<sup style="font-size:9px;">p</sup>(...)</div
+><div id="sugarbutton12" style="
+background:#ffe0e0;
+margin-right:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+">+</div
+><div id="sugarbutton13" style="
+background:#fff0e0;
+margin-right:5px;
+min-width:20px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+">^ ·</div
+><div id="sugarbutton14" style="
+background:#d0ffd0;
+margin-right:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:16px;
+font-size:11px;
+cursor:pointer;
+">1</div
+><div id="sugarbutton15" style="
+background:#d0ffd0;
+margin-right:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+">ω</div
+><div id="sugarbutton18" style="
+background:#d0ffd0;
+margin-right:5px;
+min-width:25px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:16px;
+font-size:11px;
+cursor:pointer;
+">234</div
+><div id="sugarbuttona16" style="
+background:#fff;
+margin-right:1px;
+min-width:11px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px 0 0 4px;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+">×</div
+><div id="sugarbuttonb16" style="
+background:#d0ffd0;
+margin-right:5px;
+min-width:11px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:0 4px 4px 0;
+line-height:15px;
+font-size:11px;
+margin-bottom:5px;
+margin-right:25px;
+cursor:pointer;
+">·</div
+><div id="sugarbutton17" style="
+background:#d0ffd0;
+margin-right:5px;
+min-width:32px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+">omit ·</div
+><div id="sugarbuttona19" style="
+background:#fff;
+margin-right:1px;
+min-width:14px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px 0 0 4px;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+">^</div
+><div id="sugarbuttonb19" style="
+background:#ffd0ff;
+margin-right:5px;
+min-width:25px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:0 4px 4px 0;
+line-height:15px;
+font-size:11px;
+margin-right:135px;
+margin-bottom:15px;
+cursor:pointer;
+">sup</div
+><div id="sugarbuttona20" hidden style="
+background:#fff;
+margin-right:1px;
+min-width:14px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px 0 0 4px;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+">_</div
+><div id="sugarbuttonb20" hidden style="
+background:#ffd0ff;
+margin-right:5px;
+min-width:25px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:0 4px 4px 0;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+">sub</div
+><div id="sugarbutton21" hidden style="
+background:#d0e0ff;
+margin-right:35px;
+min-width:40px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:15px;
+font-size:11px;
+margin-bottom:5px;
+cursor:pointer;
+">names</div
+><div id="sugarbutton22" hidden style="
+background:#d0e0ff;
+margin-right:135px;
+min-width:66px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:15px;
+font-size:11px;
+margin-bottom:15px;
+cursor:pointer;
+">short names</div
+>
+<div id="decdec" style="
+float:left;
+outline:1px solid #909090;
+border-radius:5px 0 0 5px;
+min-height:16px;
+line-height:16px;
+text-align:center;
+padding:3px 5px;
+font-size:20px;
+background:#ffffd0;
+opacity:0.4;
+cursor:default;
+">◅</div><div id="decintoboostersl" style="
+float:left;
+outlinea:1px solid #909090;
+min-width:70px;
+max-width:70px;
+min-height:16px;
+margin-left:1px;
+padding:0 20px;
+font-size:11px;
+line-height:1;
+backgrounda:#ffffff;
+cursor:pointer;
+"></div><div id="incdec" style="
+float:left;
+outline:1px solid #909090;
+min-height:16px;
+line-height:16px;
+margin-left:1px;
+padding:3px 5px;
+font-size:20px;
+background:#d0ffd0;
+cursor:pointer;
+">▻</div><div id="infdec" style="
+float:left;
+margin-bottom:10px;
+outline:1px solid #909090;
+min-height:16px;
+max-height:16px;
+line-height:18px;
+border-radius:0 5px 5px 0;
+margin-left:1px;
+margin-right:20px;
+padding:3px 5px;
+font-size:16px;
+background:#d0ffd0;
+cursor:pointer;
+">∞</div>
+<div id="decdecbase" style="
+float:left;
+outline:1px solid #909090;
+border-radius:5px 0 0 5px;
+min-height:16px;
+line-height:16px;
+text-align:center;
+padding:3px 5px;
+font-size:20px;
+background:#ffffd0;
+cursor:default;
+">◅</div><div id="decintobasesl" style="
+float:left;
+outlinea:1px solid #909090;
+min-width:70px;
+max-width:70px;
+min-height:16px;
+margin-left:1px;
+padding:0 20px;
+font-size:11px;
+line-height:1;
+backgrounda:#ffffff;
+cursor:pointer;
+">decomposition<br/>into bases: ∞</div><div id="incdecbase" style="
+float:left;
+outline:1px solid #909090;
+min-height:16px;
+line-height:16px;
+margin-left:1px;
+padding:3px 5px;
+font-size:20px;
+background:#d0ffd0;
+cursor:pointer;
+">▻</div><div id="infdecbase" style="
+float:left;
+outline:1px solid #909090;
+min-height:16px;
+max-height:16px;
+line-height:18px;
+border-radius:0 5px 5px 0;
+margin-left:1px;
+padding:3px 5px;
+font-size:16px;
+background:#d0ffd0;
+cursor:pointer;
+">∞</div>
+
+<div hidden align="left" style="font-size:13px;padding:5px;"><i>Format of ordinals:</i>
+<table id="switchformat" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
 <tr style="font-size:12px;line-height:1.4;">
 <td id="for2">[[c]][[[c]][]]</td>
 <td id="for0">ω<sup>ε<sub>0</sub> + 1</sup></td>
 <td id="for1" style="font-size:15px;"> ε<sub>0</sub>ω </td>
 </tr>
 </table></div>
-<div align="left" onmousedown="return false" style="font-size:13px;line-height:1.65;margin-left:-16px;margin-top:-23px"><table cellspacing="0" cellpadding="0" style="float:left">
-<tr>
-<td id="decd" style="font-size:25px;">◅ </td>
-<td id="disp" style="cursor:default;line-height:2;"><table border="3" cellspacing="0" cellpadding="0">
-<tr>
-<td id="dis" style="font-size:15px;cursor:default;background:#d0ffd0"></td>
-</tr>
-</table></td>
-<td id="incd" style="font-size:25px;"> ▻</td>
-</tr>
-</table><i style="line-height:40px;font-size:13px">  displayed fs elements</i></div>
-<div align="left" onmousedown="return false" style="font-size:13px;margin-left:7px;margin-top:-15px"><table border="3" cellspacing="0" cellpadding="0" style="float:left">
-<tr>
-<td id="vtext" style="background:#d0ffd0;font-size:8px;line-height:1.95;">    <big><big><big>✓</big></big></big>    </td>
-</tr>
-</table><i style="line-height:35px;">  show text near cursor</i></div>
 
-<a id="oldversionlink" style="font-size:12px" href="Ordinal Explorer (versions).htm">other versions</a>
-</span><span id="listc" style="float:left;line-height:2;position: absolute;heighta:80%;top:0;bottom:0;padding-bottom:32px;left:10px;right:0;overflow-x:overlay;overflow-y:auto;display:flex;flex-direction:column-reverse;" onmousedown="return false"><div><ul style="float:left;min-width:calc(100% - 40px);" id="list"
-></ul></span><span id="vsidebars" onmousedown="return false" style="background:#e0ffe0;line-height:0.5;position: fixed;right:17px;top:0;float:right;font-size:25px"><table>
+
+
+<div id="switchindentmode" align="left" style="font-size:12px;">            Indentation mode:
+<div id="indentmode2" style="
+float:left;
+outline:1px solid #909090;
+border-radius:5px 0 0 5px;
+min-width:39px;
+min-height:34px;
+text-align:center;
+padding:3px 5px;
+font-size:12px;
+line-height:34px;
+background:#ffffff;
+cursor:pointer;
+">NO</div><div id="indentmode1" style="
+float:left;
+outline:1px solid #909090;
+min-width:40px;
+min-height:34px;
+margin-left:1px;
+padding:3px 5px;
+font-size:11px;
+line-height:1;
+background:#ffffff;
+cursor:pointer;
+">fundamental<br/>sequence<br/>alignment</div><div id="indentmode0" style="
+float:left;
+outline:1px solid #909090;
+min-width:40px;
+min-height:34px;
+border-radius:0 5px 5px 0;
+margin-left:1px;
+padding:3px 5px;
+font-size:11px;
+line-height:1;
+background:#ffffff;
+cursor:pointer;
+">recursive<br/>expansion<br/>alignment</div></div>
+
+
+<div id="vtext" style="
+background:#d0ffd0;
+margin-top:7px;
+margin-bottom:10px;
+margin-right:30px;
+min-width:180px;
+min-height:21px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:5px;
+line-height: 21px;
+font-size:12px;
+cursor:pointer;
+">text near mouse cursor</div
+>
+<div style="
+float:left;
+min-height:16px;
+min-width:10px;
+"></div><div id="decd" style="
+float:left;
+outline:1px solid #909090;
+border-radius:5px 0 0 5px;
+min-height:16px;
+line-height:16px;
+text-align:center;
+padding:3px 5px;
+font-size:20px;
+background:#ffffd0;
+cursor:pointer;
+">◅</div><div id="dis" style="
+float:left;
+outlinea:1px solid #909090;
+min-width:70px;
+max-width:70px;
+min-height:16px;
+margin-left:1px;
+padding:0 20px;
+font-size:11px;
+line-height:1;
+backgrounda:#ffffff;
+cursor:pointer;
+"></div><div id="incd" style="
+float:left;
+outline:1px solid #909090;
+min-height:16px;
+line-height:16px;
+border-radius:0 5px 5px 0;
+margin-left:1px;
+padding:3px 5px;
+font-size:20px;
+background:#d0ffd0;
+cursor:pointer;
+">▻</div>
+
+<span style="font-size:11px">    last updated: 15 January 2023</span>
+<a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">   old versions and other projects</a>
+</span><span id="listc" style="
+float:left;
+line-height:2;
+position:absolute;
+top:0;
+bottom:0;
+padding-bottom:32px;
+left:0;
+right:0;
+overflow-x:overlay;
+overflow-y:auto;
+display:flex;
+flex-direction:column-reverse;
+" onmousedown="return false"><div><div
+ id="mulmark" align="center" style="
+position:absolute;
+min-width:20px;
+min-height:20px;
+max-width:20px;
+max-height:20px;
+font-size:20px;
+line-height:0.7;
+border:1px solid #909090;
+border-radius:8px;
+padding:0;
+background:#d0d0ff;
+cursor:pointer;
+" hidden>↑</div><div
+ id="expmark_" align="center" style="
+position:absolute;
+min-width:20px;
+min-height:20px;
+max-width:20px;
+max-height:20px;
+font-size:28px;
+line-height:0.7;
+border:1px solid #909090;
+border-radius:8px;
+padding:0;
+background:#d0ffd0;
+cursor:pointer;
+" hidden>+</div><div
+ id="expmark" align="center" style="
+position:absolute;
+min-width:20px;
+min-height:20px;
+max-width:20px;
+max-height:20px;
+font-size:28px;
+line-height:0.7;
+border:1px solid #909090;
+border-radius:8px;
+padding:0;
+margina-left:-15px;
+background:#d0ffd0;
+cursor:pointer;
+letter-spacing:-6px;
+" hidden>+<sup style="font-size:11px;vertical-align:11px">+</sup>    </div><div
+ id="smexmark" align="center" style="
+position:absolute;
+min-width:20px;
+min-height:20px;
+max-width:20px;
+max-height:20px;
+font-size:16px;
+line-height:1.2;
+border:1px solid #909090;
+border-radius:8px;
+padding:0;
+background:#e0ffff;
+cursor:pointer;
+" hidden>+</div><div
+ id="colmark" align="center" style="
+position:absolute;
+min-width:20px;
+min-height:20px;
+max-width:20px;
+max-height:20px;
+font-size:28px;
+line-height:0.57;
+border:1px solid #909090;
+border-radius:8px;
+padding:0;
+background:#fff0b0;
+cursor:pointer;
+" hidden>-</div><ul style="padding-left:104px;float:left;min-width:calc(100% - 104px);" id="list"
+></ul></span><span id="vsidebars" onmousedown="return false" style="
+background:#e0ffe0;
+line-height:0.5;
+position:fixed;
+right:17px;
+top:0;
+float:right;
+font-size:25px
+"><table>
 <tr>
 <td id="vsidebar">«</td>
 </tr>
 </table></span><span id="counter" onmousedown="return false" style="position:fixed;right:30px;bottom:14px;float:right;font-size:12px;cursor:default"
->Counter: 1</span><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;";
+></span><div id="xs" style="position:fixed;border:1px solid #cccccc;border-radius:5px;padding:5px 15px 5px 15px;"
 hidden><script
 >'use strict'
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+window.addEventListener("keydown", function(e) {
+   if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+      e.preventDefault();
+   }
+}, false);
+
+function mod(n,m)
+{
+return (n%m+m)%m;
+}
+
 // get position of last symbol '[' of string st
 function getls(st){
 let e=st.length;
@@ -110,7 +723,7 @@ while((e>-1)&&(np!=0||st[e]!='[')){
    else if (st[e]=='!') np++;}
 return e;}
 
-// get position of first symbol '!' of string st (if l==true then first)
+// get position of first symbol '!' of string st
 function getfs(st){
 let e=-1;
 let np=0;
@@ -132,6 +745,15 @@ return st.slice(0,getls(st));}
 function booster(st){
 return st.slice(getls(st)+1,-1);}
 
+function antibb(antibooster,antibase){
+return '['+antibooster+'!'+antibase;}
+
+function antibase(st){
+return st.slice(getfs(st)+1);}
+
+function antibooster(st){
+return st.slice(1,getfs(st));}
+
 // get predecessor of successor ordinal st = X + 1
 function pred(st){
 return st.slice(0,-2);}
@@ -139,717 +761,7 @@ return st.slice(0,-2);}
 // compare expressions st1, st2 (if st1<st2 then -1; if st1==st2 then 0; if st1>st2 then 1)
 //function compare(st1,st2,b=false){
 function compare(st1,st2){
-/*if(b){
-   let ccnf=comparecnf(cnf(st1),cnf(st2));
-   let c=st1.localeCompare(st2);
-   if(ccnf!=c)
-      return ccnf;
-   return c;}*/
 return st1.localeCompare(st2);}
-
-// get cofinality of ordinal st
-function cof(st){
-if(st==bo)                                      // limit rule
-   return '[[!!';
-else if(st==''||st==col)                        // no booster rule
-   return st;
-else{
-   let x=booster(st);
-   if(x=='')                                    // empty booster rule
-      return '[!';
-   else{
-      let c=cof(x);
-      if(c=='[!')                               // successor booster rule
-         return '[[!!';
-      else if(c=='[[!!'||compare(st,c)==1)      // special reduction rule
-         return c;
-      else if (c==col)                          // regular rule
-      	return st;
-      else                                      // main rule
-         return '[[!!';
-      }
-   }
-}
-
-function floor(st){
-if(st<bb('',col))
-//if(st<col)
-   return '';
-//else if(st==bb('',col))
-//   return st;
-else if(st==col)
-   return st;
-//else if(booster(st)<bb('',col))
-else if(booster(st)<col)
-   return floor(base(st));
-else
-	return st;
-}
-
-function checkstring00(st){
-if(st==''||st==col)
-   return false;
-else{
-   let x=booster(st);
-   let beta=base(st);
-   if(checkstring(x)||(beta!=''&&beta!=col&&x>booster(beta)))
-      return true;
-   else 
-      {
-      while(floor(x)>floor(st))
-         x=booster(x);
-      return x>st;
-      }
-   }
-}
-
-function checkstringold(st){
-if(st==''||st==col)
-   return false;
-else{
-   let x=booster(st);
-   let beta=base(st);
-   if(checkstringold(x)||(beta!=''&&beta!=col&&x>booster(beta)))
-      return true;
-   else 
-      {
-      while(floor(x)>floor(st))
-         {let s=bb(beta,x);
-         if(x<col&&s>st&&floor(s)<=floor(st))
-         //if(s>st&&!checkstring(s)&&floor(s)<=floor(st))
-         //if(bb(beta,x)>st&&floor(bb(beta,x))<=floor(st))
-         //if(bb('',x)>st&&floor(bb('',x))<=floor(st))
-            return true;
-         x=booster(x); 
-         }
-      return x>st;
-      }
-   }
-}
-
-function cst(x,beta,st)
-   {
-      while(floor(x)>floor(st))
-         {let s=bb(beta,x);
-         if(x<col&&s>st&&floor(s)<=floor(st))
-            return true;
-         s=base(x);
-         let y=booster(x);
-         while(s&&y<=s)
-            {if(cst(y,beta,st))
-               return true;
-            x=s;
-            s=base(x);
-            y=booster(x);}
-         x=y; 
-         }
-      return x>st;
-   }
-
-function checkstringcurrent(st){
-if(st==''||st==col)
-   return false;
-else{
-   let x=booster(st);
-   let beta=base(st);
-   if(checkstring(x)||(beta!=''&&beta!=col&&x>booster(beta)))
-      return true;
-   else 
-      {
-      return cst(x,beta,st);
-      }
-   }
-}
-
-function cpart(st)
-{if(!st)
-   return '';
-if(st[0]==col)
-   return col;
-return '';
-}
-
-function omegapart(st)
-{if(!st)
-   return '';
-if(st[0]==col)
-   return col;
-let m=cpart(st);
-while(st&&cpart(booster(st))<=m)
-	st=base(st);
-return st;
-}
-
-function epsilonpart(st)
-{if(!st)
-   return '';
-if(st[0]==col)
-   return col;
-let m=omegapart(st);
-while(st&&omegapart(booster(st))<=m)
-	st=base(st);
-return st;
-}
-
-function checkmaxepsilon(st,e,omega)
-{if(st==''||st==col)
-   return false;
-let x=booster(st);
-if(omegapart(x)==omega&&epsilonpart(x)>e)
-   return true;
-let beta=base(st);
-if(omegapart(beta)==omega&&epsilonpart(beta)>e)
-   return true;
-if(checkmaxepsilon(x,e,omega)||checkmaxepsilon(beta,e,omega))
-   return true;
-return false;
-}
-
-/*function checkmaxepsilon1(st,e,omega)
-{if(st==''||st==col)
-   return false;
-let x=booster(st);
-if(omegapart(x)==omega&&x>e)
-   return true;
-let beta=base(st);
-if(omegapart(beta)==omega&&beta>e)
-   return true;
-if(checkmaxepsilon(x,e,omega)||checkmaxepsilon(beta,e,omega))
-   return true;
-return false;
-}*/
-
-function checkmaxomega0(st,omega,c)
-{if(st==''||st==col)
-   return false;
-let x=booster(st);
-if(cpart(x)==c&&omegapart(x)>omega)
-   return true;
-let beta=base(st);
-if(cpart(beta)==c&&omegapart(beta)>omega)
-   return true;
-if(checkmaxomega(x,omega,c)||checkmaxomega(beta,omega,c))
-   return true;
-return false;
-}
-
-function checkmaxomega(st,omega,c)
-{if(st==''||st==col)
-   return false;
-let x=booster(st);
-if(cpart(x)==c&&x>omega)
-   return true;
-let beta=base(st);
-if(cpart(beta)==c&&beta>omega)
-   return true;
-if(checkmaxomega(x,omega,c)||checkmaxomega(beta,omega,c))
-   return true;
-return false;
-}
-
-function checkmaxc(st,c)
-{if(st==''||st==col)
-   return false;
-let x=booster(st);
-if(x>c)
-   return true;
-let beta=base(st);
-if(beta>c)
-   return true;
-//if(checkmaxc(omegapart(x),c)||checkmaxomega(omegapart(beta),c))
-if(checkmaxc(x,c)||checkmaxomega(beta,c))
-   return true;
-return false;
-}
-
-function checkstring3(st){
-if(st==''||st==col)
-   return false;
-if(checkstring(booster(st))||checkstring(base(st)))
-   return true;
-let e=epsilonpart(st);
-let omega=omegapart(st);
-if(checkmaxepsilon(st,e,omega))
-   return true;
-   
-/*let c=cpart(st);
-if(checkmaxomega(st,omega,c))
-   return true;*/
-   
-e=e.slice(omega.length);
-let u=e;
-while(base(u))
-   u=base(u);
-u=booster(u);
-//u=omegapart(u);
-let uc=cpart(u);
-let x;
-while(e)
-   {x=booster(e);
-   if(checkmaxomega(x,u,uc))
-      return true;
-   e=base(e);
-   }
-
-omega=omega.slice(cpart(st).length);
-u=omega;
-while(base(u))
-   u=base(u);
-u=booster(u);
-//u=omegapart(u);
-while(omega)
-   {x=booster(omega);
-   if(checkmaxc(x,u))
-      return true;
-   omega=base(omega);
-   }
-   
-/*omega=omega.slice(c.length);
-u=omega;
-while(base(u))
-   u=base(u);
-u=booster(u);
-u=omegapart(u);
-uc=cpart(u);
-while(e)
-   {x=booster(e);
-   if(checkmaxomega(x,u,uc))
-      return true;
-   e=base(e);
-   }*/
-return false;
-}
-
-function getline(st,omega=bb('',col))
-{//let omega=bb('',col);
-if(st<omega)
-   return ''
-while(st&&st!=col&&booster(st)<omega)
-	st=base(st);
-return st;
-}
-
-function checkline(st,e,line,omega=bb('',col))
-{if(st==''||st==col)
-   return false;
-let x=booster(st);
-if(getline(x,omega)==line&&x>e)
-   return true;
-let beta=base(st);
-if(getline(beta,omega)==line&&beta>e)
-   return true;
-if(checkline(x,e,line,omega)||checkline(beta,e,line,omega))
-   return true;
-return false;
-}
-
-function checkstring(st){
-if(st==''||st==col)
-   return false;
-if(checkstring(booster(st))||checkstring(base(st)))
-   return true;
-/*let line=getline(st);
-if(checkline(st,st,line))
-   return true;*/
-  
-let e=epsilonpart(st);
-let omega=omegapart(st);
-if(checkmaxepsilon(st,e,omega))
-   return true;
-
-e=e.slice(omega.length);
-let u=e;
-while(base(u))
-   u=base(u);
-u=booster(u);
-//u=omegapart(u);
-let uc=cpart(u);
-let x;
-while(e)
-   {x=booster(e);
-   if(checkmaxomega(x,u,uc))
-      return true;
-   e=base(e);
-   }
-
-omega=omega.slice(cpart(st).length);
-u=omega;
-while(base(u))
-   u=base(u);
-u=booster(u);
-//u=omegapart(u);
-uc=getline(u,col);
-while(omega)
-   {x=booster(omega);
-   if(checkline(x,u,uc,col))
-      return true;
-   omega=base(omega);
-   }
-
-return false;
-}
-
-function cheetah(st,t)
-{
-let x=booster(t);
-let beta=base(t);
-if(!x&&!beta)
-   return false;
-if(cheetah(st,x)||cheetah(st,beta))
-   return true;
-while(x>=bb('',col))
-   x=bb('',x);
-while(beta>=bb('',col))
-   beta=bb('',beta);
-return x>st||beta>st;
-}
-
-function checkstring2(st,t=''){
-if(st==''||st==col)
-   return false;
-else{
-   let x=booster(st);
-   let beta=base(st);
-   if(checkstring(x)||checkstring(beta))
-      return true;
-   else 
-      {
-      return cheetah(st,st);
-      /*let y=booster(x);
-      while(x>=bb('',col))
-         x=bb('',x);
-      while(y>=bb('',col))
-         y=bb('',y);
-      return x>st||y>st;*/
-      
-      }
-   }
-}
-
-function checkstringtest(st){
-if(checkstringtest(st)!=checkstringold(st))
-   return checkstringtest(st);
-else
-   return checkstringold(st);
-}
-
-function checkstring0(st){
-if(st==''||st==col)
-   return false;
-//if(st[st.length-1]==col)
-//   return true;
-else{
-   let x=booster(st);
-   let beta=base(st);
-   //return(checkstring(x)||(beta!=''&&beta!=col&&x>booster(beta))||(x>st&&floor(x)<=floor(st)));
-   if(checkstring(x)||(beta!=''&&beta!=col&&x>booster(beta)))
-      return true;
-   //else if(floor(x)>floor(st))
-   //   return false;
-   else 
-      {
-      //if(x==''||x==col)
-      //      return x>st&&floor(x)<=floor(st);
-      let f=floor(st);
-      while(/*x!=''&&x!=col&&*/floor(x)>f)
-         {//st=x;
-         x=booster(x);
-         //if(x>st)
-         //   return true;
-         }
-      return x>st;
-      }
-      /*{while(x!=''&&x!=col)
-         {if(x>st)
-            return true;
-         x=booster(x);
-         }
-      return false;
-      }*/
-   }
-}
-
-function checkstring1(st){
-if(st==''||st==col)
-   return false;
-else{
-   let x=booster(st);
-   let beta=base(st);
-   if(checkstring(x)||(beta!=''&&beta!=col&&x>booster(beta)))
-      return true;
-   else{
-      let f=(beta==''||beta==col)
-      let s;
-      while(x!=''&&x!=col)
-         {
-         s=f?bb('',x):bb(base(beta),x);
-         if(s>=st&&floor(s)<=floor(st))
-            return true;
-         x=booster(x);
-         }
-      return false;
-      }
-   }
-}
-
-function getperiod(st){
-let pf=2;
-let i=st.length-1;
-while(st[i]=='!')
-   i--;
-let e=st[i]=='[';
-let st0=st.slice(0,i);
-let st1=st.slice(i+(e?2:1));
-/*if(!e)while(st0.slice(-1)=='[')
-  {st0=st0.slice(0,-1);
-  st1=st1.slice(0,-1);
-  }*/
-i=0;
-let s=st0+st1;
-let s1;
-let pertest='';
-let y=false;
-let perlength=1;
-let period,mperiod,pnumber;
-let nn=0;
-let dl=2*st.length+5;
-let n=0;
-let pl=0;
-while(!y||s.length<=dl)
-   {i++;
-   nn++;
-   s=st0+'[!'+st1;
-   pertest+='2';
-   while(s>=st||checkstring(s))
-      {st0+=st1[0];
-      st1=st1.slice(1);
-      s=st0+'[!'+st1;
-      pertest+='1';
-      }
-   e=false;
-   if(st0[st0.length-1]=='[')
-      {s1=st0+col+st1;
-      if(s1<st&&!checkstring(s1))
-         {s=s1;
-         e=true;
-         pertest+='3';
-         }
-      }
-   st0=st0+(e?col:'[');
-   st1=(e?'':'!')+st1;
-   if(nn==1)pertest=pertest.slice(1);
-   //if(s.length>dl)
-   y=false;
-   while(nn>1&&!y&&perlength<=Math.floor(pertest.length/pf)) 
-      {period=pertest.slice(0,perlength);
-      pnumber=Math.ceil(pertest.length/perlength);
-      mperiod=period.repeat(pnumber).slice(0,pertest.length);
-      if(pertest==mperiod)
-         {y=true;
-         if(perlength>pl)
-            {n=nn;
-            pl=perlength;}}
-      else
-         {perlength++};
-      }    
-   }
-return Math.floor((n)/pf);
-}
-
-// get n-th element of fs of ordinal st
-function fs0(st,n,nn=0){
-let i=st.length-1;
-while(st[i]=='!')
-   i--;
-let e=st[i]=='[';
-let st0=st.slice(0,i);
-let st1=st.slice(i+(e?2:1));
-i=0;
-let s=st0+st1;
-let s1;
-while(i<nn)
-   {i++;
-   s=st0+'[!'+st1;
-   while(s>=st||checkstring(s))
-      {st0+=st1[0];
-      st1=st1.slice(1);
-      s=st0+'[!'+st1;
-      }
-   e=false;
-   if(st0[st0.length-1]=='[')
-      {s1=st0+col+st1;
-      if(s1<st&&!checkstring(s1))
-         {s=s1;
-         e=true;
-         }
-      }
-   st0=st0+(e?col:'[');
-   st1=(e?'':'!')+st1;
-   }
-return s;
-}
-
-// get n-th element of fs of ordinal st
-function fs1(st,n,nn=0){
-let i=st.length-1;
-while(st[i]=='!')
-   i--;
-let e=st[i]=='[';
-let st0=st.slice(0,i);
-let st1=st.slice(i+(e?2:1));
-i=0;
-let s=st0+st1;
-let s1;
-let pertest='';
-while(i<nn)
-   {i++;
-   s=st0+'[!'+st1;
-   pertest+='2';
-   while(s>=st||checkstring(s))
-      {st0+=st1[0];
-      st1=st1.slice(1);
-      s=st0+'[!'+st1;
-      pertest+='1';
-      }
-   e=false;
-   if(st0[st0.length-1]=='[')
-      {s1=st0+col+st1;
-      if(s1<st&&!checkstring(s1))
-         {s=s1;
-         e=true;
-         pertest+='3';
-         }
-      }
-   st0=st0+(e?col:'[');
-   st1=(e?'':'!')+st1;
-   }
-if(nn>0) 
-{let perlength=1;
-let y=false;
-let period,mperiod,pnumber;
-pertest=pertest.slice(1);
-if(pertest.length>1&&pertest[1]=='1')
-alert(pertest);
-  while(!y&&perlength<=pertest.length) 
-   {period=pertest.slice(0,perlength);
-   pnumber=Math.floor(pertest.length/perlength);
-   mperiod=period.repeat(pnumber);
-   if(pnumber>1&&pertest.slice(0,perlength*pnumber)==mperiod)y=true;
-   perlength++;
-   }  
-if(!y){fs(st,n,nn+1)}else
-   {//if(pertest[0]=='2')
-      alert(pertest.slice(0,pertest.length)); 
-      alert(mperiod); 
-      alert(nn);  
-   }
-}
-return s;
-}
-
-// get n-th element of fs of ordinal st
-function fs2(st,n,nn=0){
-
-if(st=='[[c!![[c!![[c!![[c!![[c!![[c!![[c!![[c!!')return '[[c!![[c!![[c!![[c!![[c!![[c!![[c!!'+('[[[c!![[c!![[c!![[c!![[c!![[c!![[c!!'.repeat(nn))+('!'.repeat(nn));
-
-let i=st.length-1;
-while(st[i]=='!')
-   i--;
-let e=st[i]=='[';
-let st0=st.slice(0,i);
-let st1=st.slice(i+(e?2:1));
-if(!e)while(st0.slice(-1)=='[')
-  {st0=st0.slice(0,-1);
-  st1=st1.slice(0,-1);
-  }
-i=0;
-let s=st0+st1;
-let s1;
-while(i<nn)
-   {if(!i)nn*=getperiod(st);
-   i++;
-   s=st0+'[!'+st1;
-   while(s>=st||checkstring(s))
-      {st0+=st1[0];
-      st1=st1.slice(1);
-      s=st0+'[!'+st1;
-      }
-   e=false;
-   if(st0[st0.length-1]=='[')
-      {s1=st0+col+st1;
-      if(s1<st&&!checkstring(s1))
-         {s=s1;
-         e=true;
-         }
-      }
-   st0=st0+(e?col:'[');
-   st1=(e?'':'!')+st1;
-   }
-return s;
-}
-
-// get n-th element of fs of ordinal st
-function fs3(st,n,nn=0){
-let i=st.length-1;
-while(st[i]=='!')
-   i--;
-let e=st[i]=='[';
-let s1;
-let st0=st.slice(0,i);
-let st1=st.slice(i+(e?2:1));
-let s=st0+st1;
-
-if(nn==0)return s;
-
-if(e)
-   {
-   st0+='!';
-   st1=st1.slice(1);
-   s1=bb('',booster(st0));
-   return st0+s1.repeat(nn)+st1;
-   }
-   
-while(st0.slice(-1)=='[')
-  {st0=st0.slice(0,-1);
-  st1=st1.slice(0,-1);
-  }
-  
-if(st==col)
-   return ('['+col).repeat(nn)+'!'.repeat(nn);
-
-/*i=2;  
-s1=booster('['+st0+'!!');
-while(checkstring(st0+s1+st1))
-   {
-   i++;
-   s1=booster('['+st0+'!'.repeat(i));
-   }
-i--;
-s1=s1.slice(0,-i);
-return st0+s1.repeat(nn)+'!'.repeat(i*nn)+st1;*/
-
-i=0;
-while(i<nn)
-   {i++;
-   s=st0+'[!'+st1;
-   while(s>=st||checkstring(s))
-      {st0+=st1[0];
-      st1=st1.slice(1);
-      s=st0+'[!'+st1;
-      }
-   e=false;
-   if(st0[st0.length-1]=='[')
-      {s1=st0+col+st1;
-      if(s1<st&&!checkstring(s1))
-         {s=s1;
-         e=true;
-         }
-      }
-   st0=st0+(e?col:'[');
-   st1=(e?'':'!')+st1;
-   }
-return s;
-}
 
 function ocd(st){
 let n=0;
@@ -862,433 +774,291 @@ for(let s of st)
 return n;
 }
 
-// get n-th element of fs of ordinal st
-function fs4(st,n,nn=0){
-if(st==fscurrent)
-   return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
-
-fscurrent=st;
-
-if(st==bo)
-   {fsopening=col;
-   fsperiod0='['+col;
-   fsperiod1='!';
-   fsending='';
-   return col+(fsperiod0.repeat(nn))+('!'.repeat(nn));}
-
-let i=st.length-1;
-while(st[i]=='!')
-   i--;
-let e=st[i]=='[';
-let st0=st.slice(0,i);
-let st1=st.slice(i+(e?2:1));
-let s1;
-
-if(e)
+function getpos(st)
+{
+let n=0;
+let pcar=[];
+let l=st.length;
+let l2=2*l;
+st=st+st;
+let e=0;
+while(e<l2)
    {
-   st0+='!';
-   st1=st1.slice(1);
-   s1=bb('',booster(st0));
-   fsopening=base(st0);
-   fsperiod0=s1;
-   fsperiod1='';
-   fsending=st1;
-   return fsopening+s1.repeat(nn)+st1;
-   }
-
-let stt=st0;
-//let u=0;
-
-while(st0.slice(-1)=='[')
-  {st0=st0.slice(0,-1);
-  st1=st1.slice(0,-1);
-  //u++;
-  }
-  
-/*st0='';
-st1='';*/  
-  
-let dl=3*st.length+6;
-let st00=st0;
-let st01=st1;
-
-let s0='';
-  
-i=0;
-let s=st0+st1;
-while(s.length<dl)
-   {i++;
-   s=st0+'[!'+st1;
-   while(s>=st||checkstring(s))
-      {st0+=st1[0];
-      s0+=st1[0];
-      st1=st1.slice(1);
-      s=st0+'[!'+st1;
-      }
-   e=false;
-   if(st0[st0.length-1]=='[')
-      {s1=st0+col+st1;
-      if(s1<st&&!checkstring(s1))
-         {s=s1;
-         e=true;
+   if(pcar.length)
+      {
+      if(st[e]=='[')
+         {
+         n++;
+         if(n==2)
+            {
+            pcar.push(e);
+            n=1;
+            }
+         }
+      else if(st[e]=='!')
+         {
+         n--;
+         if(n<=0)
+            {
+            pcar.pop();
+            n++;
+            }
          }
       }
-   st0=st0+(e?col:'[');
-   s0=s0+(e?col:'[');
-   st1=(e?'':'!')+st1;
-   }
-
-//let pc=st.length;
-let pc=stt.length-st00.length;
-s1=s0.slice(pc);   
-let pl=1;
-while(s1.slice(0,pl).repeat(Math.ceil(s1.length/pl)).slice(0,s1.length)!=s1)pl++;
-let period=s1.slice(0,pl);
-let pp=pl-1;
-while(pc>0&&s0[pc-1]==period[pp])
-   {pc--;
-   pp--;
-   if(pp<0)pp=pl-1;
-   }
-period=s0.slice(pc,pc+pl);
-s0=s0.slice(0,pc);
-
-/*if(st<bb('',col))
-if((st00+s0).length+pl*nn>=stt.length+pl){
-let str0=st00+s0+(period.repeat(nn))+('!'.repeat(ocd(s0)+nn*ocd(period)))+st01;
-let str=str0.slice(stt.length);
-str=str.slice(0,pl);
-if(nn>0&&str!=stt.slice(-pl))
-   str=stt;}*/
-   
-/*if(u==2&&stt.length-1!=pl)
-   stt='';*/
-
-fsopening=st00+s0;
-fsperiod0=period;
-fsperiod1='!'.repeat(ocd(period));
-fsending=('!'.repeat(ocd(s0)))+st01;
-
-   //stt=stt.slice(0,-1);
-   //stt=stt+stt.slice(-pl);
-   st00=st00.slice(-pl);
-   while(st00.length<pl)
-      st00='['+st00;
-   //stt=stt.slice(-pl).repeat(2);
-   //if(stt!=((fsopening+period.repeat(3)).slice(0,stt.length)))
-   //if(stt!=fsopening)
-   //if(pl>stt.length&&st!=col&&st!=bb('',col))
-   //if(!stt.includes(period)&&st!=col&&st!=bb('',col)&&st!='c[[c!!')
-   //if(stt!=period&&st!=col)
-   //if(st00!=period&&period!='[c'&&st!='[[c!!'&&stt.slice(-3)!='[[[')
-   //if(st00!=period&&period!='[c'&&stt.slice(-3)!='[[[')
-   //if(!stt.includes('[[c')&&period!='[c'&&st!='[[c!!'&&stt.slice(-3)!='[[[')
-   //if(stt.includes('[[c')&&period=='[c')
-   //if(stt.slice(-2,-1)!='['&&period!='[c')
-   //if(period!='[c'&&period!='['&&stt.includes('[['))
-      //alert(st);
-   //   alert(st+' offset: '+(fsopening.length-stt.length)+'; period: '+pl+'\n'+stt+'\n'+fsopening+'\n'+period);
-   /*if(st!=col&&st!=bb('',col)&&st!='c[[c!!')
-   {let offset=0;
-   while(stt.slice(0,pl)!=period)
-      {offset++;
-      stt=stt.slice(1);}
-      alert(st+' '+offset);*/
-   /*if(period!='[c')
-      alert(st+' offset: '+(fsopening.length-stt.length)+'; period: '+pl+'\n'+stt+'\n'+fsopening+'\n'+period);*/
-
-return fsopening+(period.repeat(nn))+(fsperiod1.repeat(nn))+fsending;
-}
-
-// get n-th element of fs of ordinal st
-function fs5(st,n,nn=0){
-if(st==fscurrent)
-   return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
-
-fscurrent=st;
-
-if(st==bo)
-   {//fsopening=col;
-   fsopening='[';
-   fsperiod0='['+col;
-   fsperiod1='!';
-   //fsending='';
-   fsending='!';
-   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
-   }
-
-let i=st.length-1;
-while(st[i]=='!')
-   i--;
-let e=st[i]=='[';
-let st0=st.slice(0,i);
-let st1=st.slice(i+(e?2:1));
-let s1;
-
-if(e)
-   {
-   st0+='!';
-   st1=st1.slice(1);
-   s1=bb('',booster(st0));
-   fsopening=base(st0);
-   fsperiod0=s1;
-   fsperiod1='';
-   fsending=st1;
-   return fsopening+fsperiod0.repeat(nn)+fsending;
-   }
-
-if(st0=='[[')
-   {fsopening='';
-   fsperiod0='[';
-   fsperiod1='!';
-   fsending='';
-   return fsperiod0.repeat(nn)+fsperiod1.repeat(nn);
-   }
-
-let stt=st0;
-let u=i-1;
-
-while(st0[u]=='[')
-  u--;
-u=i-u-1;
-
-st0=st0.slice(0,-u);
-
-if(u==3)
-   {
-   fsopening=st0;
-   fsperiod0='[';
-   fsperiod1='!';
-   fsending=st1.slice(3);
-   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
-   }
-
-/*if(!stt.includes('[[')||!checkstring(stt+('['+col).repeat(i=Math.ceil(st0.length/2+1))+'!'.repeat(i)+st1))
-   {
-   fsopening=stt;
-   fsperiod0='['+col;
-   fsperiod1='!';
-   fsending=st1;
-   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
-   }*/
-
-st1=st1.slice(u);
-let s;
-
-stt='[['+st0;
-u++;
-let uo='['.repeat(u);
-i=stt.length-1;
-fsperiod0='';
-let alear=[u];
-let alex=0;
-let maxs,maxl;
-let ooc=u-2;
-let cb=[st];
-let cbn=[0];
-let cc=[];
-while(cb.at(-1).length>1)
-   {cb.push(booster(cb.at(-1)));
-   cbn.push(0);
-   cc.push('');
-   }
-
-let ce;
-cc[cb.length-1]=cb[cb.length-1];
-for(ce=cb.length-2;ce>=0;ce--)
-   //cc[ce]=base(cb[ce])>=cc[ce+1]?cc[ce+1]:cc[ce+1]==col?cb[ce]:cb[ce+1]>col?cc[ce+1]:'[[!!';
-   cc[ce]=base(cb[ce])>=cc[ce+1]?cc[ce+1]:cc[ce+1]==col?cb[ce]:cb[ce+1]>booster(cc[ce+1])?cc[ce+1]:'[[!!';
-   //cc[ce]=base(cb[ce])>=cc[ce+1]?cc[ce+1]:cc[ce+1]==col?cb[ce]:cb[ce+1]!=cc[ce+1]?cc[ce+1]:'[[!!';
-
-for(ce=0;ce<cb.length;ce++)
-   while(cb[ce][0]=='[')
-      {cb[ce]=cb[ce].slice(1);
-      cbn[ce]++;
+   else
+      {
+      if(st[e]=='[')
+         {
+         pcar.push(e);
+         n=1;
+         }
       }
-do
-   {while(i>1&&stt[i]!=col)
-	   {/*if(stt.slice(i-2,i+1)=='[[['&&ocd(stt.slice(i))>-2)
-	      i=1;*/
-	   i--;
-	   }
-	if(i>1)
-	   {s=uo+stt.slice(i);
-	   alear.push(ocd(s));
-	   /*
-	   //if(ocd(s)>0&&s>fsperiod0&&(!fsperiod0||s!=fsperiod0.repeat(Math.ceil(s.length/fsperiod0.length)).slice(0,s.length)))
-	   if(ocd(s)>0&&(!fsperiod0||s>fsperiod0.repeat(Math.ceil(s.length/fsperiod0.length))))
-	      //if(!checkstring(st0+s.repeat(1)+'!'.repeat(ocd(s)).repeat(1)+st1))
-	      if(!fsperiod0&&(!stt.slice(0,i).includes(col))||!checkstring(st0+s+'!'.repeat(ocd(s))+st1))
-	         fsperiod0=s;
-	        */
-	   
-	   if(ocd(s)>0&&(!fsperiod0||s>fsperiod0.repeat(Math.ceil(s.length/fsperiod0.length))))
-	   {maxs=alear.length-1;
-	   maxl=s.slice(u);
-	   if(!checkstring(st0+s+'!'.repeat(ocd(st0+s))))
-	      {fsperiod0=s;
-	      alex=alear.length-1;
-	      }
-	   }
-	   if(false) 
-	      {
-	      if(fsperiod0)
-	         {
-	         let per=s.slice(u);
-	         let y=stt.length-1;
-	         let b=false;
-	         while(!b&&y>1)
-	            {
-	            //if(stt[y]==col&&per>stt.slice(y))
-	            //if(stt.slice(y-u,y+1)==uo+col&&stt[y-u-1]!='!'&&per>stt.slice(y))
-	            if(stt.slice(y-u,y+1)==uo+col&&per>stt.slice(y))
-	            //if(stt.slice(y-2,y)!='!['&&stt.slice(y-3,y)!='![['&&stt.slice(y-4,y)!='![[[')
-	            //if(stt.slice(y-2,y)!='!['&&stt.slice(y-3,y)!='![[')
-	            
-	            /*if(stt.slice(y-u,y+1)==uo+col)
-	               {for(let j=0;j<u;j++)
-                      {let yn=0;
-                      let yy=y;
-                      while(yn<=j&&yy<stt.length-1)
-                         {yy++;
-                         if(stt[yy]=='[')
-                            yn--;
-                         else if(stt[yy]=='!')
-                            yn++;
-                         }
-                      let pern=0;
-                      let pery=0;
-                      while(pern<=j&&pery<per.length-1)
-                         {pery++;
-                         if(per[pery]=='[')
-                            pern--;
-                         else if(per[pery]=='!')
-                            pern++;
-                         }
-                         
-                      if(per.slice(0,pery)>stt.slice(y,yy))
-                         b=true;
-                      }
-	               }*/
-	            
-	               b=true;
-	            y--;
-	            }
-	         if(!b)
-	            fsperiod0=s;
-	         }
-	      else
-	      	fsperiod0=s;
-	      }
-	         
-
-	   /*if(stt.slice(i-2,i+1)=='[['+col&&(i<3||stt[i-3]!='['))
-	      ooc++;
-	   if(ooc>1)
-	      i=1;*/
-	   i--;
-	   }
+   e++;
    }
-while(i>1);
-let alest='';
-for(i=0;i<alear.length;i++)
-   {alest+=alear[i];
-   if(i==alex)
-      alest+=' *';
-   if(i==maxs)
-      alest+=' L';
-   alest+='\n';
-   }
-//if(alear.length>2)
-//if(alex!=1&&alex!=alear.length-1)
-
-
-//if(!fsperiod0)
-//   fsperiod0=s;
-//while(i>1&&(!fsperiod0||stt.slice(Math.abs(i+1-3),i+1)!='[[['));
-//while(i>1&&(!fsperiod0||stt.slice(Math.abs(i+1-u),i+1)!=uo));
-fsopening=st0;
-fsperiod1='!'.repeat(ocd(fsperiod0));
-fsending=st1;
-
-//alest=convert(fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending)+'\n'+alest;
-alest=st+'\n'+convert(st)+'\n'+alest;
-/*if(alex!=maxs&&!maxl.includes('[[['))
-   alert(alest);*/
+e=0;
+while(pcar.length>2&&pcar.at(-2)>=l)
+    pcar.pop();
+let m=pcar.at(-1)-l;
+while(pcar[e]<m)
+   e++;
+m=pcar.length-1;
+if(e+1==m)
+   return pcar[e];
    
-let b=false;
-let bi=0;
-for(i=0;i<cb.length;i++)
-if(fsperiod0.length==cb[i].length-cb.length+i+1)
-   {b=true;
-   bi=i;
+let psar=[];
+for(let i=e;i<m;i++)
+   psar.push(st.slice(pcar[i],pcar[i+1]));
+let b=true;
+for(let i=e+1;i<m;i++)
+   if(psar[i]!=psar[e])
+      b=false;
+if(b)
+   return pcar[e];
+for(let i=e+1;i<m;i++)
+   {
+   let i1=i;
+   let e1=e;
+   while(psar[i1]==psar[e1])
+      {
+      i1--;
+      e1--;
+      if(i1<e)
+         i1=pcar.length-1;
+      if(e1<e)
+         e1=pcar.length-1;
+      }
+   if(psar[i1]>psar[e1])
+      {
+      e=i;
+      }
    }
-   
-alest+=fsperiod0.length+': ';
-for(i=cb.length-1;i>0;i--)
-   alest+=cb[i].length+', ';
-alest+=cb[0].length+'\n';
-for(i=cb.length-1;i>0;i--)
-   alest+=cbn[i]+', ';
-alest+=cbn[0]+' '+b;
-
-i=cb.length-1;
-let chi=0;
-while(i>0&&chi<2)
-//while(i>0&&cbn[i]<=cbn[i-1])
-{if(cbn[i]==2)
-   chi=2;
-else
-   {if(cbn[i]>cbn[i-1])
-      chi++;
-   i--;}
+return pcar[e+1]%l;
 }
-  
-alest+='\n';
-for(i=cb.length-1;i>0;i--)
-   alest+=cc[i]+', ';
-alest+=cc[0]; 
-  
-i=cb.length-1;
-while(cc[i]!='[[!!')
-   i--;
 
-let np=cb.length-1;
-for(ce=cb.length-2;ce>=i;ce--)
-   if(cb[ce]>=cb[np]+'!'.repeat(cb[ce].length-cb[np].length))
-      np=ce;
+function overperiod(st){
+if(st[0]!=col)
+   return st;
+let i=0;
+for(let e=1;e<st.length;e++)
+   if(st.slice(0,e)==st.slice(-e))
+      i=e;
+return i?st.slice(0,-i):st;
+}
 
-alest+='\n'+bi+' '+i+' '+np;
+function overprimer(st,st0){
+if(st[0]!=col)
+   return st0;
+let i=0;
+for(let e=1;e<st.length;e++)
+   if(st.slice(0,e)==st0.slice(-e))
+      i=e;
+return i?st0.slice(0,-i):st0;
+}
 
-//if(!b)
-//if(alex!=maxs)
-//if(alex!=maxs&&!maxl.includes('[[['))
-//if(fsperiod0.length&&bi<i)
-//if(np!=bi)
-if(np!=i)
-   alert(alest);
-   
-fsperiod0=uo+cb[np].slice(0,-cb.length+np+1-u);
-fsperiod1='!'.repeat(ocd(fsperiod0));
-   
-return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+function setfsarrays()
+{
+fsnumber=1;
+fsopeningarray=[fsopening];
+fsperiodarray=[fsperiod0];
+fsendingarray=[fsending];
+let i=fsending.length;
+let u=fsperiod1.length;
+let j=fsperiod0.length;
+let y=fsopening.length;
+let q=j-1;
+while(fsperiod0[q]=='!')
+   q--;
+let b=true;
+for(let e=1;e<=q;e++)
+   {
+   let a=fsperiod0[e-1];
+   if(a=='[')
+      i++;
+   else if(a=='!')
+      i--;
+   if(fsperiod0[e]!='!')
+      {
+      fsopeningarray.push(fsopening+fsperiod0.slice(0,e));
+      if(!b)
+         fsopeningarray[fsnumber]=fsopeningarray[fsnumber].slice(0,-j);
+      fsperiodarray.push(fsperiod0.slice(e)+fsperiod0.slice(0,e));
+      if(b&&y+e>=j&&fsopeningarray[fsnumber].slice(-j)==fsperiodarray[fsnumber])
+         {
+         fsopeningarray[fsnumber]=fsopeningarray[fsnumber].slice(0,-j);
+         i-=u;
+         b=false;
+         }
+      fsendingarray.push('!'.repeat(i));
+      if(fsperiod0[e]==col)
+         {
+         fsopeningarray.push(fsopeningarray[fsnumber]);
+         fsperiodarray.push(fsperiodarray[fsnumber]);
+         fsendingarray.push('[!'+fsendingarray[fsnumber]);
+         fsnumber++;
+         }
+      fsnumber++;
+      }
+   }
+}
+
+// left non-empty base
+function leftbase(st)
+{
+let beta=base(st);
+return beta?leftbase(beta):st;
+}
+
+// if st is not epsilon: -1
+// epsilon: 0
+// Omega: 1
+// L: 2
+// R: 3
+// ...
+function getepslevel(st)
+{
+if(st==bo)
+   return 0;
+if(!st)
+   return -1;
+if(st==col)
+   return nlevels;
+let x=booster(st);
+if(st>x)
+   return -1;
+return getepslevel(leftbase(x))-1;
+}
+
+function flooreps(st,n=0)
+{
+if(!st||getepslevel(st)>=n)
+   return st;
+return flooreps(base(st),n);
+}
+
+// n = 0: least epsilon above st
+// n = 1: least Omega above st
+// n = 2: least L above L st
+//...
+function nexteps(st,n)
+{
+if(st>=col||n>nlevels)
+   return 'd';
+if(n==nlevels)
+   return col;
+return bb(flooreps(st,n),nexteps(st,n+1));
+}
+
+function card(st)
+{
+if(st==col)
+if(nlevels)
+   {
+   cardclass=2;
+   return col;
+   }
+else
+   {
+   cardclass=1;
+   return '[[!!';
+   }
+if(st==bo)
+   {
+   if(nlevels&&uncountablemode)
+      {
+      cardclass=2;
+      return col;
+      }
+   else
+      {
+      cardclass=1;
+      return '[[!!';
+      }
+   }
+if(st<'[[!!')
+   {
+   cardclass=0;
+   return st;
+   }
+if(st<leastuncounable)
+   {
+   cardclass=1;
+   return '[[!!';
+   }
+
+cardclass=2;
+while(st.length>1&&st>booster(st))
+   st=base(st);
+return st;
+}
+
+// card, but if < Ω, returns empty string
+function ecard(st)
+{
+let c=card(st);
+if(c<leastuncounable)
+   return '';
+return st;
 }
 
 // get n-th element of fs of ordinal st
 function fs(st,n,nn=0){
+
+// optimization
 if(st==fscurrent)
-   return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
+   //return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
+   return fsopeningarray[subperiodpositionshift]+(fsperiodarray[subperiodpositionshift].repeat(nn))+(fsperiod1.repeat(nn)+fsendingarray[subperiodpositionshift]);
+
+if(fscurrent)
+   subperiodpositionshift=0;
 
 fscurrent=st;
 
+// limit rule
 if(st==bo)
-   {//fsopening='['.repeat(nlevels-1);
-   fsopening='['.repeat(nlevels)+col;
-   fsperiod0='['+col;
-   fsperiod1='!';
-   //fsending='!'.repeat(nlevels-1);
-   fsending='!'.repeat(nlevels);
-   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+   {
+   cofcurrent='[[!!';
+   cofclass=0;
+   
+   if(uncountablemode)
+      {
+      //uncountable
+      fsopening=col;
+      fsperiod0='['+col;
+      fsperiod1='!';
+      fsending='';
+      setfsarrays();
+      return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+      }
+   else
+      {
+      //countable
+   	fsopening=nlevels?'['.repeat(nlevels-1):col;
+      fsperiod0='['+col;
+      fsperiod1='!';
+      fsending=nlevels?'!'.repeat(nlevels-1):'';
+      setfsarrays();
+      return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+      }
    }
 
 let i=st.length-1;
@@ -1299,26 +1069,24 @@ let st0=st.slice(0,i);
 let st1=st.slice(i+(e?2:1));
 let s1;
 
+// successor and plain rule
 if(e)
    {
    st0+='!';
+   cofcurrent=st1?'[[!!':'[!';
+   cofclass=st1?st==cofcurrent?3:0:2;
+   let st2=st1;
    st1=st1.slice(1);
    s1=bb('',booster(st0));
    fsopening=base(st0);
    fsperiod0=s1;
    fsperiod1='';
    fsending=st1;
+   setfsarrays();
    return fsopening+fsperiod0.repeat(nn)+fsending;
    }
 
-if(st0=='['.repeat(nlevels))
-   {fsopening='';
-   fsperiod0='[';
-   fsperiod1='!';
-   fsending='';
-   return fsperiod0.repeat(nn)+fsperiod1.repeat(nn);
-   }
-
+// main rule
 let stt=st0;
 let u=i-1;
 
@@ -1326,149 +1094,110 @@ while(st0[u]=='[')
   u--;
 u=i-u-1;
 
-st0=st0.slice(0,-u);
-
-if(u==nlevels+1)
-   {
-   fsopening=st0;
-   fsperiod0='[';
-   fsperiod1='!';
-   fsending=st1.slice(nlevels+1);
-   return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
-   }
-
-
+st0+='[';
 
 st1=st1.slice(u);
 let s;
 
-//stt='[['+st0;
 u++;
 let uo='['.repeat(u);
 
-/*i=stt.length-1;
-fsperiod0='';
-let alear=[u];
-let alex=0;
-let maxs,maxl;
-let ooc=u-2;
-let fcb=[];
-let cbn=[0];
-let cc=[];*/
-
 let cb=[st];
+//let nc=[1,1];
 while(cb.at(-1).length>1)
    {cb.push(booster(cb.at(-1)));
-   //cbn.push(0);
-   //cc.push('');
    }
 
-let lrn=cb.length-nlevels;
-while(cb[lrn]>=leastr)
-   lrn--;
-let pn=lrn-1;
-while(cb[pn]>=cb[lrn])
-   pn--;
+let pn=cb.length-1;
+let lrn=pn;
+let nl=nlevels;
+let lr='c';
+let lar=[pn];
+//let r;           // more powerful system
+while(nl)
+   {if(cb[pn]<lr)
+      {
+      //lrn=pn;
+      lr=cb[pn];
+      lar.push(pn);
+      nl--;
+      
+      // more powerful system
+      /*let q=base(lr);
+      if(lar.length>2&&q!=r)
+         {
+         nl=0;
+         r=q;
+         while(q.length>1&&booster(q)==col)
+            {
+            q=base(q);
+            nl++;
+            }
+         }*/
+      
+      }
+   else
+      {
+      pn--;
+      
+      // uncountable
+      if(pn<0)
+         {
+         fsopening=st0.slice(0,-1);
+         fsperiod0='['+col;
+         while(fsopening.slice(-2)==fsperiod0)
+            fsopening=fsopening.slice(0,-2);
+         fsperiod1='!';
+         fsending='!'.repeat(ocd(fsopening));
+         cofcurrent=lr;
+         cofclass=st==cofcurrent?3:0;
+         setfsarrays();
+         return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+         }
+      
+      }
+   }
 
-//let ce;
-/*cc[cb.length-1]=cb[cb.length-1];
-for(ce=cb.length-2;ce>=0;ce--)
-   cc[ce]=base(cb[ce])>=cc[ce+1]?cc[ce+1]:cc[ce+1]==col?cb[ce]:cb[ce+1]>booster(cc[ce+1])?cc[ce+1]:'[[!!';*/
+let prover=Array(cb.length);
 
+// cb: [[[Xc]]] → X[
 for(i=pn;i<cb.length;i++)
    {while(cb[i][0]=='[')
       {cb[i]=cb[i].slice(1);
-      //cbn[ce]++;
       }
-   //cb[ce]=uo+cb[ce].slice(0,-cb.length+ce+1-u);
    cb[i]=cb[i].slice(0,-cb.length+i)+'[';
+   cb[i]=overperiod(cb[i]);
+   prover[i]=overprimer(cb[i],st0);
    }
-
-/*for(ce=0;ce<cb.length;ce++)
-   fcb.push(uo+cb[ce].slice(0,-cb.length+ce+1-u));*/
-
-/*let alest='';
-for(i=0;i<alear.length;i++)
-   {alest+=alear[i];
-   if(i==alex)
-      alest+=' *';
-   if(i==maxs)
-      alest+=' L';
-   alest+='\n';
-   }
-
-alest=st+'\n'+convert(st)+'\n'+alest;
-   
-let b=false;
-let bi=0;
-for(i=0;i<cb.length;i++)
-if(fsperiod0.length==cb[i].length-cb.length+i+1)
-   {b=true;
-   bi=i;
-   }
-   
-alest+=fsperiod0.length+': ';
-for(i=cb.length-1;i>0;i--)
-   alest+=cb[i].length+', ';
-alest+=cb[0].length+'\n';
-for(i=cb.length-1;i>0;i--)
-   alest+=cbn[i]+', ';
-alest+=cbn[0]+' '+b;
-
-i=cb.length-1;
-let chi=0;
-while(i>0&&chi<2)
-//while(i>0&&cbn[i]<=cbn[i-1])
-{if(cbn[i]==2)
-   chi=2;
-else
-   {if(cbn[i]>cbn[i-1])
-      chi++;
-   i--;}
-}
-  
-alest+='\n';
-for(i=cb.length-1;i>0;i--)
-   alest+=cc[i]+', ';
-alest+=cc[0]; */
-  
-/*i=cb.length-1;
-while(cc[i]!='[[!!')
-   i--;
-
-let np=cb.length-1;
-for(ce=cb.length-2;ce>=i;ce--)
-   //if(cb[ce]>=cb[np]+'!'.repeat(cb[ce].length-cb[np].length))
-   if(fcb[ce]>fcb[np].repeat(Math.ceil(fcb[ce].length/fcb[np].length)))
-      np=ce;*/
 
 let np=cb.length-1;
 for(i=cb.length-2;i>=pn;i--)
-   //if(cb[ce]>=cb[np]+'!'.repeat(cb[ce].length-cb[np].length))
-   if(cb[i]>cb[np].repeat(Math.ceil(cb[i].length/cb[np].length)))
-      np=i;
 
-/*alest+='\n'+bi+' '+i+' '+np;
+   if(prover[i].length+cb[i].length>prover[np].length+cb[np].length)
+      {
+      if(prover[i]+cb[i]>prover[np]+(cb[np].repeat(Math.ceil((prover[i].length-prover[np].length+cb[i].length)/cb[np].length))))
+         np=i;
+      }
+   else
+      if(prover[i]+(cb[i].repeat(Math.ceil((prover[np].length-prover[i].length+cb[np].length)/cb[i].length)))>prover[np]+cb[np])
+         np=i;
 
-//if(!b)
-//if(alex!=maxs)
-//if(alex!=maxs&&!maxl.includes('[[['))
-//if(fsperiod0.length&&bi<i)
-//if(np!=bi)
-if(np!=i)
-   alert(alest);*/
+st0=prover[np];
 
-fsopening=st0;
-//fsperiod0=uo+cb[np].slice(0,-cb.length+np+1-u);
-//fsperiod0=cb[np];
-fsperiod0=uo+cb[np].slice(0,-u);
+let rr=cb[np].length-getpos(cb[np]);
+
+fsopening=st0.slice(0,-rr);
+rr%=cb[np].length;
+fsperiod0=cb[np].slice(-rr)+cb[np].slice(0,-rr);
+while(fsopening.slice(-fsperiod0.length)==fsperiod0)
+   fsopening=fsopening.slice(0,-fsperiod0.length);
+
 fsperiod1='!'.repeat(ocd(fsperiod0));
-fsending=st1;
+fsending='!'.repeat(ocd(fsopening));
 
-//if(fsperiod0!=uo+st0.slice(cb[lrn].length-cb[pn].length-lrn+pn-1))
-//   alert(st+'\n'+convert(st)+'\n'+fsperiod0+'\n'+uo+st0.slice(cb[lrn].length-cb[pn].length-lrn+pn-1));
-/*if(pn!=i)
-   alert(st+'\n'+convert(st)+'\n'+np+'\n'+pn);*/
+cofcurrent='[[!!';
+cofclass=0;
+setfsarrays();
 
 return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
 }
@@ -1476,11 +1205,11 @@ return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
 
 
 // is st ε number
-function isepsilon(st){
+function isepsilon0(st){
 return st==''?false:st==col||st==bo?true:compare(st,booster(st))<1;}     // original
 //return st==''?false:st==col||st==bo?true:(base(st)==''||isepsilon(base(st)))&&compare(st,booster(st))<1;}  // for non-standard forms
 
-// largest ε nember ≤ CNF st (if st < ε_0 then '')
+// largest ε number ≤ CNF st (if st < ε_0 then '')
 function floorepsilon(st){
 if(!Array.isArray(st))
    return st;
@@ -1488,12 +1217,16 @@ let t=st[st.length-1][0];
 while(Array.isArray(t)&&t!=0){
    st=t;
    t=st[st.length-1][0];}   
-return t;	
+return t;
 }
 
 // is st Ω number
-function isOmega(st){
-return st==''?false:st==col||st==bo?true:compare(col,booster(st))<1;}
+function isOmega(st)
+{
+//return st==''?false:st==col||st==bo?true:compare(col,booster(st))<1;
+return st==''||st==bo?false:st==col?true:st<col&&compare(col,booster(st))<1;
+}
+
 
 // remove boosters of st < c
 function floorOmega(st,c=col){   
@@ -1504,24 +1237,13 @@ while(st!=''&&st!=col&&st!=c&&compare(c,booster(st))==1)
 return st;	
 }
 
-// largest Ω number ≤ CNF st (if st < Ω then '')
-function floorOmegacnf(st){
-if(st=='')
-   return '';
-let t=floorepsilon(st);   
-while(!isOmega(t)){
-   st=t;
-   t=floorepsilon(st);}   
-return t;	
-}
-
 function sepsilon(st,e){
 let s=st[st.length-1];
 if(s[0]==e)
 if(s[1]==1)
    st.pop();
 else   
-   s[1]--;  
+   s[1]--;
 return st.length?st:'';   
 }
 
@@ -1543,10 +1265,6 @@ return [s,tail];
 
 // ω ^ CNF st
 function omegapower(st){
-//if(st.length==1&&st[0][1]==1){
-//   let e=floorepsilon(st);
-//   if(e!=''&&st[0][0]==e)
-//      return st;}
 if(st!=''&&!Array.isArray(st))
    return st;
 return [[st,1]];  
@@ -1670,7 +1388,7 @@ return st2.concat(st1.slice(i));
 
 // get CNF of st
 function cnf(st,ext=false,b=true){
-if(!Array.isArray(st)&&(st==''||isepsilon(st)))
+if(!Array.isArray(st)&&(st==''||isepsilon0(st)))
    return st;
 let c=[];
 if(ext){
@@ -1706,15 +1424,18 @@ if(ext){
      	   c[i][2].push(m);
      	   }
       }
+
    if(b)
-	for(s of c){
-  	 s[1]=cnf(s[1],true);
-    s[2]=cnf(s[2],true);}   
+	for(s of c)
+	   {
+  	   s[1]=cnf(s[1],true);
+      s[2]=cnf(s[2],true);
+      }
    }
 else{
    let s,t,i=-1;
    while(st){
-      [s,st]=isepsilon(st)?[st,'']:[booster(st),base(st)];
+      [s,st]=isepsilon0(st)?[st,'']:[booster(st),base(st)];
       if(c.length==0||compare(t,s)<1){
          if(i<0||c[i][0]!=s){
             c.push([s,1]);
@@ -1722,7 +1443,7 @@ else{
    	   else   
    	      c[i][1]++;
    	   t=s;}
-     } 	   	
+     }
    for(s of c)
       s[0]=cnf(s[0]); 
    }            
@@ -1811,12 +1532,176 @@ else
 return le;
 }
 
+function cnftoarray(eex,ext,f,le='-'){
+
+   // Klammersymbolen
+   
+   //if(ext)
+   //   eex=cnf(JSON.parse(JSON.stringify(ex)),true);
+   
+   let s='';
+   let i,j,p,pp,m;
+
+   if(Array.isArray(eex)){
+      /*for(i=0;i<eex.length;i++)
+         if(!Array.isArray(eex[i][0]))
+            eex[i][0]=cnf(eex[i][0],true,false);*/
+      i=eex.length-1;
+      
+      //while(eex[i][0]!=f)i--;
+      //while(i>=0&&(!Array.isArray(eex[i][0])||eex[i][0]!=f))i--;
+      while(i>=0&&(eex[i][0]!=f))i--;
+      if(i>=0)
+         {
+         p=eex[i][1];
+         if(!p)p=[["",1]]
+         //else if(ext)p=cnf(p,true);
+         //p=p?p[0][1]:1;
+         m=eex[i][2];
+         j=i;
+         while(j>=0&&(eex[j][0]==f))j--;
+         }
+      else
+      	j=eex.length-1;
+
+      }
+
+if(le=='-')
+   le=displayform(eex.slice(0,j+1),ext);
+
+if(i>=0)
+   {
+   while(i>=0&&eex[i][0]==f)
+      {
+      s+=', ';
+      if(ext)
+         m=cnf(m,true);
+      s+=displayform(m,ext);
+
+      pp=[...p];
+      
+      i--;
+      if(i>=0){
+         p=eex[i][1];
+         m=eex[i][2];
+         if(!p)p=[["",1]]
+         //else if(ext)p=cnf(p,true);
+         }
+         
+      if(!pp[0][0])
+         {
+         let q=pp[0][1];
+         if(i>=0&&eex[i][0]==f)
+            if(!p[0][0]&&JSON.stringify(pp.slice(1))==JSON.stringify(p.slice(1)))
+               {
+               q-=p[0][1];
+               s+=', 0'.repeat(q-1);
+               }
+            else if(p[0][0]&&JSON.stringify(pp.slice(1))==JSON.stringify(p))
+               s+=', 0'.repeat(q-1);
+            else
+               s+=', 0'.repeat(q)+' @<sup>'+cnftoarray(JSON.parse(JSON.stringify(cnf(pp.slice(1),true,false))),ext,f)+'</sup>';
+         else
+            {
+            if(pp.length>1)
+               s+=', 0'.repeat(q)+' @<sup>'+cnftoarray(JSON.parse(JSON.stringify(cnf(pp.slice(1),true,false))),ext,f)+'</sup>';
+            else
+               s+=', 0'.repeat(q-1);
+            
+            }
+         }
+      else
+         {
+
+         s+=' @<sup>'+cnftoarray(JSON.parse(JSON.stringify(cnf(pp,true,false))),ext,f)+'</sup>';
+         }
+      }
+   if(le!='-')
+      if((pp[0][0]||pp.length>1)&&le=='0')
+         le='';
+      else le=', '+le;
+   s=s.slice(2);
+   }
+
+if(le=='-')
+   le='';
+   
+return s+le;
+}
+
+function mtoc(st,n=0)
+{
+let m='[c[c[c!!!';
+if(st==col||!st||(n<=0&&st<m))
+   return st;
+if(st==m)
+   return col;
+return bb(mtoc(base(st),n),mtoc(booster(st),n-1));
+}
+
+function finremc(st)
+{
+if(st.length<2)
+   return st;
+let x1=st;
+let x2='';
+let y1=booster(x1);
+while(y1<col)
+   {
+   x2=bb('',y1)+x2;
+   x1=base(x1);
+   y1=x1==col?'c[c!':booster(x1);
+   }
+if(booster(x1)==col)
+   {
+   let x5=x1;
+   while(booster(x5)==col)
+      x5=base(x5);
+   x5=booster(x5);
+   x5=x5?booster(x5):col;
+   while(x5>='[c[c[c!!!'&&x5<col)
+      x5=x5?booster(x5):col;
+   if(x5>='c[c[c!!')
+      return base(x1)+x2;
+   }
+return st;
+}
+
 function convertepsilon(st,ext=false){
+if(!nlevels&&st==col)
+   return 'ε<sub>0</sub>';
+
+if(nlevels==1&&st==col)
+   return 'Ω';
+
 if(st==col||st==bo)
-   return st; 
+   return st;
+    
+if(spn)
+   {
+   if(st=='[[c![[c![[c![!!!!')
+      return 'SVO';
+   else if(st=='[[c![[c![[c![[c!!!!!')
+      return 'LVO';
+   else if(st=='[[c![c!!')
+      return 'BHO';
+   else if(st=='[[c[!!!')
+      return 'BO';
+   else if(st=='[[c[!![c!!')
+      return 'TFB';
+   else if(st=='[[c[c!!!')
+      return 'EBO';
+   else if(st=='[[c[c!![c!!')
+      return 'SRO';
+   else if(st=='[[c[c[c!!![c!!')
+      return 'RO';
+   //else if(st=='[c[c[c[c!!!!')
+   //   return 'k';
+   }
+
 /*if(st=='[[[[c!c!!c!')   
-   return 'I'; 
-if(st=='[[[c![[c!c!!c!')   
+   return 'I';
+if(st=='[c[c[c!!!')   
    return 'M';*/
 let x=booster(st);
 let beta=base(st);
@@ -1825,8 +1710,32 @@ let sy='';
 let f=floorOmega(x);
 //let j,maxx,ff;
 let j,maxx;
+//let exa;
 
-if(f==col){
+let f1=card(x);
+let f2=ecard(beta);
+//f2=nexteps(ecard(beta),1);
+//let l=nexteps(f2,2);
+
+//if(f1==f2)
+if(f1==nexteps(f2,1))
+   {
+   sy='φ';
+   f=f1;
+   j=f;
+   maxx=nexteps(f,0);
+   }
+//else if(f1==l)
+/*else if(floorOmega(x,l)==l)
+   {
+   sy='Φ';
+   f=bb(l,l);
+   f=bb(beta,f);
+   j=bb(l,f);
+   j=bb(beta,j);
+   maxx=bb(l,nexteps(f,0));
+   }*/
+else if(f==col){
    sy='Φ';
    //ff=bb(col,col);
    //f=bb(floorOmega(beta,ff),ff);
@@ -1835,16 +1744,20 @@ if(f==col){
    j=bb(col,f);
    j=bb(floorOmega(beta,j),j);
    //maxx=bb(col,bb(f,bb(f,bb(f,''))));
-   maxx=bb(col,bb(f,bb(f,'')));
+   //maxx=bb(col,bb(f,bb(f,'')));
+   //maxx=bb(col,bb(f,bb(f,f)));
+   maxx=bb(col,bb(f,col));
    //ff=fs(ff,f);
    }
-if(f==bb(col,col)){
+else if(f==bb(col,col)){
    sy='I-Φ';
    f=bb(f,col);
    f=bb(floorOmega(beta,f),f);
    j=bb(bb(col,col),f);
    j=bb(floorOmega(beta,j),j);
-   maxx=bb(bb(col,col),bb(f,bb(f,'')));
+   //maxx=bb(bb(col,col),bb(f,bb(f,'')));
+   //maxx=bb(bb(col,col),bb(f,bb(f,f)));
+   maxx=bb(bb(col,col),bb(f,col));
    }
 /*else if(f==bb(col,col)){
    sy='L';
@@ -1863,11 +1776,99 @@ else if(f==bb(col,bb(col,col))){
    j=bb(col,j);
    j=bb(floorOmega(beta,j),j); 
    }*/
-else if(f==bb(floorOmega(beta),col)){
+/*else if(f==bb(floorOmega(beta),col)){
    sy='φ';
    j=f;
-   maxx=bb(f,bb(f,bb(f,'')));
+   //maxx=bb(f,bb(f,bb(f,'')));
+   //maxx=bb(f,bb(f,bb(f,f)));
+   maxx=bb(f,bb(f,col));
    //ff=f;
+   }*/
+/*else if(x>col){
+   sy='I';
+   f=col;
+   j=f;
+   maxx='d';
+   }*/
+else if(x>='c[c[c!!'&&st<'[c[c[c!![[c[c[c!![c!!!!'){
+   sy='M';
+   //f='[c[c[c!!!';
+   f=col;
+   j=f;
+   maxx='d';
+   }
+else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!')
+   {
+   let x1=x;
+   let x2='';
+   let y1=booster(x1);
+   //while(y1<'c[[c[c[c!!!!')
+   while(y1<col)
+      {
+      x2=bb('',y1)+x2;
+      x1=base(x1);
+      y1=x1==col?'c[c!':booster(x1);
+      }
+   //if(x<'c[c[[c[c[c!!!!!'||x2>='[c!')
+   let x4=booster(x1);
+   x4=x4?booster(x4):col;
+   //while(x4&&x4<col)
+   while(x4>='[c[c[c!!!'&&x4<col)
+      x4=x4?booster(x4):col;
+   //if(x5>='[c[c[c!!!')
+   
+   //if(x<'c[c[[c[c[c!!!!!'||x2>='[c!'||(x>='c[c[[c[c[c!!!!!'&&x4<'[c[c[c!!!'))
+   //if(x<'c[c[[c[c[c!!!!!'||x2>='[c!'||x4<'[c[c[c!!!')
+   //if(x4<'[c[c[c!!!')
+   if(x4<'c[c[c!!')
+      {
+      /*let x3=x;
+      while(booster(x3)<col)
+         x3=base(x3);
+      x3=bb(x3,col);*/
+      let x3=bb(x1,col);
+      x3=bb(beta,x3);
+      if(x2<x3)
+         {
+         //if(x1>col&&x2.length>2&&x2.slice(0,3)=='[c!')
+         //   x2=x2.slice(3);
+         /*if(booster(x1)==col)
+            {
+            let x5=x1;
+            while(booster(x5)==col)
+               x5=base(x5);
+            x5=booster(x5);
+            x5=x5?booster(x5):col;
+            if(x5>='[c[c[c!!!')
+               x1=base(x1);
+            //x1=base(x1);
+            }*/
+            
+         if(x>='c[c[[c[c[c!!!!!')
+            {
+            x1=finremc(x1);
+            while(x1>col)
+               {
+               x2=bb('',mtoc(booster(x1)))+x2;
+               x1=base(x1);
+               }
+            let x5='';
+            while(beta.length>1)
+               {
+               x5=bb('',finremc(booster(beta)))+x5;
+               beta=base(beta);
+               }
+            beta+=x5;
+            beta=mtoc(beta,2);
+            x=col+x2;
+            }
+            
+         sy='I';
+         f=col;
+         j=f;
+         maxx='d';
+         }
+      }
    }
 /*else if(compare(bb(col,col),x)<1){
 //else if(beta==''&&compare(bb(col,col),x)<1){
@@ -1882,8 +1883,11 @@ if(sy!=''&&compare(maxx,x)>0){
 //{
    let cf=cnf(f);
    let fx=floorOmega(x,f);
-   let ex=cnf(x); 
-   let eex=cnf(JSON.parse(JSON.stringify(ex)),true,false);
+   let ex=cnf(x);
+   let eex=cnf(JSON.parse(JSON.stringify(x)),true,false);
+   //let eex=sy=='I'?exa:cnf(JSON.parse(JSON.stringify(x)),true,false);
+   //let eex=cnf(JSON.parse(JSON.stringify(ex)),true,false);
+   //let eex=cnf(JSON.parse(JSON.stringify(ex)),true);
    //let eex=cnf(ex,true,false);
    let le=getle(cf,x,ex,x!=f&&eex[0][0]!=f);
    while(beta){
@@ -1891,7 +1895,10 @@ if(sy!=''&&compare(maxx,x)>0){
       let fx1=floorOmega(x1,j);
       if(fx1==fx){
          let ex1=cnf(x1);
-         le=sumcnf(getle(cf,x1,ex1,x1!=j&&cnf(ex1,true,false)[0][0]!=j),le);
+         //le=sumcnf(getle(cf,x1,ex1,x1!=j&&cnf(ex1,true,false)[0][0]!=j),le);
+         le=sumcnf(getle(cf,x1,ex1,x1!=j&&cnf(JSON.parse(JSON.stringify(x1)),true,false)[0][0]!=j),le);
+         //le=sumcnf(getle(cf,x1,ex1,x1!=j&&cnf(JSON.parse(JSON.stringify(ex1)),true,false)[0][0]!=j),le);
+         //le=sumcnf(getle(cf,x1,ex1,x1!=j&&cnf(JSON.parse(JSON.stringify(ex1)),true)[0][0]!=j),le);
          beta=base(beta);}
       else{
          //if(fx==ff)
@@ -1914,13 +1921,14 @@ if(sy!=''&&compare(maxx,x)>0){
          break;
          }
       }
-   if(sy!='φ'&&(sy!='Φ'||fx==col)&&(sy!='I-Φ'||fx==bb(col,col))&&le.length==1&&le[0][1]==1&&le[0][0]=='')
+   if(sy!='φ'&&(sy!='Φ'||fx==col)&&(sy!='I-Φ'||fx==bb(col,col))&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
+   //if(sy!='φ'&&(sy!='Φ'||fx==l)&&(sy!='I-Φ'||fx==bb(l,l))&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
       le='';
    else{
       if(ext)   
          le=cnf(le,true);
       le=displayform(le,ext);
-      if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col)))&&isFinite(le))
+      if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col))||sy=='I')&&isFinite(le))
          le--;
       }
    if(sy=='φ'){
@@ -1936,10 +1944,14 @@ if(sy!=''&&compare(maxx,x)>0){
       return 'Ω'+(le==''?'':'<sub>'+le+'</sub>');
    if(sy=='I-Φ'&&fx==bb(col,col))
       return 'I'+(le==''?'':'<sub>'+le+'</sub>');
-   if(sy!='φ'&&sy!='Φ'&&sy!='I-Φ')
-      return sy+(le==''?'':'<sub>'+le+'</sub>');
-   let s='';
-   let i,p,m;
+   //if(sy!='φ'&&sy!='Φ'&&sy!='I-Φ')
+   //   return sy+(le==''?'':'<sub>'+le+'</sub>');
+   //if(sy=='M'&&fx=='c[c[c!!')
+   if(sy=='M')
+      return 'M'+(le==''?'':'<sub>'+le+'</sub>');
+      
+   // old version (without @)	
+   /*	   
    if(Array.isArray(eex)){
       i=eex.length-1;
       while(eex[i][0]!=f)i--;
@@ -1969,13 +1981,812 @@ if(sy!=''&&compare(maxx,x)>0){
          s+=0;
       q--;
       }
-   return sy+'('+s.slice(2)+', '+le+')';
+      */
+   
+   if(sy=='I')
+      {
+      let lene=eex.length-1;
+      if(!eex[lene][1])
+         {
+         let lenee=eex[lene][2].length-1;
+         if(!eex[lene][2][lenee][0])
+            //eex[lene][2][lenee][1]--;
+            eex[lene][2][lenee][1]-=2;
+         }
+      }
+   
+   let s=cnftoarray(eex,ext,f,le);
+   
+   //return sy+'('+s.slice(2)+', '+le+')';   
+   //return sy+'('+s.slice(2)+le+')';
+   return sy+'('+s+')';
    }
 return bb(beta==''?'':(displayform(cnf(beta,ext),ext)),displayform(cnf(x,ext),ext));
 }
 
-function convert(st){
+function convert_old(st){
 return (format>1?st:displayform(cnf(st,format),format)).toString().replaceAll('!',']');}
+//return (format>1?st:JSON.stringify(cnf(st,format))).toString().replaceAll('!',']').replaceAll('"','');}
+
+//function convert(st,b=true){
+function convert0(st,b=sugar[4]){
+//if(b||!st||st==col||st==bo)
+if(!b||!st||st==col||st==bo)
+   {
+   if(format<2&&(st=='[[c![[c![[c![!!!!'||st=='[[c![[c![[c![[c!!!!!'||st=='[[c![c!!'||st=='[[c[!!!'||st=='[[c[!![c!!'||st=='[[c[c!!!'||st=='[[c[c!![c!!'||st=='[[c[c[c!!![c!!'))
+      spn=false;
+   let s=(format>1?st:displayform(cnf(st,format),format)).toString().replaceAll('!',']');
+   //if(format<2)
+   if(!sugar[4]&&format<2)
+   {
+   if(st=='[[c!!')
+      s+=' <small>(Small Cantor ordinal)</small>';
+   else if(st=='[[c![[c!!!')
+      s+=' <small>(Cantor ordinal)</small>';
+   else if(st=='[[c![[c!![[c!!!')
+      s+=' <small>(Large Cantor ordinal)</small>';
+   else if(st=='[[c![[c![[c!!!!')
+      s+=' <small>(Feferman–Schütte ordinal)</small>';
+   else if(st=='[[c![[c![[c!![[c!!!!')
+      s+=' <small>(Ackermann ordinal)</small>';
+   else if(st=='[[c![[c![[c![!!!!')
+      s+=' <small>(Small Veblen ordinal, SVO)</small>';
+   else if(st=='[[c![[c![[c![[c!!!!!')
+      s+=' <small>(Large Veblen ordinal, LVO)</small>';
+   else if(st=='[[c![c!!')
+      s+=' <small>(Bachmann-Howard ordinal, BHO)</small>';
+   else if(st=='[[c[!!!')
+      s+=' <small>(Buchholz ordinal, BO)</small>';
+   else if(st=='[[c[!![c!!')
+      s+=' <small>(Takeuti-Feferman-Buchholz ordinal, TFB)</small>';
+   else if(st=='[[c[c!!!')
+      s+=' <small>(Extended Buchholz ordinal, EBO)</small>';
+   else if(st=='[[c[c!![c!!')
+      s+=' <small>(Small Rathjen ordinal, SRO)</small>';
+   else if(st=='[[c[c[c!!![c!!')
+      s+=' <small>(Rathjen ordinal, RO)</small>';
+   }
+   spn=true;
+   return s;
+   }
+else
+   {
+   let beta=base(st);
+   //return (beta?convert(beta):'')+'['+convert(booster(st),true)+']';
+   return (beta?convert0(beta,b):'')+'['+convert0(booster(st),b-1)+']';
+   }
+}
+//return (format>1?st:JSON.stringify(cnf(st,format))).toString().replaceAll('!',']').replaceAll('"','');}
+
+// is β[X] == ω^p
+function isomegap(st)
+{
+return st=='[!'||st==col||booster(st)>base(st);
+}
+
+// is β[X] == ε
+function isepsilon(st)
+{
+return st==col||booster(st)>st;
+}
+
+function convertomega()
+{
+if(sugar[15])
+   return 'ω';
+return '[[!!';
+}
+
+/*function convertfinite(st)
+{
+if(sugar[18])
+   return st.length/2;
+return convertsubstring(st);
+}*/
+
+/*function convertproduct0(st,m)
+{
+if(m=='[!')
+   return convertsubstring(st);
+st=st=='[[!!'?convertomega():convertsubstring(st);
+m=m<'[[!!'?convertfinite(m):convertsubstring(m);
+if(!sugar[17]||m[0]=='[')
+   st+=sugar[16]?'·':'×';
+return st+m;
+}*/
+
+function sumtoterm(st)
+{
+st=String(st);
+let e=st.length;
+let np=0;
+while((e>-1)&&(np!=0||st[e]!='+'))
+   {
+   e--;
+   if(st[e]=='['||st[e]=='('||(e>0&&st.slice(e-1,e+1)=='<s'))
+      np--;
+   else if(st[e]=='!'||st[e]==')'||(e>0&&st.slice(e-1,e+1)=='</'))
+      np++;
+   }
+return e<0?st:'('+st+')';
+}
+
+function powertofactor(st)
+{
+st=String(st);
+let e=st.length;
+let np=0;
+while((e>-1)&&(np!=0||(st[e]!='^'&&st[e]!='_')))
+   {
+   e--;
+   if(st[e]=='['||st[e]=='('||(e>0&&st.slice(e-1,e+1)=='<s'))
+      np--;
+   else if(st[e]=='!'||st[e]==')'||(e>0&&st.slice(e-1,e+1)=='</'))
+      np++;
+   }
+return e<0?st:'('+st+')';
+}
+
+function convertproduct(st,m)
+{
+m=sumtoterm(m);
+if(!sugar[17]||m[0]=='[')
+   st+=sugar[16]?'·':'×';
+return powertofactor(st)+m;
+}
+
+/*function convertpower0(st,p)
+{
+if(p=='[!')
+   return convertsubstring(st);
+st=st=='[[!!'?convertomega():convertsubstring(st);
+if(sugar[19])
+   return st+'<sup>'+convertsubstring(p)+'</sup>';
+return st+'^'+convertsubstring(p);
+}*/
+
+function convertpower(st,p)
+{
+if(sugar[19])
+   return st+'<sup>'+p+'</sup>';
+return st+'^'+sumtoterm(p);
+}
+
+function convertsubscript(st,p)
+{
+if(sugar[20])
+   return st+'<sub>'+p+'</sub>';
+return st+'_'+p;
+}
+
+function convertone()
+{
+if(sugar[14])
+   return '1';
+if(sugar[13])
+   return convertpower(convertomega(),convertzero(''));
+return '[!';
+}
+
+//function convertop(st,b=true)
+function convertop(op)
+{
+if(!op)
+   return convertone();
+if(op=='[!')
+   return convertomega();
+//if(b&&isepsilon(st))
+if(isepsilon(op))
+   return convertepsilon(op,format);
+if(sugar[10]&&op>=leastepsilon)
+   return convertepa(optoepa(op));
+//return convertpower('[[!!',op);
+return sugar[13]?convertpower(convertomega(),convertsubstring(op)):bb('',convertsubstring(op));
+}
+
+/*function getop(st)
+{
+return booster(st);
+if(st<leastepsilon)
+   return booster(st);
+let x=booster(st);
+let beta=base(st);
+return x>beta?x:bb(beta,booster(x));
+}*/
+
+function convertomegap(st)
+{
+if(isepsilon(st))
+   return convertepsilon(st,format);
+//return convertop(booster(st),false);
+//if(base(st)!=flooreps(booster(st)))
+//   alert(st);
+return convertop(booster(st));
+//return convertop(getop(st));
+}
+
+function optostring(st)
+{
+return isepsilon(st)?st:bb(flooreps(st),st);
+}
+
+function stringtosop(s)
+{
+let st=s;
+if(!st)
+   return [];
+let sop=[];
+//let st1=st;
+if(isomegap(st))
+   {
+   sop.push(isepsilon(st)?st:booster(st));
+   return sop;
+   }
+do
+   {
+	sop.push(booster(st));
+	st=base(st);
+	}
+while(!isomegap(st));
+//while(st&&!isomegap(st));
+sop.push(isepsilon(st)?st:booster(st));
+//if(st1!=soptostring(sop))
+//   alert(st1+'\n'+soptostring(sop));
+return sop;
+}
+
+function soptostring(sop)
+{
+let e=sop.length-1;
+if(e<0)
+   return '';
+let op=sop[e];
+let st=isepsilon(op)?op:bb(flooreps(op),op);
+e--;
+while(e>=0)
+   {
+   st+=bb('',sop[e]);
+   e--;
+   }
+return st;
+}
+
+function soptosopn(sop)
+{
+let sopn=[];
+let op=sop[0];
+let n=1;
+//let n='';
+for(let e=1;e<sop.length;e++)
+   if(sop[e]==op)
+      n++;
+      //n+='[!';
+   else
+      {
+      sopn.push([op,n]);
+      op=sop[e];
+      n=1;
+      //n='[!';
+      }
+sopn.push([op,n]);
+return sopn;
+}
+
+/*function optoepa0(op)
+{
+if(op<leastepsilon)
+   return op;
+let e=flooreps(op);
+if(op==e)
+   return [e,'[!',''];
+let s=op;
+let s1='';
+let m;
+while(booster(s)<e)
+   {
+   s1=s;
+   s=base(s);
+   }
+let bs=booster(s1);
+/*if(isepsilon(bs))
+   m=bs+op.slice(s1.length);
+else
+   m=op.slice(s.length);*/
+   
+/* if(isepsilon(bs))
+   m=bs+op.slice(s1.length);
+else
+   m=flooreps(bs)+op.slice(s.length);
+   
+let p='';
+let l=e.length;
+let e2=bb(e,e);
+let l2=e2.length;
+let es=bb(e,e2);
+let eo=bb(e,bb(e,''));
+let i=s<es?0:s<bb(e,bb(e2,''))?1:2;
+let q=i==1?es:e;
+let e1='';
+while(s!=q)
+   {
+   let t=booster(s)
+   if(t<e2)
+      t=t.slice(l);
+   else if(t<eo)
+      t=e+t.slice(l2);
+   s=base(s);
+
+
+   /*if(!i&&s==q&&!base(t))
+      {
+      let w=booster(t);
+      if(isepsilon(w))
+         p=w+p;
+      else
+         p=bb('',t)+p;
+      }
+   else
+      p=bb('',t)+p;*/
+
+   /*let f='';
+   while(base(t))
+      {
+      f=bb('',booster(t))+f;
+      t=base(t);
+      }
+   t=booster(t);
+   let b=isepsilon(t);
+   t=(b?t:bb('',t))+f;*/
+
+   /*if(b&&!f&&!i&&s==q)
+      p=t+p;
+   else
+      p=bb('',t)+p;*/
+
+
+   //if(!i&&t>=leastepsilonbb)
+/*   if(t>=leastepsilonbb)
+      {
+      let ax=antibooster(t);
+      let ab=antibase(t);
+      e1=flooreps(ax);
+      if(ax==e1&&s==q)
+         t=ax+ab;
+      else
+         t=e1+t;
+      if(s!=q||t!=e1)
+         p=bb('',t)+p;
+      }
+   else
+      p=bb('',t)+p;
+
+   /*if(!i&&!base(t))
+      {
+      let w=booster(t);
+      if(isepsilon(w))
+         p=(s==q?w:t)+p;
+      else
+         p=bb('',t)+p;
+      }
+   else
+      p=bb('',t)+p;*/
+
+/*   }
+if(i)
+   p=e+p;
+else 
+   {
+   p=e1+p;
+   if(p<'[[!!')
+      p+='[!';
+   }
+return [e,p,m];
+}*/
+
+function sopslice(sop,op)
+{
+let e=0;
+while(sop[e]<op&&e<sop.length)
+   e++;
+return [sop.slice(0,e),sop.slice(e)];
+}
+
+function opdividedbyepsilon(op,e)
+{
+op=op.slice(e.length);
+if(op<leastepsilonbb)
+   return op;
+let ax=antibooster(op);
+let e1=flooreps(ax);
+if(ax==e1)
+   return ax+antibase(op);
+return e1+op;
+
+/*if(op==e)
+   return '';
+let e2=bb(e,e);
+if(op<e2)
+   return bb('',op.slice(e.length+1,-1));
+if(op==e2)
+   return e;
+if(op<bb(e,bb(e,'')))
+   return bb('',e+op.slice(e2.length+1,-1));
+return op;*/
+}
+
+function optoepa(op)
+{
+if(op<leastepsilon)
+   return op;
+let e=flooreps(op);
+if(op==e)
+   return [e,'[!',''];
+//let sop=stringtosop(booster(op));
+let sop=stringtosop(op);
+let m,p;
+[m,p]=sopslice(sop,e);
+m=soptostring(m);
+p=p.map(i=>opdividedbyepsilon(i,e));
+p=soptostring(p);
+return [e,p,m];
+}
+
+/*function opntoepan(opn)
+{
+let epa=optoepa(opn[0]);
+if(!Array.isArray(epa))
+   return opn;
+return optoepa(opn[0]).push(opn[1]);
+}*/
+
+function soptosepa(sop)
+{
+return sop.map(optoepa);
+}
+
+/*function sopntosepan(sopn)
+{
+return sopn.map(opntoepan);
+}*/
+
+function sepatosepsum(sepa)
+{
+let sepsum=[];
+let i=0;
+while(i<sepa.length&&!Array.isArray(sepa[i]))
+   i++;
+if(i)
+   {
+   sepsum=soptosopn(sepa.slice(0,i));
+   sepa=sepa.slice(i);
+   }
+if(sepa.length)
+{
+let j=0;
+let e=sepa[0][0];
+let p=sepa[0][1];
+let z=sepa[0][2];
+let a='';
+/*let z1='';
+while(z)
+   {
+   z1=z;
+   z=base(z);
+   }
+let bs=z1;
+let em;
+if(isepsilon(bs))
+   {
+   a=bb('',bs)+sepa[0][2].slice(z1.length);
+   em=bs;
+   }
+else
+   {
+   a=sepa[0][2].slice(z.length);
+   em=booster(bs);
+   }*/
+   
+for(let i=1;i<sepa.length;i++)
+   {
+   if(sepa[i][0]==e&&sepa[i][1]==p)
+      {
+      if(i>j)
+         a=bb('',z)+a;
+      z=sepa[i][2];
+      /*while(z&&booster(z)<em)
+         z=base(z);
+      if(isepsilon(z)&&z<em)
+         z='';
+      z1='';
+      while(z)
+         {
+         z1=z;
+         z=base(z);
+         }
+      bs=z1;
+      if(isepsilon(bs))
+         {
+         a=bb('',bs)+sepa[i][2].slice(z1.length)+a;
+         em=bs;
+         }
+      else
+         {
+         a=sepa[i][2].slice(z.length)+a;
+         em=booster(bs);
+         }*/
+      }
+   else
+      {
+      a=(isepsilon(z)?z:flooreps(z)+bb('',z))+a;
+      sepsum.push([e,p,a]);
+      j=i;
+      e=sepa[i][0];
+      p=sepa[i][1];
+      z=sepa[i][2];
+      a='';
+      /*z1='';
+      while(z)
+         {
+         z1=z;
+         z=base(z);
+         }
+      bs=z1;
+      if(isepsilon(bs))
+         {
+         a=bb('',bs)+sepa[i][2].slice(z1.length);
+         em=bs;
+         }
+      else
+         {
+         a=sepa[i][2].slice(z.length);
+         em=booster(bs);
+         }*/
+      }
+   }
+a=(isepsilon(z)?z:flooreps(z)+bb('',z))+a;
+sepsum.push([e,p,a]);
+}
+return sepsum;
+}
+
+function convertsepa(sepa)
+{
+return sepa.map(convertepa);
+}
+
+/*function convertsepan(sepan)
+{
+return sepan.map(convertepan);
+}*/
+
+function convertsepsum(sepsum)
+{
+return sepsum.map(convertepsum);
+}
+
+function convertnatural(n)
+{
+if(sugar[18])
+   return n;
+let s9=sugar[9];
+let s10=sugar[10];
+sugar[9]=0;
+sugar[10]=0;
+let st=convertsubstring('[!'.repeat(n));
+sugar[9]=s9;
+sugar[10]=s10;
+return st;
+}
+
+function convertopn(opn)
+{
+if(sugar[13])
+   {
+   if(opn[1]==1)
+      return convertop(opn[0]);
+   if(!opn[0])
+      return convertnatural(opn[1]);
+   return convertproduct(convertop(opn[0]),convertnatural(opn[1]));
+   }
+opn[0]=convertop(opn[0]);
+opn[1]=convertnatural(opn[1]);
+return JSON.stringify(opn).replaceAll('"','');
+}
+
+function convertepa(epa)
+{
+if(!Array.isArray(epa))
+   return convertop(epa);
+if(sugar[13])
+   {
+   let a=epa[1]=='[!'?convertepsilon(epa[0],format):convertpower(convertepsilon(epa[0],format),convertsubstring(epa[1])); 
+   return epa[2]?convertproduct(a,convertop(epa[2])):a;
+   }
+epa[0]=convertepsilon(epa[0],format);
+epa[1]=convertsubstring(epa[1]);
+epa[2]=convertop(epa[2]);
+return JSON.stringify(epa).replaceAll('"','');
+}
+
+/*function convertepan(epan)
+{
+if(epan.length==2)
+   return convertopn(epan);
+if(sugar[13])
+   {
+   let st=convertepa(epa.slice(0,2));
+   if(epan[3]==1)
+      return st;
+   return convertproduct(st,convertnatural(opn[1]));
+   }
+epan[0]=convertepsilon(epan[0],format);
+epan[1]=convertsubstring(epan[1]);
+epan[2]=convertop(epan[2]);
+epan[3]=convertnatural(epan[3]);
+return JSON.stringify(opn).replaceAll('"','');
+}*/
+
+function convertepsum(epsum)
+{
+if(epsum.length==2)
+   return convertopn(epsum);
+if(sugar[13])
+   {
+   let a=epsum[1]=='[!'?convertepsilon(epsum[0],format):convertpower(convertepsilon(epsum[0],format),convertsubstring(epsum[1])); 
+   return epsum[2]=='[!'?a:convertproduct(a,convertsubstring(epsum[2]));
+   }
+epsum[0]=convertepsilon(epsum[0],format);
+epsum[1]=convertsubstring(epsum[1]);
+epsum[2]=convertsubstring(epsum[2]);
+return JSON.stringify(epsum).replaceAll('"','');
+}
+
+
+function convertsop(sop)
+{
+return sop.map(convertop);
+}
+
+function convertsopn(sopn)
+{
+return sopn.map(s=>convertopn(s));
+}
+
+function convertsum(sum)
+{
+if(sugar[12])
+   {
+   let s='';
+   for(let e=sum.length-1;e>=0;e--)
+      s+=sum[e]+' + ';
+   return s.slice(0,-3);
+   }
+return JSON.stringify(sum).replaceAll('"','');
+}
+
+function convertbb(st)
+{
+if(isomegap(st))
+   return convertomegap(st);
+if(sugar[8])
+   {
+   let sop=stringtosop(st);
+   if(sugar[9]&&!sugar[11])
+      {
+      let sopn=soptosopn(sop);
+      /*if(sugar[10])
+         {
+         let sepan=sopntosepan(sopn);
+         return convertsum(convertsepan(sepan));
+         }*/
+      return convertsum(convertsopn(sopn));
+      }
+   if(sugar[10])
+      {
+      let sepa=soptosepa(sop);
+      if(sugar[11])
+         {
+         let sepsum=sepatosepsum(sepa);
+         return convertsum(convertsepsum(sepsum));
+         }
+      return convertsum(convertsepa(sepa));
+      }
+   return convertsum(convertsop(sop));
+   }
+return st;
+//return convert0(st,0);
+}
+
+function convertzero(st,c=true)
+{
+if(sugar[2]&&c)
+   return '0';
+return st;
+}
+
+function convertc(st)
+{
+return st;
+}
+
+function convertsubstring(st,a=sugar[4],b=sugar[6],c=true)
+{
+if(!st)
+   return convertzero(st,c);
+if(st==col)
+   return convertc(st);
+if((!sugar[5]&&a<=0)||(!sugar[7]&&b<=0))
+   return convertbb(st);
+else
+   return bb(convertsubstring(base(st),a,b-1,false),convertsubstring(booster(st),a-1,b));
+}
+
+function convertbo(st)
+{
+return st;
+}
+
+function convert(st)
+{
+/*if(sugar[0])
+   if(st==bo)
+      st=convertbo(st);
+   else
+      st=convertsubstring(st);
+if(sugar[1])
+   st=st.replaceAll('!',']');
+return st;*/
+
+
+
+
+
+   if(format<2&&(st=='[[c![[c![[c![!!!!'||st=='[[c![[c![[c![[c!!!!!'||st=='[[c![c!!'||st=='[[c[!!!'||st=='[[c[!![c!!'||st=='[[c[c!!!'||st=='[[c[c!![c!!'||st=='[[c[c[c!!![c!!'))
+      spn=false;
+
+let s=st;
+
+if(sugar[0])
+   if(s==bo)
+      s=convertbo(s);
+   else
+      s=convertsubstring(s);
+if(sugar[1])
+   s=s.replaceAll('!',']');
+   
+   //if(format<2)
+   if(!sugar[4]&&format<2)
+   {
+   if(st=='[[c!!')
+      s+=' <small>(Small Cantor ordinal)</small>';
+   else if(st=='[[c![[c!!!')
+      s+=' <small>(Cantor ordinal)</small>';
+   else if(st=='[[c![[c!![[c!!!')
+      s+=' <small>(Large Cantor ordinal)</small>';
+   else if(st=='[[c![[c![[c!!!!')
+      s+=' <small>(Feferman–Schütte ordinal)</small>';
+   else if(st=='[[c![[c![[c!![[c!!!!')
+      s+=' <small>(Ackermann ordinal)</small>';
+   else if(st=='[[c![[c![[c![!!!!')
+      s+=' <small>(Small Veblen ordinal, SVO)</small>';
+   else if(st=='[[c![[c![[c![[c!!!!!')
+      s+=' <small>(Large Veblen ordinal, LVO)</small>';
+   else if(st=='[[c![c!!')
+      s+=' <small>(Bachmann-Howard ordinal, BHO)</small>';
+   else if(st=='[[c[!!!')
+      s+=' <small>(Buchholz ordinal, BO)</small>';
+   else if(st=='[[c[!![c!!')
+      s+=' <small>(Takeuti-Feferman-Buchholz ordinal, TFB)</small>';
+   else if(st=='[[c[c!!!')
+      s+=' <small>(Extended Buchholz ordinal, EBO)</small>';
+   else if(st=='[[c[c!![c!!')
+      s+=' <small>(Small Rathjen ordinal, SRO)</small>';
+   else if(st=='[[c[c[c!!![c!!')
+      s+=' <small>(Rathjen ordinal, RO)</small>';
+   }
+   spn=true;   
+return s;
+}
 
 function rx(s,c,n,q){
 count++;
@@ -2152,20 +2963,59 @@ for(let l=c.firstChild;l!=null;l=l.nextSibling)
 return n;      
 }
 
-function formatting(c=list){  
-for(let l=c.firstChild;l!=null;l=l.nextSibling)
-   if(l.tagName==ulnar[indentvisible])
-      formatting(l);
-   else if(l.id!='-')
-      l.innerHTML=convert(l.id);
-far[format].style.background='#d0ffd0';    
+function expcolmarksupdate(){
+let r=markedli.getBoundingClientRect();
+let h=r.left-27+listc.scrollLeft;
+let vc=listc.scrollTop+(r.top+r.bottom)/2;
+//let vc=listc.clientHeight-listc.scrollTop-(r.top+r.bottom)/2;
+let s=markedli.previousSibling;
+let a=0;
+let t=!markedli.id.length?false:markedli.id.length<2||markedli.id.slice(-2,-1)!='['||pl(markedli)[0].id!=markedli.id.slice(0,-2);
+if(s&&s.id!='-'&&(!indentmode||s.tagName==ulnar[indentvisible]))
+   {
+   colmark.style.left=h-a+'px';
+   colmark.style.top=vc-11+'px';
+   colmark.hidden=false;
+   a+=24;
+   }
+else
+	colmark.hidden=true;
+if(markedli.id&&t)
+   {	
+   smexmark.style.left=h-a+'px';
+   smexmark.style.top=vc-11+'px';
+   smexmark.hidden=false;
+   a+=24;   
+   expmark.style.left=h-a+'px';
+   expmark.style.top=vc-11+'px';
+   expmark.hidden=false;
+   a+=24;
+   }
+else
+   {
+	smexmark.hidden=true;
+	expmark.hidden=true;
+	}
+if(mulcounter>1&&t)
+   {
+   mulmark.style.left=h-a+'px';
+   mulmark.style.top=vc-11+'px';
+   mulmark.hidden=false;
+   a+=24;
+   }
+else
+	mulmark.hidden=true;
 }
 
-function setmarkedli(c){
+function setmarkedli(c,b=true){
+nextl='';
 if(markedli)
    markedli.style.outline='';
 markedli=c;
 markedli.style.outline='1px solid gainsboro';
+if(b)
+   mulcounter=1;
+expcolmarksupdate();
 }
 
 function removebackground(c)
@@ -2173,6 +3023,37 @@ function removebackground(c)
    c.style.background='';
 else
 	c.removeAttribute('style');
+}
+
+function formatting(c=list){
+let l=lea?lea:markedli;
+let r=l.getBoundingClientRect();
+let vc=(r.top+r.bottom)/2;
+
+for(let l=c.firstChild;l!=null;l=l.nextSibling)
+   if(l.tagName==ulnar[indentvisible])
+      formatting(l);
+   else if(l.id!='-')
+      l.innerHTML=convert(l.id);
+expcolmarksupdate();
+far[format].style.background='#d0ffd0'; 
+
+r=l.getBoundingClientRect();
+listc.scrollTop+=(r.top+r.bottom)/2-vc;
+scrollli(l);
+}
+
+function updateli(c){
+if(c)
+if(c.id)
+   c=document.getElementById(c.id);
+else
+   {
+   c=nl(document.getElementById('-'));
+   while(c.tagName==ulnar[indentvisible])
+    	c=c.FirstChild;
+   }
+return c;
 }
 
 function psb(b=false){
@@ -2186,13 +3067,15 @@ else
    ps.forEach(function(i){
       //if(i.id!=''||i.tagName==ulnar[indentvisible])
       //if(i.tagName==ulnar[indentvisible])
-         i.style.background='#fffff0';
+         i.style.background=eo>1?'#f8f8ff':'#fffff0';
       });
 }
 
 function mousetextupdate(x,y){
-   xs.style.left=x+(x*2<window.innerWidth?35:-xs.offsetWidth-15)+'px';
-   xs.style.top=y-(y*2<window.innerHeight?5:xs.offsetHeight-30)+'px';
+   //xs.style.left=x+(x*2<window.innerWidth?35:-xs.offsetWidth-15)+'px';
+   xs.style.left=x+(x*2<window.innerWidth||25*Math.round(x/25)+15+xs.offsetWidth<window.innerWidth?35:-xs.offsetWidth-15)+'px';
+   //xs.style.top=y-(y*2<window.innerHeight?(vero?-18:5):xs.offsetHeight-(vero+30))+'px';
+   xs.style.top=y-(y*2<window.innerHeight||25*Math.round(y/25)-50+xs.offsetHeight<window.innerHeight?(vero?-18:5):xs.offsetHeight-(vero+30))+'px';
 }
 
 document.onmousemove=function(e){
@@ -2211,53 +3094,89 @@ if(mousex)
    }
 }
 
-function setps(c){
-      let q=c.previousSibling;
-      //exb[0]=q!=null&&q.id!='-';
-      exb[0]=q&&(indentmode?q.tagName==ulnar[indentvisible]:q.id!='-');
-      exb[1]=c.id!=''&&(c.id.slice(-2)!='[!'||pl(c)[0].id!=c.id.slice(0,-2));
-      ps=[];
-      if(exb[0])
-         if(indentmode) 
-            /*{q=q.lastChild;
-            ps.push(q);
-            while(q.previousSibling&&q.previousSibling.tagName==ulnar[indentvisible])
-               {q=q.previousSibling.lastChild;
-               ps.push(q);}
-            pairl[0]=pl(q)[0];}*/
-            {q=q.lastChild;
-            pairl[0]=q.previousSibling;
-            if(!pairl[0])
-               pairl[0]=pl(q)[0];
-            else if(pairl[0].tagName==ulnar[indentvisible])
-               pairl[0]=pl(pairl[0])[0];
-            do
-            	{ps.push(q);
-            	q=pl(q)[0];
-            	}
-            while(q!=pairl[0]);
+function setps(c,n=''){
+//n--;
+let q=c.previousSibling;
+//if(!b)
+//   c=c.lastChild;
+//exb[0]=q!=null&&q.id!='-';
+exb[0]=q&&(indentmode?q.tagName==ulnar[indentvisible]:q.id!='-');
+exb[1]=c.id!=''&&(c.id.slice(-2)!='[!'||pl(c)[0].id!=c.id.slice(0,-2));
+//if(b)
+   ps=[];
+//else
+//	ps.push(c);
+
+if(exb[0])
+if(n)
+   {
+   q=pl(c)[0];
+   pairl[0]=n;
+   do
+      {
+      ps.push(q);
+      q=pl(q)[0];
+      }
+   while(q!=pairl[0]&&q.offsetTop+q.offsetHeight>listc.scrollTop-10);
+   }
+else if(indentmode) 
+      /*{q=q.lastChild;
+      ps.push(q);
+      while(q.previousSibling&&q.previousSibling.tagName==ulnar[indentvisible])
+         {q=q.previousSibling.lastChild;
+         ps.push(q);}
+      pairl[0]=pl(q)[0];}*/
+      {q=q.lastChild;
+      pairl[0]=q.previousSibling;
+      if(!pairl[0])
+         pairl[0]=pl(q)[0];
+      else if(pairl[0].tagName==ulnar[indentvisible])
+         pairl[0]=pl(pairl[0])[0];
+      do
+      	{ps.push(q);
+      	q=pl(q)[0];
+         }
+      //while(q!=pairl[0]&&q.offsetTop+q.offsetHeight>listc.scrollTop-10);
+      while(q!=pairl[0]);
             }
-         else
-            {let cc=q;
-            if(q.tagName==ulnar[indentvisible]){
-               cc=cl(cc);
-               pairl[0]=cc.previousSibling;
-               cc=cc.lastChild;}
-            else
-               pairl[0]=q.parentNode.previousSibling;
-            while(cc)
-               {ps.push(cc);
-               cc=cc.previousSibling;}}
+   else
+      {let cc=q;
+      if(q.tagName==ulnar[indentvisible]){
+         cc=cl(cc);
+         pairl[0]=cc.previousSibling;
+         cc=cc.lastChild;}
       else
-         {pairb[0]=false;
-         pairl[0]=document.getElementById('-');}
+         pairl[0]=q.parentNode.previousSibling;
+      //while(cc&&cc.offsetTop+cc.offsetHeight>listc.scrollTop-10)
+      while(cc)
+         {ps.push(cc);
+         cc=cc.previousSibling;}}
+else
+   {pairb[0]=false;
+   pairl[0]=document.getElementById('-');}
          	 
-      if(exb[1])
-         {pairl[1]=pl(c)[0];
-         pairb[1]=pairl[1].id!='-';}
-      else
-         {pairb[1]=false; 
-         pairl[1]=document.getElementById('-');}
+if(exb[1])
+   {pairl[1]=pl(c)[0];
+   pairb[1]=pairl[1].id!='-';} else
+   {pairb[1]=false; 
+   pairl[1]=document.getElementById('-');}
+   
+//if(n&&pairl[0].id!='-')
+//   setps(pairl[0].parentNode,n,false);
+}
+
+function expwords(n){
+/*let ord='th';
+if (n %10 == 1 && n % 100 != 11)
+   ord = 'st';
+else if (n % 10 == 2 && n % 100 != 12)
+   ord = 'nd';
+else if (n % 10 == 3 && n % 100 != 13)
+   ord = 'rd';*/
+
+//return n<10?exp[n]:n+'-fold recursive expansion';
+//return n<10?exp[n]:'Recursivly expand '+n+ord+' times';
+return n<10?exp[n]:'Recursivly expand';
 }
 
 listc.onscroll=function(e){
@@ -2265,17 +3184,27 @@ listc.onscroll=function(e){
    mouseoverupdate();
 }
 
+window.onresize=function(e){
+   mouseoverupdate(listc);
+   mouseoverupdate();
+   expcolmarksupdate();
+}
+
 document.onmouseover=function(e){
 //if(vt){
-if(processing)
-{if(mousetag!=e.target&&!mousetagp.contains(e.target))
+if(e.target&&processing)
+{
+let onli=xs.hidden;
+if(mousetag!=e.target&&!mousetagp.contains(e.target))
 {
 //count++;
 keytcheck=true;
+vero=70;
+onli=false;
 let c=e.target;
 mousetag=c;
 mousetagp=xs;
-while(c.tagName=='SUB'||c.tagName=='SUP'||c.tagName=='BIG')
+while(c.tagName=='SUB'||c.tagName=='SUP'||c.tagName=='BIG'||c.tagName=='SMALL')
    c=c.parentNode;
 if(lea){
    removebackground(lea);
@@ -2287,14 +3216,19 @@ let h;
 if(c.id=='counter'){
    h='<small>Total number of ordinals in the list</small>';
    xs.style.background='#ffffff';
+   vero=0;
    }
 else if(c.id=='oldversionlink'){
-   h='<small>Link to old versions</small>';
+   h='<small>Link to old versions and other projects</small>';
    }
 else if(c.id=='reset'){
    h='<div id="res1"'+(count>1?'':' style="font-style:italic"')+'><nobr id="res2"'+(count>1?' style="font-weight:bold"':'')+'>Reset list</nobr></div><i>use "R" key</i>';
    if(count>1)
       xs.style.background='#fffff0';
+   }
+else if(c.id=='uncreset'){
+   h='<div><nobr id="res3" style="font-weight:bold">Set '+(uncountablemode?'':'un')+'countable mode and reset list</nobr></div><i>use "U" key</i>';
+   xs.style.background='#fffff0';
    }
 else if(c.id=='vtext'){
    h='<b>Hide</b> text near mouse cursor<br/><i>use "T" key</i>';
@@ -2305,145 +3239,198 @@ else if(c.id=='vsidebar'){
    xs.style.background='#f0fff0';
    }
 else if(c.id=='decef'){
-   h='<div id="decd1"'+(efs>0?'':' style="font-style:italic"')+'><nobr id="decd2"'+(efs>0?' style="font-weight:bold"':'')+'>Remove</nobr> extra fs element</div><i>use "-" key</i>';
+   h='<div id="decd1"'+(efs>0?'':' style="font-style:italic"')+'><nobr id="decd2"'+(efs>0?' style="font-weight:bold"':'')+'>Decrease</nobr> maximal number of new strings per expansion</div><i>use "-" key</i>';
    if(efs>0) 
       xs.style.background='#fffff0';
    }
 else if(c.id=='incef'){
-   h='<b>Add</b> extra fs element<br/><i>use "+" key</i>';
+   h='<b>Increase</b> maximal number of new strings per expansion<br/><i>use "+" key</i>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='decdec'){
+   h='<div id="decdec1"'+(sugar[4]?'':' style="font-style:italic"')+'><nobr id="decdec2"'+(sugar[4]?' style="font-weight:bold"':'')+'>Decrease</nobr> number of levels of decomposition into boosters</div><i>use Digit keys</i>';
+   if(sugar[4]) 
+      xs.style.background='#fffff0';
+   }
+else if(c.id=='incdec'){
+   h='<b>Increase</b> number of levels of decomposition into boosters<br/><i>use Digit keys</i>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='decdecbase'){
+   h='<div id="decdecbase1"'+(sugar[6]?'':' style="font-style:italic"')+'><nobr id="decdecbase2"'+(sugar[6]?' style="font-weight:bold"':'')+'>Decrease</nobr> number of levels of decomposition into bases</div>';
+   if(sugar[6]) 
+      xs.style.background='#fffff0';
+   }
+else if(c.id=='incdecbase'){
+   h='<b>Increase</b> number of levels of decomposition into bases';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='decd'){
-   h='<div id="dec1"'+(di>0?'':' style="font-style:italic"')+'><nobr id="dec2"'+(di>0?' style="font-weight:bold"':'')+'>Remove</nobr> fs element, displayed near mouse cursor</div><i>use "<" key</i>';
+   h='<small><div id="dec1" style="line-height:1.2'+(di>0?'':' ;font-style:italic')+'"><nobr id="dec2"'+(di>0?' style="font-weight:bold"':'')+'>Decrease</nobr> maximal number of<br/>fundamental sequence elements,<br/>displayed near mouse cursor</div></small><i>use "<" key</i>';
    if(di>0) 
       xs.style.background='#fffff0';
    }
 else if(c.id=='incd'){
-   h='<b>Add</b> fs element, displayed near mouse cursor<br/><i>use ">" key</i>';
+   h='<small><div style="line-height:1.2"><b>Increase</b> maximal number of<br/>fundamental sequence elements,<br/>displayed near mouse cursor</div></small><i>use ">" key</i>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='ecfv'){
-   h='<small><small><div style="line-height:1">Enhance expansions.<br/>After expansion extra fs elements of all expanded elements are added to the list.</div></small></small>'; 
+   h='<small><small><div style="line-height:1">Maximal number of new strings per expansion.</div></small></small>'; 
    xs.style.background='#fff';
-   } 
+   }
+else if(c.id=='decintoboostersl'){
+   h='<small><small><div style="line-height:1">Number of levels of decomposition into boosters.</div></small></small>'; 
+   xs.style.background='#fff';
+   }
 else if(c.id=='dis'){
-   h='<small><small><div style="line-height:1">Amount of fs elements of the element <b>b</b>, displayed near mouse cursor, when it is over <b>b</b>.</div></small></small>'; 
+   h='<small><small><div style="line-height:1">Maximal number of fundamental sequence elements, displayed near mouse cursor.</div></small></small>'; 
    xs.style.background='#fff';
    }    
 else if(c.id=='for2'){
-   h='<i>use "I" key</i>';
+   h='<small><div style="line-height:1.2">"Computer format", used by this program.<br/>(Note: in the list strings are displayed using <b>]</b>, <b>[</b>, <b>c</b> alphabet,<br/>but the program itself uses <b>!</b> instead of <b>]</b> to match Unicode order).</div></small><i>use "I" key</i>';
    xs.style.background='#f0fff0';
    }
-else if(c.tagName=='TD'&&c.id!='ecfve'&&c.id!='disp'&&c.id!='for0'&&c.id!='for1'){
-   let i=c.id=='etc'?-1:c.id=='etv'?-2:c.id[2]; 
-   h='<b>'+exp[i]+'</b><br/><small><small><div style="line-height:1">'
-   if(i==-2){
-      h+='Just view, do not expand or collapse.';     
-      }   
-   else if(i==-1){
-      h+='Removes elements from the list.<br/><br/>';
-      h+='"Do collapse of pair <b>a, b</b>" means "remove all elements between <b>a</b> and <b>b</b>".<br/><br/>';
-      h+='"Do collapse of <b>b</b>" means "remove all elements before <b>b</b>".<br/><br/>';
-      h+='Can revert expansions. For example,<br/>to revert small or single expansion, do collapse 1 time;<br/>';
-      h+='to revert double expansion, do collapse 2 times;<br/>';
-      h+='to revert triple expansion, do collapse 3 times; etc.';     
-      }
-   else if(i==0){
-      h+='Inserts one element between the element <b>b</b> and previous element <b>a</b>,<br/>'; 
-      h+='or, if <b>b</b> is the first element of the list, inserts one element before <b>b</b>.<br/><br/>';
-      h+='"Do small expansion of pair <b>a, b</b>" means "compute least fs element of <b>b</b> larger than <b>a</b> and insert it between <b>a</b> and <b>b</b>".<br/><br/>';
-      h+='"Do small expansion of <b>b</b>" means "compute least fs element of <b>b</b> and insert it before <b>b</b>".';     
-      }  
-   else if(i==1){ 
-      h+='Inserts elements between the element <b>b</b> and previous element <b>a</b>,<br/>'; 
-      h+='or, if <b>b</b> is the first element of the list, inserts elements before <b>b</b>.<br/><br/>';
-      h+='"Do single expansion of pair <b>a, b</b>" means "do small expansion of pair <b>a, b</b> — insert element <b>c</b>;<br/>';
-      h+='then do small expansion of pair <b>a, c</b> — insert element <b>d</b>;<br/>';
-      h+='then do small expansion of pair <b>a, d</b> — insert element <b>e</b>; etc.<br/>';
-      h+='continue until pair <b>a, a + 1</b>".<br/><br/>';
-      h+='"Do single expansion of <b>b</b>" means "do small expansion of <b>b</b> — insert element <b>c</b>;<br/>';
-      h+='then do small expansion of <b>c</b> — insert element <b>d</b>;<br/>';
-      h+='then do small expansion of <b>d</b> — insert element <b>e</b>; etc.<br/>';
-      h+='continue until <b>0</b>".<br/>';     
-      }  
-   else{
-      h+='Inserts elements between the element <b>b</b> and previous element <b>a</b>,<br/>'; 
-      h+='or, if <b>b</b> is the first element of the list, inserts elements before <b>b</b>.<br/><br/>';
-      h+='"Do '+exp[i]+' of pair <b>a, b</b>" means "do single expansion of pair <b>a, b</b> — insert elements <b>c, d, e, ...</b>;<br/>'; 
-      h+='then do '+exp[i-1]+'s of pair <b>c, b</b>, of pair <b>d, c</b>, of pair <b>e, d</b>, etc."<br/><br/>';
-      h+='"Do '+exp[i]+' of <b>b</b>" means "do single expansion of <b>b</b> — insert elements <b>c, d, e, ...</b>;<br/>';
-      h+='then do '+exp[i-1]+'s of pair <b>c, b</b>, of pair <b>d, c</b>, of pair <b>e, d</b>, etc."<br/>';
-      }       
-   h+='</div></small></small>'; 
-   h+='<i>use "';
-   h+=i==-1?'Q':i==-2?'W':i;  
-   h+='" key</i>';  
-   xs.style.background=c.id=='etc'?'#fffff0':c.id=='etv'?'#fafafa':'#f0fff0';} 
+else if(c.id=='indentmode2'){
+   h='<small>No indentation</small><br/><i>use "J" key</i>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='indentmode1'){
+   h='<small>Indentation, aligned by fundamental sequences</small><br/><i>use "K" key</i>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='indentmode0'){
+   h='<small>Indentation, aligned by recursive expansions</small><br/><i>use "L" key</i>';
+   xs.style.background='#f0fff0';
+   }
 else if(c.id=='for0'){
-   h='<i>use "O" key</i>';
+   h='<small><div style="line-height:1.2">With two exceptions (0 and '+bo+'),<br/>ordinals are displayed as sums of ω<sup>x</sup>n terms, n ∈ ℕ.<br/>ω<sup>1</sup>n is displayed as ωn.<br/>If x > 0, then ω<sup>x</sup>1 is displayed as ω<sup>x</sup>.<br/>If ω<sup>x</sup> = x (i. e. x is an epsilon number), then ω<sup>x</sup> is displayed as x.<br/>ω<sup>0</sup>n is displayed as n.<br/>x is displayed in the same format.<br/>Epsilon numbers are displayed using some special designations<br/>(e. g. Veblen function), or using "Computer format".</div></small><i>use "O" key</i>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='for1'){
-   h='<i>use "P" key</i>';
+   h='<small><div style="line-height:1.2">Similar to the previous format, but if x ≥ ε<sub>0</sub>, then ω<sup>x</sup>n is<br/>displayed as ε<sup>y</sup>α, where ε is the largest epsilon number ≤ x.<br/>ε<sup>y</sup>1 is displayed as ε<sup>y</sup>.<br/>ε<sup>1</sup>α is displayed as εα.<br/>y and α are displayed in the same format.</div></small><i>use "P" key</i>';
    xs.style.background='#f0fff0';
-   }
+   }    
 else if(c.id!='xs'&&!xs.contains(c)){
-   if(c!=mousetag&&c.tagName=='LI')
+
+let eo1=-3;
+vero=0;
+if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
+   {
+   eo1=eo;
+   eo=c.id=='mulmark'?mulcounter:c.id=='expmark'?1:c.id=='smexmark'?0:-1;
+   c=markedli;
+   vero=70;
+   }
+   
+   if(eo1==-3&&c!=mousetag&&c.tagName=='LI')
       mousetagp=c;
-   h='<nobr id="ex1">'+exp[eo]+'</nobr>';
+   h='<nobr id="ex1">'+expwords(eo)+'</nobr>';
    //h+='<br/><small><i>Click "'+convert(initlargeordinal)+'" to add more elements of its fundamental sequence</i></small>';
    //h+='<br/><small><i>Click "'+convert(initlargeordinal)+'" to add more strings</i></small>';
-   xs.style.background='#fff';  
-   h+='<span id="extra1"'+(efs==0||eo<0?' hidden':'')+'> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></span>';   
+   xs.style.background='#fff';
+   //h+='<span id="extra1"'+(efs==0||eo<0?' hidden':'')+'> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></span>';  
+   h+='<span id="extra1" hidden> with <nobr id="extra2">'+efs+'</nobr> extra fs element<nobr id="extra3">'+(efs==1?'':'s')+'</nobr></span>';  
    //if(c.tagName=='LI'&&c.id!=null&&c.id!='dots'){
    if(c.tagName=='LI'){
       lea=c;
 
-      setps(c);
+      setps(c,eo1>-3&&eo>1?nextl:'');
 
-      let i=eo<0?0:1;
+      let i=eo<0||c!=markedli?0:1;
       let b=exb[i]; 
-      h+='<span id="ex4"'+(b?'':' hidden')+'>';                         
-      h+=' of ';
-      let l=pairl[i];
-      h+='<nobr id="ex2">'+(l.id!='-'?'pair ':'')+'</nobr>';
-      h+='<nobr id="ex3">'+(l.id!='-'?(l.innerHTML+', '):'')+'</nobr>';
-      h+=c.innerHTML;      
-      if(b&&eo!=-2){
-         xs.style.background=i==0?'#fffff0':'#f0fff0';
-         l.style.background=i==0?'#fffae0':'#f4fff7';
-         c.style.background=i==0?'#fff0e0':'#e0ffff';
-         if(i==0)
+      //h+='<span id="ex4"'+(b?'':' hidden')+'>';                    
+      //h+=' of ';
+      h+='<span id="ex4"'+(b?'':' hidden')+'> ';
+      //let l=pairl[i];
+      let l=eo1>-3&&eo>1?nextl:pairl[i];
+      //h+='<nobr id="ex2">'+(l.id!='-'?'pair ':'')+'</nobr>';
+      //h+='<nobr id="ex3">'+(l.id!='-'?(l.innerHTML+', '):'')+'</nobr>';
+      
+      
+      if(eo>1)
+         h+='all '+multicount+' strings'+(l.id=='-'?'':(' from '+l.innerHTML))+' up to ';
+      
+      
+      h+=c.innerHTML;
+      if(b&&eo!=-2&&c==markedli){
+         xs.style.background=i==0?'#fffaf0':eo1>-3&&eo>1?'#f0f0ff':eo>0?'#f0fff0':'#f0ffff';
+         l.style.background=i==0?'#fffae0':eo1>-3&&eo>1?'#e0e0ff':eo>0?'#f4fff7':'#f4ffff';
+         c.style.background=i==0?'#fff0e0':eo1>-3&&eo>1?'#e0d0ff':eo>0?'#e0ffe0':'#f0ffff';
+         if(i==0||(eo1>-3&&eo>1))
             psb();
          }
-      else{
+      else if(c!=markedli)
+         {
+         xs.style.background='#fff';
+         c.style.background='#fbfbfb';
+         }
+      else
+         {
          xs.style.background='#fafafa';
          c.style.background='#fbfbfb';
-      }
+         }
       h+='</span>';          
-      h='<div id="ex7"'+(eo==-2&&c.tagName=='LI'?' hidden':'')+'><span id="ex6" style="font-weight:'+(b?'bold':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b></span>';                      
-      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'> fundamental sequence:'; 
+      //h='<div id="ex7"'+(!b||((eo==-2||c!=markedli)&&c.tagName=='LI')?' hidden':'')+'><span id="ex6" style="font-weight:'+(b?'bolda':'normal')+';font-style:'+(b?'normal':'italic')+'"><nobr id="ex5">'+(b?'Do ':'')+'</nobr>'+h+'</b>';   
+      h='<div id="ex7"'+(!b||((eo==-2||c!=markedli)&&c.tagName=='LI')?' hidden':'')+'><span id="ex6" style="font-weight:'+(b?'bolda':'normal')+';font-style:'+(b?'normal':'italic')+'">'+h+'</b>';        
+      if(eo1>-3&&markedli.id==initlargeordinal)
+         {
+         h+=' ';
+         vero=36;
+         }
+      else
+         h+='<br/>'
+      h+='<i><small>(use "'+(eo>1?'C':eo>0?'Enter':eo<0?'Backspace':'Space')+'" key)</small></i></span>';
+      
+      if(eo1==-3)
+      {
+      //h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'> fundamental sequence:'; 
+      if(c.id=='')
+         {
+         cofcurrent='';
+         cofclass=1;
+         fscurrent='';
+         fsnumber=1;
+         }
+      else
+         {
+         fs(c.id,'',0);
+         //if(!cofclass&&isOmega(c.id))
+         if(!cofclass&&getepslevel(c.id)>0)
+            cofclass=4;
+         }
+      let cc=card(c.id);
+      let ccc=cardclass;
+      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>card: '+convert(cc)+'<small> ('+cardclasslist[ccc]+')</small>'+'<br/>fs <small>(<span id="spps">'+(subperiodpositionshift+1)+'</span>/'+fsnumber+')'+(fsnumber>1?' <i>(use "←", "→" keys)</i>':'')+'</small>:'; 
       if(c.id=='')
          h+='<br>'+'   <i>empty</i>';
-      else{
+      else
+         {
          fsn=0;
          fsp=c.id.slice(-2)!='[!';
          fsl=c.id;
       	for(let i=0;i<(fsp?di:1);i++){   	      
-      	   if(vt)h+='<li>   '+i+': '+convert(fs(fsl,'',fsn))+'</li>';
+      	   //if(vt)h+='<li>   '+i+': '+convert(fs(fsl,'',fsn))+'</li>';
+      	   if(vt)h+='<li id="fselement'+fsn+'">   '+i+': '+convert(fs(fsl,'',fsn))+'</li>';
       	   fsn++;}  
       	if(fsp)      
    	      h+='<li id="dots">   ... '+(gtkey||ltkey?'<i><small>(use "<", ">" keys)</small></i>':'')+'</li>';   
    	   }
+   	}
+   	   
    	h+='</span>';                  
       }
    else
-      h='<div id="ex7"'+(eo==-2&&c.tagName=='LI'?' hidden':'')+'>'+h+'</div>';
+      {
+      h='<div id="ex7"'+((eo==-2||c!=markedli)&&c.tagName=='LI'?' hidden':'')+'>'+h+'</div>';
+      onli=true;
+      }
+   if(eo1>-3)
+      eo=eo1;
    }
 else
    lea='';
 xs.innerHTML=h;}
-if(vt)xs.hidden=false; 
+xs.hidden=!vt||onli;
 mousetextupdate(mousex,mousey);  
 }}
 
@@ -2451,104 +3438,6 @@ document.onmouseleave=function(e){
    mouseoverupdate(listc);
    xs.hidden=true;
 }
-
-list.onclick_old=function(e){
-processing=false;
-let initscroll=listc.scrollTop;
-if(eo!=-2){
-let c=e.target;
-while(c.tagName=='SUB'||c.tagName=='SUP')
-   c=c.parentNode;
-if(c.id!='list'&&c.id!=''&&c.id.slice(-2)!='[!'){
-   let sc;
-   let sc1=c;
-   if(eo<0){
-   c=c.previousSibling;
-   if(c!=null&&c.id!='-')
-   if(c.tagName==ulnar[indentvisible]){       
-      c=cl(c);             
-      count-=countli(c);
-      sc=c.previousSibling;   
-      c.remove();}
-   else{
-      let q=c;
-      sc=c.parentNode.previousSibling;
-      while(c!=null){        
-         c=c.previousSibling;
-         count-=countli(q);
-         q.remove();
-         q=c;}        
-      }	
-   }
-   else{    
-      let[l,i]=pl(c);
-      sc=l;
-      e=(eo==0?1:eo)-i;    
-      while(c!=l){
-         if(c.previousSibling==null){
-            //let q=pl(c)[0].id;
-            //if(e>=0&&c.id!=bb(q,''))
-            if(e>=0)
-               //c.insertAdjacentHTML('beforebegin',se(c.id,q,e+efs));}
-               c.insertAdjacentHTML('beforebegin',se(c.id,pl(c)[0].id,e+efs));}
-               /*{let[q,i]=pl(c);
-               i=e+i-1;
-               if(i>=0){
-                  let y=document.createElement(ulnar[indentvisible]);
-                  y.innerHTML=se(c.id,q.id,i+efs);
-                  c.insertAdjacentHTML('beforebegin',y.outerHTML);}}}*/
-         else{
-            let[q,i]=pl(c);
-            i=e+i-1;
-            //if(i>=0&&c.id!=bb(q.id,'')){
-            if(i>=0){
-               let y=document.createElement(ulnar[indentvisible]);
-               y.innerHTML=se(c.id,q.id,i+efs);
-               q.insertAdjacentHTML('afterend',y.outerHTML);}      	
-            }
-         if(eo==0)
-            c=l;
-         else
-            do{
-               [c,i]=pl(c);
-               e+=i;}
-            while(c!=l&&(c.id==''||c.id.slice(-2)=='[!'));
-            //while(c!=l&&(c.id==''));
-         }                           
-      }     
-   counter.innerHTML='Counter: '+count;
-   resett.style.opacity=count==1?0.4:1;
-   /*if(sc!=null){
-      if(sc.getBoundingClientRect().top<0||sc1.getBoundingClientRect().bottom>window.innerHeight)
-      if(eo<0||sc1.getBoundingClientRect().bottom-sc.getBoundingClientRect().top>window.innerHeight)
-         sc.scrollIntoView();
-      else   
-         sc1.scrollIntoView(false);
-      }*/
-   mouseoverupdate(sc1);
-   }
-}
-//window.onunload=function(e){
-//window.scrollTo(0,0);
-//}
-listc.scrollTop=initscroll;
-processing=true;
-/*if(listc.clientWidth<listc.scrollWidth)
-   {listc.style.right='auto';}
-else if(listc.clientWidth>listc.scrollWidth)
-	{listc.style.right=0;}*/
-}
-
-/*function scrollli(c)
-{if(c)
-{$(c).wrapInner('<ul1 style="padding-right: 27px">');
-c=c.firstChild;
-let r=c.getBoundingClientRect();
-if(r.left<0||r.right>listc.getBoundingClientRect().right)
-   {listc.scrollLeft=0;
-   c.scrollIntoView();}
-c.removeAttribute('style');
-$(c).contents().unwrap();}}*/
 
 function scrollli(c)
 {if(c)
@@ -2584,26 +3473,8 @@ if(!bx)
 if(!by)
    listc.scrollTop=ly;
 u.removeAttribute('style');
-$(u).contents().unwrap();}}
-
-/*function scrolly(c)
-{if(c.getBoundingClientRect().top<0)
-   if(c.id=='')
-      listc.scrollTop=-listc.scrollHeight;
-   else
-      {c.scrollIntoView();
-      listc.scrollTop-=3;}
-else 
-   if(c.getBoundingClientRect().bottom>window.innerHeight)
-   {listc.style.overflowX='auto';
-   if(c.id==initlargeordinal)
-      listc.scrollTop=0;
-   else
-      {c.scrollIntoView({block: 'end'});
-      listc.scrollTop+=3;}
-   listc.style.overflowX='overlay';
-   }
-}*/
+$(u).contents().unwrap();}
+}
 
 list.onclick=function(e){
 processing=false;
@@ -2614,14 +3485,19 @@ let initscroll=listc.scrollTop;
 //list.hidden=true;
 //if(eo!=-2){
 let c=e.target;
-while(c.tagName=='SUB'||c.tagName=='SUP')
+while(c.tagName=='SUB'||c.tagName=='SUP'||c.tagName=='SMALL')
    c=c.parentNode;
 if(c.id!='list'&&c.tagName=='LI'){
    if(!nextlb)
+      {
       nextl='';
-   setmarkedli(c);
-if(c.id!=''){
+      mulcounter=1;
+      }
+if(c!=markedli)
+   setmarkedli(c)
+else if(c.id!=''){
    if(eo!=-2){
+   countdifference=count;
    let sc;
    let sc1=c;
    if(eo<0){
@@ -2664,56 +3540,77 @@ if(c.id!=''){
          smallexpefs(c,efs);
       else
       	multipleexp(c,efs,eo);
-      //list.hidden=false;
       scrollli(pl(c)[0]);
-      if(eo>1)
-         {let u=new KeyboardEvent("keydown",{code:"Digit0"});
-         document.dispatchEvent(u);}
       }
        
    counter.innerHTML='Counter: '+count;
-   resett.style.opacity=count==1?0.4:1;
-   /*if(sc!=null){
-      if(sc.getBoundingClientRect().top<0||sc1.getBoundingClientRect().bottom>window.innerHeight)
-      if(eo<0||sc1.getBoundingClientRect().bottom-sc.getBoundingClientRect().top>window.innerHeight)
-         sc.scrollIntoView();
-      else   
-         sc1.scrollIntoView(false);
-      }*/
+   reset.style.opacity=count==1?0.4:1;
+   countdifference=count-countdifference;
+   uncreset.innerHTML=count==1?'Change mode':'Change mode and reset list';
    mouseoverupdate(sc1);
+   expcolmarksupdate();
    }
 }}
-//window.onunload=function(e){
-//window.scrollTo(0,0);
-//}
 listc.scrollTop=initscroll;
 processing=true;
-//list.hidden=false;
 mousetag='';mousetagp=xs;
 mouseoverupdate();
-/*if(listc.clientWidth<listc.scrollWidth)
-   {listc.style.right='auto';}
-else if(listc.clientWidth>listc.scrollWidth)
-	{listc.style.right=0;}*/
 }
 
 function seteo(i)
-{etar[eo].style.background='#fff';
+{
 eo=i;
-etar[i].style.background=eo==-1?'#ffffb0':eo==-2?'#f0f0f0':'#d0ffd0';
 }
 
-/*list.ondblclick=function(e){
+function doexpcol(c)
+{
 let eo1=eo;
-seteo(1);
-e.target.click();
+seteo(c=='Space'?0:c=='Backspace'?-1:1);
+let m=markedli.id;
+if(c=='KeyC')
+   {
+   nextlb=true;
+   if(m.length<4||m.slice(-4)!='[[!!')
+      mulcounter++;
+   }
+else
+   {
+   multicount=1;
+   if(c=='Enter')
+      {
+      nextlb=true;
+      nextl='';
+      if(m.length<4||m.slice(-4)!='[[!!')
+         mulcounter=2;
+      }
+   }
+mouseoverupdate(markedli);
+markedli.click();
+if(c=='KeyC'||c=='Enter')
+   multicount+=countdifference;
+//scrolly(markedli);
+scrollli(markedli);
 seteo(eo1);
-}*/
+mousetag='';mousetagp=xs;
+mouseoverupdate();
+nextlb=false;
+expcolmarksupdate();
+}
 
-exptable.onclick=function(e){
-let c=e.target;
-if(c.tagName=='TD')
-   seteo(c.id=='etc'?-1:c.id=='etv'?-2:c.id[2]);
+mulmark.onclick=function(e){
+doexpcol('KeyC');
+}
+
+expmark.onclick=function(e){
+doexpcol('Enter');
+}
+
+smexmark.onclick=function(e){
+doexpcol('Space');
+}
+
+colmark.onclick=function(e){
+doexpcol('Backspace');
 }
 
 switchformat.onclick=function(e){
@@ -2730,19 +3627,169 @@ if(c.tagName=='TD'){
    }
 }
 
+function sugarbuttonclick(c,e)
+{
+while(c.tagName=='SUP')
+   c=c.parentNode;
+sugar[e]=1-sugar[e];
+c.style.background=sugar[e]?sugarbuttoncolor[e]:'#fff';
+formatting();
+}
+
+function sugarbuttonswitch(e,n)
+{
+if(sugar[e]!=n)
+   {
+   let ca=document.getElementById('sugarbuttona'+e);
+   let cb=document.getElementById('sugarbuttonb'+e);
+   sugar[e]=1-sugar[e];
+   ca.style.background=sugar[e]?'#fff':sugarbuttoncolor[e];
+   cb.style.background=sugar[e]?sugarbuttoncolor[e]:'#fff';
+   formatting();
+   }
+}
+
+sugarbutton0.onclick=function(e)
+{
+sugarbuttonclick(e.target,0);
+}
+
+sugarbutton1.onclick=function(e)
+{
+sugarbuttonclick(e.target,1);
+}
+
+sugarbutton2.onclick=function(e)
+{
+sugarbuttonclick(e.target,2);
+}
+
+sugarbutton3.onclick=function(e)
+{
+sugarbuttonclick(e.target,3);
+}
+
+sugarbutton8.onclick=function(e)
+{
+sugarbuttonclick(e.target,8);
+}
+
+sugarbutton9.onclick=function(e)
+{
+sugarbuttonclick(e.target,9);
+}
+
+sugarbutton10.onclick=function(e)
+{
+sugarbuttonclick(e.target,10);
+}
+
+sugarbutton11.onclick=function(e)
+{
+sugarbuttonclick(e.target,11);
+}
+
+sugarbutton12.onclick=function(e)
+{
+sugarbuttonclick(e.target,12);
+}
+
+sugarbutton13.onclick=function(e)
+{
+sugarbuttonclick(e.target,13);
+}
+
+sugarbutton14.onclick=function(e)
+{
+sugarbuttonclick(e.target,14);
+}
+
+sugarbutton15.onclick=function(e)
+{
+sugarbuttonclick(e.target,15);
+}
+
+sugarbuttona16.onclick=function(e)
+{
+sugarbuttonswitch(16,0);
+}
+
+sugarbuttonb16.onclick=function(e)
+{
+sugarbuttonswitch(16,1);
+}
+
+sugarbutton17.onclick=function(e)
+{
+sugarbuttonclick(e.target,17);
+}
+
+sugarbutton18.onclick=function(e)
+{
+sugarbuttonclick(e.target,18);
+}
+
+sugarbuttona19.onclick=function(e)
+{
+sugarbuttonswitch(19,0);
+}
+
+sugarbuttonb19.onclick=function(e)
+{
+sugarbuttonswitch(19,1);
+}
+
+sugarbuttona20.onclick=function(e)
+{
+sugarbuttonswitch(20,0);
+}
+
+sugarbuttonb20.onclick=function(e)
+{
+sugarbuttonswitch(20,1);
+}
+
+sugarbutton21.onclick=function(e)
+{
+sugarbuttonclick(e.target,21);
+}
+
+sugarbutton22.onclick=function(e)
+{
+sugarbuttonclick(e.target,22);
+}
+
+switchindentmode.onclick=function(e){
+let c=e.target;
+//if(c.tagName=='TD'){
+if(c.tagName=='DIV'){
+   let i=parseInt(c.id[10]);
+   if(i==2&&indentvisible)
+      {
+      let u=new KeyboardEvent("keydown",{code:"KeyJ"});
+      document.dispatchEvent(u);
+      }
+   else if(i<2&&(!indentvisible||i!=indentmode))
+      {
+      let u=new KeyboardEvent("keydown",{code:i?"KeyK":"KeyL"});
+      document.dispatchEvent(u);
+      }
+   }
+}
+
 vtext.onclick=function(e){
 let c=e.target;
-while(c.tagName!='TD')
-   c=c.parentNode;
+//while(c.tagName!='TD')
+//   c=c.parentNode;
 if(vt){
    c.style.background='#fff';
-   c.style.color='#fff';
+   //c.style.color='#fff';
    vt=false;
    xs.hidden=true;
    }
 else{
    c.style.background='#d0ffd0';
-   c.style.color='#000';
+   //c.style.color='#000';
    vt=true;
    xs.hidden=false;
    mouseoverupdate();
@@ -2755,7 +3802,7 @@ if(sidebar.hidden){
    listc.style.right='240px';
    listc.style.overflowY='overlay';
    //listc.style.marginRight='17px';
-   list.style.minWidth='calc(100% - 57px)';
+   list.style.minWidth='calc(100% - 121px)';
    vsidebars.style.right='257px';
    counter.style.right='260px';
    vsidebar.innerHTML='»';
@@ -2768,9 +3815,9 @@ else{
    let ssw=listc.scrollWidth-listc.clientWidth;
    if(listc.scrollLeft>=ssw-17)
       listc.scrollLeft=ssw;
-   list.style.minWidth='calc(100% - 40px)';
+   list.style.minWidth='calc(100% - 104px)';
    vsidebars.style.right='17px';
-   counter.style.right='20px';
+   counter.style.right='30px';
    vsidebar.innerHTML='«';
    }  
 }
@@ -2778,10 +3825,12 @@ else{
 decef.onclick=function(e){
 if(efs>0){
    efs--;
-   ecfv.innerHTML='   '+efs+'   ';
+   //ecfv.innerHTML='   '+(efs+1)+'   ';
+   ecfv.innerHTML='strings per<br/>expansion: '+(efs+1);
    if(efs==0){
-      ecfv.style.background='#fff';
-      decef.style.color='#eeeeee';
+      //ecfv.style.background='#fff';
+      //decef.style.color='#eeeeee';
+      decef.style.opacity=0.4;
       decef.style.cursor='default';
       xs.style.background='#fff';
       if(document.getElementById('decd1')!=null){
@@ -2794,21 +3843,110 @@ if(efs>0){
 
 incef.onclick=function(e){
 efs++;
-ecfv.innerHTML='   '+efs+'   ';
+//ecfv.innerHTML='   '+(efs+1)+'   ';
+ecfv.innerHTML='strings per<br/>expansion: '+(efs+1);
 if(efs==1){
-   decef.style.color='#000';
+   //decef.style.color='#000';
+   decef.style.opacity=1;
    decef.style.cursor='pointer';
-   ecfv.style.background='#d0ffd0';
+   //ecfv.style.background='#d0ffd0';
    }    
 }
+
+function decboostersupdate()
+{
+formatting();
+let b=sugar[5]||sugar[4];
+decintoboostersl.innerHTML='decomposition<br/>into boosters: '+(sugar[5]?'∞':sugar[4]);
+decdec.style.opacity=b?1:0.4;
+decdec.style.cursor=b?'pointer':'default';
+if(document.getElementById('decdec1')!=null)
+   {
+   xs.style.background=b?'#fffff0':'#fff';
+   decdec1.style['font-style']=b?'normal':'italic';
+   decdec2.style['font-weight']=b?'bold':'normal'; 
+   }
+}
+
+function decbasesupdate()
+{
+formatting();
+let b=sugar[7]||sugar[6];
+decintobasesl.innerHTML='decomposition<br/>into bases: '+(sugar[7]?'∞':sugar[6]);
+decdecbase.style.opacity=b?1:0.4;
+decdecbase.style.cursor=b?'pointer':'default';
+if(document.getElementById('decdecbase1')!=null)
+   {
+   xs.style.background=b?'#fffff0':'#fff';
+   decdecbase1.style['font-style']=b?'normal':'italic';
+   decdecbase2.style['font-weight']=b?'bold':'normal'; 
+   }
+}
+
+decdec.onclick=function(e){
+if(sugar[5])
+   {
+   sugar[5]=0;
+   decboostersupdate();
+   }
+else if(sugar[4]>0){
+   sugar[4]--;
+   decboostersupdate();
+   }   
+}
+
+incdec.onclick=function(e){
+if(sugar[5])
+   sugar[5]=0;
+sugar[4]++;
+decboostersupdate();
+}
+
+infdec.onclick=function(e){
+if(!sugar[5])
+   {
+   sugar[5]=1;
+   decboostersupdate();
+   }
+}
+
+decdecbase.onclick=function(e){
+if(sugar[7])
+   {
+   sugar[7]=0;
+   decbasesupdate();
+   }
+else if(sugar[6]>0){
+   sugar[6]--;
+   decbasesupdate();
+   }   
+}
+
+incdecbase.onclick=function(e){
+if(sugar[7])
+   sugar[7]=0;
+sugar[6]++;
+decbasesupdate();
+}
+
+infdecbase.onclick=function(e){
+if(!sugar[7])
+   {
+   sugar[7]=1;
+   decbasesupdate();
+   }
+}
+
 
 decd.onclick=function(e){
 if(di>0){
    di--;
-   dis.innerHTML='   '+di+'   ';
+   //dis.innerHTML='   '+di+'   ';
+   dis.innerHTML='displayed<br/>fs elements: '+di;
    if(di==0){
-      dis.style.background='#fff';
-      decd.style.color='#eeeeee';
+      //dis.style.background='#fff';
+      //decd.style.color='#eeeeee';
+      decd.style.opacity=0.4;
       decd.style.cursor='default';
       xs.style.background='#fff';
       if(document.getElementById('dec1')!=null){
@@ -2821,18 +3959,26 @@ if(di>0){
 
 incd.onclick=function(e){
 di++;
-dis.innerHTML='   '+di+'   ';
+//dis.innerHTML='   '+di+'   ';
+dis.innerHTML='displayed<br/>fs elements: '+di;
 if(di==1){
-   decd.style.color='#000';
+   //decd.style.color='#000';
+   decd.style.opacity=1;
    decd.style.cursor='pointer';
-   dis.style.background='#d0ffd0';
+   //dis.style.background='#d0ffd0';
    }    
 }
 
-function resetlist(){
+function resetlist(m=uncountablemode)
+{
 ps=[];
 nextl='';
+mulcounter=1;
+multicount=1;
 prevsmallexp='-';
+uncountablemode=m;
+bo=uncountablemodeinitnames[m]+(nlevels==2?'':', nlevels = '+nlevels);
+initlargeordinal=bo;
 list.innerHTML='<li id="-" hidden></li>';
 let y=document.createElement('li');
 y.id=initlargeordinal;
@@ -2842,11 +3988,17 @@ setmarkedli(document.getElementById(initlargeordinal));
 count=1;
 counter.innerHTML='Counter: 1';
 window.scrollTo(0,0);
-resett.style.opacity=0.4;
-if(document.getElementById('res2')!=null){
-    xs.style.background='#fff';
-    res1.style['font-style']='italic';
-    res2.style['font-weight']='normal';}
+reset.style.opacity=0.4;
+uncreset.innerHTML='Change mode';
+if(document.getElementById('res2')!=null)
+   {
+   xs.style.background='#fff';
+   res1.style['font-style']='italic';
+   res2.style['font-weight']='normal';
+   }
+else if(document.getElementById('res3')!=null)
+   res3.innerHTML='Set '+(uncountablemode?'':'un')+'countable mode and reset list';
+mouseoverupdate();
 }
 
 function indentul0(c){
@@ -2910,48 +4062,46 @@ function indentvisibletransform(e,b=true){
    }
 }
 
-reset.onclick=function(e){
-resetlist();}
+reset.onclick=function(e)
+{
+resetlist();
+}
+
+uncreset.onclick=function(e)
+{
+resetlist(1-uncountablemode);
+}
+
+function fselementsupdate()
+{
+if(fsp&&document.getElementById('fsd')!=null)
+   {
+   fs(fsl,'',0);
+   document.getElementById('spps').innerHTML=subperiodpositionshift+1;
+   for (let e=0;e<fsn;e++)
+      document.getElementById('fselement'+e).innerHTML='   '+e+': '+convert(fs(fsl,'',e));
+   }
+}
 
 document.addEventListener('keydown',function(e){
 if(!e.ctrlKey){
 let c=e.code;
-if(c.slice(0,5)=='Digit'||c=='KeyQ'||c=='KeyW'){
-   let i=c.slice(0,5)=='Digit'?c.slice(5):c=='KeyW'?-2:-1;
-   seteo(i);
-   if(document.getElementById('ex1')!=null)
-      ex1.innerHTML=exp[eo]; 
-   if(document.getElementById('ex6')!=null)
-   if(eo==-2){
-   	ex7.hidden=true;
-   	xs.style.background='#fafafa';
-   	psb(true);
-      lea.style.background='#fbfbfb';
-      removebackground(pairl[0]);
-      removebackground(pairl[1]);
-   	}
-   else{
-      i=eo<0?0:1;
-      ex4.hidden=!exb[i];
-      ex5.innerHTML=exb[i]?'Do ':'';
-      ex6.style['font-weight']=exb[i]?'bold':'normal';
-      ex6.style['font-style']=exb[i]?'normal':'italic';
-      xs.style.background=exb[i]?(i==0?'#fffff0':'#f0fff0'):'#fafafa';
-      ex2.innerHTML=pairb[i]?'pair ':'';
-      ex3.innerHTML=pairb[i]?pairl[i].innerHTML+', ':'';
-   	removebackground(pairl[1-i]);
-   	lea.style.background=exb[i]?i==0?'#fff0e0':'#e0ffff':'#fbfbfb';
-   	psb(i);
-      pairl[i].style.background=i==0?'#fffae0':'#f4fff7';
-      ex7.hidden=false;
-      }          
-   if(document.getElementById('extra1')!=null)
-      extra1.hidden=efs==0||eo<0;       
+if(c.slice(0,5)=='Digit')
+{
+if(sugar[5])
+   sugar[5]=0;
+let i=c.slice(5);
+if(i!=sugar[4])
+   {
+   sugar[4]=parseInt(i);
+   decboostersupdate();
    }
+}
 else if(c=='Minus'||c=='NumpadSubtract'){
 if(efs>0){
    efs--;
-   ecfv.innerHTML='   '+efs+'   ';
+   //ecfv.innerHTML='   '+(efs+1)+'   ';
+   ecfv.innerHTML='strings per<br/>expansion: '+(efs+1);
    if(document.getElementById('extra1')!=null){
       if(efs==0)
          extra1.hidden=true;
@@ -2959,20 +4109,22 @@ if(efs>0){
       extra3.innerHTML=efs==1?'':'s';   
       }    
    if(efs==0){
-      ecfv.style.background='#fff';
-      decef.style.color='#eeeeee';
+      //ecfv.style.background='#fff';
+      //decef.style.color='#eeeeee';
+      decef.style.opacity=0.4;
       decef.style.cursor='default';
       if(document.getElementById('decd1')!=null){
          xs.style.background='#fff';
          decd1.style['font-style']='italic';
          decd2.style['font-weight']='normal'; 
          }            
-      } 	     
+      }
    }
 }     	
 else if(c=='Equal'||c=='NumpadAdd'){
    efs++;
-   ecfv.innerHTML='   '+efs+'   '; 
+   //ecfv.innerHTML='   '+(efs+1)+'   '; 
+   ecfv.innerHTML='strings per<br/>expansion: '+(efs+1);
    if(document.getElementById('extra1')!=null){
       if(efs==1&&eo>=0)
          extra1.hidden=false;
@@ -2980,33 +4132,37 @@ else if(c=='Equal'||c=='NumpadAdd'){
       extra3.innerHTML=efs==1?'':'s';   
       }     
    if(efs==1){
-      decef.style.color='#000';
+      //decef.style.color='#000';
+      decef.style.opacity=1;
       decef.style.cursor='pointer';
-      ecfv.style.background='#d0ffd0';
+      //ecfv.style.background='#d0ffd0';
       if(document.getElementById('decd1')!=null){
          xs.style.background='#fffff0';
          decd1.style['font-style']='normal';
          decd2.style['font-weight']='bold';
          }
-      }            	 	
-   } 
+      }    	 	
+   }
 else if(c=='Comma'){
 if(di>0){
    di--;
    if(ltkey){
       ltkey--;
-      if(!gtkey&&!ltkey&&dots)dots.innerHTML='   ... ';
+      if(!gtkey&&!ltkey&&typeof dots!=='undefined')dots.innerHTML='   ... ';
       }
-   dis.innerHTML='   '+di+'   '; 
-   if(document.getElementById('fsd')!=null){ 
+   //dis.innerHTML='   '+di+'   '; 
+   dis.innerHTML='displayed<br/>fs elements: '+di;
+   if(document.getElementById('fsd')!=null){
       if(fsp){
       	fsn--;
-         dots.previousSibling.remove();}             
+      	if(typeof dots!=='undefined')
+            dots.previousSibling.remove();}             
       if(di==0)
          fsd.hidden=true;}        
    if(di==0){
-      dis.style.background='#fff';
-      decd.style.color='#eeeeee';
+      //dis.style.background='#fff';
+      //decd.style.color='#eeeeee';
+      decd.style.opacity=0.4;
       decd.style.cursor='default';
       if(document.getElementById('dec1')!=null){
          xs.style.background='#fff';
@@ -3020,21 +4176,25 @@ else if(c=='Period'){
    di++;
    if(gtkey){
       gtkey--;
-      if(!gtkey&&!ltkey)dots.innerHTML='   ... ';
+      if(!gtkey&&!ltkey&&typeof dots!=='undefined')dots.innerHTML='   ... ';
       }
-   dis.innerHTML='   '+di+'   '; 
+   //dis.innerHTML='   '+di+'   ';
+   dis.innerHTML='displayed<br/>fs elements: '+di;
    if(document.getElementById('fsd')!=null){ 
       if(fsp){     	
          let y=document.createElement('li');
+         y.id='fselement'+fsn;
          y.innerHTML='   '+(di-1)+': '+convert(fs(fsl,'',fsn));
          fsn++;
-         dots.insertAdjacentHTML('beforebegin',y.outerHTML);}                
+         if(typeof dots!=='undefined')
+            dots.insertAdjacentHTML('beforebegin',y.outerHTML);}                
       if(di==1)
          fsd.hidden=false;}       
    if(di==1){
-      decd.style.color='#000';
+      //decd.style.color='#000';
+      decd.style.opacity=1;
       decd.style.cursor='pointer';
-      dis.style.background='#d0ffd0';
+      //dis.style.background='#d0ffd0';
       if(document.getElementById('dec1')!=null){
          xs.style.background='#fffff0';
          dec1.style['font-style']='normal';
@@ -3045,16 +4205,15 @@ else if(c=='Period'){
 else if(c=='KeyT')
 if(vt){
    vtext.style.background='#fff';
-   vtext.style.color='#fff';
    vt=false;
    xs.hidden=true;
    keytcheck=false;
    }
 else{
    vtext.style.background='#d0ffd0';
-   vtext.style.color='#000';
    vt=true;
-   xs.hidden=false;
+   if (xs.innerText.slice(0,exp[0].length)!=exp[0])
+      xs.hidden=false;
    if(keytcheck) 
       {mousetag='';mousetagp=xs;
       mouseoverupdate();}
@@ -3066,9 +4225,7 @@ if(sidebar.hidden){
    listc.style.right='240px';
    listc.style.overflowY='overlay';
    listc.scrollBy(240,0);
-   //listc.style.marginRight='17px';
-   list.style.minWidth='calc(100% - 57px)';
-   //listc.style.left='-230px';
+   list.style.minWidth='calc(100% - 121px)';
    vsidebars.style.right='257px';
    counter.style.right='260px';
    vsidebar.innerHTML='»';
@@ -3078,19 +4235,19 @@ else{
    sidebar.hidden=true;
    listc.style.right='0';
    listc.style.overflowY='auto';
-   //listc.style.marginRight='0';
    let ssw=listc.scrollWidth-listc.clientWidth;
    if(listc.scrollLeft>=ssw-17)
       listc.scrollLeft=ssw;
-   list.style.minWidth='calc(100% - 40px)';
-   //listc.style.left='10px';
+   list.style.minWidth='calc(100% - 104px)';
    vsidebars.style.right='17px';
-   counter.style.right='20px';
+   counter.style.right='30px';
    vsidebar.innerHTML='«';
    }
 }
 else if(c=='KeyR'){
    resetlist();} 
+else if(c=='KeyU'){
+   resetlist(1-uncountablemode);} 
 else if(c=='KeyI'||c=='KeyO'||c=='KeyP'){
    let i=c=='KeyI'?2:c=='KeyP'?1:0;
    if(i!=format){
@@ -3100,28 +4257,21 @@ else if(c=='KeyI'||c=='KeyO'||c=='KeyP'){
       if(document.getElementById('ex6')!=null){
          mousetag='';mousetagp=xs;
          mouseoverupdate(lea);}
-      }  
-   }  
-/*else if(c=='KeyM'){
-   let initscroll=listc.scrollTop;
-   indenttransform();
-   mousetag='';
-   scrollli(lea);
-   scrollli(pairl[1]);
-   listc.scrollTop=initscroll;
-   mouseoverupdate();
-   }     
-else if(c=='KeyN'){
-   let initscroll=listc.scrollTop;
-   indentvisible=1-indentvisible;
-   indentvisibletransform(list,false);
-   mousetag='';
-   scrollli(lea);
-   scrollli(pairl[1]);
-   listc.scrollTop=initscroll;
-   mouseoverupdate();
-   }*/
+      }
+   }
 else if(c=='KeyJ'||c=='KeyK'||c=='KeyL'){
+   let i=c=='KeyJ'?2:c=='KeyK'?1:0;
+   if(i==2&&indentvisible)
+      {
+      indentar[indentmode].style.background='#fff';
+      indentar[2].style.background='#d0ffd0';
+      }
+   else if(i<2&&(!indentvisible||i!=indentmode))
+      {
+   	indentar[2].style.background='#fff';
+   	indentar[indentmode].style.background='#fff';
+      indentar[i].style.background='#d0ffd0';
+      }
   if((c=='KeyK'&&!indentmode)||(c=='KeyL'&&indentmode))
       {
       //let initscroll=listc.scrollTop;
@@ -3130,7 +4280,6 @@ else if(c=='KeyJ'||c=='KeyK'||c=='KeyL'){
       if(lea&&lea.style.background)
         {scrollli(lea);
          scrollli(pairl[1]);}
-      //listc.scrollTop=initscroll;
       mouseoverupdate();
       }
    if(((c=='KeyK'||c=='KeyL')&&!indentvisible)||(c=='KeyJ'&&indentvisible))
@@ -3148,25 +4297,17 @@ else if(c=='KeyJ'||c=='KeyK'||c=='KeyL'){
       if(lea&&lea.style.background)
         {scrollli(lea);
          scrollli(pairl[1]);}
-      //listc.scrollTop=initscroll;
       mouseoverupdate();
       }
+   nextl=updateli(nextl);
+   markedli=updateli(markedli);
+   setmarkedli(markedli,false);
+   expcolmarksupdate();
    }
+   
 else if(c=='Space'||c=='Enter'||c=='KeyC'||c=='Backspace'){
    if(markedli)
-      {let eo1=eo;
-      seteo(c=='Space'?0:c=='Backspace'?-1:1);
-      if(c=='KeyC')
-         nextlb=true;
-      mouseoverupdate(markedli);
-      markedli.click();
-      //scrolly(markedli);
-      scrollli(markedli);
-      seteo(eo1);
-      mousetag='';mousetagp=xs;
-      mouseoverupdate();
-      nextlb=false;
-      }
+      doexpcol(c);
    }
 else if(c=='ArrowUp'){
    if(markedli)
@@ -3174,10 +4315,7 @@ else if(c=='ArrowUp'){
       if(c.id=='-')
          c=markedli;
          {setmarkedli(c);
-         //scrolly(c);
-         //let initscroll=listc.scrollTop;
          scrollli(c);
-         //listc.scrollTop=initscroll;
          mousetag='';mousetagp=xs;
          mouseoverupdate();
          }
@@ -3186,24 +4324,45 @@ else if(c=='ArrowUp'){
 else if(c=='ArrowDown'){
    let c=(markedli&&markedli.id!=initlargeordinal)?nl(markedli):markedli;
       {  setmarkedli(c);
-         //scrolly(c);
-         //let initscroll=listc.scrollTop;
          scrollli(c);
-         //listc.scrollTop=initscroll;
          mousetag='';mousetagp=xs;
          mouseoverupdate();
       }
    }
+else if(c=='ArrowLeft'){
+   if(fsnumber>1)
+      {
+      fscurrent='';
+      subperiodpositionshift--;
+      if(subperiodpositionshift<0)
+         subperiodpositionshift=fsnumber-1;
+      fselementsupdate();
+      }
+   }
+else if(c=='ArrowRight'){
+   if(fsnumber>1)
+      {
+      fscurrent='';
+      subperiodpositionshift++;
+      if(subperiodpositionshift>=fsnumber)
+         subperiodpositionshift=0;
+      fselementsupdate();
+      }
+   }
 else if(c=='KeyM'){
    nlevels++;
+   bolevels++;
    initlargeordinalupdate();
    }
 else if(c=='KeyN'){
    if(nlevels)
+      {
       nlevels--;
+      bolevels--;
+      }
    initlargeordinalupdate();
    }
-else if(c=='KeyB'){
+/*else if(c=='KeyB'){
    if(bolevels<nlevels)
       bolevels++;
    initlargeordinalupdate();
@@ -3212,6 +4371,12 @@ else if(c=='KeyV'){
    if(bolevels)
       bolevels--;
    initlargeordinalupdate();
+   }*/
+else if(c=='KeyA'){
+   window.prompt("Copy to clipboard: Ctrl+C", markedli.id);
+   }
+else if(c=='KeyS'){
+   window.prompt("Copy to clipboard: Ctrl+C", convert(markedli.id));
    }
 mousetextupdate(mousex,mousey);	 	       	
 }}
@@ -3221,7 +4386,10 @@ function initlargeordinalupdate()
 {if(bolevels>nlevels)
    bolevels=nlevels;
 fscurrent='';
+leastepsilon='['.repeat(nlevels)+col+'!'.repeat(nlevels);
+leastepsilonbb='['.repeat(nlevels+1)+col+'!'.repeat(nlevels+1);
 leastr=nlevels>1?'['.repeat(nlevels-2)+col+'!'.repeat(nlevels-2):'d';
+leastuncounable=nlevels?'['.repeat(nlevels-1)+col+'!'.repeat(nlevels-1):'d';
 initlargeordinal=nlevels==bolevels?bo:'['.repeat(bolevels)+('['.repeat(nlevels-bolevels)+col+'!'.repeat(nlevels-bolevels)).repeat(2)+'!'.repeat(bolevels);
 resetlist();
 }
@@ -3230,13 +4398,17 @@ window.onkeydown = function(e) {
   return !((e.keyCode==32||e.keyCode==38||e.keyCode==40) && e.target == document.body);
 };
 
-let bo='Some large ordinal',col='c',eo=0,efs=0,
-exp=['small expansion','single expansion','double expansion','triple expansion','quadruple expansion','quintuple expansion','sextuple expansion','septuple expansion','octuple expansion','ninefold expansion'];
-exp[-1]='collapse',exp[-2]='view';
-let etar=[et0,et1,et2,et3,et4,et5,et6,et7,et8,et9];
-etar[-1]=etc,etar[-2]=etv;
+let uncountablemode=0;
+let uncountablemodeinitnames=['Some large countable ordinal','Some large uncountable ordinal'];
+let bo=uncountablemodeinitnames[uncountablemode],col='c',eo=0,efs=0,
+//exp=['expansion','recursive expansion','double recursive expansion','triple recursive expansion','quadruple recursive expansion','quintuple recursive expansion','sextuple recursive expansion','septuple recursive expansion','octuple recursive expansion','ninefold recursive expansion'];
+//exp[-1]='collapse',exp[-2]='view';
+exp=['Expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand','Recursivly expand'];
+exp[-1]='Collapse',exp[-2]='view';
 let count=1,vt=true,pairb=[],pairl=[],exb=[],di=5,fsl,fsn,fsp,lea,format=1,ps=[];
+let countdifference,multicount;
 let far=[for0,for1,for2];
+let indentar=[indentmode0,indentmode1,indentmode2];
 let mousex,mousey;
 let gtkey=3,ltkey=3;
 let processing=true;
@@ -3244,52 +4416,59 @@ let indentmode=1;
 let indentvisible=1;
 let keytcheck=true;
 let mousetag,mousetagp=xs;
-let fscurrent,fsopening,fsperiod0,fsperiod1,fsending;
+let fscurrent,fsopening,fsperiod0,fsperiod1,fsending,cofcurrent,cofclass,cardclass;
+let fsnumber=1,fsopeningarray,fsperiodarray,fsendingarray;
+let cofclasslist=['','zero','successor','regular cardinal','singular cardinal'];
+let cardclasslist=['finite cardinal','countable','uncountable','countable cardinal','uncountable cardinal'];
 let ulnar=['UL1','UL'];
 let markedli;
 let prevsmallexp,nextsmallexpn;
-let nextl,nextlb=false;
+let nextl,nextlb=false,mulcounter=1;
 let nlevels=2;
 let bolevels=2;
 let leastr;
-
+let vero=0;
+let spn=true;
+let subperiodpositionshift=0;
+let leastuncounable,leastepsilon,leastepsilonbb;
 let initlargeordinal=bo;
+let sugar=[1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff00','#d0ffff','#d0ffd0','#d0ffd0','#ffe0e0','#fff0e0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#ffd0ff','#ffd0ff','#d0e0ff','#d0e0ff'];
 initlargeordinalupdate();
-//let initlargeordinal='[[c![c!!';
+//initlargeordinal='[c[[c[c!!!![c[[c[c!!!!'; resetlist();
 //let initlargeordinal=col;
 //let initlargeordinal=bb('',col);
-resetlist();
 seteo(eo);
 
+/*
+let st=`let str='';
+for(let j=1;j<50;j++)
+   str+='[]';
+list.innerHTML+=str;`;
+eval(st);
+*/
 
 /*
+//format=0;
 let st='[c[[c[c!!!!';
 st='[c[[c[[c[c!!!!!!';
 st='[[c![[c![c!!!';
-st='[[c[[c[[c!!!!![c[[c[[[c[[c!!!!![c[[c!!!!!!!';
-list.innerHTML+=convert(st)+'<br/>';
-list.innerHTML+=checkstring(st)+'<br/>';
+st='[[c![[c![[c![[c![[[c!!!!!!!';
+st=booster(st);
+st=cnf(st); 
+st=cnf(JSON.parse(JSON.stringify(st)),true); 
+  
+list.innerHTML+=(JSON.stringify(st)).toString().replaceAll('!',']').replaceAll('"','');
+//list.innerHTML+=convert(st)+'<br/>';
+//list.innerHTML+=checkstring(st)+'<br/>';
 */
-   
-   
-/*let st='[[c[c!![[c[[c[[c[c!!!!!!!!';
-st='[c[c!![[c[[c[[c[c!!!!!!!';
-st='[[c[[c[[c[c!!!!!!!';
-st='[c[[c[[c[c!!!!!!';
-//st='[[c[[c[c!!!!!';
-//st='[c[[c[c!!!!';
 
-
-
-list.innerHTML+=convert(st)+'<br/>';
-list.innerHTML+=checkstring(st)+'<br/>';*/
-//list.innerHTML+=checkstring('[[c![[[c![[c!!!!!')+'<br/>';
-//list.innerHTML+=fs('[[![!!','',1);
-//list.innerHTML+=fs('[c[[c!!!','',1);
-
-/*for(let e of etar.slice(1))
-   e.style.fontSize='18px';*/
-dis.innerHTML='   '+di+'   ';
+//dis.innerHTML='   '+di+'   ';
+dis.innerHTML='displayed<br/>fs elements: '+di;
+//decintoboostersl.innerHTML='   '+sugar[4]+'   ';
+decintoboostersl.innerHTML='decomposition<br/>into boosters: '+sugar[4];
 far[format].style.background='#d0ffd0';
+indentar[indentvisible?indentmode:2].style.background='#d0ffd0';
+fs(initlargeordinal,'',0);
 
 </script></div></body></html>
