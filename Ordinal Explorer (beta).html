@@ -2307,6 +2307,8 @@ if(op=='[!')
 //let e=flooreps(op);
 //if(sugar[40]&&booster(e)<nextzeta(e,1))
 //if(sugar[40]&&booster(op)<nextzeta(op,1))
+if(sugar[30]&&getepslevel(op)==1)
+   return convertepsilon0(op,format);
 if(sugar[40])
    return convertbuchholz(op);
 if(isepsilon(op))
@@ -2822,7 +2824,7 @@ if(isomegap(st))
 if(sugar[8])
    {
    let sop=stringtosop(st);
-   if(sugar[9]&&!(sugar[10]&&sugar[11]))
+   if(sugar[9]&&!(sugar[10]&&sugar[11]&&!sugar[40]))
       {
       let sopn=soptosopn(sop);
       /*if(sugar[10])
@@ -2835,7 +2837,7 @@ if(sugar[8])
    if(sugar[10])
       {
       let sepa=soptosepa(sop);
-      if(sugar[11])
+      if(sugar[11]&&!sugar[40])
          {
          let sepsum=sepatosepsum(sepa);
          return convertsum(convertsepsum(sepsum));
