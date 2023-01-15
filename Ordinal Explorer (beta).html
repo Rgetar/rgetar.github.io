@@ -1033,7 +1033,7 @@ if(st<'[[!!')
    cardclass=0;
    return st;
    }
-if(st<leastuncounable)
+if(st<leastuncountable)
    {
    cardclass=1;
    return '[[!!';
@@ -1049,7 +1049,7 @@ return st;
 function ecard(st)
 {
 let c=card(st);
-if(c<leastuncounable)
+if(c<leastuncountable)
    return '';
 return st;
 }
@@ -2114,10 +2114,12 @@ if(e>=0)
 	   return shortpropernames[e];
    }
 //if(sugar[40]&&(getepslevel(st)==1||booster(st)<nextzeta(st,1)))
-let g=getepslevel(st);
-if(sugar[30]&&g==1)
-   return convertepsilon0(st,format)+t;
-if(sugar[40]&&g<2)
+//let g=getepslevel(st);
+//if(sugar[30]&&g==1)
+if(sugar[30]&&st>=leastuncountable)
+   return convertepsilon0(st,format)+t; 
+//if(sugar[40]&&g<2)
+if(sugar[40]&&getepslevel(st)<2)
    return convertbuchholz(st)+t;
 return convertepsilon0(st,format)+t;
 }
@@ -2307,9 +2309,11 @@ if(op=='[!')
 //let e=flooreps(op);
 //if(sugar[40]&&booster(e)<nextzeta(e,1))
 //if(sugar[40]&&booster(op)<nextzeta(op,1))
-if(sugar[30]&&getepslevel(op)==1)
-   return convertepsilon0(op,format);
-if(sugar[40])
+//if(sugar[30]&&getepslevel(op)==1)
+//   return convertepsilon0(op,format);
+//if(sugar[40])
+//   return convertbuchholz(op);
+if(sugar[40]&&!(sugar[30]&&op>=leastuncountable))
    return convertbuchholz(op);
 if(isepsilon(op))
    return convertepsilon(op);
@@ -4502,20 +4506,20 @@ fscurrent='';
 leastepsilon='['.repeat(nlevels)+col+'!'.repeat(nlevels);
 leastepsilonbb='['.repeat(nlevels+1)+col+'!'.repeat(nlevels+1);
 leastr=nlevels>1?'['.repeat(nlevels-2)+col+'!'.repeat(nlevels-2):'d';
-leastuncounable=nlevels?'['.repeat(nlevels-1)+col+'!'.repeat(nlevels-1):'d';
+leastuncountable=nlevels?'['.repeat(nlevels-1)+col+'!'.repeat(nlevels-1):'d';
 initlargeordinal=nlevels==bolevels?bo:'['.repeat(bolevels)+('['.repeat(nlevels-bolevels)+col+'!'.repeat(nlevels-bolevels)).repeat(2)+'!'.repeat(bolevels);
 propernamestring=[leastepsilon];      // Small Cantor ordinal
 if(nlevels)
    {
-   propernamestring.push(bb('',bb(leastuncounable,leastuncounable)));                                           // Cantor ordinal
-   propernamestring.push(bb('',bb(bb(leastuncounable,leastuncounable),leastuncounable)));                       // Large Cantor ordinal
-   propernamestring.push(bb('',bb(leastuncounable,bb(leastuncounable,leastuncounable))));                       // Feferman–Schütte ordinal
-   propernamestring.push(bb('',bb(leastuncounable,bb(bb(leastuncounable,leastuncounable),leastuncounable))));   // Ackermann ordinal
-   propernamestring.push(bb('',bb(leastuncounable,bb(leastuncounable,bb(leastuncounable,'')))));                // Small Veblen ordinal
-   propernamestring.push(bb('',bb(leastuncounable,bb(leastuncounable,bb(leastuncounable,leastuncounable)))));   // Large Veblen ordinal
+   propernamestring.push(bb('',bb(leastuncountable,leastuncountable)));                                           // Cantor ordinal
+   propernamestring.push(bb('',bb(bb(leastuncountable,leastuncountable),leastuncountable)));                       // Large Cantor ordinal
+   propernamestring.push(bb('',bb(leastuncountable,bb(leastuncountable,leastuncountable))));                       // Feferman–Schütte ordinal
+   propernamestring.push(bb('',bb(leastuncountable,bb(bb(leastuncountable,leastuncountable),leastuncountable))));   // Ackermann ordinal
+   propernamestring.push(bb('',bb(leastuncountable,bb(leastuncountable,bb(leastuncountable,'')))));                // Small Veblen ordinal
+   propernamestring.push(bb('',bb(leastuncountable,bb(leastuncountable,bb(leastuncountable,leastuncountable)))));   // Large Veblen ordinal
 if(nlevels>1)
       {
-      propernamestring.push(bb('',bb(leastuncounable,leastr)));                       // Bachmann-Howard ordinal
+      propernamestring.push(bb('',bb(leastuncountable,leastr)));                       // Bachmann-Howard ordinal
       propernamestring.push(bb('',bb('',bb(leastr,''))));                             // Buchholz ordinal
       propernamestring.push(bb('',bb(bb('',bb(leastr,'')),leastr)));                  // Takeuti-Feferman-Buchholz ordinal
       propernamestring.push(bb('',bb('',bb(leastr,leastr))));                         // Extended Buchholz ordinal
@@ -4562,7 +4566,7 @@ let leastr;
 let vero=0;
 let spn=true;
 let subperiodpositionshift=0;
-let leastuncounable,leastepsilon,leastepsilonbb;
+let leastuncountable,leastepsilon,leastepsilonbb;
 let initlargeordinal=bo;
 let sugar=[1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,23,24,25,26,27,28,29,1,31,32,33,34,35,36,37,38,39,1];
 let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff00','#d0ffff','#d0ffd0','#d0ffd0','#ffe0e0','#fff0e0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#ffd0ff','#ffd0ff','#d0e0ff','#d0e0ff',23,24,25,26,27,28,29,'#c0ffff',31,32,33,34,35,36,37,38,39,'#ffd000'];
