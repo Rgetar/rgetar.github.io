@@ -332,8 +332,6 @@ outline:1px solid #909090;
 border-radius:0 4px 4px 0;
 line-height:15px;
 font-size:11px;
-margin-right:135px;
-margin-bottom:15px;
 cursor:pointer;
 ">sup</div
 ><div id="sugarbuttona20" hidden style="
@@ -362,7 +360,7 @@ line-height:15px;
 font-size:11px;
 cursor:pointer;
 ">sub</div
-><div id="sugarbutton21" hidden style="
+><div id="sugarbutton21" style="
 background:#d0e0ff;
 margin-right:35px;
 min-width:40px;
@@ -376,9 +374,9 @@ font-size:11px;
 margin-bottom:5px;
 cursor:pointer;
 ">names</div
-><div id="sugarbutton22" hidden style="
+><div id="sugarbutton22" style="
 background:#d0e0ff;
-margin-right:135px;
+margin-right:5px;
 min-width:66px;
 min-height:16px;
 text-align:center;
@@ -387,9 +385,36 @@ outline:1px solid #909090;
 border-radius:4px;
 line-height:15px;
 font-size:11px;
-margin-bottom:15px;
 cursor:pointer;
 ">short names</div
+><div id="sugarbutton30" style="
+background:#c0ffff;
+margin-right:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+">Ω</div
+><div id="sugarbutton40" style="
+background:#ffd000;
+margin-right:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:15px;
+font-size:11px;
+margin-right:85px;
+margin-bottom:15px;
+cursor:pointer;
+">ψ</div
 >
 <div id="decdec" style="
 float:left;
@@ -593,7 +618,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▻</div>
 
-<span style="font-size:11px">    last updated: 15 January 2023</span>
+<span style="font-size:11px">    last updated: 16 January 2023</span>
 <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">   old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -959,13 +984,22 @@ return flooreps(base(st),n);
 // n = 1: least Omega above st
 // n = 2: least L above L st
 //...
-function nexteps(st,n)
+function nexteps(st,n=0)
 {
 if(st>=col||n>nlevels)
    return 'd';
 if(n==nlevels)
    return col;
 return bb(flooreps(st,n),nexteps(st,n+1));
+}
+
+function nextzeta(st,n=0)
+{
+if(st>=col||n>nlevels)
+   return 'd';
+if(n==nlevels)
+   return bb(col,col);
+return bb(flooreps(st,n),nextzeta(st,n+1));
 }
 
 function card(st)
@@ -1457,7 +1491,8 @@ function displayform(st,ext=false){
 if(st=='')
     return 0;
 if(!Array.isArray(st))
-   return convertepsilon(st,ext);
+   //return convertepsilon0(st,ext);
+   return convertepsilon(st);
 if(ext){
    if(st[0].length==2)
       return displayform(st);   
@@ -1470,7 +1505,8 @@ if(ext){
       if(e=='')
          s+=displayform(st[i][2]);
       else{  
-         s+=convertepsilon(e,true);
+         //s+=convertepsilon0(e,true);
+         s+=convertepsilon(e);
          ex=st[i][1];
          m=displayform(st[i][2],true);
       	if(Array.isArray(st[i][2])&&st[i][2].length>1)
@@ -1504,6 +1540,7 @@ else{
       else if(ex=='')
          s+=st[i][1];
       else{
+         //s+=convertepsilon0(ex);
          s+=convertepsilon(ex);
          if(st[i][1]!='1'){
             if(s[s.length-1]=='!')
@@ -1667,7 +1704,7 @@ if(booster(x1)==col)
 return st;
 }
 
-function convertepsilon(st,ext=false){
+function convertepsilon0(st,ext=false){
 if(!nlevels&&st==col)
    return 'ε<sub>0</sub>';
 
@@ -1677,7 +1714,7 @@ if(nlevels==1&&st==col)
 if(st==col||st==bo)
    return st;
     
-if(spn)
+/*if(spn)
    {
    if(st=='[[c![[c![[c![!!!!')
       return 'SVO';
@@ -1697,7 +1734,7 @@ if(spn)
       return 'RO';
    //else if(st=='[c[c[c[c!!!!')
    //   return 'k';
-   }
+   }*/
 
 /*if(st=='[[[[c!c!!c!')   
    return 'I';
@@ -1723,7 +1760,7 @@ if(f1==nexteps(f2,1))
    sy='φ';
    f=f1;
    j=f;
-   maxx=nexteps(f,0);
+   maxx=nexteps(f);
    }
 //else if(f1==l)
 /*else if(floorOmega(x,l)==l)
@@ -1733,7 +1770,7 @@ if(f1==nexteps(f2,1))
    f=bb(beta,f);
    j=bb(l,f);
    j=bb(beta,j);
-   maxx=bb(l,nexteps(f,0));
+   maxx=bb(l,nexteps(f));
    }*/
 else if(f==col){
    sy='Φ';
@@ -2058,6 +2095,33 @@ else
 }
 //return (format>1?st:JSON.stringify(cnf(st,format))).toString().replaceAll('!',']').replaceAll('"','');}
 
+// if b then st is not substring
+function convertepsilon(st,b=false)
+{
+if(st==col)
+   return convertc();
+let e=propernamestring.indexOf(st);
+let t='';
+if(e>=0)
+   {
+   let s=sugar[22]&&shortpropernames[e];
+   if(b)
+      {
+      if(s||sugar[21])
+         t+=' <small>('+(sugar[21]?propernames[e]:'')+(s&&sugar[21]?', ':'')+(s?shortpropernames[e]:'')+')</small>';
+      }
+   else if(s)
+	   return shortpropernames[e];
+   }
+//if(sugar[40]&&(getepslevel(st)==1||booster(st)<nextzeta(st,1)))
+let g=getepslevel(st);
+if(sugar[30]&&g==1)
+   return convertepsilon0(st,format)+t;
+if(sugar[40]&&g<2)
+   return convertbuchholz(st)+t;
+return convertepsilon0(st,format)+t;
+}
+
 // is β[X] == ω^p
 function isomegap(st)
 {
@@ -2074,7 +2138,10 @@ function convertomega()
 {
 if(sugar[15])
    return 'ω';
-return '[[!!';
+if(sugar[40])
+   return displaypsi(convertzero(),convertone());
+return '['+convertone()+'!';
+//return '[[!!';
 }
 
 /*function convertfinite(st)
@@ -2091,7 +2158,7 @@ if(m=='[!')
 st=st=='[[!!'?convertomega():convertsubstring(st);
 m=m<'[[!!'?convertfinite(m):convertsubstring(m);
 if(!sugar[17]||m[0]=='[')
-   st+=sugar[16]?'·':'×';
+   st+=multiplicationsign[sugar[16]];
 return st+m;
 }*/
 
@@ -2131,7 +2198,7 @@ function convertproduct(st,m)
 {
 m=sumtoterm(m);
 if(!sugar[17]||m[0]=='[')
-   st+=sugar[16]?'·':'×';
+   st+=multiplicationsign[sugar[16]];
 return powertofactor(st)+m;
 }
 
@@ -2149,23 +2216,84 @@ function convertpower(st,p)
 {
 if(sugar[19])
    return st+'<sup>'+p+'</sup>';
-return st+'^'+sumtoterm(p);
+return powertofactor(st)+'^'+sumtoterm(p);
 }
 
 function convertsubscript(st,p)
 {
 if(sugar[20])
    return st+'<sub>'+p+'</sub>';
-return st+'_'+p;
+return powertofactor(st)+'_'+sumtoterm(p);
+}
+
+function displayfunction(f,sub,st,subexists=true)
+{
+return (subexists?convertsubscript(f,sub):f)+'('+st+')';
+}
+
+function displaypsi(sub,st,subexists=true)
+{
+return displayfunction('ψ',sub,st,subexists);
+}
+
+function getOmeganumber(st)
+{
+/*if(!st)
+   return '';
+let l=getepslevel(st);
+if(l>1)
+   return st;*/
+let f=nexteps(st,2);
+if(booster(st)>=bb(f,f))
+   return st;
+let sopc=[];
+while(st)
+   {
+   sopc.push(booster(st));
+   st=base(st);
+   }
+sopc=sopdividedbyepsilon(sopc,leastr);
+return soptostring(sopc);
+}
+
+
+function convertbuchholz(st)
+{
+let c=flooreps(st,1);
+let sop=[];
+while(st!=c)
+   {
+   sop.push(booster(st));
+   st=base(st);
+   }
+if(!c)
+   return displaypsi(convertzero(),convertsubstring(soptostring(sop),-1,-1));
+if(c==col)
+   return displaypsi(nlevels==1?convertone():convertc(),convertsubstring(soptostring(sop),-1,-1));
+let g=getOmeganumber(c);
+if(c==g)
+   return displaypsi(convertepsilon0(c,format),convertsubstring(soptostring(sop),-1,-1));
+return displaypsi(convertsubstring(g,-1,-1),convertsubstring(soptostring(sop),-1,-1));
+/*let sopc=[];
+while(c)
+   {
+   sopc.push(booster(c));
+   c=base(c);
+   }
+sopc=sopdividedbyepsilon(sopc,leastr);
+return displaypsi(convertsubstring(soptostring(sopc),-1,-1),convertsubstring(soptostring(sop),-1,-1));*/
 }
 
 function convertone()
 {
 if(sugar[14])
    return '1';
-if(sugar[13])
-   return convertpower(convertomega(),convertzero(''));
-return '[!';
+if(sugar[40])
+   return displaypsi(convertzero(),convertzero());
+//if(sugar[13])
+//   return convertpower(convertomega(),convertzero());
+return '['+convertzero()+'!';
+//return '[!';
 }
 
 //function convertop(st,b=true)
@@ -2176,16 +2304,25 @@ if(!op)
 if(op=='[!')
    return convertomega();
 //if(b&&isepsilon(st))
+//let e=flooreps(op);
+//if(sugar[40]&&booster(e)<nextzeta(e,1))
+//if(sugar[40]&&booster(op)<nextzeta(op,1))
+if(sugar[40])
+   return convertbuchholz(op);
 if(isepsilon(op))
-   return convertepsilon(op,format);
+   return convertepsilon(op);
 if(sugar[10]&&op>=leastepsilon)
    return convertepa(optoepa(op));
 //return convertpower('[[!!',op);
-return sugar[13]?convertpower(convertomega(),convertsubstring(op)):bb('',convertsubstring(op));
+if(sugar[13])
+   return convertpower(convertomega(),convertsubstring(op,-1,-1));
+return bb('',convertsubstring(op,-1,-1));
+//return sugar[13]?convertpower(convertomega(),convertsubstring(op,-1,-1)):bb('',convertsubstring(op,-1,-1));
 }
 
 /*function getop(st)
-{
+{let l=getepslevel(st);
+if
 return booster(st);
 if(st<leastepsilon)
    return booster(st);
@@ -2194,10 +2331,10 @@ let beta=base(st);
 return x>beta?x:bb(beta,booster(x));
 }*/
 
-function convertomegap(st)
+function convertomegap(st,b)
 {
 if(isepsilon(st))
-   return convertepsilon(st,format);
+   return convertepsilon(st,b);
 //return convertop(booster(st),false);
 //if(base(st)!=flooreps(booster(st)))
 //   alert(st);
@@ -2256,19 +2393,20 @@ function soptosopn(sop)
 let sopn=[];
 let op=sop[0];
 let n=1;
-//let n='';
 for(let e=1;e<sop.length;e++)
    if(sop[e]==op)
       n++;
-      //n+='[!';
    else
       {
-      sopn.push([op,n]);
+      //sopn.push([op,n]);
+      //sopn.push(op?[op,n]:n);
+      sopn.push(op?n>1?[op,n]:op:n);
       op=sop[e];
       n=1;
-      //n='[!';
       }
-sopn.push([op,n]);
+//sopn.push([op,n]);
+//sopn.push(op?[op,n]:n);
+sopn.push(op?n>1?[op,n]:op:n);
 return sopn;
 }
 
@@ -2414,6 +2552,11 @@ if(op<bb(e,bb(e,'')))
 return op;*/
 }
 
+function sopdividedbyepsilon(sop,e)
+{
+return sop.map(op=>opdividedbyepsilon(op,e))
+}
+
 function optoepa(op)
 {
 if(op<leastepsilon)
@@ -2426,7 +2569,8 @@ let sop=stringtosop(op);
 let m,p;
 [m,p]=sopslice(sop,e);
 m=soptostring(m);
-p=p.map(i=>opdividedbyepsilon(i,e));
+//p=p.map(i=>opdividedbyepsilon(i,e));
+p=sopdividedbyepsilon(p,e);
 p=soptostring(p);
 return [e,p,m];
 }
@@ -2457,7 +2601,7 @@ while(i<sepa.length&&!Array.isArray(sepa[i]))
    i++;
 if(i)
    {
-   sepsum=soptosopn(sepa.slice(0,i));
+   sepsum=sugar[9]?soptosopn(sepa.slice(0,i)):sepa.slice(0,i);
    sepa=sepa.slice(i);
    }
 if(sepa.length)
@@ -2566,13 +2710,17 @@ return sepsum.map(convertepsum);
 
 function convertnatural(n)
 {
+//if(!n)
+//   return convertzero();
+if(n==1)
+   return convertone();
 if(sugar[18])
    return n;
 let s9=sugar[9];
 let s10=sugar[10];
 sugar[9]=0;
 sugar[10]=0;
-let st=convertsubstring('[!'.repeat(n));
+let st=convertsubstring('[!'.repeat(n),-1,-1);
 sugar[9]=s9;
 sugar[10]=s10;
 return st;
@@ -2580,6 +2728,8 @@ return st;
 
 function convertopn(opn)
 {
+if(!Array.isArray(opn))
+   return isNaN(opn)?convertop(opn):convertnatural(opn);
 if(sugar[13])
    {
    if(opn[1]==1)
@@ -2599,11 +2749,11 @@ if(!Array.isArray(epa))
    return convertop(epa);
 if(sugar[13])
    {
-   let a=epa[1]=='[!'?convertepsilon(epa[0],format):convertpower(convertepsilon(epa[0],format),convertsubstring(epa[1])); 
+   let a=epa[1]=='[!'?convertepsilon(epa[0]):convertpower(convertepsilon(epa[0]),convertsubstring(epa[1],-1,-1)); 
    return epa[2]?convertproduct(a,convertop(epa[2])):a;
    }
-epa[0]=convertepsilon(epa[0],format);
-epa[1]=convertsubstring(epa[1]);
+epa[0]=convertepsilon(epa[0]);
+epa[1]=convertsubstring(epa[1],-1,-1);
 epa[2]=convertop(epa[2]);
 return JSON.stringify(epa).replaceAll('"','');
 }
@@ -2619,7 +2769,7 @@ if(sugar[13])
       return st;
    return convertproduct(st,convertnatural(opn[1]));
    }
-epan[0]=convertepsilon(epan[0],format);
+epan[0]=convertepsilon(epan[0]);
 epan[1]=convertsubstring(epan[1]);
 epan[2]=convertop(epan[2]);
 epan[3]=convertnatural(epan[3]);
@@ -2628,19 +2778,20 @@ return JSON.stringify(opn).replaceAll('"','');
 
 function convertepsum(epsum)
 {
+if(!Array.isArray(epsum))
+   return !epsum||isNaN(epsum)?convertop(epsum):convertnatural(epsum);
 if(epsum.length==2)
    return convertopn(epsum);
 if(sugar[13])
    {
-   let a=epsum[1]=='[!'?convertepsilon(epsum[0],format):convertpower(convertepsilon(epsum[0],format),convertsubstring(epsum[1])); 
-   return epsum[2]=='[!'?a:convertproduct(a,convertsubstring(epsum[2]));
+   let a=epsum[1]=='[!'?convertepsilon(epsum[0]):convertpower(convertepsilon(epsum[0]),convertsubstring(epsum[1],-1,-1)); 
+   return epsum[2]=='[!'?a:convertproduct(a,convertsubstring(epsum[2],-1,-1));
    }
-epsum[0]=convertepsilon(epsum[0],format);
-epsum[1]=convertsubstring(epsum[1]);
-epsum[2]=convertsubstring(epsum[2]);
+epsum[0]=convertepsilon(epsum[0]);
+epsum[1]=convertsubstring(epsum[1],-1,-1);
+epsum[2]=convertsubstring(epsum[2],-1,-1);
 return JSON.stringify(epsum).replaceAll('"','');
 }
-
 
 function convertsop(sop)
 {
@@ -2649,7 +2800,7 @@ return sop.map(convertop);
 
 function convertsopn(sopn)
 {
-return sopn.map(s=>convertopn(s));
+return sopn.map(convertopn);
 }
 
 function convertsum(sum)
@@ -2664,14 +2815,14 @@ if(sugar[12])
 return JSON.stringify(sum).replaceAll('"','');
 }
 
-function convertbb(st)
+function convertbb(st,b)
 {
 if(isomegap(st))
-   return convertomegap(st);
+   return convertomegap(st,b);
 if(sugar[8])
    {
    let sop=stringtosop(st);
-   if(sugar[9]&&!sugar[11])
+   if(sugar[9]&&!(sugar[10]&&sugar[11]))
       {
       let sopn=soptosopn(sop);
       /*if(sugar[10])
@@ -2697,26 +2848,26 @@ return st;
 //return convert0(st,0);
 }
 
-function convertzero(st,c=true)
+function convertzero(c=true)
 {
 if(sugar[2]&&c)
    return '0';
-return st;
+return '';
 }
 
-function convertc(st)
+function convertc()
 {
-return st;
+return col;
 }
 
 function convertsubstring(st,a=sugar[4],b=sugar[6],c=true)
 {
 if(!st)
-   return convertzero(st,c);
+   return convertzero(c);
 if(st==col)
-   return convertc(st);
+   return convertc();
 if((!sugar[5]&&a<=0)||(!sugar[7]&&b<=0))
-   return convertbb(st);
+   return convertbb(st,a==sugar[4]&&b==sugar[6]);
 else
    return bb(convertsubstring(base(st),a,b-1,false),convertsubstring(booster(st),a-1,b));
 }
@@ -2728,64 +2879,14 @@ return st;
 
 function convert(st)
 {
-/*if(sugar[0])
+if(sugar[0])
    if(st==bo)
       st=convertbo(st);
    else
       st=convertsubstring(st);
 if(sugar[1])
    st=st.replaceAll('!',']');
-return st;*/
-
-
-
-
-
-   if(format<2&&(st=='[[c![[c![[c![!!!!'||st=='[[c![[c![[c![[c!!!!!'||st=='[[c![c!!'||st=='[[c[!!!'||st=='[[c[!![c!!'||st=='[[c[c!!!'||st=='[[c[c!![c!!'||st=='[[c[c[c!!![c!!'))
-      spn=false;
-
-let s=st;
-
-if(sugar[0])
-   if(s==bo)
-      s=convertbo(s);
-   else
-      s=convertsubstring(s);
-if(sugar[1])
-   s=s.replaceAll('!',']');
-   
-   //if(format<2)
-   if(!sugar[4]&&format<2)
-   {
-   if(st=='[[c!!')
-      s+=' <small>(Small Cantor ordinal)</small>';
-   else if(st=='[[c![[c!!!')
-      s+=' <small>(Cantor ordinal)</small>';
-   else if(st=='[[c![[c!![[c!!!')
-      s+=' <small>(Large Cantor ordinal)</small>';
-   else if(st=='[[c![[c![[c!!!!')
-      s+=' <small>(Feferman–Schütte ordinal)</small>';
-   else if(st=='[[c![[c![[c!![[c!!!!')
-      s+=' <small>(Ackermann ordinal)</small>';
-   else if(st=='[[c![[c![[c![!!!!')
-      s+=' <small>(Small Veblen ordinal, SVO)</small>';
-   else if(st=='[[c![[c![[c![[c!!!!!')
-      s+=' <small>(Large Veblen ordinal, LVO)</small>';
-   else if(st=='[[c![c!!')
-      s+=' <small>(Bachmann-Howard ordinal, BHO)</small>';
-   else if(st=='[[c[!!!')
-      s+=' <small>(Buchholz ordinal, BO)</small>';
-   else if(st=='[[c[!![c!!')
-      s+=' <small>(Takeuti-Feferman-Buchholz ordinal, TFB)</small>';
-   else if(st=='[[c[c!!!')
-      s+=' <small>(Extended Buchholz ordinal, EBO)</small>';
-   else if(st=='[[c[c!![c!!')
-      s+=' <small>(Small Rathjen ordinal, SRO)</small>';
-   else if(st=='[[c[c[c!!![c!!')
-      s+=' <small>(Rathjen ordinal, RO)</small>';
-   }
-   spn=true;   
-return s;
+return st;
 }
 
 function rx(s,c,n,q){
@@ -3759,6 +3860,16 @@ sugarbutton22.onclick=function(e)
 sugarbuttonclick(e.target,22);
 }
 
+sugarbutton30.onclick=function(e)
+{
+sugarbuttonclick(e.target,30);
+}
+
+sugarbutton40.onclick=function(e)
+{
+sugarbuttonclick(e.target,40);
+}
+
 switchindentmode.onclick=function(e){
 let c=e.target;
 //if(c.tagName=='TD'){
@@ -4391,6 +4502,25 @@ leastepsilonbb='['.repeat(nlevels+1)+col+'!'.repeat(nlevels+1);
 leastr=nlevels>1?'['.repeat(nlevels-2)+col+'!'.repeat(nlevels-2):'d';
 leastuncounable=nlevels?'['.repeat(nlevels-1)+col+'!'.repeat(nlevels-1):'d';
 initlargeordinal=nlevels==bolevels?bo:'['.repeat(bolevels)+('['.repeat(nlevels-bolevels)+col+'!'.repeat(nlevels-bolevels)).repeat(2)+'!'.repeat(bolevels);
+propernamestring=[leastepsilon];      // Small Cantor ordinal
+if(nlevels)
+   {
+   propernamestring.push(bb('',bb(leastuncounable,leastuncounable)));                                           // Cantor ordinal
+   propernamestring.push(bb('',bb(bb(leastuncounable,leastuncounable),leastuncounable)));                       // Large Cantor ordinal
+   propernamestring.push(bb('',bb(leastuncounable,bb(leastuncounable,leastuncounable))));                       // Feferman–Schütte ordinal
+   propernamestring.push(bb('',bb(leastuncounable,bb(bb(leastuncounable,leastuncounable),leastuncounable))));   // Ackermann ordinal
+   propernamestring.push(bb('',bb(leastuncounable,bb(leastuncounable,bb(leastuncounable,'')))));                // Small Veblen ordinal
+   propernamestring.push(bb('',bb(leastuncounable,bb(leastuncounable,bb(leastuncounable,leastuncounable)))));   // Large Veblen ordinal
+if(nlevels>1)
+      {
+      propernamestring.push(bb('',bb(leastuncounable,leastr)));                       // Bachmann-Howard ordinal
+      propernamestring.push(bb('',bb('',bb(leastr,''))));                             // Buchholz ordinal
+      propernamestring.push(bb('',bb(bb('',bb(leastr,'')),leastr)));                  // Takeuti-Feferman-Buchholz ordinal
+      propernamestring.push(bb('',bb('',bb(leastr,leastr))));                         // Extended Buchholz ordinal
+      propernamestring.push(bb('',bb('',bb(bb(leastr,leastr),leastr))));              // Small Rathjen ordinal
+      propernamestring.push(bb('',bb('',bb(bb(leastr,bb(leastr,leastr)),leastr))));   // Rathjen ordinal
+      }
+   }
 resetlist();
 }
 
@@ -4432,8 +4562,12 @@ let spn=true;
 let subperiodpositionshift=0;
 let leastuncounable,leastepsilon,leastepsilonbb;
 let initlargeordinal=bo;
-let sugar=[1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff00','#d0ffff','#d0ffd0','#d0ffd0','#ffe0e0','#fff0e0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#ffd0ff','#ffd0ff','#d0e0ff','#d0e0ff'];
+let sugar=[1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,23,24,25,26,27,28,29,1,31,32,33,34,35,36,37,38,39,1];
+let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff00','#d0ffff','#d0ffd0','#d0ffd0','#ffe0e0','#fff0e0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#ffd0ff','#ffd0ff','#d0e0ff','#d0e0ff',23,24,25,26,27,28,29,'#c0ffff',31,32,33,34,35,36,37,38,39,'#ffd000'];
+let multiplicationsign=['×','·'];
+let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal'];
+let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','EBO','SRO','RO'];
+let propernamestring;
 initlargeordinalupdate();
 //initlargeordinal='[c[[c[c!!!![c[[c[c!!!!'; resetlist();
 //let initlargeordinal=col;
