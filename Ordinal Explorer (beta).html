@@ -2119,7 +2119,10 @@ if(e>=0)
 if(sugar[30]&&st>=leastuncountable)
    return convertepsilon0(st,format)+t; 
 //if(sugar[40]&&g<2)
-if(sugar[40]&&getepslevel(st)<2)
+//if(sugar[40]&&getepslevel(st)<2)
+//if(sugar[40]&&getepslevel(st)<2&&booster(st)<nextzeta(st,1))
+let neo=nexteps(st,1);
+if(sugar[40]&&getepslevel(st)<2&&booster(st)>=bb(neo,neo)&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
    return convertbuchholz(st)+t;
 return convertepsilon0(st,format)+t;
 }
@@ -2313,8 +2316,8 @@ if(op=='[!')
 //   return convertepsilon0(op,format);
 //if(sugar[40])
 //   return convertbuchholz(op);
-if(sugar[40]&&!(sugar[30]&&op>=leastuncountable))
-   return convertbuchholz(op);
+//if(sugar[40]&&!(sugar[30]&&op>=leastuncountable))
+//   return convertbuchholz(op);
 if(isepsilon(op))
    return convertepsilon(op);
 if(sugar[10]&&op>=leastepsilon)
@@ -4526,7 +4529,7 @@ if(nlevels>1)
       propernamestring.push(bb('',bb(bb('',bb(leastr,'')),leastr)));                  // Takeuti-Feferman-Buchholz ordinal
       propernamestring.push(bb('',bb('',bb(leastr,leastr))));                         // Extended Buchholz ordinal
       propernamestring.push(bb('',bb('',bb(bb(leastr,leastr),leastr))));              // Small Rathjen ordinal
-      propernamestring.push(bb('',bb('',bb(bb(leastr,bb(leastr,leastr)),leastr))));   // Rathjen ordinal
+      propernamestring.push(bb('',bb(bb('',bb(leastr,bb(leastr,leastr))),leastr)));   // Rathjen ordinal
       }
    }
 resetlist();
