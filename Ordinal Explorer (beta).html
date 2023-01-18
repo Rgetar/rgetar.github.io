@@ -2122,7 +2122,9 @@ if(sugar[30]&&st>=leastuncountable)
 //if(sugar[40]&&getepslevel(st)<2)
 //if(sugar[40]&&getepslevel(st)<2&&booster(st)<nextzeta(st,1))
 let neo=nexteps(st,1);
-if(sugar[40]&&getepslevel(st)<2&&booster(st)>=bb(neo,neo)&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
+neo=nexteps(neo,1);
+//if(sugar[40]&&getepslevel(st)<2&&booster(st)>=bb(neo,neo)&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
+if(sugar[40]&&getepslevel(st)<2&&booster(st)>=neo&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
    return convertbuchholz(st)+t;
 return convertepsilon0(st,format)+t;
 }
