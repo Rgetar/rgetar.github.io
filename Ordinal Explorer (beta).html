@@ -618,7 +618,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▻</div>
 
-<span style="font-size:11px">    last updated: 18 January 2023</span>
+<span style="font-size:11px">    last updated: 20 January 2023</span>
 <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">   old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -1953,6 +1953,16 @@ if(sy!=''&&compare(maxx,x)>0){
             	u--;
             u++;
             let ca=comparecnf(eex[u][2],cnf(beta));
+            if(ca<1&&eex.length>1)
+               while(u<eex.length-1&&comparecnf(f,eex[u][0])<1)
+                  {
+               	u++;
+               	if(comparecnf(cnf(beta),eex[u][2])<1)
+               	   {
+               	   ca=1;
+               	   break;
+               	   }
+               	}
             le=sumcnf(ca==1?'':ca==0?[['',1]]:beta,le);
             }
          break;
