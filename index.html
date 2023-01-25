@@ -2203,7 +2203,7 @@ function convertone()
 {
 if(sugar[14])
    return '1';
-if(sugar[13]&&sugar[23])
+if(sugar[13]&&sugar[15]&&sugar[23])
    return convertpower(convertomega(),convertzero());
 if(sugar[40])
    return displaypsi(convertzero(),convertzero());
@@ -2732,6 +2732,8 @@ return sopn.map(convertopn);
 
 function convertsum(sum)
 {
+if(sum.length==1)
+   return sum[0];
 if(sugar[12])
    {
    let s='';
@@ -2820,7 +2822,7 @@ if(sugar[0])
    else
       st=convertsubstring(st);
 if(sugar[1])
-   st=st.replaceAll('!',']');
+   st=st.toString().replaceAll('!',']');
 return st;
 }
 
