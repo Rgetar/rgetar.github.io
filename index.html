@@ -1982,8 +1982,9 @@ function tostandard(st)
 {
 if(st>=col||st<leastepsilonbb)
    return st;
-let e=flooreps(st);
-return e+(antibooster(st)>e?st:antibase(st));
+let a=antibooster(st);
+let e=flooreps(a);
+return e+(a>e?st:antibase(st));
 }
 
 // slice of string with p ≥ p1 and < p2
@@ -2025,7 +2026,7 @@ if(sugar[30]&&st>=leastuncountable)
    return convertepsilon0(st,format)+t; 
 //if(sugar[40]&&g<2)
 //if(sugar[40]&&getepslevel(st)<2)
-//if(sugar[40]&&getepslevel(st)<2&&booster(st)<nextzeta(st,1))     <---
+//if(sugar[40]&&getepslevel(st)<2&&booster(st)<nextzeta(st,1))     // <---
 let neo=nexteps(st,1);
 neo=nexteps(neo,1);
 //if(sugar[40]&&getepslevel(st)<2&&booster(st)>=bb(neo,neo)&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
@@ -2208,6 +2209,11 @@ return '['+convertzero()+'!';
 //return '[!';
 }
 
+function convertbaseandbooster(st)
+{
+return bb(convertsubstring(base(st),-1,-1,false),convertsubstring(booster(st),-1,-1));
+}
+
 //function convertop(st,b=true)
 function convertop(op)
 {
@@ -2232,7 +2238,8 @@ if(sugar[10]&&op>=leastepsilon)
 //   return convertbuchholz(op);
 if(sugar[13])
    return convertpower(convertomega(),convertsubstring(op,-1,-1));
-return bb('',convertsubstring(op,-1,-1));
+//return bb('',convertsubstring(op,-1,-1));
+return convertbaseandbooster(tostandard(bb('',op)));
 //return sugar[13]?convertpower(convertomega(),convertsubstring(op,-1,-1)):bb('',convertsubstring(op,-1,-1));
 }
 
@@ -2767,7 +2774,8 @@ if(sugar[8])
       }
    return convertsum(convertsop(sop));
    }
-return st;
+//return st;
+return convertbaseandbooster(st);
 //return convert0(st,0);
 }
 
@@ -3680,15 +3688,15 @@ incdecbase.hidden=!sugar[0];
 infdecbase.hidden=!sugar[0];
 sugarbutton8.hidden=!sugar[0];;
 sugarbutton9.hidden=!sugar[0]||!sugar[8];
-sugarbutton10.hidden=!sugar[0]||!sugar[8];
+sugarbutton10.hidden=!sugar[0];
 sugarbutton11.hidden=!sugar[0]||!sugar[8]||!sugar[10];
 sugarbutton12.hidden=!sugar[0]||!sugar[8];
 sugarbutton13.hidden=!sugar[0];
 sugarbutton14.hidden=!sugar[0];
 sugarbutton15.hidden=!sugar[0];
-sugarbuttona16.hidden=!sugar[0]||!sugar[8]||(!sugar[9]&&!sugar[10])||!sugar[13];
-sugarbuttonb16.hidden=!sugar[0]||!sugar[8]||(!sugar[9]&&!sugar[10])||!sugar[13];
-sugarbutton17.hidden=!sugar[0]||!sugar[8]||(!sugar[9]&&!sugar[10]||!sugar[13]);
+sugarbuttona16.hidden=!sugar[0]||(!sugar[9]&&!sugar[10])||!sugar[13];
+sugarbuttonb16.hidden=!sugar[0]||(!sugar[9]&&!sugar[10])||!sugar[13];
+sugarbutton17.hidden=!sugar[0]||(!sugar[9]&&!sugar[10]||!sugar[13]);
 sugarbutton18.hidden=!sugar[0]||!sugar[8]||!sugar[9];
 sugarbuttona19.hidden=!sugar[0]||!sugar[13];
 sugarbuttonb19.hidden=!sugar[0]||!sugar[13];
