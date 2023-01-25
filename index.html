@@ -2045,17 +2045,17 @@ if(e>=0)
 	   return shortpropernames[e];
    }
 //if(sugar[40]&&(getepslevel(st)==1||booster(st)<nextzeta(st,1)))
-let g=getepslevel(st);
+//let g=getepslevel(st);
 //if(sugar[30]&&g==1)
 if(sugar[30]&&st>=leastuncountable)
    return convertepsilon0(st,format)+t; 
 //if(sugar[40]&&g<2)
 //if(sugar[40]&&getepslevel(st)<2)
-if(sugar[40]&&getepslevel(st)<2&&booster(st)<nextzeta(st,1))
-//let neo=nexteps(st,1);
-//neo=nexteps(neo,1);
+//if(sugar[40]&&getepslevel(st)<2&&booster(st)<nextzeta(st,1))
+let neo=nexteps(st,1);
+neo=nexteps(neo,1);
 //if(sugar[40]&&getepslevel(st)<2&&booster(st)>=bb(neo,neo)&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
-//if(sugar[40]&&getepslevel(st)<2&&booster(st)>=neo&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
+if(sugar[40]&&getepslevel(st)<2&&booster(st)>=neo&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
    return convertbuchholz(st)+t;
 return convertepsilon0(st,format)+t;
 }
@@ -2254,8 +2254,8 @@ if(isepsilon(op))
 if(sugar[10]&&op>=leastepsilon)
    return convertepa(optoepa(op));
 //return convertpower('[[!!',op);
-if(sugar[40]&&!(sugar[30]&&op>=leastuncountable))
-   return convertbuchholz(op);
+//if(sugar[40]&&!(sugar[30]&&op>=leastuncountable))
+//   return convertbuchholz(op);
 if(sugar[13])
    return convertpower(convertomega(),convertsubstring(op,-1,-1));
 return bb('',convertsubstring(op,-1,-1));
