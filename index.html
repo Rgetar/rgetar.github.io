@@ -16,9 +16,74 @@ td{cursor:pointer;}
 sub{font-size:0.83rem;}
 sup{font-size:0.83rem;}
 //ul{display:flex;flex-direction:column-reverse;}
+
+.subu
+{
+margin-right:5px;
+margin-bottom:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+}
+
+.subuleft
+{
+margin-right:1px;
+margin-bottom:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:4px 0 0 4px;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+}
+
+.subumiddle
+{
+margin-right:1px;
+margin-bottom:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+}
+
+.suburight
+{
+margin-right:5px;
+margin-bottom:5px;
+min-width:16px;
+min-height:16px;
+text-align:center;
+float:left;
+outline:1px solid #909090;
+border-radius:0 4px 4px 0;
+line-height:15px;
+font-size:11px;
+cursor:pointer;
+}
+
+.subuc
+{
+float:left;
+}
+
 </style>
 <body style="font-family:Arial;white-space:pre;line-height:0;"
-><span onmousedown="return false" id="sidebar" style="line-height:2;position:absolute;right:0px;width:215px;padding-left:42px;top:0;bottom:0;overflow:auto;float:right;background:#f5fdff;line-height:1.5;"
+><span onmousedown="return false" id="sidebar" style="line-height:2;position:absolute;right:0px;width:200px;padding-left:42px;padding-right:15px;top:0;bottom:0;overflow:auto;float:right;background:#f5fdff;line-height:1.5;overflow-y:overlay;"
 hidden>
 <b style="font-size:16px;">Ordinal Explorer Online</b>
 <div id="reset" style="
@@ -96,327 +161,106 @@ cursor:pointer;
 <div align="left" style="
 font-size:12px;
 margin-bottom:5px;
-">               Syntax sugar:</div><div id="sugarbutton0" style="
+">               Syntax sugar:</div><div id="sugarbutton0" class="subu" style="
 background:#d0e0ff;
-margin-right:5px;
 min-width:32px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
-line-height:14px;
-font-size:11px;
-cursor:pointer;
 ">sugar</div
-><div id="sugarbutton1" style="
+><div class="subu" id="sugarbutton1" style="
 background:#fff080;
-margin-right:5px;
-min-width:16px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
 line-height:14px;
-font-size:11px;
-cursor:pointer;
 ">]</div
-><div id="sugarbutton2" style="
+><div class="subu" id="sugarbutton2" style="
 background:#d0ffd0;
-margin-right:5px;
-min-width:16px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
 line-height:16px;
-font-size:11px;
-cursor:pointer;
 ">0</div
-><div id="sugarbutton3" hidden style="
+><div class="subu" id="sugarbutton3" hidden style="
 background:#d0ffff;
-margin-right:5px;
-min-width:16px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
 line-height:14px;
-font-size:11px;
-cursor:pointer;
 ">c</div
-><div id="sugarbutton8" style="
+><div class="subu" id="sugarbutton8" style="
 background:#ffff00;
-margin-right:5px;
 min-width:20px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
 line-height:9px;
-font-size:11px;
-cursor:pointer;
 ">ω<sup style="font-size:9px;">p</sup></div
-><div id="sugarbutton9" style="
+><div class="subu" id="sugarbutton9" style="
 background:#d0ffff;
-margin-right:5px;
 min-width:23px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
 line-height:9px;
-font-size:11px;
-cursor:pointer;
 ">ω<sup style="font-size:9px;">p</sup>n</div
-><div id="sugarbutton10" style="
+><div class="subu" id="sugarbutton10" style="
 background:#d0ffd0;
-margin-right:5px;
 min-width:25px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
 line-height:9px;
-font-size:11px;
-cursor:pointer;
-margin-bottom:5px;
-margin-right:25px;
 ">ε<sup style="font-size:9px;">p</sup>m</div
-><div id="sugarbutton11" style="
+><div class="subu" id="sugarbutton11" style="
 background:#d0ffd0;
-margin-right:5px;
 min-width:32px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
 line-height:9px;
-font-size:11px;
-cursor:pointer;
 ">ε<sup style="font-size:9px;">p</sup>(...)</div
-><div id="sugarbutton12" style="
+><div class="subu" id="sugarbutton12" style="
 background:#ffe0e0;
-margin-right:5px;
-min-width:16px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">+</div
-><div id="sugarbutton13" style="
+><div class="subu" id="sugarbutton13" style="
 background:#fff0e0;
-margin-right:5px;
 min-width:20px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">^ ·</div
-><div id="sugarbutton14" style="
+><div class="subu" id="sugarbutton14" style="
 background:#d0ffd0;
-margin-right:5px;
-min-width:16px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
 line-height:16px;
-font-size:11px;
-cursor:pointer;
 ">1</div
-><div id="sugarbutton15" style="
+><div class="subu" id="sugarbutton15" style="
 background:#d0ffd0;
-margin-right:5px;
-min-width:16px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">ω</div
-><div id="sugarbutton18" style="
+><div class="subu" id="sugarbutton18" style="
 background:#d0ffd0;
-margin-right:5px;
 min-width:25px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
 line-height:16px;
-font-size:11px;
-cursor:pointer;
 ">234</div
-><div id="sugarbuttona16" style="
+><div class="subuc"><div class="subuleft" id="sugarbuttona16" style="
 background:#fff;
-margin-right:1px;
 min-width:11px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px 0 0 4px;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">×</div
-><div id="sugarbuttonb16" style="
+><div class="suburight" id="sugarbuttonb16" style="
 background:#d0ffd0;
-margin-right:5px;
 min-width:11px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:0 4px 4px 0;
-line-height:15px;
-font-size:11px;
-margin-bottom:5px;
-margin-right:25px;
-cursor:pointer;
 ">·</div
-><div id="sugarbutton17" style="
+></div><div class="subu" id="sugarbutton17" style="
 background:#d0ffd0;
-margin-right:5px;
 min-width:32px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">omit ·</div
-><div id="sugarbuttona19" style="
+><div class="subuc"><div class="subuleft" id="sugarbuttona19" style="
 background:#fff;
-margin-right:1px;
 min-width:14px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px 0 0 4px;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">^</div
-><div id="sugarbuttonb19" style="
+><div class="suburight" id="sugarbuttonb19" style="
 background:#ffd0ff;
-margin-right:5px;
 min-width:25px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:0 4px 4px 0;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">sup</div
-><div id="sugarbuttona20" hidden style="
+></div><div class="subuc"><div class="subuleft" id="sugarbuttona20" hidden style="
 background:#fff;
-margin-right:1px;
 min-width:14px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px 0 0 4px;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">_</div
-><div id="sugarbuttonb20" hidden style="
+><div class="suburight" id="sugarbuttonb20" hidden style="
 background:#ffd0ff;
-margin-right:5px;
 min-width:25px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:0 4px 4px 0;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">sub</div
-><div id="sugarbutton21" style="
+></div><div class="subu" id="sugarbutton21" style="
 background:#d0e0ff;
-margin-right:35px;
 min-width:40px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
-line-height:15px;
-font-size:11px;
-margin-bottom:5px;
-cursor:pointer;
 ">names</div
-><div id="sugarbutton22" style="
+><div class="subu" id="sugarbutton22" style="
 background:#d0e0ff;
-margin-right:5px;
 min-width:66px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">short names</div
-><div id="sugarbutton30" style="
+><div class="subu" id="sugarbutton30" style="
 background:#c0ffff;
-margin-right:5px;
-min-width:16px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
-line-height:15px;
-font-size:11px;
-cursor:pointer;
 ">Ω</div
-><div id="sugarbutton40" style="
+><div class="subu" id="sugarbutton40" style="
 background:#ffd000;
-margin-right:5px;
-min-width:16px;
-min-height:16px;
-text-align:center;
-float:left;
-outline:1px solid #909090;
-border-radius:4px;
-line-height:15px;
-font-size:11px;
-margin-right:85px;
-margin-bottom:15px;
-cursor:pointer;
 ">ψ</div
->
-<div id="decdec" style="
+><div id="decdec" style="
+clear:both;
+margin-top:7px;
 float:left;
 outline:1px solid #909090;
 border-radius:5px 0 0 5px;
@@ -430,6 +274,7 @@ opacity:0.4;
 cursor:default;
 ">◅</div><div id="decintoboostersl" style="
 float:left;
+margin-top:7px;
 outlinea:1px solid #909090;
 min-width:70px;
 max-width:70px;
@@ -442,6 +287,7 @@ backgrounda:#ffffff;
 cursor:pointer;
 "></div><div id="incdec" style="
 float:left;
+margin-top:7px;
 outline:1px solid #909090;
 min-height:16px;
 line-height:16px;
@@ -452,6 +298,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▻</div><div id="infdec" style="
 float:left;
+margin-top:7px;
 margin-bottom:10px;
 outline:1px solid #909090;
 min-height:16px;
@@ -519,10 +366,7 @@ cursor:pointer;
 <td id="for0">ω<sup>ε<sub>0</sub> + 1</sup></td>
 <td id="for1" style="font-size:15px;"> ε<sub>0</sub>ω </td>
 </tr>
-</table></div>
-
-
-
+</table></div><br style="clear:both"/>
 <div id="switchindentmode" align="left" style="font-size:12px;">            Indentation mode:
 <div id="indentmode2" style="
 float:left;
@@ -618,7 +462,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▻</div>
 
-<span style="font-size:11px">    last updated: 22 January 2023</span>
+<span style="font-size:11px">    last updated: 25 January 2023</span>
 <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">   old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -1613,6 +1457,7 @@ if(i>=0)
       s+=', ';
       if(ext)
          m=cnf(m,true);
+         //m=sepatosepsum(soptosepa(stringtosop(m)));
       s+=displayform(m,ext);
 
       pp=[...p];
@@ -1638,10 +1483,12 @@ if(i>=0)
                s+=', 0'.repeat(q-1);
             else
                s+=', 0'.repeat(q)+' @<sup>'+cnftoarray(JSON.parse(JSON.stringify(cnf(pp.slice(1),true,false))),ext,f)+'</sup>';
+               //s+=', 0'.repeat(q)+' @<sup>'+cnftoarray(JSON.parse(JSON.stringify(sepatosepsum(soptosepa(stringtosop(pp.slice(1)))))),ext,f)+'</sup>';
          else
             {
             if(pp.length>1)
                s+=', 0'.repeat(q)+' @<sup>'+cnftoarray(JSON.parse(JSON.stringify(cnf(pp.slice(1),true,false))),ext,f)+'</sup>';
+               //s+=', 0'.repeat(q)+' @<sup>'+cnftoarray(JSON.parse(JSON.stringify(sepatosepsum(soptosepa(stringtosop(pp.slice(1)))))),ext,f)+'</sup>';
             else
                s+=', 0'.repeat(q-1);
             
@@ -1649,8 +1496,8 @@ if(i>=0)
          }
       else
          {
-
          s+=' @<sup>'+cnftoarray(JSON.parse(JSON.stringify(cnf(pp,true,false))),ext,f)+'</sup>';
+         //s+=' @<sup>'+cnftoarray(JSON.parse(JSON.stringify(sepatosepsum(soptosepa(stringtosop(pp))))),ext,f)+'</sup>';
          }
       }
    if(le!='-')
@@ -2198,17 +2045,17 @@ if(e>=0)
 	   return shortpropernames[e];
    }
 //if(sugar[40]&&(getepslevel(st)==1||booster(st)<nextzeta(st,1)))
-//let g=getepslevel(st);
+let g=getepslevel(st);
 //if(sugar[30]&&g==1)
 if(sugar[30]&&st>=leastuncountable)
    return convertepsilon0(st,format)+t; 
 //if(sugar[40]&&g<2)
 //if(sugar[40]&&getepslevel(st)<2)
-//if(sugar[40]&&getepslevel(st)<2&&booster(st)<nextzeta(st,1))
-let neo=nexteps(st,1);
-neo=nexteps(neo,1);
+if(sugar[40]&&getepslevel(st)<2&&booster(st)<nextzeta(st,1))
+//let neo=nexteps(st,1);
+//neo=nexteps(neo,1);
 //if(sugar[40]&&getepslevel(st)<2&&booster(st)>=bb(neo,neo)&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
-if(sugar[40]&&getepslevel(st)<2&&booster(st)>=neo&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
+//if(sugar[40]&&getepslevel(st)<2&&booster(st)>=neo&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
    return convertbuchholz(st)+t;
 return convertepsilon0(st,format)+t;
 }
@@ -2402,13 +2249,13 @@ if(op=='[!')
 //   return convertepsilon0(op,format);
 //if(sugar[40])
 //   return convertbuchholz(op);
-//if(sugar[40]&&!(sugar[30]&&op>=leastuncountable))
-//   return convertbuchholz(op);
 if(isepsilon(op))
    return convertepsilon(op);
 if(sugar[10]&&op>=leastepsilon)
    return convertepa(optoepa(op));
 //return convertpower('[[!!',op);
+if(sugar[40]&&!(sugar[30]&&op>=leastuncountable))
+   return convertbuchholz(op);
 if(sugar[13])
    return convertpower(convertomega(),convertsubstring(op,-1,-1));
 return bb('',convertsubstring(op,-1,-1));
@@ -2426,7 +2273,7 @@ let beta=base(st);
 return x>beta?x:bb(beta,booster(x));
 }*/
 
-function convertomegap(st,b)
+/*function convertomegap(st,b)
 {
 if(isepsilon(st))
    return convertepsilon(st,b);
@@ -2435,7 +2282,7 @@ if(isepsilon(st))
 //   alert(st);
 return convertop(booster(st));
 //return convertop(getop(st));
-}
+}*/
 
 function optostring(st)
 {
@@ -2912,8 +2759,13 @@ return JSON.stringify(sum).replaceAll('"','');
 
 function convertbb(st,b)
 {
+//if(isomegap(st))
+//   return convertomegap(st,b);
 if(isomegap(st))
-   return convertomegap(st,b);
+   if(isepsilon(st))
+      return convertepsilon(st,b);
+   else
+      return convertop(booster(st));
 if(sugar[8])
    {
    let sop=stringtosop(st);
