@@ -162,101 +162,77 @@ cursor:pointer;
 font-size:12px;
 margin-bottom:5px;
 ">               Syntax sugar:</div><div id="sugarbutton0" class="subu" style="
-background:#d0e0ff;
 min-width:32px;
 ">sugar</div
 ><div class="subu" id="sugarbutton1" style="
-background:#fff080;
 line-height:14px;
 ">]</div
 ><div class="subu" id="sugarbutton2" style="
-background:#d0ffd0;
 line-height:16px;
 ">0</div
 ><div class="subu" id="sugarbutton3" hidden style="
-background:#d0ffff;
 line-height:14px;
 ">c</div
 ><div class="subu" id="sugarbutton8" style="
-background:#ffff00;
 min-width:20px;
 line-height:9px;
 ">ω<sup style="font-size:9px;">p</sup></div
 ><div class="subu" id="sugarbutton9" style="
-background:#d0ffff;
 min-width:23px;
 line-height:9px;
 ">ω<sup style="font-size:9px;">p</sup>n</div
 ><div class="subu" id="sugarbutton10" style="
-background:#d0ffd0;
 min-width:25px;
 line-height:9px;
 ">ε<sup style="font-size:9px;">p</sup>m</div
 ><div class="subu" id="sugarbutton11" style="
-background:#d0ffd0;
 min-width:32px;
 line-height:9px;
 ">ε<sup style="font-size:9px;">p</sup>(...)</div
 ><div class="subu" id="sugarbutton12" style="
-background:#ffe0e0;
 ">+</div
 ><div class="subu" id="sugarbutton13" style="
-background:#fff0e0;
 min-width:20px;
 ">^ ·</div
 ><div class="subu" id="sugarbutton14" style="
-background:#d0ffd0;
 line-height:16px;
 ">1</div
 ><div class="subu" id="sugarbutton15" style="
-background:#d0ffd0;
 ">ω</div
 ><div class="subu" id="sugarbutton18" style="
-background:#d0ffd0;
 min-width:25px;
 line-height:16px;
 ">234</div
 ><div class="subuc"><div class="subuleft" id="sugarbuttona16" style="
-background:#fff;
 min-width:11px;
 ">×</div
 ><div class="suburight" id="sugarbuttonb16" style="
-background:#d0ffd0;
 min-width:11px;
 ">·</div
 ></div><div class="subu" id="sugarbutton17" style="
-background:#d0ffd0;
 min-width:32px;
 ">omit ·</div
 ><div class="subuc"><div class="subuleft" id="sugarbuttona19" style="
-background:#fff;
 min-width:14px;
 ">^</div
 ><div class="suburight" id="sugarbuttonb19" style="
-background:#ffd0ff;
 min-width:25px;
 ">sup</div
 ></div><div class="subuc"><div class="subuleft" id="sugarbuttona20" hidden style="
-background:#fff;
 min-width:14px;
 ">_</div
 ><div class="suburight" id="sugarbuttonb20" hidden style="
-background:#ffd0ff;
 min-width:25px;
 ">sub</div
 ></div><div class="subu" id="sugarbutton21" style="
-background:#d0e0ff;
 min-width:40px;
 ">names</div
 ><div class="subu" id="sugarbutton22" style="
-background:#d0e0ff;
 min-width:66px;
 ">short names</div
 ><div class="subu" id="sugarbutton30" style="
-background:#c0ffff;
 ">Ω</div
 ><div class="subu" id="sugarbutton40" style="
-background:#ffd000;
 ">ψ</div
 ><div id="decdec" style="
 clear:both;
@@ -311,8 +287,8 @@ padding:3px 5px;
 font-size:16px;
 background:#d0ffd0;
 cursor:pointer;
-">∞</div>
-<div id="decdecbase" style="
+">∞</div><div id="decdecbase" style="
+clear:both;
 float:left;
 outline:1px solid #909090;
 border-radius:5px 0 0 5px;
@@ -357,9 +333,7 @@ padding:3px 5px;
 font-size:16px;
 background:#d0ffd0;
 cursor:pointer;
-">∞</div>
-
-<div hidden align="left" style="font-size:13px;padding:5px;"><i>Format of ordinals:</i>
+">∞</div><div hidden align="left" style="font-size:13px;padding:5px;"><i>Format of ordinals:</i>
 <table id="switchformat" border="3" cellpadding="3" style="background:#ffffff;border-spacing:0;">
 <tr style="font-size:12px;line-height:1.4;">
 <td id="for2">[[c]][[[c]][]]</td>
@@ -367,7 +341,7 @@ cursor:pointer;
 <td id="for1" style="font-size:15px;"> ε<sub>0</sub>ω </td>
 </tr>
 </table></div><br style="clear:both"/>
-<div id="switchindentmode" align="left" style="font-size:12px;">            Indentation mode:
+<div id="switchindentmode" align="left" style="font-size:12px;clear:both;">            Indentation mode:
 <div id="indentmode2" style="
 float:left;
 outline:1px solid #909090;
@@ -2051,7 +2025,7 @@ if(sugar[30]&&st>=leastuncountable)
    return convertepsilon0(st,format)+t; 
 //if(sugar[40]&&g<2)
 //if(sugar[40]&&getepslevel(st)<2)
-//if(sugar[40]&&getepslevel(st)<2&&booster(st)<nextzeta(st,1))
+//if(sugar[40]&&getepslevel(st)<2&&booster(st)<nextzeta(st,1))     <---
 let neo=nexteps(st,1);
 neo=nexteps(neo,1);
 //if(sugar[40]&&getepslevel(st)<2&&booster(st)>=bb(neo,neo)&&antibooster(st.slice(flooreps(st,1).length))<nextzeta(st,1))
@@ -3677,12 +3651,59 @@ if(c.tagName=='TD'){
    }
 }
 
+function sugarbuttonupdate()
+{
+let c,ca,cb;
+for(let e=0;e<sugarbuttonnumber.length;e++)
+if(sugarbuttonnumber[e])
+if(sugarbuttonnumber[e]==1)
+   {
+   c=document.getElementById('sugarbutton'+e);
+   c.style.background=sugar[e]?sugarbuttoncolor[e]:'#fff';
+   }
+else
+   {
+   ca=document.getElementById('sugarbuttona'+e);
+   cb=document.getElementById('sugarbuttonb'+e);
+   ca.style.background=sugar[e]?'#fff':sugarbuttoncolor[e];
+   cb.style.background=sugar[e]?sugarbuttoncolor[e]:'#fff';
+   }
+sugarbutton2.hidden=!sugar[0];
+//sugarbutton3.hidden=!sugar[0];
+decdec.hidden=!sugar[0];
+decintoboostersl.hidden=!sugar[0];
+incdec.hidden=!sugar[0];
+infdec.hidden=!sugar[0];
+decdecbase.hidden=!sugar[0];
+decintobasesl.hidden=!sugar[0];
+incdecbase.hidden=!sugar[0];
+infdecbase.hidden=!sugar[0];
+sugarbutton8.hidden=!sugar[0];;
+sugarbutton9.hidden=!sugar[0]||!sugar[8];
+sugarbutton10.hidden=!sugar[0]||!sugar[8];
+sugarbutton11.hidden=!sugar[0]||!sugar[8]||!sugar[10];
+sugarbutton12.hidden=!sugar[0]||!sugar[8];
+sugarbutton13.hidden=!sugar[0];
+sugarbutton14.hidden=!sugar[0];
+sugarbutton15.hidden=!sugar[0];
+sugarbuttona16.hidden=!sugar[0]||!sugar[8]||(!sugar[9]&&!sugar[10])||!sugar[13];
+sugarbuttonb16.hidden=!sugar[0]||!sugar[8]||(!sugar[9]&&!sugar[10])||!sugar[13];
+sugarbutton17.hidden=!sugar[0]||!sugar[8]||(!sugar[9]&&!sugar[10]||!sugar[13]);
+sugarbutton18.hidden=!sugar[0]||!sugar[8]||!sugar[9];
+sugarbuttona19.hidden=!sugar[0]||!sugar[13];
+sugarbuttonb19.hidden=!sugar[0]||!sugar[13];
+//sugarbuttona20.hidden=!sugar[0];
+//sugarbuttonb20.hidden=!sugar[0];
+sugarbutton21.hidden=!sugar[0];
+sugarbutton22.hidden=!sugar[0];
+sugarbutton30.hidden=!sugar[0];
+sugarbutton40.hidden=!sugar[0];
+}
+
 function sugarbuttonclick(c,e)
 {
-while(c.tagName=='SUP')
-   c=c.parentNode;
 sugar[e]=1-sugar[e];
-c.style.background=sugar[e]?sugarbuttoncolor[e]:'#fff';
+sugarbuttonupdate();
 formatting();
 }
 
@@ -3690,11 +3711,8 @@ function sugarbuttonswitch(e,n)
 {
 if(sugar[e]!=n)
    {
-   let ca=document.getElementById('sugarbuttona'+e);
-   let cb=document.getElementById('sugarbuttonb'+e);
    sugar[e]=1-sugar[e];
-   ca.style.background=sugar[e]?'#fff':sugarbuttoncolor[e];
-   cb.style.background=sugar[e]?sugarbuttoncolor[e]:'#fff';
+   sugarbuttonupdate();
    formatting();
    }
 }
@@ -4058,6 +4076,7 @@ if(document.getElementById('res2')!=null)
    }
 else if(document.getElementById('res3')!=null)
    res3.innerHTML='Set '+(uncountablemode?'':'un')+'countable mode and reset list';
+sugarbuttonupdate();
 mouseoverupdate();
 }
 
@@ -4513,6 +4532,7 @@ let leastuncountable,leastepsilon,leastepsilonbb;
 let initlargeordinal=bo;
 let sugar=[1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,23,24,25,26,27,28,29,1,31,32,33,34,35,36,37,38,39,1];
 let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff00','#d0ffff','#d0ffd0','#d0ffd0','#ffe0e0','#fff0e0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#ffd0ff','#ffd0ff','#d0e0ff','#d0e0ff',23,24,25,26,27,28,29,'#c0ffff',31,32,33,34,35,36,37,38,39,'#ffd000'];
+let sugarbuttonnumber=[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,2,1,1,2,2,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1];
 let multiplicationsign=['×','·'];
 let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal'];
 let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','EBO','SRO','RO'];
