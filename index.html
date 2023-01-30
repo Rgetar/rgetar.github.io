@@ -164,7 +164,7 @@ float:left;
 margin-bottom:5px;
 min-width:16px;
 min-height:16px;
-">          Syntax sugar </div><div id="sugarbuttond" class="subu" style="
+">        Syntactic sugar </div><div id="sugarbuttond" class="subu" style="
 min-width:40px;
 background:#d0e0ff;
 margin-right:2px;
@@ -3567,6 +3567,114 @@ else if(c.id=='incef'){
    h='<b>Increase</b> maximal number of new strings per expansion<br/><i>use "+" key</i>';
    xs.style.background='#f0fff0';
    }
+else if(c.id=='sugarbuttond'){
+   h='<small>Set default syntactic sugar</small><br/><i>use "P" key</i>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton0'){
+   h='<small>Enable / disable syntactic sugar</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton1'){
+   h='<div style="line-height:1.2"><small>Replace "!" with "]"<br/><br/>(Note: originally base-booster notation uses "]", "[", "c" alphabet,<br/>but the program uses "!", "[", "c" alphabet to match Unicode order<br/>to simplify lexicographic comparison of strings).</small></div>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton21'){
+   h='<small>Enable / disable proper names</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton22'){
+   h='<small>Enable / disable short proper names</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton2'){
+   h='<small>Display least ordinal as "0"</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton8'){
+   h='<div style="line-height:1.2"><small>Represent ordinals as Cantor normal forms<br/>(sums of additively indecomposables)</small></div>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton9'){
+   h='<div style="line-height:1.2"><small>Group equal terms of Cantor normal form into<br/>products of additively indecomposable and integer</small></div>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton10'){
+   h='<div style="line-height:1.2"><small>Represent additively indecomposable α, where ε<sub>x</sub> ≤ α < ε<sub>x + 1</sub>,<br/>as product of power of ε<sub>x</sub> and factor m < ε<sub>x</sub></small></div>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton11'){
+   h='<div style="line-height:1.2"><small>Group additively indecomposables α<sub>i</sub> = ε<sub>x</sub><sup style="font-size:11px;">p</sup>m<sub>i</sub>,<br/>where ε<sub>x</sub> ≤ α<sub>i</sub> < ε<sub>x + 1</sub> and m<sub>i</sub> < ε<sub>x</sub>,<br/>into ε<sub>x</sub><sup style="font-size:11px;">p</sup>(m<sub>1</sub> + m<sub>2</sub> + m<sub>3</sub> + ...)</small></div>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+else if(c.id=='sugarbutton'){
+   h='<small></small>';
+   xs.style.background='#f0fff0';
+   }    
+
+
+   
+   
 else if(c.id=='decdec'){
    h='<div id="decdec1"'+(sugar[4]?'':' style="font-style:italic"')+'><nobr id="decdec2"'+(sugar[4]?' style="font-weight:bold"':'')+'>Decrease</nobr> number of levels of decomposition into boosters</div><i>use Digit keys</i>';
    if(sugar[4]) 
@@ -3576,6 +3684,10 @@ else if(c.id=='incdec'){
    h='<b>Increase</b> number of levels of decomposition into boosters<br/><i>use Digit keys</i>';
    xs.style.background='#f0fff0';
    }
+else if(c.id=='infdec'){
+   h='Set <b>infinite</b> number of levels of decomposition into boosters';
+   xs.style.background='#f0fff0';
+   }
 else if(c.id=='decdecbase'){
    h='<div id="decdecbase1"'+(sugar[6]?'':' style="font-style:italic"')+'><nobr id="decdecbase2"'+(sugar[6]?' style="font-weight:bold"':'')+'>Decrease</nobr> number of levels of decomposition into bases</div>';
    if(sugar[6]) 
@@ -3583,6 +3695,10 @@ else if(c.id=='decdecbase'){
    }
 else if(c.id=='incdecbase'){
    h='<b>Increase</b> number of levels of decomposition into bases';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='infdecbase'){
+   h='Set <b>infinite</b> number of levels of decomposition into bases';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='decd'){
@@ -3600,6 +3716,10 @@ else if(c.id=='ecfv'){
    }
 else if(c.id=='decintoboostersl'){
    h='<small><small><div style="line-height:1">Number of levels of decomposition into boosters.</div></small></small>'; 
+   xs.style.background='#fff';
+   }
+else if(c.id=='decintobasesl'){
+   h='<small><small><div style="line-height:1">Number of levels of decomposition into bases.</div></small></small>'; 
    xs.style.background='#fff';
    }
 else if(c.id=='dis'){
