@@ -4912,7 +4912,7 @@ window.onkeydown = function(e) {
   return !((e.keyCode==32||e.keyCode==38||e.keyCode==40) && e.target == document.body);
 };
 
-let uncountablemode=0;
+let uncountablemode=1;
 let uncountablemodeinitnames=['Some large countable ordinal','Some large uncountable ordinal'];
 let bo=uncountablemodeinitnames[uncountablemode],col='c',eo=0,efs=0,
 //exp=['expansion','recursive expansion','double recursive expansion','triple recursive expansion','quadruple recursive expansion','quintuple recursive expansion','sextuple recursive expansion','septuple recursive expansion','octuple recursive expansion','ninefold recursive expansion'];
@@ -4926,7 +4926,7 @@ let indentar=[indentmode0,indentmode1,indentmode2];
 let mousex,mousey;
 let gtkey=3,ltkey=3;
 let processing=true;
-let indentmode=1;
+let indentmode=0;
 let indentvisible=1;
 let keytcheck=true;
 let mousetag,mousetagp=xs;
