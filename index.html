@@ -183,10 +183,13 @@ line-height:18px;
 ><div id="sugarbutton0" class="subu" style="
 min-width:32px;
 ">sugar</div
-><div class="subu" id="sugarbutton1" style="
-line-height:14px;
+><div class="subuc"><div class="subuleft" id="sugarbuttona1" style="
+min-width:11px;
+">!</div
+><div class="suburight" id="sugarbuttonb1" style="
+min-width:11px;
 ">]</div
-><div class="subu" id="sugarbutton21" style="
+></div><div class="subu" id="sugarbutton21" style="
 min-width:38px;
 ">names</div
 ><div class="subu" id="sugarbutton22" style="
@@ -3585,8 +3588,12 @@ else if(c.id=='sugarbutton0'){
    h='<small>Enable / disable syntactic sugar</small>';
    xs.style.background='#f0fff0';
    }
-else if(c.id=='sugarbutton1'){
-   h='<div style="line-height:1.2"><small>Replace "!" with "]"<br/><br/>(Note: originally base-booster notation uses "]", "[", "c" alphabet,<br/>but the program uses "!", "[", "c" alphabet to match Unicode order<br/>to simplify lexicographic comparison of strings).</small></div>';
+else if(c.id=='sugarbuttona1'){
+   h='<div style="line-height:1.2"><small>Display strings using "!", "[", "c" alphabet<br/>(alphabet used by the program to match Unicode order<br/>to simplify lexicographic comparison of strings)</small></div>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbuttonb1'){
+   h='<div style="line-height:1.2"><small>Display strings using  "]", "[", "c" alphabet<br/>(original alphabet of base-booster notation)</small></div>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='sugarbutton21'){
@@ -4214,9 +4221,14 @@ sugarbutton0.onclick=function(e)
 sugarbuttonclick(0);
 }
 
-sugarbutton1.onclick=function(e)
+sugarbuttona1.onclick=function(e)
 {
-sugarbuttonclick(1);
+sugarbuttonswitch(1,0);
+}
+
+sugarbuttonb1.onclick=function(e)
+{
+sugarbuttonswitch(1,1);
 }
 
 sugarbutton2.onclick=function(e)
@@ -5119,7 +5131,7 @@ let sugar=[1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 let sugardefault=[[...sugar],[...sugar]];
 sugardefault[0][10]=0;
 let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff00','#d0ffff','#d0ffd0','#d0ffd0','#ffe0e0','#fff0e0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#ffd0ff','#ffd0ff','#d0e0ff','#d0e0ff','#c0ffff','#b0ffb0','#ffe0e0','#a0f0c0','#fff000','#fafa00','#f0f040','#f0f040','#f0f040','#f0f040','#c0ffff','#c0ffff',35,36,37,38,39,'#ffd000','#f0f040'];
-let sugarbuttonnumber=[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,2,1,1,2,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,0,0,0,0,0,1,1];
+let sugarbuttonnumber=[1,2,1,1,0,0,0,0,1,1,1,1,1,1,1,1,2,1,1,2,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,0,0,0,0,0,1,1];
 let multiplicationsign=['×','·'];
 let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal'];
 let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','EBO','SRO','RO'];
