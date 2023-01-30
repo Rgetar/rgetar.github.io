@@ -160,8 +160,27 @@ cursor:pointer;
 
 <div align="left" style="
 font-size:12px;
+float:left;
 margin-bottom:5px;
-">               Syntax sugar:</div><div id="sugarbutton0" class="subu" style="
+min-width:16px;
+min-height:16px;
+">          Syntax sugar </div><div id="sugarbuttond" class="subu" style="
+min-width:40px;
+background:#d0e0ff;
+margin-right:2px;
+float:left;
+line-height:17px;
+">default</div
+><div style="
+min-widtha:50px;
+font-size:11px;
+float:left;
+margin-bottom:5px;
+min-width:16px;
+min-height:16px;
+line-height:18px;
+">:</div
+><div id="sugarbutton0" class="subu" style="
 min-width:32px;
 ">sugar</div
 ><div class="subu" id="sugarbutton1" style="
@@ -4005,6 +4024,20 @@ if(sugar[e]!=n)
    }
 }
 
+function defaultsugar(i=1)
+{
+sugar=[...sugardefault[i]];
+sugarbuttonupdate();
+formatting();
+decboostersupdate();
+decbasesupdate();
+}
+
+sugarbuttond.onclick=function(e)
+{
+defaultsugar();
+}
+
 sugarbutton0.onclick=function(e)
 {
 sugarbuttonclick(0);
@@ -4286,7 +4319,6 @@ if(efs==1){
 
 function decboostersupdate()
 {
-formatting();
 let b=sugar[5]||sugar[4];
 decintoboostersl.innerHTML='decomposition<br/>into boosters: '+(sugar[5]?'∞':sugar[4]);
 decdec.style.opacity=b?1:0.4;
@@ -4301,7 +4333,6 @@ if(document.getElementById('decdec1')!=null)
 
 function decbasesupdate()
 {
-formatting();
 let b=sugar[7]||sugar[6];
 decintobasesl.innerHTML='decomposition<br/>into bases: '+(sugar[7]?'∞':sugar[6]);
 decdecbase.style.opacity=b?1:0.4;
@@ -4318,10 +4349,12 @@ decdec.onclick=function(e){
 if(sugar[5])
    {
    sugar[5]=0;
+   formatting();
    decboostersupdate();
    }
 else if(sugar[4]>0){
    sugar[4]--;
+   formatting();
    decboostersupdate();
    }   
 }
@@ -4330,6 +4363,7 @@ incdec.onclick=function(e){
 if(sugar[5])
    sugar[5]=0;
 sugar[4]++;
+formatting();
 decboostersupdate();
 }
 
@@ -4337,6 +4371,7 @@ infdec.onclick=function(e){
 if(!sugar[5])
    {
    sugar[5]=1;
+   formatting();
    decboostersupdate();
    }
 }
@@ -4345,10 +4380,13 @@ decdecbase.onclick=function(e){
 if(sugar[7])
    {
    sugar[7]=0;
+   formatting();
    decbasesupdate();
    }
-else if(sugar[6]>0){
+else if(sugar[6]>0)
+   {
    sugar[6]--;
+   formatting();
    decbasesupdate();
    }   
 }
@@ -4357,6 +4395,7 @@ incdecbase.onclick=function(e){
 if(sugar[7])
    sugar[7]=0;
 sugar[6]++;
+formatting();
 decbasesupdate();
 }
 
@@ -4364,6 +4403,7 @@ infdecbase.onclick=function(e){
 if(!sugar[7])
    {
    sugar[7]=1;
+   formatting();
    decbasesupdate();
    }
 }
@@ -4526,6 +4566,7 @@ let i=c.slice(5);
 if(i!=sugar[4])
    {
    sugar[4]=parseInt(i);
+   formatting();
    decboostersupdate();
    }
 }
@@ -4680,7 +4721,7 @@ else if(c=='KeyR'){
    resetlist();} 
 else if(c=='KeyU'){
    resetlist(1-uncountablemode);} 
-else if(c=='KeyI'||c=='KeyO'||c=='KeyP'){
+/*else if(c=='KeyI'||c=='KeyO'||c=='KeyP'){
    let i=c=='KeyI'?2:c=='KeyP'?1:0;
    if(i!=format){
       far[format].style.background='#fff';
@@ -4690,6 +4731,26 @@ else if(c=='KeyI'||c=='KeyO'||c=='KeyP'){
          mousetag='';mousetagp=xs;
          mouseoverupdate(lea);}
       }
+   }*/
+else if(c=='KeyI')
+   {
+   if(sugar[0]||!sugar[1])
+      {
+      sugar[0]=0;
+      sugar[1]=1;
+      sugarbuttonupdate();
+      formatting();
+      }
+   }
+else if(c=='KeyO')
+   {
+   if(JSON.stringify(sugar)!=JSON.stringify(sugardefault[0]))
+      defaultsugar(0);
+   }
+else if(c=='KeyP')
+   {
+   if(JSON.stringify(sugar)!=JSON.stringify(sugardefault[1]))
+      defaultsugar();
    }
 else if(c=='KeyJ'||c=='KeyK'||c=='KeyL'){
    let i=c=='KeyJ'?2:c=='KeyK'?1:0;
@@ -4884,6 +4945,8 @@ let subperiodpositionshift=0;
 let leastuncountable,leastepsilon,leastepsilonbb;
 let initlargeordinal=bo;
 let sugar=[1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,35,36,37,38,39,1,0];
+let sugardefault=[[...sugar],[...sugar]];
+sugardefault[0][10]=0;
 let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff00','#d0ffff','#d0ffd0','#d0ffd0','#ffe0e0','#fff0e0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#ffd0ff','#ffd0ff','#d0e0ff','#d0e0ff','#c0ffff','#b0ffb0','#ffe0e0','#a0f0c0','#fff000','#fafa00','#f0f040','#f0f040','#f0f040','#f0f040','#c0ffff','#c0ffff',35,36,37,38,39,'#ffd000','#f0f040'];
 let sugarbuttonnumber=[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,2,1,1,2,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,0,0,0,0,0,1,1];
 let multiplicationsign=['×','·'];
