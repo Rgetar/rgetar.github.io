@@ -2073,7 +2073,7 @@ return sepatosepsum(soptosepa(stringtosop(st)));
 
 function convertat(p)
 {
-return sugar[31]?convertpower('@',sugar[19]?p:arraytoposition(p)):'@ '+arraytoposition(p);
+return sugar[31]?convertpower('@',sugar[19]?p:arraytoposition(p),false):'@ '+arraytoposition(p);
 }
 
 function convertarray(p,neo)
@@ -2368,8 +2368,10 @@ if(sugar[19])
 return st+'^'+convertsubstring(p);
 }*/
 
-function convertpower(st,p)
+function convertpower(st,p,b=true)
 {
+if(b&&!sugar[13])
+   return 'Ε('+st+','+p+')';
 if(sugar[19])
    return (sugar[20]?st:powertofactor(st))+'<sup>'+p+'</sup>';
 return powertofactor(st)+'^'+sumtoterm(p);
@@ -2448,7 +2450,8 @@ function convertone()
 {
 if(sugar[14])
    return '1';
-if(sugar[13]&&sugar[15]&&sugar[23])
+//if(sugar[13]&&sugar[15]&&sugar[23])
+if(sugar[15]&&sugar[23])
    return convertpower(convertomega(),convertzero());
 if(sugar[28])
    return displayphi(convertarray('',leastuncountable));
@@ -2485,7 +2488,8 @@ if(isepsilon(op))
 if(sugar[10]&&op>=leastepsilon)
    return convertepa(optoepa(op));
 //return convertpower('[[!!',op);
-if(sugar[13]&&sugar[23])
+//if(sugar[13]&&sugar[23])
+if(sugar[23])
    return convertpower(convertomega(),convertsubstring(op,-1,-1));
 if(sugar[28])
    {
@@ -2919,10 +2923,16 @@ if(sugar[13])
    return convertproduct(convertop(opn[0]),convertnatural(opn[1]));
    }
 opn[0]=convertop(opn[0]);
+let s='Π';
+if(opn[0][0]=='Ε')
+   {
+   opn[0]=opn[0].slice(2,-1);
+   s='Ε';
+   }
 opn[1]=convertnatural(opn[1]);
 //return JSON.stringify(opn).replaceAll('"','');
 //return 'Π('+JSON.stringify(opn).replaceAll('"','').slice(1,-1)+')';
-return 'Π('+opn[0]+','+opn[1]+')';
+return s+'('+opn[0]+','+opn[1]+')';
 }
 
 function convertepa(epa)
@@ -3600,25 +3610,25 @@ else if(c.id=='sugarbutton9'){
    xs.style.background='#f0fff0';
    }
 else if(c.id=='sugarbutton10'){
-   h='<div style="line-height:1.2"><small>Represent additively indecomposable α, where ε<sub>x</sub> ≤ α < ε<sub>x + 1</sub>,<br/>as product of power of ε<sub>x</sub> and factor m < ε<sub>x</sub></small></div>';
+   h='<div style="line-height:1.2"><small>Represent additively indecomposable α, where ε<sub style="font-size:11px;">x</sub> ≤ α < ε<sub style="font-size:11px;">x + 1</sub>,<br/>as product of power of ε<sub style="font-size:11px;">x</sub> and factor m < ε<sub style="font-size:11px;">x</sub></small></div>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='sugarbutton11'){
-   h='<div style="line-height:1.2"><small>Group additively indecomposables α<sub>i</sub> = ε<sub>x</sub><sup style="font-size:11px;">p</sup>m<sub>i</sub>,<br/>where ε<sub>x</sub> ≤ α<sub>i</sub> < ε<sub>x + 1</sub> and m<sub>i</sub> < ε<sub>x</sub>,<br/>into ε<sub>x</sub><sup style="font-size:11px;">p</sup>(m<sub>1</sub> + m<sub>2</sub> + m<sub>3</sub> + ...)</small></div>';
+   h='<div style="line-height:1.2"><small>Group additively indecomposables α<sub style="font-size:11px;">i</sub> = ε<sub style="font-size:11px;">x</sub><sup style="font-size:11px;"">p</sup>m<sub style="font-size:11px;">i</sub>,<br/>where ε<sub style="font-size:11px;">x</sub> ≤ α<sub style="font-size:11px;">i</sub> < ε<sub style="font-size:11px;">x + 1</sub> and m<sub style="font-size:11px;">i</sub> < ε<sub style="font-size:11px;">x</sub>,<br/>into ε<sub style="font-size:11px;">x</sub><sup style="font-size:11px;"">p</sup>(m<sub style="font-size:11px;">1</sub> + m<sub style="font-size:11px;">2</sub> + m<sub style="font-size:11px;">3</sub> + ...)</small></div>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton12'){
+   h='<div style="line-height:1.2"><small>Sum of α<sub style="font-size:11px;">i</sub> terms, where i = 0, 1, 2, ..., n; α<sub style="font-size:11px;">0</sub> ≤ α<sub style="font-size:11px;">1</sub> ≤ α<sub style="font-size:11px;">2</sub> ≤ ... ≤ α<sub style="font-size:11px;">n</sub><br/>is displayed as "α<sub style="font-size:11px;">n</sub> + ... + α<sub style="font-size:11px;">2</sub> + α<sub style="font-size:11px;">1</sub> + α<sub style="font-size:11px;">0</sub>", if enabled,<br/>and as "Σ(α<sub style="font-size:11px;">0</sub>,α<sub style="font-size:11px;">1</sub>,α<sub style="font-size:11px;">2</sub>,...,α<sub style="font-size:11px;">n</sub>,)", if disabled</small></div>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='sugarbutton'){
    h='<small></small>';
    xs.style.background='#f0fff0';
    }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+else if(c.id=='sugarbutton14'){
+   h='<small>Display second least ordinal as "1"</small>';
    xs.style.background='#f0fff0';
-   }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
-   xs.style.background='#f0fff0';
-   }    
+   }  
 else if(c.id=='sugarbutton'){
    h='<small></small>';
    xs.style.background='#f0fff0';
@@ -4106,13 +4116,16 @@ sugarbuttona16.hidden=!sugar[0]||(!sugar[9]&&!sugar[10])||!sugar[13];
 sugarbuttonb16.hidden=!sugar[0]||(!sugar[9]&&!sugar[10])||!sugar[13];
 sugarbutton17.hidden=!sugar[0]||(!sugar[9]&&!sugar[10]||!sugar[13]);
 sugarbutton18.hidden=!sugar[0]||!sugar[8]||!sugar[9];
-sugarbuttona19.hidden=!sugar[0]||!sugar[13];
-sugarbuttonb19.hidden=!sugar[0]||!sugar[13];
+/*sugarbuttona19.hidden=!sugar[0]||!sugar[13];
+sugarbuttonb19.hidden=!sugar[0]||!sugar[13];*/
+sugarbuttona19.hidden=!sugar[0];
+sugarbuttonb19.hidden=!sugar[0];
 sugarbuttona20.hidden=!sugar[0]||(!sugar[24]&&!sugar[25]&&!sugar[26]&&!sugar[27]);
 sugarbuttonb20.hidden=!sugar[0]||(!sugar[24]&&!sugar[25]&&!sugar[26]&&!sugar[27]);
 sugarbutton21.hidden=!sugar[0];
 sugarbutton22.hidden=!sugar[0];
-sugarbutton23.hidden=!sugar[0]||!sugar[13];
+//sugarbutton23.hidden=!sugar[0]||!sugar[13];
+sugarbutton23.hidden=!sugar[0];
 sugarbutton24.hidden=!sugar[0];
 sugarbutton25.hidden=!sugar[0];
 sugarbutton26.hidden=!sugar[0];
