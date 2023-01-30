@@ -280,10 +280,10 @@ line-height:14px;
 font-size:10px;
 ">@ 0</div
 ></div><div class="subu" id="sugarbutton32" style="
-min-width:40px;
+min-width:33px;
 line-height:14px;
 font-size:10px;
-">@ array</div
+">@ {...}</div
 ><div class="subu" id="sugarbutton34" style="
 ">Ω</div
 ><div class="subu" id="sugarbutton33" style="
@@ -3621,18 +3621,18 @@ else if(c.id=='sugarbutton12'){
    h='<div style="line-height:1.2"><small>Sum of α<sub style="font-size:11px;">i</sub> terms, where i = 0, 1, 2, ..., n; α<sub style="font-size:11px;">0</sub> ≤ α<sub style="font-size:11px;">1</sub> ≤ α<sub style="font-size:11px;">2</sub> ≤ ... ≤ α<sub style="font-size:11px;">n</sub><br/>is displayed as "α<sub style="font-size:11px;">n</sub> + ... + α<sub style="font-size:11px;">2</sub> + α<sub style="font-size:11px;">1</sub> + α<sub style="font-size:11px;">0</sub>", if enabled,<br/>and as "Σ(α<sub style="font-size:11px;">0</sub>,α<sub style="font-size:11px;">1</sub>,α<sub style="font-size:11px;">2</sub>,...,α<sub style="font-size:11px;">n</sub>,)", if disabled</small></div>';
    xs.style.background='#f0fff0';
    }
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+else if(c.id=='sugarbutton32'){
+   h='<small>Display multidimensional arrays</small>';
    xs.style.background='#f0fff0';
-   }    
+   }
 else if(c.id=='sugarbutton14'){
    h='<small>Display second least ordinal as "1"</small>';
    xs.style.background='#f0fff0';
-   }  
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+   }
+else if(c.id=='sugarbutton41'){
+   h='<small>Display null position in arrays</small>';
    xs.style.background='#f0fff0';
-   }    
+   }
 else if(c.id=='sugarbuttona16'){
    h='<div style="line-height:1.2"><small>Set "×" as multiplication sign</small></div>';
    xs.style.background='#f0fff0';
@@ -3645,50 +3645,66 @@ else if(c.id=='sugarbutton17'){
    h='<div style="line-height:1.2"><small>Omit multiplication sign, when it is not neccessary<br/>(before "[" symbol, so as not to confuse multiplier with booster)</small></div>';
    xs.style.background='#f0fff0';
    }
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+else if(c.id=='sugarbuttona31'){
+   h='<small>Display position in arrays to the right of "@" symbol</small>';
    xs.style.background='#f0fff0';
-   }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+   }
+else if(c.id=='sugarbuttonb31'){
+   h='<small>Display position in arrays as right superscript of "@" symbol</small>';
    xs.style.background='#f0fff0';
-   }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+   }
+else if(c.id=='sugarbutton29'){
+   h='<small>Do not display successor positions in arrays and fill gaps in arrays with zeros</small>';
    xs.style.background='#f0fff0';
-   }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+   }
+else if(c.id=='sugarbutton30'){
+   h='<div style="line-height:1.2"><small>Display positions of elements in arrays<br/>(similarly to Schütte\'s Klammersymbolen,<br/>but with "@" symbol after array element<br/>and the element\'s position after "@" symbol)</small></div>';
    xs.style.background='#f0fff0';
-   }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+   } 
+else if(c.id=='sugarbutton28'){
+   h='<small>Display Veblen function</small>';
    xs.style.background='#f0fff0';
-   }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+   }
+else if(c.id=='sugarbutton40'){
+   h='<small>Display Extended Buchholz\'s function</small>';
    xs.style.background='#f0fff0';
-   }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+   }
+else if(c.id=='sugarbuttona19'){
+   h='<small>Display superscripts using "^" symbol</small>';
    xs.style.background='#f0fff0';
-   }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+   }
+else if(c.id=='sugarbuttonb19'){
+   h='<small>Display superscripts as superscripts</small>';
    xs.style.background='#f0fff0';
-   }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+   }
+else if(c.id=='sugarbuttona20'){
+   h='<small>Display subscripts using "_" symbol</small>';
    xs.style.background='#f0fff0';
-   }    
-else if(c.id=='sugarbutton'){
-   h='<small></small>';
+   }
+else if(c.id=='sugarbuttonb20'){
+   h='<small>Display subscripts as subscripts</small>';
    xs.style.background='#f0fff0';
-   }    
-
-
-   
-   
+   }
+else if(c.id=='sugarbutton23'){
+   h='<small>Display additively indecomposables as powers of least infinite ordinal</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton24'){
+   h='<small>Display ε numbers as "ε<sub style="font-size:11px;">x</sub>"</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton25'){
+   h='<small>Display ζ numbers as "ζ<sub style="font-size:11px;">x</sub>"</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton26'){
+   h='<small>Display η numbers as "η<sub style="font-size:11px;">x</sub>"</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton27'){
+   h='<small>Display Γ numbers as "Γ<sub style="font-size:11px;">x</sub>"</small>';
+   xs.style.background='#f0fff0';
+   }
 else if(c.id=='decdec'){
    h='<div id="decdec1"'+(sugar[4]?'':' style="font-style:italic"')+'><nobr id="decdec2"'+(sugar[4]?' style="font-weight:bold"':'')+'>Decrease</nobr> number of levels of decomposition into boosters</div><i>use Digit keys</i>';
    if(sugar[4]) 
