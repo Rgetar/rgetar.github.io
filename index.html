@@ -1923,14 +1923,16 @@ if(sy!=''&&compare(maxx,x)>0){
          return 'Γ<sub>'+le+'</sub>';}
    if(sy=='Φ'&&fx==col)
       //return (sugar[33]?'ℵ':'Ω')+(le==''?'':'<sub>'+le+'</sub>');
-      return le==''?(sugar[34]?'Ω':'ℵ'):convertsubscript(sugar[34]?'Ω':sugar[33]?'ℵ':'ω',le)
+      return le==''?(sugar[34]?'Ω':'ℵ'):convertsubscript(sugar[34]?'Ω':sugar[33]?'ℵ':'ω',le);
    if(sy=='I-Φ'&&fx==bb(col,col))
-      return 'I'+(le==''?'':'<sub>'+le+'</sub>');
+      //return 'I'+(le==''?'':'<sub>'+le+'</sub>');
+      return le==''?'I':convertsubscript('I',le);
    //if(sy!='φ'&&sy!='Φ'&&sy!='I-Φ')
    //   return sy+(le==''?'':'<sub>'+le+'</sub>');
    //if(sy=='M'&&fx=='c[c[c!!')
    if(sy=='M')
-      return 'M'+(le==''?'':'<sub>'+le+'</sub>');
+      //return 'M'+(le==''?'':'<sub>'+le+'</sub>');
+      return le==''?'M':convertsubscript('M',le);
       
    // old version (without @)	
    /*	   
