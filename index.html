@@ -265,10 +265,10 @@ min-width:40px;
 line-height:14px;
 font-size:10px;
 ">@ array</div
-><div class="subu" id="sugarbutton33" style="
-">ℵ</div
 ><div class="subu" id="sugarbutton34" style="
 ">Ω</div
+><div class="subu" id="sugarbutton33" style="
+">ℵ</div
 ><div class="subuc"><div class="subuleft" id="sugarbuttona20" style="
 min-width:14px;
 ">_</div
@@ -1612,7 +1612,7 @@ if(!nlevels&&st==col)
    return 'ε<sub>0</sub>';
 
 if(nlevels==1&&st==col)
-   return sugar[33]?convertsubscript('ℵ',convertone()):'Ω';
+   return sugar[33]?convertsubscript(sugar[33]?'ℵ':'ω',convertone()):'Ω';
 
 if(st==col||st==bo)
    return st;
@@ -1904,7 +1904,7 @@ if(sy!=''&&compare(maxx,x)>0){
          return 'Γ<sub>'+le+'</sub>';}
    if(sy=='Φ'&&fx==col)
       //return (sugar[33]?'ℵ':'Ω')+(le==''?'':'<sub>'+le+'</sub>');
-      return le==''?(sugar[34]?'Ω':'ℵ'):convertsubscript(sugar[34]?'Ω':'ℵ',le)
+      return le==''?(sugar[34]?'Ω':'ℵ'):convertsubscript(sugar[34]?'Ω':sugar[33]?'ℵ':'ω',le)
    if(sy=='I-Φ'&&fx==bb(col,col))
       return 'I'+(le==''?'':'<sub>'+le+'</sub>');
    //if(sy!='φ'&&sy!='Φ'&&sy!='I-Φ')
@@ -2201,7 +2201,7 @@ if(e>=0)
 	   return shortpropernames[e];
    }
 //if(sugar[34]&&st>=leastuncountable&&getepslevel(st)>0)
-if((sugar[33]||sugar[34])&&getepslevel(st)>0)
+if((sugar[15]||sugar[33]||sugar[34])&&getepslevel(st)>0)
    return convertepsilon0(st,format)+t;
 let cv=convertveblen(st);
 if(cv)
@@ -2472,7 +2472,7 @@ if(sugar[28])
    if(cv)
       return cv;
    }
-if(sugar[40]&&!((sugar[33]||sugar[34])&&op>=leastuncountable))
+if(sugar[40]&&!((sugar[15]||sugar[33]||sugar[34])&&op>=leastuncountable))
    return convertbuchholz(op);
 //return bb('',convertsubstring(op,-1,-1));
 return convertbaseandbooster(tostandard(bb('',op)));
