@@ -2271,8 +2271,8 @@ function convertomega()
 {
 if(sugar[15])
    return 'ω';
-//if(sugar[34])
-//   return convertsubscript('Ω',convertzero());
+if(sugar[34])
+   return convertsubscript('Ω',convertzero());
 if(sugar[33])
    return convertsubscript('ℵ',convertzero());
 if(sugar[28])
@@ -3703,6 +3703,18 @@ else if(c.id=='sugarbutton26'){
    }
 else if(c.id=='sugarbutton27'){
    h='<small>Display Γ numbers as "Γ<sub style="font-size:11px;">x</sub>"</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton15'){
+   h='<small>Display infinite cardinals as "ω<sub style="font-size:11px;">x</sub>" (omit x, if x = 0)</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton33'){
+   h='<small>Display infinite cardinals as "ℵ<sub style="font-size:11px;">x</sub>"</small>';
+   xs.style.background='#f0fff0';
+   }
+else if(c.id=='sugarbutton34'){
+   h='<small>Display infinite cardinals as "Ω<sub style="font-size:11px;">x</sub>" (omit x, if x = 1)</small>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='decdec'){
