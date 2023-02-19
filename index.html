@@ -501,7 +501,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▻</div>
 
-<span style="font-size:11px">    last updated: 31 January 2023</span>
+<span style="font-size:11px">    last updated: 19 February 2023</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -878,11 +878,13 @@ return bb(flooreps(st,n),nexteps(st,n+1));
 
 function nextzeta(st,n=0)
 {
-if(st>=col||n>nlevels)
+if(st>=col||n>=nlevels)
    return 'd';
-if(n==nlevels)
-   return bb(col,col);
-return bb(flooreps(st,n),nextzeta(st,n+1));
+let e=nexteps(st,n+1)
+e=bb(e,e);
+while(st&&booster(st)<e)
+   st=base(st);
+return bb(st,e);
 }
 
 function card(st)
@@ -1026,7 +1028,7 @@ while(cb.at(-1).length>1)
    }
 
 let pn=cb.length-1;
-let lrn=pn;
+//let lrn=pn;
 let nl=nlevels;
 let lr='c';
 let lar=[pn];
@@ -1045,6 +1047,11 @@ while(nl)
          {
          nl=0;
          r=q;
+         
+         let w=booster(lr);                      // new
+         while(booster(q)==w)
+            q=base(q);
+            
          while(q.length>1&&booster(q)==col)
             {
             q=base(q);
@@ -1638,6 +1645,9 @@ if(nlevels==1&&st==col)
 
 if(st==col||st==bo)
    return st;
+    
+//if(st=='[c[c[c[c!!!!')
+//   return 'K';  
     
 /*if(spn)
    {
@@ -3119,7 +3129,7 @@ if(sugar[1])
 return st;
 }
 
-function rx(s,c,n,q){
+/*function rx(s,c,n,q){
 count++;
 let x=document.createElement('li');
 x.id=s;
@@ -3146,7 +3156,7 @@ do{
 //while(l!='-'&&compare(s,l,true)<1)
 while(l!='-'&&compare(s,l)<1)
 return q==-1?s:rx(s,c,n,q);  	
-}
+}*/
 
 function pl(c){
 let e=0;
