@@ -501,7 +501,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▻</div>
 
-<span style="font-size:11px">    last updated: 10 February 2023</span>
+<span style="font-size:11px">    last updated: 19 February 2023</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -878,11 +878,13 @@ return bb(flooreps(st,n),nexteps(st,n+1));
 
 function nextzeta(st,n=0)
 {
-if(st>=col||n>nlevels)
+if(st>=col||n>=nlevels)
    return 'd';
-if(n==nlevels)
-   return bb(col,col);
-return bb(flooreps(st,n),nextzeta(st,n+1));
+let e=nexteps(st,n+1)
+e=bb(e,e);
+while(st&&booster(st)<e)
+   st=base(st);
+return bb(st,e);
 }
 
 function card(st)
@@ -1043,6 +1045,11 @@ while(nl)
          {
          nl=0;
          r=q;
+		 
+         let w=booster(lr);                      // new
+         while(booster(q)==w)
+            q=base(q);
+		 
          while(q.length>1&&booster(q)==col)
             {
             q=base(q);
