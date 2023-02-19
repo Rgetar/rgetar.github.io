@@ -1028,10 +1028,11 @@ while(cb.at(-1).length>1)
    }
 
 let pn=cb.length-1;
-let nl=nlevels;
-let lr='c';
+//let nl=nlevels;
+let nl=1;
+let lr=col;
 let lar=[pn];
-let r;           // more powerful system
+let r=1;           // more powerful system
 while(nl)
    {if(cb[pn]<lr)
       {
@@ -1040,29 +1041,30 @@ while(nl)
       nl--;
       
       // more powerful system
-      let q=base(lr);
-      if(lar.length>2&&q!=r)
+      if(r)
          {
-         nl=0;
-         r=q;
-		 
-         let w=booster(lr);                      // new
-         while(booster(q)==w)
-            q=base(q);
-		 
-         while(q.length>1&&booster(q)==col)
+         r=0;
+         let pn1=pn-1;
+         while(pn1>0&&cb[pn1]>lr)
+            pn1--;
+         if(pn1<0||cb[pn1]>lr||base(cb[pn1])<base(lr))
+            nl=1;
+         else
             {
-            q=base(q);
-            nl++;
+            let q=lr;
+            while(booster(q)==col)
+               {
+               q=base(q);
+               nl++;
+               }
             }
          }
-      
       }
    else
       {
       pn--;
       
-      // uncountable
+      // cof > ω
       if(pn<0)
          {
          fsopening=st0.slice(0,-1);
@@ -4186,7 +4188,6 @@ sugarbutton25.hidden=!sugar[0];
 sugarbutton26.hidden=!sugar[0];
 sugarbutton27.hidden=!sugar[0];
 sugarbutton28.hidden=!sugar[0];
-sugarbutton28.hidden=true;
 sugarbutton29.hidden=!sugar[0];
 sugarbutton30.hidden=!sugar[0]||!sugar[28];
 sugarbuttona31.hidden=!sugar[0]||!sugar[28]||!sugar[30];
@@ -5155,7 +5156,70 @@ initlargeordinalupdate();
 //let initlargeordinal=bb('',col);
 seteo(eo);
 
+/*
+let st='[[c!![[c!![[[c!![[c!!![[[c!![[c!!![[[c!![[[c!!!![[[c!![[[c!!!![[[c!![!![[[c!![!![[[c!!![[[c!!![[[c!!![[[!!![[[!!![[[!!![[![![![![!![[![![![!![[![![![!![[![![![!![![![![![!';
+list.innerHTML+=convert(st)+'<br/>';
+st=stringslice(st,'[!','[[c!![[c!!');
+list.innerHTML+=convert(st)+'<br/>';
+*/
+
+/*
+let st='[c[c!![c[[c[c!![c[c!![[c[c!![c!!!!'; sugar[4]=1;
+list.innerHTML+=convert(st)+' = '; sugar[4]=0;
+list.innerHTML+=convert(st)+'<br/>';
+st='[c[c!![c[[c[c!![c[c!![[c[c!![[c[c!![c[c!![[c[c!![c!!!!!!'; sugar[4]=1;
+list.innerHTML+=convert(st)+' = '; sugar[4]=0;
+list.innerHTML+=convert(st)+'<br/>';
+st='[c[c!![c[[c[c!![c[c!![[c[c!![[c[c!![c[c!!!!!!'; sugar[4]=1;
+list.innerHTML+=convert(st)+' = '; sugar[4]=0;
+list.innerHTML+=convert(st)+'<br/>';
+st='[[c[c!!![[c![[c![[[c[c!!![[c!!!!!'; sugar[4]=1;
+list.innerHTML+=convert(st)+' = '; sugar[4]=0;
+list.innerHTML+=convert(st)+'<br/>';
+st='[[c[[c!!!![[c![[c![[[c[[c!!!![[c!!!!!'; sugar[4]=1;
+list.innerHTML+=convert(st)+' = '; sugar[4]=0;
+list.innerHTML+=convert(st)+'<br/>';
+st='[[c[[[c!!!!![[c![[c![[[c[[[c!!!!![[c!!!!!'; sugar[4]=1;
+list.innerHTML+=convert(st)+' = '; sugar[4]=0;
+list.innerHTML+=convert(st)+'<br/>';
+st='[c![[c![c![[c![c![[c![[c![c![[c![c!!!!!!'; sugar[4]=1;
+list.innerHTML+=convert(st)+' = '; sugar[4]=0;
+list.innerHTML+=convert(st)+'<br/>';
+st='[c![[c![c![[c![c![[c![[c![c!!!!!'; sugar[4]=1;
+list.innerHTML+=convert(st)+' = '; sugar[4]=0;
+list.innerHTML+=convert(st)+'<br/>';
+st='[[c![[c![[c!!!![[c![[c![[[c![[c![[c!!!![[c!!!!!'; sugar[4]=1;
+list.innerHTML+=convert(st)+' = '; sugar[4]=0;
+list.innerHTML+=convert(st)+'<br/>';
+*/
+
+
+/*
+let st=`let str='';
+for(let j=1;j<50;j++)
+   str+='[]';
+list.innerHTML+=str;`;
+eval(st);
+*/
+
+/*
+//format=0;
+let st='[c[[c[c!!!!';
+st='[c[[c[[c[c!!!!!!';
+st='[[c![[c![c!!!';
+st='[[c![[c![[c![[c![[[c!!!!!!!';
+st=booster(st);
+st=cnf(st); 
+st=cnf(JSON.parse(JSON.stringify(st)),true); 
+  
+list.innerHTML+=(JSON.stringify(st)).toString().replaceAll('!',']').replaceAll('"','');
+//list.innerHTML+=convert(st)+'<br/>';
+//list.innerHTML+=checkstring(st)+'<br/>';
+*/
+
+//dis.innerHTML='   '+di+'   ';
 dis.innerHTML='displayed<br/>fs elements: '+di;
+//decintoboostersl.innerHTML='   '+sugar[4]+'   ';
 decintoboostersl.innerHTML='decomposition<br/>into boosters: '+sugar[4];
 far[format].style.background='#d0ffd0';
 indentar[indentvisible?indentmode:2].style.background='#d0ffd0';
