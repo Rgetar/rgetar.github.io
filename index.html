@@ -501,7 +501,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▻</div>
 
-<span style="font-size:11px">    last updated: 19 February 2023</span>
+<span style="font-size:11px">    last updated: 1 March 2023</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -1064,7 +1064,7 @@ while(nl)
       {
       pn--;
       
-      // uncountable
+      // cof > ω
       if(pn<0)
          {
          fsopening=st0.slice(0,-1);
@@ -1081,6 +1081,9 @@ while(nl)
       
       }
    }
+
+//if(st>'[c!')
+//   alert(st);
 
 let prover=Array(cb.length);
 
@@ -5096,7 +5099,7 @@ if(nlevels>1)
       propernamestring.push(bb('',bb('',bb(leastr,''))));                             // Buchholz ordinal
       propernamestring.push(bb('',bb(bb('',bb(leastr,'')),leastr)));                  // Takeuti-Feferman-Buchholz ordinal
       propernamestring.push(bb('',bb('',bb(leastr,leastr))));                         // Extended Buchholz ordinal
-      propernamestring.push(bb('',bb('',bb(bb(leastr,leastr),leastr))));              // Small Rathjen ordinal
+      propernamestring.push(bb('',bb(bb('',bb(leastr,leastr)),leastr)));              // Small Rathjen ordinal
       propernamestring.push(bb('',bb(bb('',bb(leastr,bb(leastr,leastr))),leastr)));   // Rathjen ordinal
       }
    }
