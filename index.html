@@ -5166,63 +5166,7 @@ st=stringslice(st,'[!','[[c!![[c!!');
 list.innerHTML+=convert(st)+'<br/>';
 */
 
-/*
-let st='[c[c!![c[[c[c!![c[c!![[c[c!![c!!!!'; sugar[4]=1;
-list.innerHTML+=convert(st)+' = '; sugar[4]=0;
-list.innerHTML+=convert(st)+'<br/>';
-st='[c[c!![c[[c[c!![c[c!![[c[c!![[c[c!![c[c!![[c[c!![c!!!!!!'; sugar[4]=1;
-list.innerHTML+=convert(st)+' = '; sugar[4]=0;
-list.innerHTML+=convert(st)+'<br/>';
-st='[c[c!![c[[c[c!![c[c!![[c[c!![[c[c!![c[c!!!!!!'; sugar[4]=1;
-list.innerHTML+=convert(st)+' = '; sugar[4]=0;
-list.innerHTML+=convert(st)+'<br/>';
-st='[[c[c!!![[c![[c![[[c[c!!![[c!!!!!'; sugar[4]=1;
-list.innerHTML+=convert(st)+' = '; sugar[4]=0;
-list.innerHTML+=convert(st)+'<br/>';
-st='[[c[[c!!!![[c![[c![[[c[[c!!!![[c!!!!!'; sugar[4]=1;
-list.innerHTML+=convert(st)+' = '; sugar[4]=0;
-list.innerHTML+=convert(st)+'<br/>';
-st='[[c[[[c!!!!![[c![[c![[[c[[[c!!!!![[c!!!!!'; sugar[4]=1;
-list.innerHTML+=convert(st)+' = '; sugar[4]=0;
-list.innerHTML+=convert(st)+'<br/>';
-st='[c![[c![c![[c![c![[c![[c![c![[c![c!!!!!!'; sugar[4]=1;
-list.innerHTML+=convert(st)+' = '; sugar[4]=0;
-list.innerHTML+=convert(st)+'<br/>';
-st='[c![[c![c![[c![c![[c![[c![c!!!!!'; sugar[4]=1;
-list.innerHTML+=convert(st)+' = '; sugar[4]=0;
-list.innerHTML+=convert(st)+'<br/>';
-st='[[c![[c![[c!!!![[c![[c![[[c![[c![[c!!!![[c!!!!!'; sugar[4]=1;
-list.innerHTML+=convert(st)+' = '; sugar[4]=0;
-list.innerHTML+=convert(st)+'<br/>';
-*/
-
-
-/*
-let st=`let str='';
-for(let j=1;j<50;j++)
-   str+='[]';
-list.innerHTML+=str;`;
-eval(st);
-*/
-
-/*
-//format=0;
-let st='[c[[c[c!!!!';
-st='[c[[c[[c[c!!!!!!';
-st='[[c![[c![c!!!';
-st='[[c![[c![[c![[c![[[c!!!!!!!';
-st=booster(st);
-st=cnf(st); 
-st=cnf(JSON.parse(JSON.stringify(st)),true); 
-  
-list.innerHTML+=(JSON.stringify(st)).toString().replaceAll('!',']').replaceAll('"','');
-//list.innerHTML+=convert(st)+'<br/>';
-//list.innerHTML+=checkstring(st)+'<br/>';
-*/
-
-//dis.innerHTML='   '+di+'   ';
 dis.innerHTML='displayed<br/>fs elements: '+di;
-//decintoboostersl.innerHTML='   '+sugar[4]+'   ';
 decintoboostersl.innerHTML='decomposition<br/>into boosters: '+sugar[4];
 far[format].style.background='#d0ffd0';
 indentar[indentvisible?indentmode:2].style.background='#d0ffd0';
