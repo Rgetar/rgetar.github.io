@@ -501,7 +501,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▻</div>
 
-<span style="font-size:11px">    last updated: 22 March 2023</span>
+<span style="font-size:11px">    last updated: 27 March 2023</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -1773,8 +1773,12 @@ else if(x>='c[c[c!!'&&st<'[c[c[c!![[c[c[c!![c!!!!'){
    maxx='d';
    }
 //else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!')
-else if(x>col)
+else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!'&&x<bb(f,bb(floorOmega(beta,bb(f,col)),bb(f,col))))
    {
+   
+   //if(x>=bb(f,bb(floorOmega(beta,bb(f,col)),bb(f,col))))
+   //   alert('['+convert(x)+']');
+   
    let beta1=beta;
    while(beta1&&booster(beta1)<'c[c[c!!')
       beta1=base(beta1);
@@ -1795,8 +1799,8 @@ else if(x>col)
    let x4=booster(x1);
    x4=x4?booster(x4):col;
    //while(x4&&x4<col)
-   //while(x4>='[c[c[c!!!'&&x4<col)
-   while(x4>=beta1&&x4<col)                                                                                // *
+   while(x4>='[c[c[c!!!'&&x4<col)
+   //while(x4>=beta1&&x4<col)                                                                                // *
    //while(x4>='[c[c[c!!!'&&x4<col&&st!='[c[c[c!!![c[c[[c[c[c!!!!!!')
    //while(x4>=(st=='[c[c[c!!![c[c[[c[c[c!!!!!!'?'[c[c[c!!![c[c[c!!!':'[c[c[c!!!')&&x4<col)
       x4=x4?booster(x4):col;
@@ -1830,8 +1834,8 @@ else if(x>col)
             //x1=base(x1);
             }*/
             
-         //if(x>='c[c[[c[c[c!!!!!')
-         if(x>=bb(col,bb(col,beta1)))                                                                // *
+         if(x>='c[c[[c[c[c!!!!!')
+         //if(x>=bb(col,bb(col,beta1)))                                                                // *
          //if(x>='c[c[[c[c[c!!!!!'&&st!='[c[c[c!!![c[c[[c[c[c!!!!!!')
             {
             x1=finremc(x1);
