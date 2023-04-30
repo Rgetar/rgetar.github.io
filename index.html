@@ -279,9 +279,9 @@ font-size:10px;
 ">@<sup style="font-size:8px;">x</sup></div
 ></div><div class="subu" id="sugarbutton41" style="
 min-width:23px;
-line-height:14px;
+line-height:9px;
 font-size:10px;
-">@ 0</div
+">@<sup style="font-size:8px;">0</sup></div
 ></div><div class="subu" id="sugarbutton32" style="
 min-width:33px;
 line-height:14px;
@@ -501,7 +501,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▻</div>
 
-<span style="font-size:11px">    last updated: 29 April 2023</span>
+<span style="font-size:11px">    last updated: 30 April 2023</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -773,6 +773,43 @@ for(let e=1;e<st.length;e++)
 return i?st.slice(0,-i):st;
 }
 
+function overperiod2(st){
+let a=[];
+for(let i=0;i<st.length;i++)
+   if(st[i]==col)
+      a.push(i);
+let l=a.length;
+if(l<2)
+   return st;
+for(let i=0;i<l;i++)
+   a.push(a[i]+st.length);
+let st2=st+st;
+let aa=Array(l);
+for(let e=0;e<l;e++)
+   aa[e]=Array(l);
+//aa.fill(Array(l));
+aa.forEach(function(i){i.fill(false);});
+for(let e=0;e<l-1;e++)
+for(let i=e+1;i<l;i++)
+   if(st2.slice(a[e],a[i])==st2.slice(a[i],a[2*i-e]))
+      aa[e][i]=true;
+let i=l-1;
+let e=0;
+while(i)
+   {
+   let u=e+i;
+   if(u<l&&aa[e][u])
+      return st.slice(0,e)+st.slice(u);
+   e++;
+   if(e>=l)
+      {
+      i--;
+      e=0;
+      }
+   }
+return st;
+}
+
 function overprimer(st,st0){
 if(st[0]!=col)
    return st0;
@@ -940,7 +977,7 @@ return st;
 }
 
 // get n-th element of fs of ordinal st
-function fs(st,n,nn=0,fa=false){
+function fs(st,n,nn=0){
 
 // optimization
 if(st==fscurrent)
@@ -951,6 +988,9 @@ if(fscurrent)
    subperiodpositionshift=0;
 
 fscurrent=st;
+cblen=0;
+cbc=0;
+cpn=0;
 
 // limit rule
 if(st==bo)
@@ -1085,6 +1125,25 @@ while(nl)
 //if(st>'[c!')
 //   alert(st);
 
+
+
+// no overlap
+// cb: [[[Xc]]] → X[
+/*for(i=pn;i<cb.length;i++)
+   {while(cb[i][0]=='[')
+      cb[i]=cb[i].slice(1);
+   cb[i]=cb[i].slice(0,-cb.length+i)+'[';
+   }
+   
+// largest repeated cb
+let np=cb.length-1;
+for(i=cb.length-2;i>=pn;i--)
+   if(cb[i]>cb[np].repeat(Math.ceil(cb[i].length/cb[np].length)))
+      np=i;*/
+
+
+
+// overlap
 let prover=Array(cb.length);
 
 // cb: [[[Xc]]] → X[
@@ -1111,11 +1170,32 @@ for(i=cb.length-2;i>=pn;i--)
 
 st0=prover[np];
 
+
+
+cblen=1;
+cbc=1;
+cpn=pn;
+for(i=pn+1;i<cb.length;i++)
+   {
+   if(cb[i]!=cb[i-1])
+      cblen++;
+   if(i==np)
+      cbc=cblen;
+   }
+
+
+
+
 let rr=cb[np].length-getpos(cb[np]);
 
 fsopening=st0.slice(0,-rr);
 rr%=cb[np].length;
 fsperiod0=cb[np].slice(-rr)+cb[np].slice(0,-rr);
+
+/*if(st=='[c[[c[c!!!![[c[c!!!')
+   //fsperiod0.replace('!!!!', '!!!![c');
+   fsperiod0=fsperiod0+'[c';*/
+
 while(fsopening.slice(-fsperiod0.length)==fsperiod0)
    fsopening=fsopening.slice(0,-fsperiod0.length);
 
@@ -1127,6 +1207,155 @@ cofclass=0;
 setfsarrays();
 
 return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+}
+
+
+
+function fsalt(st,n,nn=0,overtest=false,overl=0){
+
+// optimization
+if(st==fscurrent)
+   return st;
+
+// limit rule
+if(st==bo)
+   {
+   return st;
+   }
+
+let i=st.length-1;
+while(st[i]=='!')
+   i--;
+let e=st[i]=='[';
+let st0=st.slice(0,i);
+let st1=st.slice(i+(e?2:1));
+let s1;
+
+// successor and plain rule
+if(e)
+   {
+   return st;
+   }
+
+// main rule
+let stt=st0;
+let u=i-1;
+
+while(st0[u]=='[')
+  u--;
+u=i-u-1;
+
+st0+='[';
+
+st1=st1.slice(u);
+let s;
+
+u++;
+let uo='['.repeat(u);
+
+let cb=[st];
+//let nc=[1,1];
+while(cb.at(-1).length>1)
+   {cb.push(booster(cb.at(-1)));
+   }
+
+let pn=cb.length-1;
+let nl=nlevels;
+let lr='c';
+let lar=[pn];
+while(nl)
+   {if(cb[pn]<lr)
+      {
+      lr=cb[pn];
+      lar.push(pn);
+      nl--;
+      }
+   else
+      {
+      pn--;
+      
+      // cof > ω
+      if(pn<0)
+         {
+         return st;
+         }
+      
+      }
+   }
+
+
+
+let np;
+if(overtest)
+
+{
+// no overlap
+// cb: [[[Xc]]] → X[
+for(i=pn;i<cb.length;i++)
+   {while(cb[i][0]=='[')
+      cb[i]=cb[i].slice(1);
+   cb[i]=cb[i].slice(0,-cb.length+i)+'[';
+   }
+   
+// largest repeated cb
+np=cb.length-1;
+for(i=cb.length-2;i>=pn;i--)
+   if(cb[i]>cb[np].repeat(Math.ceil(cb[i].length/cb[np].length)))
+      np=i;
+
+while(st0.length<overl)
+   st0+=cb[np];
+
+return st0.slice(0,overl);
+}
+else 
+{
+
+// overlap
+let prover=Array(cb.length);
+
+// cb: [[[Xc]]] → X[
+for(i=pn;i<cb.length;i++)
+   {while(cb[i][0]=='[')
+      {cb[i]=cb[i].slice(1);
+      }
+   cb[i]=cb[i].slice(0,-cb.length+i)+'[';
+   cb[i]=overperiod(cb[i]);
+   prover[i]=overprimer(cb[i],st0);
+   }
+
+np=cb.length-1;
+for(i=cb.length-2;i>=pn;i--)
+
+   if(prover[i].length+cb[i].length>prover[np].length+cb[np].length)
+      {
+      if(prover[i]+cb[i]>prover[np]+(cb[np].repeat(Math.ceil((prover[i].length-prover[np].length+cb[i].length)/cb[np].length))))
+         np=i;
+      }
+   else
+      if(prover[i]+(cb[i].repeat(Math.ceil((prover[np].length-prover[i].length+cb[np].length)/cb[i].length)))>prover[np]+cb[np])
+         np=i;
+
+st0=prover[np];
+
+let overstring=st0;
+let overor=st0+cb[np];
+i=-1;
+while(true)
+   {
+   i++;
+   if(i>=overstring.length)
+      overstring+=cb[np];
+   if(overstring[i]=='['&&(!i||overstring[i-1]=='['))
+      {
+      let overnsform=overstring.slice(0,i);
+      overnsform=overnsform+col+('!'.repeat(ocd(overnsform)));
+      let efs=fsalt(overnsform,'',0,true,overor.length);
+      if(efs==overor)
+         return overnsform;
+      }
+   }
+}
 }
 
 
@@ -2169,7 +2398,7 @@ let neo=nexteps(st,1);
 let x=booster(st);
 if(x<neo)
    {
-   if(!sugar[28])
+   if(!sugar[28]||(!sugar[30]&&sugar[41]))
       return '';
    return displayphi(convertarray(st,neo));
    }
@@ -2179,7 +2408,7 @@ let p=stringslice(x,neo);
 let neo2=bb(neo,neo);
 let neo3=bb(neo2,neo);
 let neos=bb(neo,neo2);
-if(!sugar[28])
+if(!sugar[28]||(!sugar[30]&&sugar[41]))
    {
    if((!sugar[24]||p!=neo)&&(!sugar[25]||p!=neo2)&&(!sugar[26]||p!=neo3)&&(!sugar[27]||p!=neos))
       return ''; 
@@ -2309,7 +2538,7 @@ if(sugar[34])
    return convertsubscript('Ω',convertzero());
 if(sugar[33])
    return convertsubscript('ℵ',convertzero());
-if(sugar[28])
+if(sugar[28]&&(sugar[30]||!sugar[41]))
    return displayphi(convertarray('[!',leastuncountable));
 if(sugar[40])
    return displaypsi(convertzero(),convertone());
@@ -2525,7 +2754,7 @@ if(sugar[10]&&op>=leastepsilon)
 //if(sugar[13]&&sugar[23])
 if(sugar[23])
    return convertpower(convertomega(),convertsubstring(op,-1,-1));
-if(sugar[28])
+if(sugar[28]&&(sugar[30]||!sugar[41]))
    {
    let cv=convertveblen(op);
    if(cv)
@@ -3072,6 +3301,13 @@ function convertbb(st,b)
 {
 //if(isomegap(st))
 //   return convertomegap(st,b);
+
+/*if(fsaltcheck)
+   {
+   fsaltcheck=false;
+   st=fsalt(st,'',0);
+   }*/
+
 if(isomegap(st))
    if(isepsilon(st))
       return convertepsilon(st,b);
@@ -3140,6 +3376,7 @@ return st;
 
 function convert(st)
 {
+//fsaltcheck=true;
 if(sugar[0])
    if(st==bo)
       st=convertbo(st);
@@ -3929,6 +4166,7 @@ if(c.id=='mulmark'||c.id=='expmark'||c.id=='smexmark'||c.id=='colmark')
       let cc=card(c.id);
       let ccc=cardclass;
       h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>card: '+convert(cc)+'<small> ('+cardclasslist[ccc]+')</small>'+'<br/>fs <small>(<span id="spps">'+(subperiodpositionshift+1)+'</span>/'+fsnumber+')'+(fsnumber>1?' <i>(use "←", "→" keys)</i>':'')+'</small>:'; 
+//      h+='<br/></div><b>'+c.innerHTML+'</b><span'+(false?'':' id="fsd"')+(di>0?'':' hidden')+'><br/>cof: '+convert(cofcurrent)+(cofclass?'<small> ('+cofclasslist[cofclass]+')</small>':'')+'<br/>card: '+convert(cc)+'<small> ('+cardclasslist[ccc]+')</small>'+'<br/>pn: '+cpn+'; cb: '+cbc+'/'+cblen+'<br/>fs <small>(<span id="spps">'+(subperiodpositionshift+1)+'</span>/'+fsnumber+')'+(fsnumber>1?' <i>(use "←", "→" keys)</i>':'')+'</small>:'; 
       if(c.id=='')
          h+='<br>'+'   <i>empty</i>';
       else
@@ -4668,6 +4906,9 @@ prevsmallexp='-';
 uncountablemode=m;
 bo=uncountablemodeinitnames[m]+(nlevels==2?'':', nlevels = '+nlevels);
 initlargeordinal=bo;
+//initlargeordinal='[c[[c[c!!!![[c[c!!!';
+//initlargeordinal='[c[[c[c!!!![[c[c!!![[c[c!!!';
+//initlargeordinal='[c[[c[c!!!![[c[[c[c!!!![c!!';
 list.innerHTML='<li id="-" hidden></li>';
 let y=document.createElement('li');
 y.id=initlargeordinal;
@@ -5101,7 +5342,7 @@ leastepsilon='['.repeat(nlevels)+col+'!'.repeat(nlevels);
 leastepsilonbb='['.repeat(nlevels+1)+col+'!'.repeat(nlevels+1);
 leastr=nlevels>1?'['.repeat(nlevels-2)+col+'!'.repeat(nlevels-2):'d';
 leastuncountable=nlevels?'['.repeat(nlevels-1)+col+'!'.repeat(nlevels-1):'d';
-initlargeordinal=nlevels==bolevels?bo:'['.repeat(bolevels)+('['.repeat(nlevels-bolevels)+col+'!'.repeat(nlevels-bolevels)).repeat(2)+'!'.repeat(bolevels);
+//initlargeordinal=nlevels==bolevels?bo:'['.repeat(bolevels)+('['.repeat(nlevels-bolevels)+col+'!'.repeat(nlevels-bolevels)).repeat(2)+'!'.repeat(bolevels);
 propernamestring=[leastepsilon];      // Small Cantor ordinal
 if(nlevels)
    {
@@ -5150,6 +5391,8 @@ let fscurrent,fsopening,fsperiod0,fsperiod1,fsending,cofcurrent,cofclass,cardcla
 let fsnumber=1,fsopeningarray,fsperiodarray,fsendingarray;
 let cofclasslist=['','zero','successor','regular cardinal','singular cardinal'];
 let cardclasslist=['finite cardinal','countable','uncountable','countable cardinal','uncountable cardinal'];
+//let fsaltcheck;
+let cblen,cbc,cpn;
 let ulnar=['UL1','UL'];
 let markedli;
 let prevsmallexp,nextsmallexpn;
@@ -5172,9 +5415,7 @@ let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal',
 let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','EBO','SRO','RO'];
 let propernamestring;
 initlargeordinalupdate();
-//initlargeordinal='[c[[c[c!!!![c[[c[c!!!!'; resetlist();
-//let initlargeordinal=col;
-//let initlargeordinal=bb('',col);
+
 seteo(eo);
 
 /*
