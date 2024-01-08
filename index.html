@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml">
 <head>
@@ -129,11 +130,11 @@ min-height:16px;
 line-height:16px;
 text-align:center;
 padding:3px 5px;
-font-size:20px;
+//font-size:20px;
 background:#ffffd0;
 opacity:0.4;
 cursor:default;
-">◅</div><div id="ecfv" style="
+">◁</div><div id="ecfv" style="
 float:left;
 outlinea:1px solid #909090;
 min-width:70px;
@@ -153,10 +154,10 @@ line-height:16px;
 border-radius:0 5px 5px 0;
 margin-left:1px;
 padding:3px 5px;
-font-size:20px;
+//font-size:20px;
 background:#d0ffd0;
 cursor:pointer;
-">▻</div>
+">▷</div>
 
 <div align="left" style="
 font-size:12px;
@@ -309,11 +310,11 @@ min-height:16px;
 line-height:16px;
 text-align:center;
 padding:3px 5px;
-font-size:20px;
+//font-size:15px;
 background:#ffffd0;
 opacity:0.4;
 cursor:default;
-">◅</div><div id="decintoboostersl" style="
+">◁</div><div id="decintoboostersl" style="
 float:left;
 margin-top:7px;
 outlinea:1px solid #909090;
@@ -334,10 +335,10 @@ min-height:16px;
 line-height:16px;
 margin-left:1px;
 padding:3px 5px;
-font-size:20px;
+//font-size:15px;
 background:#d0ffd0;
 cursor:pointer;
-">▻</div><div id="infdec" style="
+">▷</div><div id="infdec" style="
 float:left;
 margin-top:7px;
 margin-bottom:10px;
@@ -347,7 +348,7 @@ max-height:16px;
 line-height:18px;
 border-radius:0 5px 5px 0;
 margin-left:1px;
-margin-right:20px;
+margin-right:5px;
 padding:3px 5px;
 font-size:16px;
 background:#d0ffd0;
@@ -361,10 +362,10 @@ min-height:16px;
 line-height:16px;
 text-align:center;
 padding:3px 5px;
-font-size:20px;
+//font-size:20px;
 background:#ffffd0;
 cursor:default;
-">◅</div><div id="decintobasesl" style="
+">◁</div><div id="decintobasesl" style="
 float:left;
 outlinea:1px solid #909090;
 min-width:70px;
@@ -383,10 +384,10 @@ min-height:16px;
 line-height:16px;
 margin-left:1px;
 padding:3px 5px;
-font-size:20px;
+//font-size:20px;
 background:#d0ffd0;
 cursor:pointer;
-">▻</div><div id="infdecbase" style="
+">▷</div><div id="infdecbase" style="
 float:left;
 outline:1px solid #909090;
 min-height:16px;
@@ -473,10 +474,10 @@ min-height:16px;
 line-height:16px;
 text-align:center;
 padding:3px 5px;
-font-size:20px;
+//font-size:20px;
 background:#ffffd0;
 cursor:pointer;
-">◅</div><div id="dis" style="
+">◁</div><div id="dis" style="
 float:left;
 outlinea:1px solid #909090;
 min-width:70px;
@@ -496,12 +497,12 @@ line-height:16px;
 border-radius:0 5px 5px 0;
 margin-left:1px;
 padding:3px 5px;
-font-size:20px;
+//font-size:20px;
 background:#d0ffd0;
 cursor:pointer;
-">▻</div>
+">▷</div>
 
-<span style="font-size:11px">    last updated: 30 April 2023</span>
+<span style="font-size:11px">    last updated: 8 January 2024</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -742,7 +743,7 @@ for(let i=e+1;i<m;i++)
       b=false;
 if(b)
    return pcar[e];
-for(let i=e+1;i<m;i++)
+/*for(let i=e+1;i<m;i++)
    {
    let i1=i;
    let e1=e;
@@ -760,7 +761,31 @@ for(let i=e+1;i<m;i++)
       e=i;
       }
    }
-return pcar[e+1]%l;
+return pcar[e+1]%l;*/
+
+let maxp=st.slice(pcar[e],pcar[e]+l);
+for(let i=e+1;i<m;i++)
+{
+let sm=maxp;
+while(sm&&sm[0]=='[')
+   sm=sm.slice(1);
+let ss=st.slice(pcar[i],pcar[i]+l);
+while(ss&&ss[0]=='[')
+   ss=ss.slice(1);
+//if(ss>sm)
+//if(st.slice(pcar[i],pcar[i]+l)>maxp||ss.slice(0,6)>sm.slice(0,6))
+if((i-e==1?ss:st.slice(pcar[i],pcar[i]+l))>(i-e==1?sm:maxp))
+//if(ss>sm&&ss!=sm+'['&&ss!=sm+'[[')
+//if(st.slice(pcar[i],pcar[i]+l)>maxp)
+//if(st.slice(pcar[i],pcar[i]+l).split("").reverse().join("")<maxp.split("").reverse().join(""))
+   {
+   maxp=st.slice(pcar[i],pcar[i]+l);
+   e=i;
+   }
+}
+//if(e&&pcar[e]-pcar[e-1]==1)
+//   e--;
+return pcar[e]%l;
 }
 
 function overperiod(st){
@@ -771,6 +796,24 @@ for(let e=1;e<st.length;e++)
    if(st.slice(0,e)==st.slice(-e))
       i=e;
 return i?st.slice(0,-i):st;
+}
+
+function overperiod_new(st){
+let b=true;
+while(b)
+   {
+   if(st[0]!=col)
+      return st;
+   let i=0;
+   for(let e=1;e<st.length;e++)
+      if(st.slice(0,e)==st.slice(-e))
+         i=e;
+   if(i)
+      st=st.slice(0,-i);
+   else
+      b=false;
+   }
+return st;
 }
 
 function overperiod2(st){
@@ -818,6 +861,24 @@ for(let e=1;e<st.length;e++)
    if(st.slice(0,e)==st0.slice(-e))
       i=e;
 return i?st0.slice(0,-i):st0;
+}
+
+function overprimer_new(st,st0){
+let b=true;
+while(b)
+   {
+   if(st[0]!=col)
+      return st0;
+   let i=0;
+   for(let e=1;e<st.length;e++)
+      if(st.slice(0,e)==st0.slice(-e))
+         i=e;
+   if(i)
+      st0=st0.slice(0,-i);
+   else
+      b=false;
+   }    
+return st0;
 }
 
 function setfsarrays()
@@ -976,8 +1037,30 @@ if(c<leastuncountable)
 return st;
 }
 
+/*function getnin(st){
+if(st.length<2||st==bo)
+   return 0;
+let x=booster(st);
+return Math.max(getnin(base(st)),(x>st?1:0)+getnin(x));
+}*/
+
+function infcompare(st1,st2)
+{
+if(st1.length>st2.length)
+   while(st1.length>st2.length)
+      st2+=st2;
+else if(st1.length<st2.length)
+   while(st1.length<st2.length)
+      st1+=st1;
+return st1>=st2;
+}
+
 // get n-th element of fs of ordinal st
 function fs(st,n,nn=0){
+
+//let nin=getnin(st);
+//if(nin>4)
+//   alert(st+'\n'+convert(st)+'\nnin = '+nin);
 
 // optimization
 if(st==fscurrent)
@@ -1035,12 +1118,14 @@ if(e)
    cofcurrent=st1?'[[!!':'[!';
    cofclass=st1?st==cofcurrent?3:0:2;
    let st2=st1;
+   //s1=bb('',booster(st0));
+   s1=st1?bb('',booster(st0)):'';
    st1=st1.slice(1);
-   s1=bb('',booster(st0));
    fsopening=base(st0);
    fsperiod0=s1;
    fsperiod1='';
    fsending=st1;
+   
    setfsarrays();
    return fsopening+fsperiod0.repeat(nn)+fsending;
    }
@@ -1066,6 +1151,27 @@ let cb=[st];
 while(cb.at(-1).length>1)
    {cb.push(booster(cb.at(-1)));
    }
+
+let nod=0;
+let mb=col;
+for(i=cb.length-1;i>=0;i--)
+if(cb[i]<mb)
+   {
+   nod++;
+   mb=cb[i];
+   }
+   
+let noi=0;
+mb=st;
+for(i=0;i<cb.length;i++)
+if(cb[i]>mb)
+   {
+   noi++;
+   mb=cb[i];
+   }  
+   
+if(nod>4||noi>4)
+   alert(st+'\n'+convert(st)+'\nnod = '+nod+'\nnoi = '+noi);
 
 let pn=cb.length-1;
 //let lrn=pn;
@@ -1143,6 +1249,60 @@ for(i=cb.length-2;i>=pn;i--)
 
 
 
+
+
+/*let cbase=Array(cb.length*2-pn);
+for(i=pn;i<cb.length;i++)
+   {
+   cbase[i]=base(cb[i])+'[';
+   cbase[i+cb.length-pn]=cbase[i];
+   }
+
+for(e=pn;e<cb.length;e++)
+   {
+   let bar=Array(cb.length).fill(true);
+   cb[e]='';
+   for(i=pn;i<cb.length;i++)
+      cb[e]+=cbase[e+i-pn];
+   let bc=cb.length-pn-1;
+   let b=true;
+   while(bc&&b)
+      {
+      b=false;
+      let i1;
+      for(i=e+pn+1;i<e+cb.length;i++)
+      if(bar[i])
+         {
+         let cbc=cbase[e];
+         for(u=e+pn+1;u<e+cb.length;u++)
+            if(bar[u]&&u!=i)
+               cbc+=cbase[u];
+         if(infcompare(cbc,cb[e]))
+            {
+            b=true;
+            cb[e]=cbc;
+            i1=i;
+            }
+         }
+      if(b)
+         {
+         bar[i1]=false;
+         bc--;
+         }
+      }
+   }
+   
+for(i=pn;i<cb.length;i++)
+if(cb[i].includes(col))
+   while(cb[i][0]=='[')
+      cb[i]=cb[i].slice(1)+'[';
+   
+let prover=Array(cb.length);
+for(i=pn;i<cb.length;i++)
+   prover[i]=st0;*/
+   
+   
+
 // overlap
 let prover=Array(cb.length);
 
@@ -1156,6 +1316,36 @@ for(i=pn;i<cb.length;i++)
    prover[i]=overprimer(cb[i],st0);
    }
 
+//cb[0]=='c[[c[c!!!![[c[['               // Φ(1, 0)[I]
+//cb[0]=='c[[c[c!!!![['
+//if(st=='[c[[c[c!!!![[c[c!!!')
+//   cb[0]='c[[c[c!!!![c[[';
+   
+/*c
+c[c!
+[c[c!!
+[c[[c[c!!!![[c[c!!!
+
+c[[c[c!!!![[c[[
+
+[
+c[
+[
+c[[c[c!!!![
+*/
+
+   
+//cb[0]='c![[c[c!!![[c[[';               // Ω[I][I]
+//if(st=='[c![[c[c!!![[c[c!!!')
+//   cb[0]='c[c!!![[c[[';
+
+/*[
+c[
+[
+c[c!!![
+c![[
+*/
+
 let np=cb.length-1;
 for(i=cb.length-2;i>=pn;i--)
 
@@ -1167,8 +1357,9 @@ for(i=cb.length-2;i>=pn;i--)
    else
       if(prover[i]+(cb[i].repeat(Math.ceil((prover[np].length-prover[i].length+cb[np].length)/cb[i].length)))>prover[np]+cb[np])
          np=i;
-
+//np=pn;
 st0=prover[np];
+
 
 
 
