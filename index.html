@@ -502,7 +502,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▷</div>
 
-<span style="font-size:11px">    last updated: 8 January 2024</span>
+<span style="font-size:11px">    last updated: 11 January 2024</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -763,28 +763,46 @@ if(b)
    }
 return pcar[e+1]%l;*/
 
+e=0;
+
 let maxp=st.slice(pcar[e],pcar[e]+l);
 for(let i=e+1;i<m;i++)
 {
-let sm=maxp;
+/*let sm=maxp;
 while(sm&&sm[0]=='[')
    sm=sm.slice(1);
 let ss=st.slice(pcar[i],pcar[i]+l);
 while(ss&&ss[0]=='[')
-   ss=ss.slice(1);
+   ss=ss.slice(1);*/
+   
 //if(ss>sm)
 //if(st.slice(pcar[i],pcar[i]+l)>maxp||ss.slice(0,6)>sm.slice(0,6))
-if((i-e==1?ss:st.slice(pcar[i],pcar[i]+l))>(i-e==1?sm:maxp))
+//if((i-e==1?ss:st.slice(pcar[i],pcar[i]+l))>(i-e==1?sm:maxp))
 //if(ss>sm&&ss!=sm+'['&&ss!=sm+'[[')
-//if(st.slice(pcar[i],pcar[i]+l)>maxp)
+if(st.slice(pcar[i],pcar[i]+l)>maxp)
+//if(st.slice(pcar[i],pcar[i]+l)>maxp&&maxp.slice(0,pcar[i]-pcar[e]).includes(col))
 //if(st.slice(pcar[i],pcar[i]+l).split("").reverse().join("")<maxp.split("").reverse().join(""))
    {
    maxp=st.slice(pcar[i],pcar[i]+l);
    e=i;
    }
 }
-//if(e&&pcar[e]-pcar[e-1]==1)
+//if(e&&pcar[e]-pcar[e-1]==1&&pcar[0]<2&&pcar.length>3)
 //   e--;
+if(m==2)
+   e++;
+else
+//if(st.includes(col))
+//while(e&&st.slice(pcar[e]%l+l-2,pcar[e]%l+l)=='[[')
+//while(e&&(st.slice(pcar[e]%l+l-2,pcar[e]%l+l)=='[['||(e==pcar.length-2&&st.slice(pcar[e]%l+l-1,pcar[e]%l+l)=='[')))
+if(maxp>'[c')
+{
+if(e&&pcar[e]-pcar[e-1]==1)
+   e--;
+while(e>1&&pcar[e]-pcar[e-1]==1)
+   e--;
+}
+
 return pcar[e]%l;
 }
 
@@ -1296,6 +1314,10 @@ for(i=pn;i<cb.length;i++)
 if(cb[i].includes(col))
    while(cb[i][0]=='[')
       cb[i]=cb[i].slice(1)+'[';
+else
+	cb[i]='[';
+
+
    
 let prover=Array(cb.length);
 for(i=pn;i<cb.length;i++)
