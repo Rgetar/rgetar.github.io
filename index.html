@@ -502,7 +502,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▷</div>
 
-<span style="font-size:11px">    last updated: 11 January 2024</span>
+<span style="font-size:11px">    last updated: 8 February 2024</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -1018,10 +1018,10 @@ else
    }
 if(st==bo)
    {
-   if(nlevels&&uncountablemode)
+   if(uncountablemode)
       {
       cardclass=2;
-      return col;
+      return st;
       }
    else
       {
@@ -1096,8 +1096,8 @@ cpn=0;
 // limit rule
 if(st==bo)
    {
-   cofcurrent='[[!!';
-   cofclass=0;
+   cofcurrent=st;
+   cofclass=3;
    
    if(uncountablemode)
       {
@@ -5567,9 +5567,10 @@ if(nlevels)
    propernamestring.push(bb('',bb(leastuncountable,bb(leastuncountable,bb(leastuncountable,leastuncountable)))));   // Large Veblen ordinal
 if(nlevels>1)
       {
-      propernamestring.push(bb('',bb(leastuncountable,leastr)));                       // Bachmann-Howard ordinal
+      propernamestring.push(bb('',bb(leastuncountable,leastr)));                      // Bachmann-Howard ordinal
       propernamestring.push(bb('',bb('',bb(leastr,''))));                             // Buchholz ordinal
       propernamestring.push(bb('',bb(bb('',bb(leastr,'')),leastr)));                  // Takeuti-Feferman-Buchholz ordinal
+      propernamestring.push(bb('',bb('',bb(leastr,bb('',leastr)))));                  // Bird ordinal
       propernamestring.push(bb('',bb('',bb(leastr,leastr))));                         // Extended Buchholz ordinal
       propernamestring.push(bb('',bb(bb('',bb(leastr,leastr)),leastr)));              // Small Rathjen ordinal
       propernamestring.push(bb('',bb(bb('',bb(leastr,bb(leastr,leastr))),leastr)));   // Rathjen ordinal
@@ -5583,7 +5584,7 @@ window.onkeydown = function(e) {
 };
 
 let uncountablemode=1;
-let uncountablemodeinitnames=['Some large countable ordinal','Some large uncountable ordinal'];
+let uncountablemodeinitnames=['Some large countable ordinal','Some large cardinal'];
 let bo=uncountablemodeinitnames[uncountablemode],col='c',eo=0,efs=0,
 //exp=['expansion','recursive expansion','double recursive expansion','triple recursive expansion','quadruple recursive expansion','quintuple recursive expansion','sextuple recursive expansion','septuple recursive expansion','octuple recursive expansion','ninefold recursive expansion'];
 //exp[-1]='collapse',exp[-2]='view';
@@ -5624,8 +5625,8 @@ sugardefault[0][10]=0;
 let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff00','#d0ffff','#d0ffd0','#d0ffd0','#ffe0e0','#fff0e0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#ffd0ff','#ffd0ff','#d0e0ff','#d0e0ff','#c0ffff','#b0ffb0','#ffe0e0','#a0f0c0','#fff000','#fafa00','#f0f040','#f0f040','#f0f040','#f0f040','#c0ffff','#c0ffff',35,36,37,38,39,'#ffd000','#f0f040'];
 let sugarbuttonnumber=[1,2,1,1,0,0,0,0,1,1,1,1,1,1,1,1,2,1,1,2,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,0,0,0,0,0,1,1];
 let multiplicationsign=['×','·'];
-let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal'];
-let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','EBO','SRO','RO'];
+let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Bird ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal'];
+let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','BiO','EBO','SRO','RO'];
 let propernamestring;
 initlargeordinalupdate();
 
