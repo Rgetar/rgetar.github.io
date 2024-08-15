@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml">
 <head>
@@ -502,7 +503,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▷</div>
 
-<span style="font-size:11px">    last updated: 8 February 2024</span>
+<span style="font-size:11px">    last updated: 15 August 2024</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -1062,7 +1063,7 @@ let x=booster(st);
 return Math.max(getnin(base(st)),(x>st?1:0)+getnin(x));
 }*/
 
-function infcompare(st1,st2)
+/*function infcompare(st1,st2)
 {
 if(st1.length>st2.length)
    while(st1.length>st2.length)
@@ -1071,7 +1072,509 @@ else if(st1.length<st2.length)
    while(st1.length<st2.length)
       st1+=st1;
 return st1>=st2;
+}*/
+
+function infcompare(pr1,per1,pr2,per2)
+{
+if(pr1==pr2&&per1==per2)
+   return true;
+let st1=pr1+per1;
+let st2=pr2+per2;
+let m=Math.max(st1.length,st2.length)*2;
+let l=Math.min(st1.length,st2.length);
+while(st1.slice(0,l)==st2.slice(0,l))
+   {
+   if(l>m)
+      return true;
+   let c=Math.sign(st1.length-st2.length);
+   if(c>=0) 
+      st2+=per2;
+   if(c<=0) 
+      st1+=per1;
+   l=Math.min(st1.length,st2.length);
+   }
+return st1>=st2;
 }
+
+// check are booster non-increasing
+function checkboosters(st)
+{
+if(st.length<2)
+   return true;
+let a=base(st);
+if(a.length<2)
+   return checkboosters(booster(st));
+let b=booster(st);
+if(b>booster(a))
+   return false;
+return checkboosters(a)&&checkboosters(b);
+}
+
+// get primer and period from st
+// primer ends and period starts at the same point
+function getprper(st)
+{
+let pr='';
+let per=st;
+let s=st+col;
+let p='!'.repeat(ocd(st));
+for(let e=st.length;e>0;e--)
+for(let i=0;i<=st.length-e;i++)
+   {
+   let pr1=st.slice(0,i);
+   let per1=st.slice(i,i+e);
+   let n=ocd(per1);
+   if(n>0&&infcompare(s,p,pr1,per1)&&checkboosters(pr1+per1+'!'.repeat(ocd(pr1)+n))&&infcompare(pr1,per1,pr,per))
+         [pr,per]=[pr1,per1];
+   }
+return [pr,per];
+}
+
+// get primer and period from st
+function getprper_old2(st)
+{
+let pr='';
+let per=st;
+let s=st+col;
+let p='!'.repeat(ocd(st));
+for(let e=st.length;e>0;e--)
+for(let i=0;i<=st.length-e;i++)
+for(let y=0;y<=st.length;y++)
+   {
+   let pr1=st.slice(0,y);
+   let per1=st.slice(i,i+e);
+   let n=ocd(per1);
+   if(n>0&&infcompare(s,p,pr1,per1)&&checkboosters(pr1+per1+'!'.repeat(ocd(pr1)+n))&&infcompare(pr1,per1,pr,per))
+         [pr,per]=[pr1,per1];
+   }
+return [pr,per];
+}
+
+function getprper1(st)
+{
+let pr='';
+let per=st;
+let s=st+col;
+let p='!'.repeat(ocd(st));
+let l=st.length;
+st+=st;
+for(let e=l;e>0;e--)
+for(let i=0;i<l;i++)
+   {
+   let pr1=st.slice(0,i);
+   let per1=st.slice(i,i+e);
+   let n=ocd(per1);
+   if(per1[0]!=col||per1.at(-1)=='[')
+   if(n>0&&infcompare(s,p,pr1,per1)&&checkboosters(pr1+per1+'!'.repeat(ocd(pr1)+n))&&infcompare(pr1,per1,pr,per))
+         [pr,per]=[pr1,per1];
+   }
+return [pr,per];
+}
+
+// get n-th element of fs of ordinal st
+function fs_old(st,n,nn=0){
+
+//let nin=getnin(st);
+//if(nin>4)
+//   alert(st+'\n'+convert(st)+'\nnin = '+nin);
+
+// optimization
+if(st==fscurrent)
+   //return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
+   return fsopeningarray[subperiodpositionshift]+(fsperiodarray[subperiodpositionshift].repeat(nn))+(fsperiod1.repeat(nn)+fsendingarray[subperiodpositionshift]);
+
+if(fscurrent)
+   subperiodpositionshift=0;
+
+fscurrent=st;
+cblen=0;
+cbc=0;
+cpn=0;
+
+// limit rule
+if(st==bo)
+   {
+   cofcurrent=st;
+   cofclass=3;
+   
+   if(uncountablemode)
+      {
+      //uncountable
+      fsopening=col;
+      fsperiod0='['+col;
+      fsperiod1='!';
+      fsending='';
+      setfsarrays();
+      return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+      }
+   else
+      {
+      //countable
+   	fsopening=nlevels?'['.repeat(nlevels-1):col;
+      fsperiod0='['+col;
+      fsperiod1='!';
+      fsending=nlevels?'!'.repeat(nlevels-1):'';
+      setfsarrays();
+      return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+      }
+   }
+
+let i=st.length-1;
+while(st[i]=='!')
+   i--;
+let e=st[i]=='[';
+let st0=st.slice(0,i);
+let st1=st.slice(i+(e?2:1));
+let s1;
+
+// successor and plain rule
+if(e)
+   {
+   st0+='!';
+   cofcurrent=st1?'[[!!':'[!';
+   cofclass=st1?st==cofcurrent?3:0:2;
+   let st2=st1;
+   //s1=bb('',booster(st0));
+   s1=st1?bb('',booster(st0)):'';
+   st1=st1.slice(1);
+   fsopening=base(st0);
+   fsperiod0=s1;
+   fsperiod1='';
+   fsending=st1;
+   
+   setfsarrays();
+   return fsopening+fsperiod0.repeat(nn)+fsending;
+   }
+
+// main rule
+let stt=st0;
+let u=i-1;
+
+while(st0[u]=='[')
+  u--;
+u=i-u-1;
+
+st0+='[';
+
+st1=st1.slice(u);
+let s;
+
+u++;
+let uo='['.repeat(u);
+
+let cb=[st];
+//let nc=[1,1];
+while(cb.at(-1).length>1)
+   {cb.push(booster(cb.at(-1)));
+   }
+
+let nod=0;
+let mb=col;
+for(i=cb.length-1;i>=0;i--)
+if(cb[i]<mb)
+   {
+   nod++;
+   mb=cb[i];
+   }
+   
+let noi=0;
+mb=st;
+for(i=0;i<cb.length;i++)
+if(cb[i]>mb)
+   {
+   noi++;
+   mb=cb[i];
+   }  
+   
+if(nod>4||noi>4)
+   alert(st+'\n'+convert(st)+'\nnod = '+nod+'\nnoi = '+noi);
+
+let pn=cb.length-1;
+//let lrn=pn;
+let nl=nlevels;
+let lr='c';
+let lar=[pn];
+//let r;           // more powerful system
+while(nl)
+   {if(cb[pn]<lr)
+      {
+      //lrn=pn;
+      lr=cb[pn];
+      lar.push(pn);
+      nl--;
+      
+      // more powerful system
+      /*let q=base(lr);
+      if(lar.length>2&&q!=r)
+         {
+         nl=0;
+         r=q;
+         
+         let w=booster(lr);                      // new
+         while(booster(q)==w)
+            q=base(q);
+            
+         while(q.length>1&&booster(q)==col)
+            {
+            q=base(q);
+            nl++;
+            }
+         }*/
+      
+      }
+   else
+      {
+      pn--;
+      
+      // cof > ω
+      if(pn<0)
+         {
+         fsopening=st0.slice(0,-1);
+         fsperiod0='['+col;
+         while(fsopening.slice(-2)==fsperiod0)
+            fsopening=fsopening.slice(0,-2);
+         fsperiod1='!';
+         fsending='!'.repeat(ocd(fsopening));
+         cofcurrent=lr;
+         cofclass=st==cofcurrent?3:0;
+         setfsarrays();
+         return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+         }
+      
+      }
+   }
+
+//if(st>'[c!')
+//   alert(st);
+
+
+
+// no overlap
+// cb: [[[Xc]]] → X[
+/*for(i=pn;i<cb.length;i++)
+   {while(cb[i][0]=='[')
+      cb[i]=cb[i].slice(1);
+   cb[i]=cb[i].slice(0,-cb.length+i)+'[';
+   }
+   
+// largest repeated cb
+let np=cb.length-1;
+for(i=cb.length-2;i>=pn;i--)
+   if(cb[i]>cb[np].repeat(Math.ceil(cb[i].length/cb[np].length)))
+      np=i;*/
+
+
+
+
+
+/*let cbase=Array(cb.length*2-pn);
+for(i=pn;i<cb.length;i++)
+   {
+   cbase[i]=base(cb[i])+'[';
+   cbase[i+cb.length-pn]=cbase[i];
+   }
+
+for(e=pn;e<cb.length;e++)
+   {
+   let bar=Array(cb.length).fill(true);
+   cb[e]='';
+   for(i=pn;i<cb.length;i++)
+      cb[e]+=cbase[e+i-pn];
+   let bc=cb.length-pn-1;
+   let b=true;
+   while(bc&&b)
+      {
+      b=false;
+      let i1;
+      for(i=e+pn+1;i<e+cb.length;i++)
+      if(bar[i])
+         {
+         let cbc=cbase[e];
+         for(u=e+pn+1;u<e+cb.length;u++)
+            if(bar[u]&&u!=i)
+               cbc+=cbase[u];
+         if(infcompare(cbc,cb[e]))
+            {
+            b=true;
+            cb[e]=cbc;
+            i1=i;
+            }
+         }
+      if(b)
+         {
+         bar[i1]=false;
+         bc--;
+         }
+      }
+   }
+   
+for(i=pn;i<cb.length;i++)
+if(cb[i].includes(col))
+   while(cb[i][0]=='[')
+      cb[i]=cb[i].slice(1)+'[';
+else
+	cb[i]='[';
+
+
+   
+let prover=Array(cb.length);
+for(i=pn;i<cb.length;i++)
+   prover[i]=st0;*/
+   
+   
+
+// overlap
+//let prover=Array(cb.length);
+
+//let overb=Array(cb.length);
+
+// cb: [[[Xc]]] → X[
+//for(i=pn;i<cb.length;i++)
+for(i=0;i<cb.length;i++)
+   {
+   /*while(cb[i][0]=='[')
+      {cb[i]=cb[i].slice(1);
+      }*/
+   //cb[i]=cb[i].slice(0,-cb.length+i)+'[';
+   cb[i]=cb[i].slice(0,-cb.length+i);
+   /*let overper=overperiod(cb[i]);
+   if(cb[i]!=overper)
+      {
+      cb[i]=overperiod(cb[i]);
+      overb[i]=true;
+      }
+   else
+      overb[i]=false;
+   prover[i]=overprimer(cb[i],st0);*/
+   }
+
+//cb[0]=='c[[c[c!!!![[c[['               // Φ(1, 0)[I]
+//cb[0]=='c[[c[c!!!![['
+//if(st=='[c[[c[c!!!![[c[c!!!')
+   //cb[0]='c[[c[c!!!![c[[';
+   //cb[0]='[c[[c[c!!!![c[';
+   
+/*c
+c[c!
+[c[c!!
+[c[[c[c!!!![[c[c!!!
+
+c[[c[c!!!![[c[[
+
+[
+c[
+[
+c[[c[c!!!![
+*/
+
+   
+//cb[0]='c![[c[c!!![[c[[';               // Ω[I][I]
+//if(st=='[c![[c[c!!![[c[c!!!')
+//   cb[0]='c[c!!![[c[[';
+
+/*[
+c[
+[
+c[c!!![
+c![[
+*/
+
+/*let np=cb.length-1;
+for(i=cb.length-2;i>=pn;i--)
+
+   if(prover[i].length+cb[i].length>prover[np].length+cb[np].length)
+      {
+      if(prover[i]+cb[i]>prover[np]+(cb[np].repeat(Math.ceil((prover[i].length-prover[np].length+cb[i].length)/cb[np].length))))
+         np=i;
+      }
+   else
+      if(prover[i]+(cb[i].repeat(Math.ceil((prover[np].length-prover[i].length+cb[np].length)/cb[i].length)))>prover[np]+cb[np])
+         np=i;
+//np=pn;
+st0=prover[np];*/
+
+
+
+
+
+
+cblen=1;
+cbc=1;
+cpn=pn;
+for(i=pn+1;i<cb.length;i++)
+   {
+   if(cb[i]!=cb[i-1])
+      cblen++;
+   //if(i==np)
+   //   cbc=cblen;
+   }
+
+
+
+let np=0;
+let pr;
+let per;
+[pr,per]=getprper(cb[pn]);
+
+if(st=='[c[[c[c!!!![[c[c!!!')       // Φ(1, 0)[I]
+   {
+   pr='[c[[c[c!!!![[c[';            // (original primer [c[ + original period [c[c!!!![[c[)
+   per='[c[c!!!![[c[';              // Ω_{Φ(1, 0) + 1} (original period)
+   per='[c[c!!!![c[[c[';            // Φ(1, 1)
+   per='[c[c!!![[c[';               // Φ(2, 0)
+   per='[c[c!![[c[';                // Φ(1, 0, 0)
+   per='[c[c![[c[';                 // [c + I_...]
+   per='[c[c[[c[';                  // [c + I(..., 0)]
+   }
+
+st0=st0.slice(0,cb[0].length-cb[pn].length)+pr+per;
+cb[np]=per;
+
+
+
+
+
+let shpos=per.indexOf(col);
+//if(pr=='['&&per=='[c[[')
+if(shpos>0)
+   {
+   let shp=per.slice(0,shpos);
+   st0+=shp;
+   cb[np]=per.slice(shpos)+shp;
+   }
+
+
+
+let rr=cb[np].length-getpos(cb[np]);
+while(rr<0)
+   rr+=cb[np].length;
+fsopening=st0.slice(0,-rr);
+rr%=cb[np].length;
+fsperiod0=cb[np].slice(-rr)+cb[np].slice(0,-rr);
+
+/*if(st=='[c[[c[c!!!![[c[c!!!')
+   //fsperiod0.replace('!!!!', '!!!![c');
+   fsperiod0=fsperiod0+'[c';*/
+
+while(fsopening.slice(-fsperiod0.length)==fsperiod0)
+   fsopening=fsopening.slice(0,-fsperiod0.length);
+
+fsperiod1='!'.repeat(ocd(fsperiod0));
+fsending='!'.repeat(ocd(fsopening));
+
+cofcurrent='[[!!';
+cofclass=0;
+setfsarrays();
+
+//if(overb[np])
+//   alert(st+'\n'+convert(st)+'\nprimer = '+fsopening+'\nperiod = '+fsperiod0);
+
+return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+}
+
+
+
+
 
 // get n-th element of fs of ordinal st
 function fs(st,n,nn=0){
@@ -1325,6 +1828,8 @@ for(i=pn;i<cb.length;i++)
    
    
 
+let cbnew=cb[pn].slice(0,-cb.length+pn);
+
 // overlap
 let prover=Array(cb.length);
 
@@ -1368,6 +1873,30 @@ c[c!!![
 c![[
 */
 
+
+
+
+let pr;
+let per;
+[pr,per]=getprper(cbnew);
+
+
+let stnew=st0.slice(0,st.length-cbnew.length-cb.length)+pr+per;
+cbnew=per;
+
+let shpos=per.indexOf(col);
+//if(pr=='['&&per=='[c[[')
+if(shpos>0)
+   {
+   let shp=per.slice(0,shpos);
+   stnew+=shp;
+   cbnew=per.slice(shpos)+shp;
+   }
+   
+   
+   
+
+
 let np=cb.length-1;
 for(i=cb.length-2;i>=pn;i--)
 
@@ -1399,11 +1928,32 @@ for(i=pn+1;i<cb.length;i++)
 
 
 
+
+
 let rr=cb[np].length-getpos(cb[np]);
 
-fsopening=st0.slice(0,-rr);
+let fsopeningold=st0.slice(0,-rr);
 rr%=cb[np].length;
-fsperiod0=cb[np].slice(-rr)+cb[np].slice(0,-rr);
+let fsperiodold0=cb[np].slice(-rr)+cb[np].slice(0,-rr);
+
+/*if(st=='[c[[c[c!!!![[c[c!!!')
+   //fsperiod0.replace('!!!!', '!!!![c');
+   fsperiod0=fsperiod0+'[c';*/
+
+while(fsopeningold.slice(-fsperiodold0.length)==fsperiodold0)
+   fsopeningold=fsopeningold.slice(0,-fsperiodold0.length);
+
+let fsperiodold1='!'.repeat(ocd(fsperiodold0));
+let fsendingold='!'.repeat(ocd(fsopeningold));
+
+
+
+rr=cbnew.length-getpos(cbnew);
+while(rr<0)
+   rr+=cbnew.length;
+fsopening=stnew.slice(0,-rr);
+rr%=cbnew.length;
+fsperiod0=cbnew.slice(-rr)+cbnew.slice(0,-rr);
 
 /*if(st=='[c[[c[c!!!![[c[c!!!')
    //fsperiod0.replace('!!!!', '!!!![c');
@@ -1415,12 +1965,23 @@ while(fsopening.slice(-fsperiod0.length)==fsperiod0)
 fsperiod1='!'.repeat(ocd(fsperiod0));
 fsending='!'.repeat(ocd(fsopening));
 
+
+
+
+/*if(fsopening!=fsopening||fsperiodold0!=fsperiod0)
+   alert(st+'\n'+convert(st)+'\nold primer = '+fsopeningold+'\nnew primer = '+fsopening+'\nold period = '+fsperiodold0+'\nnew period = '+fsperiod0+'\nfs old = '+convert(fsopeningold+fsperiodold0+fsperiodold0+fsperiodold0+fsperiodold1+fsperiodold1+fsperiodold1+fsendingold)+'\nfs new = '+convert(fsopening+fsperiod0+fsperiod0+fsperiod0+fsperiod1+fsperiod1+fsperiod1+fsending));*/
+   
+   
+
+
 cofcurrent='[[!!';
 cofclass=0;
 setfsarrays();
 
 return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
 }
+
+
 
 
 
