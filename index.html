@@ -16,7 +16,7 @@ td{cursor:pointer;}
 sub{font-size:0.83rem;}
 sup{font-size:0.83rem;}
 //ul{display:flex;flex-direction:column-reverse;}
-ul{padding-left: 25px;}
+//ul{padding-left: 25px;}
 //ul{padding-left: 0px;margin-left: -25px}
 
 .subu
@@ -83,6 +83,9 @@ cursor:pointer;
 float:left;
 }
 
+</style>
+<style type="text/css" media="Screen" id="ul-styles">
+ul{padding-left: 20px;}
 </style>
 <body style="font-family:Arial;white-space:pre;line-height:0;"
 ><span onmousedown="return false" id="sidebar" style="line-height:2;position:absolute;right:0px;width:200px;padding-left:42px;padding-right:15px;top:0;bottom:0;overflow:auto;float:right;background:#f5fdff;line-height:1.5;overflow-y:overlay;"
@@ -503,7 +506,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▷</div>
 
-<span style="font-size:11px">    last updated: 11 January 2025</span>
+<span style="font-size:11px">    last updated: 2 January 2026</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -6237,14 +6240,15 @@ else
 function indentvisibletransform(e,b=true){
 //if(!b||e.tagName==ulnar[1-indentvisible])
    {
-   
+   let ulStyle=document.getElementById('ul-styles');
+   ulStyle.innerHTML='ul{padding-left:'+(indentvisible?'2':'')+'0px;}';
    //e.tagName=ulnar[1-indentvisible];
-   e.childNodes.forEach(function(i){
+   /*e.childNodes.forEach(function(i){
       if(i.tagName==ulnar[1-indentvisible])
          indentvisibletransform(i);
       });
    if(b)
-      $(e).replaceWith('<'+ulnar[indentvisible]+'>'+$(e).html()+'</'+ulnar[indentvisible]+'>');
+      $(e).replaceWith('<'+ulnar[indentvisible]+'>'+$(e).html()+'</'+ulnar[indentvisible]+'>');*/
    }
 }
 
@@ -6649,7 +6653,8 @@ let cofclasslist=['','zero','successor','regular cardinal','singular cardinal'];
 let cardclasslist=['finite cardinal','countable','uncountable','countable cardinal','uncountable cardinal'];
 //let fsaltcheck;
 let cblen,cbc,cpn;
-let ulnar=['UL1','UL'];
+//let ulnar=['UL1','UL'];
+let ulnar=['UL','UL'];
 let markedli;
 let prevsmallexp,nextsmallexpn;
 let nextl,nextlb=false,mulcounter=1;
