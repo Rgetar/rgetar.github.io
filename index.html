@@ -5111,7 +5111,7 @@ else if(c.id=='sugarbuttond'){
    xs.style.background='#f0fff0';
    }
 else if(c.id=='sugarbutton0'){
-   h='<small>Enable / disable syntactic sugar</small>';
+   h='<small>Enable / disable syntactic sugar</small><br/><i>use "I" key</i>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='sugarbuttona1'){
@@ -5143,7 +5143,7 @@ else if(c.id=='sugarbutton9'){
    xs.style.background='#f0fff0';
    }
 else if(c.id=='sugarbutton10'){
-   h='<div style="line-height:1.2"><small>Represent additively indecomposable α, where ε<sub style="font-size:11px;">x</sub> ≤ α < ε<sub style="font-size:11px;">x + 1</sub>,<br/>as product of power of ε<sub style="font-size:11px;">x</sub> and factor m < ε<sub style="font-size:11px;">x</sub></small></div>';
+   h='<div style="line-height:1.2"><small>Represent additively indecomposable α, where ε<sub style="font-size:11px;">x</sub> ≤ α < ε<sub style="font-size:11px;">x + 1</sub>,<br/>as product of power of ε<sub style="font-size:11px;">x</sub> and factor m < ε<sub style="font-size:11px;">x</sub></small></div><i>use "O" key</i>';
    xs.style.background='#f0fff0';
    }
 else if(c.id=='sugarbutton11'){
@@ -6454,18 +6454,24 @@ else if(c=='KeyU'){
    }*/
 else if(c=='KeyI')
    {
-   if(sugar[0]||!sugar[1])
+   /*if(sugar[0]||!sugar[1])
       {
       sugar[0]=0;
       sugar[1]=1;
       sugarbuttonupdate();
       formatting();
-      }
+      }*/
+   sugar[0]=1-sugar[0];
+   sugarbuttonupdate();
+   formatting();
    }
 else if(c=='KeyO')
    {
-   if(JSON.stringify(sugar)!=JSON.stringify(sugardefault[0]))
-      defaultsugar(0);
+   /*if(JSON.stringify(sugar)!=JSON.stringify(sugardefault[0]))
+      defaultsugar(0);*/
+   sugar[10]=1-sugar[10];
+   sugarbuttonupdate();
+   formatting();
    }
 else if(c=='KeyP')
    {
