@@ -6772,10 +6772,10 @@ let y=document.createElement('li');
 y.id=initlargeordinal;
 y.innerHTML=convert(initlargeordinal);
 
-document.getElementById('-').insertAdjacentHTML('afterend',y.outerHTML);     // initial string at 1st ul level
-/*let x=document.createElement(ulnar[indentvisible]);                        // at 2nd ul level
+//document.getElementById('-').insertAdjacentHTML('afterend',y.outerHTML);     // initial string at 1st ul level
+let x=document.createElement(ulnar[indentvisible]);                            // at 2nd ul level
 x.innerHTML=y.outerHTML;
-document.getElementById('-').insertAdjacentHTML('afterend',x.outerHTML);*/
+document.getElementById('-').insertAdjacentHTML('afterend',x.outerHTML);
 
 setmarkedli(document.getElementById(initlargeordinal));
 count=1;
@@ -6835,7 +6835,7 @@ if(c.childElementCount>1)
 
 function indenttransform(){
 indentmode=1-indentmode;
-if(list.childElementCount==3)
+//if(list.childElementCount==3)
 if(indentmode)
    indentul1(list.children[1]);
 else
@@ -7286,7 +7286,7 @@ let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff
 let sugarbuttonnumber=[1,2,1,1,0,0,0,0,1,1,1,1,1,1,1,1,2,1,1,2,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,0,0,0,0,0,1,1];
 let multiplicationsign=['×','·'];
 let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Bird ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal'];
-let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','BiO','EBO','SRO','RO'];
+let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','BiO','','SRO','RO'];
 let propernamestring;
 let modoldc=0;
 let modc=0;
