@@ -6771,11 +6771,11 @@ list.innerHTML='<li id="-" hidden></li>';
 let y=document.createElement('li');
 y.id=initlargeordinal;
 y.innerHTML=convert(initlargeordinal);
-//document.getElementById('-').insertAdjacentHTML('afterend',y.outerHTML);
 
-let x=document.createElement(ulnar[indentvisible]);
+document.getElementById('-').insertAdjacentHTML('afterend',y.outerHTML);     // initial string at 1st ul level
+/*let x=document.createElement(ulnar[indentvisible]);                        // at 2nd ul level
 x.innerHTML=y.outerHTML;
-document.getElementById('-').insertAdjacentHTML('afterend',x.outerHTML);
+document.getElementById('-').insertAdjacentHTML('afterend',x.outerHTML);*/
 
 setmarkedli(document.getElementById(initlargeordinal));
 count=1;
