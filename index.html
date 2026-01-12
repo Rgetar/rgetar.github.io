@@ -90,7 +90,7 @@ ul{padding-left: 20px;}
 <body style="font-family:Arial;white-space:pre;line-height:0;"
 ><span onmousedown="return false" id="sidebar" style="line-height:2;position:absolute;right:0px;width:200px;padding-left:42px;padding-right:15px;top:0;bottom:0;overflow:auto;float:right;background:#f5fdff;line-height:1.5;overflow-y:overlay;"
 hidden>
-<b style="font-size:16px;">       Ordinal Explorer</b>
+<b style="font-size:16px;">      Ordinal Explorer</b>
 <div id="reset" style="
 background:#ffffd0;
 margin-top:10px;
@@ -505,7 +505,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▷</div>
 
-<span style="font-size:11px">    last updated: 2 January 2026</span>
+<span style="font-size:11px">    last updated: 12 January 2026</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -1213,7 +1213,7 @@ if(st==bo)
    else
       {
       //countable
-   	fsopening=nlevels?'['.repeat(nlevels-1):col;
+      fsopening=nlevels?'['.repeat(nlevels-1):col;
       fsperiod0='['+col;
       fsperiod1='!';
       fsending=nlevels?'!'.repeat(nlevels-1):'';
@@ -1913,6 +1913,366 @@ return getmstring(cb[lar.at(-1)],lar.length-2);
 
 
 
+function trimboosters(st,r)
+{
+//if(!r)
+//   return st;
+while(st.length>1&&booster(st)<r)
+   st=base(st);
+return bb(st,r);
+}
+
+
+
+
+
+// st - modified string, r - model string (January 2025 version)
+function modstring_new_jan(st,r)
+{
+if(r==col)
+   {
+   if(st==col)
+      return '[c!';
+   if(st[0]==col)
+      {
+      let s=st.slice(1);
+      return (antibooster(s)>col?'':'[c!')+s;
+      //return s;
+      //return getsum('[c!',getterms(st,col));
+      }
+   return st;
+   }
+let x=booster(st);
+let xr=booster(r);
+if(st.length<2||x>=xr)
+//if(st.length<2||x>=r)
+//if(st.length<2||x>=antibooster(r))
+//if(st.length<2||(r<col)&&(x>=antibooster(r)))
+//if(st.length<2||(x>=xr&&(r<col)&&(x>=antibooster(r))))
+   return trimboosters(base(r),modstring_new(st,xr));
+return trimboosters(modstring_new(base(st),r),modstring_new(x,xr));
+}
+
+
+
+
+
+function bbm(st,r)
+{
+while(st.length>1&&booster(st)<r)
+   st=base(st);
+if(!st)
+   {
+   if(isepsilon(r))
+      return r;
+   st=r;
+   while(st&&!isepsilon(st))
+      st=base(st);
+   }
+return bb(st,r);
+}
+
+
+
+
+
+function trimc(st)
+{
+while(st.length>1&&booster(st)<col)
+   st=base(st);
+return st;
+}
+
+
+
+
+
+// st - modified string, r - model string
+function modstring_new_june(st,r)
+{
+if(r==col&&st<col)
+   return st;
+if(st.length<2)
+   return base(r);   
+if(isepsilon(st)&&!isepsilon(r))
+   return bbm(base(r),modstring_new_june(st,booster(r)));
+if(!isepsilon(st)&&isepsilon(r))
+   return bbm(modstring_new_june(base(st),r),modstring_new_june(booster(st),r));
+//if(r<col&&trimc(booster(st))>=trimc((antibooster(r))))
+//   return base(r);
+return trimboosters(modstring_new_june(base(st),r),modstring_new_june(booster(st),booster(r)));
+}
+
+
+
+
+
+// st - modified string, r - model string
+function modstring_new_july(st,r)
+{
+let x=booster(st);
+let y=booster(r);
+let ax;
+if(x<y)
+   ax=y;
+else
+   {
+   ax=antibooster(r);
+   while(ax.length>1&&booster(ax)<col)
+      ax=base(ax);
+   }
+let m='';
+let mx;
+let mx1='';
+while(st&&booster(st)<ax)
+   {
+   mx=modstring_new_june(x,y)
+   st=base(st);
+   x=booster(st);
+   if(mx>=mx1)
+      {
+      m='['+mx+'!'+m;
+      mx1=mx;
+      }
+   }
+return base(r)+m;
+}
+
+
+
+
+
+function isone_old(st1,beta1,beta2,x)
+{
+if(altcompare(st1,beta2))
+   return false;
+if(booster(beta2)!=x)
+   return true;
+return !isone(beta2,base(beta2),beta1,x);
+}
+
+
+
+
+
+// alternative comparison (st1<=*st2: true; st1>*st2: false)
+function altcompare_old(st1,st2)
+{
+if(st1==st2)
+   return true;
+if(st1.length<2||st2.length<2)
+   return st1.length<=st2.length;
+let beta2=base(st2);
+let x2=booster(st2);
+//if(altcompare(st1,beta2)||altcompare(st1,x2))
+if(altcompare(st1,x2)||altcompare(st1,topstring(st2)))
+   return true; 
+let beta1=base(st1);
+let x1=booster(st1);
+//if(altcompare(st2,beta1)||altcompare(st2,x1))
+if(altcompare(st2,x1)||altcompare(st2,topstring(st1)))
+   return false;
+   
+//if((x1<x2&&altcompare(beta1,beta2)==false)||(x1>x2&&beta1!=beta2&&altcompare(beta1,beta2)==true))
+//   alert(st1+'\n'+st2);  
+   
+if(beta1==beta2)
+   return x1<x2;
+if(x1==x2)
+   return altcompare(beta1,beta2);
+
+if(x1>x2&&x1==booster(beta2))
+   return isone(beta2,base(beta2),beta1,x1);
+   
+if(x1<x2&&x2==booster(beta1))
+   return !isone(beta1,base(beta1),beta2,x2);
+
+return x1<x2;
+  
+//return x1==x2?altcompare(beta1,beta2):x1<x2;
+}
+
+
+
+
+
+function checkalt(st1,st2)
+{
+if(isone(st1,st2))
+   return altcompare(booster(st1),booster(st2));
+if(isone(base(st2),st1))
+   return true;
+return x1<x2;
+}
+
+
+
+
+
+function isone(st1,st2)
+{
+if(st1==st2)
+   return true;
+let [sb1,sx1,s1]=getsbsb(st1);
+let [sb2,sx2,s2]=getsbsb(st2);
+if(sx1!=sx2||altcompare(s1,sb2)||altcompare(s2,sb1)||isone(sb2,s1)||isone(sb1,s2))
+   return false;
+return true;
+}
+
+
+
+
+
+// get superbase and subbooster of st
+function getsbsb(st)
+{
+let beta=base(st);
+let x=booster(st);
+if(x.length<2)
+   return [beta,x,st];
+let [sb,y,s]=getsbsb(x);
+sb=bb(beta,sb);
+if(altcompare(s,sb)||isone(sb,s))
+   return [beta,x,st];
+return [sb,y,s];
+}
+
+
+
+
+
+// alternative comparison (st1<=*st2: true; st1>*st2: false)
+function altcompare(st1,st2)
+{
+if(st1==st2)
+   return true;
+if(st1.length<2||st2.length<2)
+   return st1.length<=st2.length;
+let beta2=base(st2);
+let x2=booster(st2);
+if(altcompare(st1,beta2)||altcompare(st1,x2))
+   return true; 
+let beta1=base(st1);
+let x1=booster(st1);
+if(altcompare(st2,beta1)||altcompare(st2,x1))
+   return false;
+
+//b=altcompare(beta1,beta2);
+if(x1==x2)
+   return altcompare(beta1,beta2);
+
+//return b?checkalt(st1,st2):!checkalt(st2,st1);
+
+if(isone(st1,st2))
+   return altcompare(booster(st1),booster(st2));
+
+let [sb1,sx1,s1]=getsbsb(st1);
+let [sb2,sx2,s2]=getsbsb(st2);
+
+if(altcompare(s1,sb2))
+   return true;
+
+if(altcompare(s2,sb1))
+   return false;
+
+if(isone(s1,sb2))
+   return true;
+
+if(isone(s2,sb1))
+   return false;
+   
+return sx1<sx2;
+}
+
+
+
+
+
+// continue opened string
+// b = true: larger; b = false: lesser
+function contostring(st,b)
+{
+if(st.at(-1)==col)
+   return (b?st:st.slice(0,-1))+'[';
+return b?st+col:st.slice(0,-1)+'![';
+}
+
+
+
+
+
+// open string
+function openstring(st)
+{
+let i=st.length-1;
+while(st[i]=='!')
+   i--;
+return st.slice(0,i+1);
+}
+
+
+
+
+
+// close opened string
+function closestring(st)
+{
+return st+'!'.repeat(ocd(st));
+}
+
+
+
+
+
+// remove booster tower summit
+function topstring(st)
+{
+st=openstring(st);
+st=st.slice(0,st.at(-1)==col?-2:-1);
+return closestring(st);
+}
+
+
+
+
+
+// st - modified string, r - model string
+function modstring_new(st,r)
+{
+let st0=openstring(st);
+//let rs=st0.length-openstring(r).length;
+let pr=st0.length;
+let l=st0.length*2;
+let b=false;
+while(!b||st0.length<l)
+   {
+   st0=contostring(st0,b);
+   b=altcompare(closestring(st0),st);
+   }
+
+let pl=1;
+
+while(st0.slice(pr,pr+pl).repeat(Math.ceil((st0.length-pr)/pl)).slice(0,st0.length-pr)!=st0.slice(pr))
+   pl++;
+   
+while((st0.length-pr)/pl<2)
+   {
+   while(!b||st0.length<2*pl+pr)
+      {
+      st0=contostring(st0,altcompare(closestring(st0),st));
+      b=altcompare(closestring(st0),st);
+      }
+   while(st0.slice(pr,pr+pl).repeat(Math.ceil((st0.length-pr)/pl)).slice(0,st0.length-pr)!=st0.slice(pr))
+      pl++;   
+   }
+return st0.slice(pr,pr+pl);
+}
+
+
+
+
+
 function spliceperiod(st){
 let e=2;
 while(e<=st.length)
@@ -1932,6 +2292,189 @@ return st;
 
 
 
+function getfselement(pr,p0,p1,e,nn,s='',se='')
+{
+//return pr+(p0.repeat(nn))+(p1.repeat(nn))+e);
+return s+(pr?nn?(pr+(p0.repeat(nn-1))+(p1.repeat(nn-1))+e):'':(p0.repeat(nn))+(p1.repeat(nn))+e)+se;
+
+//pr=s+pr;
+//e=e+se;
+//return pr?nn?(pr+(p0.repeat(nn-1))+(p1.repeat(nn-1))+e):'':(p0.repeat(nn))+(p1.repeat(nn))+e
+}
+
+
+
+
+
+// st - modified string, r - model string
+/*function isnewmodstring_old(st,r){
+let r0=openstring(r);
+if(booster(r)==col&&st.slice(0,r0.length-1)==r0.slice(0,-1))
+   return true;
+return false;
+}*/
+
+
+
+
+
+// st - modified string, r - model string
+/*function isnewmodstring(cb,lar){
+modc++;
+let st=cb[lar[2]];
+let r=cb[lar[1]];
+if(lar[0]-lar[2]==2&&base(st)>=base(r))
+   return true;
+modoldc++;
+return false;
+}*/
+
+
+
+
+
+// st - modified string, r - model string
+/*function modstring_new_october(st,r){
+return st;
+}*/
+
+
+
+
+
+function modstring_new2(cb,lar,gs=false){
+modc++;
+//let d=lar[2];
+let u=lar[1];
+let c=lar[0];
+let st=cb[lar[2]];
+let r=cb[u];
+if(c-u==1&&base(st)>=base(r))
+   return st+(gs?'1':'');
+   
+let g=antibooster(r);
+let d=cb[u+1];
+let csquared='c[c[c!!';
+if(g<csquared&&d<csquared)
+   {
+   while(g.length>1&&booster(g)<col)
+      g=base(g);
+   d=base(d);
+   let s=base(r);
+   while(antibooster(st)>=g)
+      st=antibase(st);
+   while(st)
+      {
+      s=trimboosters(s,getsum(d,getterms(antibooster(st),col)));
+      st=antibase(st);
+      }
+   return s+(gs?'2':'');
+   }
+
+modoldc++;
+return false;
+}
+
+
+
+
+
+function a_new3(st){
+if(st==col)
+   return col;
+return trimboosters(a_new3(base(st)),m_new3(booster(st)));
+}
+
+
+
+
+
+function m_new3(st){
+if(st<col)
+   return st;
+if(st==col)
+   return '';
+let beta=base(st);
+return getterms(a_new3(st),col);
+}
+
+
+
+
+
+/*function fill_new3(st,a){
+if(!st)
+   return '';
+return bb(fill_new3(base(st),a),getsum(a,booster(st)));
+}*/
+
+
+
+
+
+function fill_new3(r,st){
+if(!st)
+   return base(r);
+if(r==col)
+   return st;
+if(isepsilon(st))
+   return bb(base(r),fill_new3(booster(r),st));
+return trimboosters(fill_new3(r,base(st)),fill_new3(booster(r),booster(st)));
+}
+
+
+
+
+
+function modstring_new3(cb,lar,gs=false){
+let u=lar[1];
+let c=lar[0];
+let st=cb[lar[2]];
+let r=cb[u];
+//let g=antibooster(r);
+/*let g=base(r);
+g=g?booster(g):booster(r);
+while(g.length>1&&booster(g)<col)
+   g=base(g);
+while(antibooster(st)>=g)
+   st=antibase(st);*/
+let g=r;
+while(antibooster(st)==antibooster(g))
+   {
+   st=antibase(st);
+   g=antibase(g);
+   }
+st=m_new3(col+st);
+/*st=getsum(col,m_new3(col+st)).slice(1); 
+let i=-2;
+if(c-u>1)
+   {
+   i=-cb[c-1].length
+   st=fill_new3(st,base(cb[c-1]));
+   }
+return closestring(openstring(r).slice(0,i)+st);*/
+return fill_new3(r,st);
+}
+
+
+
+
+
+function modysttoperiod(modyst,l)
+{
+let e=modyst.length-1;
+while(modyst[e]=='!')
+   e--;
+modyst=modyst.slice(0,e);
+modyst=modyst.slice(0,1-l);
+l=l%modyst.length;
+return spliceperiod(modyst.slice(l)+modyst.slice(0,l));
+}
+
+
+
+
+
 // get n-th element of fs of ordinal st
 function fs(st,n,nn=0){
 
@@ -1942,7 +2485,8 @@ function fs(st,n,nn=0){
 // optimization
 if(st==fscurrent)
    //return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
-   return fsopeningarray[subperiodpositionshift]+(fsperiodarray[subperiodpositionshift].repeat(nn))+(fsperiod1.repeat(nn)+fsendingarray[subperiodpositionshift]);
+   //return fsopeningarray[subperiodpositionshift]+(fsperiodarray[subperiodpositionshift].repeat(nn))+(fsperiod1.repeat(nn)+fsendingarray[subperiodpositionshift]);
+   return getfselement(fsopeningarray[subperiodpositionshift],fsperiodarray[subperiodpositionshift],fsperiod1,fsendingarray[subperiodpositionshift],nn,fsprimer0,fsending0);
 
 if(fscurrent)
    subperiodpositionshift=0;
@@ -1966,17 +2510,23 @@ if(st==bo)
       fsperiod1='!';
       fsending='';
       setfsarrays();
-      return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+      fsprimer0='';
+      fsending0='';
+      //return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+      return getfselement(fsopening,fsperiod0,fsperiod1,fsending,nn);
       }
    else
       {
       //countable
-   	fsopening=nlevels?'['.repeat(nlevels-1):col;
+      fsopening=nlevels?'['.repeat(nlevels-1):col;
       fsperiod0='['+col;
       fsperiod1='!';
       fsending=nlevels?'!'.repeat(nlevels-1):'';
       setfsarrays();
-      return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+      fsprimer0='';
+      fsending0='';
+      //return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+      return getfselement(fsopening,fsperiod0,fsperiod1,fsending,nn);
       }
    }
 
@@ -2004,7 +2554,10 @@ if(e)
    fsending=st1;
    
    setfsarrays();
-   return fsopening+fsperiod0.repeat(nn)+fsending;
+   fsprimer0='';
+   fsending0='';
+   //return fsopening+fsperiod0.repeat(nn)+fsending;
+   return getfselement(fsopening,fsperiod0,'',fsending,nn);
    }
 
 // main rule
@@ -2107,7 +2660,10 @@ while(nl)
          cofcurrent=lr;
          cofclass=st==cofcurrent?3:0;
          setfsarrays();
-         return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+         fsprimer0='';
+         fsending0='';
+         //return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+         return getfselement(fsopening,fsperiod0,fsperiod1,fsending,nn);
          }
       
       }
@@ -2120,7 +2676,8 @@ while(nl)
 
 
 
-st0=st.slice(0,-cb.length)+'[';
+//st0=st.slice(0,-cb.length)+'[';
+st0=cb[pn].slice(0,-cb.length+pn)+'[';
 
 /*let modyst=cb[lar[1]];
 e=2;
@@ -2139,18 +2696,43 @@ e=e%modyst.length;
 modyst=spliceperiod(modyst.slice(e)+modyst.slice(0,e));*/
 //modyst=spliceperiod(modyst.slice(cb[lar.at(-2)].length-cb.length+pn1+2,e)+'[');
 
-let modyst=modstring(cb,lar);
-e=modyst.length-1;
-while(modyst[e]=='!')
-   e--;
-modyst=modyst.slice(0,e);
-i=lar.at(-2);
-e=cb[i].length-lar[0]+i;
-modyst=modyst.slice(0,-e+1);
-e=e%modyst.length;
-modyst=spliceperiod(modyst.slice(e)+modyst.slice(0,e));
+i=pn1;
+//let modyst=modstring_new(cb[pn],cb[pn1]);
+//let modyst=isnewmodstring(cb[pn],cb[pn1])?modstring_new_october(cb[pn],cb[pn1]):modyst_old;
+//let modyst=isnewmodstring(cb,lar)?modstring_new2(cb,lar):modyst_old;
 
+//let modyst_old=modstring(cb,lar);          // January 2025
+//let modyst=modstring_new2(cb,lar,true);    // 02 January 2026
+let modyst_3=modstring_new3(cb,lar);         // 12 January 2026
 
+/*let mstep;
+if(!modyst)
+   {
+   modyst=modyst_old;
+   mstep='0';
+   }
+else
+   {
+   mstep=modyst.at(-1);
+   modyst=modyst.slice(0, -1)
+   }
+
+modoldfraction=modoldc/modc;*/
+
+//if(modyst!=modyst_old)
+//   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst_old: '+modyst_old+'\n'+convert(modyst_old)+'\n\nmodyst_new: '+modyst+'\n'+convert(modyst));
+
+//if(modyst!=modyst_3&&modyst_old!=modyst_3)
+//   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst_old: '+modyst_old+'\n'+convert(modyst_old)+'\n\nmodyst: '+modyst+'\n'+convert(modyst)+'\n\nmodyst_3: '+modyst_3+'\n'+convert(modyst_3));
+   
+//if(modyst!=modyst_3)
+//   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst: '+modyst+'\n'+convert(modyst)+'\n\nmodyst_3: '+modyst_3+'\n'+convert(modyst_3));
+
+let modyst=modysttoperiod(modyst_3,cb[i].length-lar[0]+i);
+
+//if(modyst!=modyst_old)
+//   alert(st+'\n'+convert(st)+'\n\nmodyst_old: '+modyst_old+'\nmodyst: '+modyst);
+//modyst=modyst_old;
 
 
 
@@ -2365,6 +2947,7 @@ while(rr<0)
 //fsopening=st0.slice(0,-rr);
 rr%=modyst.length;
 fsopening=st0+modyst.slice(0,-rr);
+//fsopening=modyst.slice(0,-rr);
 fsperiod0=modyst.slice(-rr)+modyst.slice(0,-rr);
 
 /*if(st=='[c[[c[c!!!![[c[c!!!')
@@ -2373,6 +2956,20 @@ fsperiod0=modyst.slice(-rr)+modyst.slice(0,-rr);
 
 while(fsopening.slice(-fsperiod0.length)==fsperiod0)
    fsopening=fsopening.slice(0,-fsperiod0.length);
+   
+st0=st.slice(0,-cb[pn].length-pn);
+
+while(st0.slice(-modyst.length)==modyst)
+   st0=st0.slice(0,-modyst.length);
+
+/*if((st0+fsopening).slice(-fsperiod0.length)==fsperiod0)
+   {
+   fsopening=st0.slice(0,-fsperiod0.length+fsopening.length);
+   while(fsopening.slice(-fsperiod0.length)==fsperiod0)
+      fsopening=fsopening.slice(0,-fsperiod0.length);
+   st0='';
+   }*/
+   
 
 fsperiod1='!'.repeat(ocd(fsperiod0));
 fsending='!'.repeat(ocd(fsopening));
@@ -2439,7 +3036,10 @@ cofcurrent='[[!!';
 cofclass=0;
 setfsarrays();
 
-return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+//return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
+fsprimer0=st0;
+fsending0='!'.repeat(ocd(st0))
+return getfselement(fsopening,fsperiod0,fsperiod1,fsending,nn,fsprimer0,fsending0);
 }
 
 
@@ -5996,7 +6596,7 @@ else{
    vsidebars.style.right='17px';
    counter.style.right='30px';
    vsidebar.innerHTML='«';
-   }
+   }  
 setmarkedli(markedli);
 }
 
@@ -6171,7 +6771,12 @@ list.innerHTML='<li id="-" hidden></li>';
 let y=document.createElement('li');
 y.id=initlargeordinal;
 y.innerHTML=convert(initlargeordinal);
-document.getElementById('-').insertAdjacentHTML('afterend',y.outerHTML);
+//document.getElementById('-').insertAdjacentHTML('afterend',y.outerHTML);
+
+let x=document.createElement(ulnar[indentvisible]);
+x.innerHTML=y.outerHTML;
+document.getElementById('-').insertAdjacentHTML('afterend',x.outerHTML);
+
 setmarkedli(document.getElementById(initlargeordinal));
 count=1;
 counter.innerHTML='Counter: 1';
@@ -6655,6 +7260,7 @@ let indentvisible=1;
 let keytcheck=true;
 let mousetag,mousetagp=xs;
 let fscurrent,fsopening,fsperiod0,fsperiod1,fsending,cofcurrent,cofclass,cardclass,fsarray;
+let fsprimer0,fsending0;
 let fsnumber=1,fsopeningarray,fsperiodarray,fsendingarray;
 let cofclasslist=['','zero','successor','regular cardinal','singular cardinal'];
 let cardclasslist=['finite cardinal','countable','uncountable','countable cardinal','uncountable cardinal'];
@@ -6682,6 +7288,9 @@ let multiplicationsign=['×','·'];
 let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Bird ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal'];
 let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','BiO','EBO','SRO','RO'];
 let propernamestring;
+let modoldc=0;
+let modc=0;
+let modoldfraction;
 initlargeordinalupdate();
 
 seteo(eo);
