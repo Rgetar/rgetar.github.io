@@ -505,7 +505,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▷</div>
 
-<span style="font-size:11px">    last updated: 12 January 2026</span>
+<span style="font-size:11px">    last updated: 15 January 2026</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -2460,6 +2460,49 @@ return fill_new3(r,st);
 
 
 
+function modstring_new4(st,r,b=false){
+if(r==col)
+   {
+   if(st<col)
+      return st;
+   if(st==col)
+      return '';
+   let m='';
+   let s='';
+   let x='';
+   while(st>col)
+      {
+      x=modstring_new4(booster(st),r,true);
+      st=base(st);
+      if(x>=m)
+         {
+         m=x;
+         s=antibb(x,s);
+         }
+      }   
+   return getterms(col+s,col);
+   }
+   let y=booster(r);
+   let m='';
+   let s='';
+   let x='';
+   while(r.slice(0,st.length)!=st)
+      {
+      x=modstring_new4(b&&isepsilon(st)?st:booster(st),y,true);
+      st=base(st);
+      if(x>=m)
+         {
+         m=x;
+         s=antibb(x,s);
+         }
+      }   
+   return base(r)+s;
+}
+
+
+
+
+
 function modysttoperiod(modyst,l)
 {
 let e=modyst.length-1;
@@ -2703,7 +2746,8 @@ i=pn1;
 
 //let modyst_old=modstring(cb,lar);          // January 2025
 //let modyst=modstring_new2(cb,lar,true);    // 02 January 2026
-let modyst_3=modstring_new3(cb,lar);         // 12 January 2026
+//let modyst_3=modstring_new3(cb,lar);         // 12 January 2026
+let modyst_4=modstring_new4(cb[pn],cb[pn1]); // 13 January 2026
 
 /*let mstep;
 if(!modyst)
@@ -2728,7 +2772,12 @@ modoldfraction=modoldc/modc;*/
 //if(modyst!=modyst_3)
 //   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst: '+modyst+'\n'+convert(modyst)+'\n\nmodyst_3: '+modyst_3+'\n'+convert(modyst_3));
 
-let modyst=modysttoperiod(modyst_3,cb[i].length-lar[0]+i);
+//if(modyst_3!=modyst_4&&cb[pn]!=modyst_4)
+//   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst_3: '+modyst_3+'\n'+convert(modyst_3)+'\n\nmodyst_4: '+modyst_4+'\n'+convert(modyst_4));
+
+
+
+let modyst=modysttoperiod(modyst_4,cb[i].length-lar[0]+i);
 
 //if(modyst!=modyst_old)
 //   alert(st+'\n'+convert(st)+'\n\nmodyst_old: '+modyst_old+'\nmodyst: '+modyst);
@@ -3838,6 +3887,13 @@ else if(x>='c[c[c!!'&&st<'[c[c[c!![[c[c[c!![c!!!!'){
    j=f;
    maxx='d';
    }
+else if(x>='c[c[c[c!!!'&&st<'[c[c[c[c!!![[c[c[c[c!!![c!!!!'){
+   sy='K';
+   //f='[c[c[c!!!';
+   f=col;
+   j=f;
+   maxx='d';
+   }
 //else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!')
 else if(x>col&&x<'c[c[[c[c[c!!![[c[c[c!!![c!!!!'&&x<bb(f,bb(floorOmega(beta,bb(f,col)),bb(f,col))))
    {
@@ -4053,6 +4109,8 @@ if(sy!=''&&compare(maxx,x)>0){
    if(sy=='M')
       //return 'M'+(le==''?'':'<sub>'+le+'</sub>');
       return le==''?'M':convertsubscript('M',le);
+   if(sy=='K')
+      return le==''?'K':convertsubscript('K',le);
       
    // old version (without @)	
    /*	   
@@ -7232,6 +7290,8 @@ if(nlevels>1)
       propernamestring.push(bb('',bb('',bb(leastr,leastr))));                         // Extended Buchholz ordinal
       propernamestring.push(bb('',bb(bb('',bb(leastr,leastr)),leastr)));              // Small Rathjen ordinal
       propernamestring.push(bb('',bb(bb('',bb(leastr,bb(leastr,leastr))),leastr)));   // Rathjen ordinal
+      propernamestring.push(bb('',bb(bb('',bb(leastr,bb(leastr,bb(leastr,leastr)))),leastr)));   // Large Rathjen ordinal
+      propernamestring.push(bb('',bb(bb('',bb(leastr,bb(leastr,bb(leastr,bb(leastr,leastr))))),leastr)));   // Duchhardt ordinal
       }
    }
 resetlist();
@@ -7285,8 +7345,8 @@ sugardefault[0][10]=0;
 let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff00','#d0ffff','#d0ffd0','#d0ffd0','#ffe0e0','#fff0e0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#ffd0ff','#ffd0ff','#d0e0ff','#d0e0ff','#c0ffff','#b0ffb0','#ffe0e0','#a0f0c0','#fff000','#fafa00','#f0f040','#f0f040','#f0f040','#f0f040','#c0ffff','#c0ffff',35,36,37,38,39,'#ffd000','#f0f040'];
 let sugarbuttonnumber=[1,2,1,1,0,0,0,0,1,1,1,1,1,1,1,1,2,1,1,2,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,0,0,0,0,0,1,1];
 let multiplicationsign=['×','·'];
-let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Bird ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal'];
-let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','BiO','','SRO','RO'];
+let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Bird ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal','Large Rathjen ordinal','Duchhardt ordinal'];
+let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','BiO','','SRO','RO','LRO','DO'];
 let propernamestring;
 let modoldc=0;
 let modc=0;
