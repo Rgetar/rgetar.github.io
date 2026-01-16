@@ -505,7 +505,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▷</div>
 
-<span style="font-size:11px">    last updated: 15 January 2026</span>
+<span style="font-size:11px">    last updated: 16 January 2026</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -2503,6 +2503,49 @@ if(r==col)
 
 
 
+function modstring_new5(st,r){
+if(r==col)
+   {
+   if(st<col)
+      return st;
+   if(st==col)
+      return '';
+   let m='';
+   let s='';
+   let x='';
+   while(st>col)
+      {
+      x=modstring_new5(booster(st),r);
+      st=base(st);
+      if(x>=m)
+         {
+         m=x;
+         s=antibb(x,s);
+         }
+      }   
+   return getterms(col+s,col);
+   }
+   let y=booster(r);
+   let m='';
+   let s='';
+   let x='';
+   while(r.slice(0,st.length)!=st)
+      {
+      x=modstring_new5(!isepsilon(r)&&isepsilon(st)?st:booster(st),y);
+      st=base(st);
+      if(x>=m)
+         {
+         m=x;
+         s=antibb(x,s);
+         }
+      }   
+   return base(r)+s;
+}
+
+
+
+
+
 function modysttoperiod(modyst,l)
 {
 let e=modyst.length-1;
@@ -2747,7 +2790,8 @@ i=pn1;
 //let modyst_old=modstring(cb,lar);          // January 2025
 //let modyst=modstring_new2(cb,lar,true);    // 02 January 2026
 //let modyst_3=modstring_new3(cb,lar);         // 12 January 2026
-let modyst_4=modstring_new4(cb[pn],cb[pn1]); // 13 January 2026
+//let modyst_4=modstring_new4(cb[pn],cb[pn1]); // 13 January 2026
+let modyst_5=modstring_new5(cb[pn],cb[pn1]); // 16 January 2026
 
 /*let mstep;
 if(!modyst)
@@ -2775,9 +2819,12 @@ modoldfraction=modoldc/modc;*/
 //if(modyst_3!=modyst_4&&cb[pn]!=modyst_4)
 //   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst_3: '+modyst_3+'\n'+convert(modyst_3)+'\n\nmodyst_4: '+modyst_4+'\n'+convert(modyst_4));
 
+//if(modyst_4!=modyst_5&&cb[pn]!=modyst_5)
+//   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst_4: '+modyst_4+'\n'+convert(modyst_4)+'\n\nmodyst_5: '+modyst_5+'\n'+convert(modyst_5));
 
 
-let modyst=modysttoperiod(modyst_4,cb[i].length-lar[0]+i);
+
+let modyst=modysttoperiod(modyst_5,cb[i].length-lar[0]+i);
 
 //if(modyst!=modyst_old)
 //   alert(st+'\n'+convert(st)+'\n\nmodyst_old: '+modyst_old+'\nmodyst: '+modyst);
