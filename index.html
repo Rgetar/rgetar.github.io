@@ -505,7 +505,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▷</div>
 
-<span style="font-size:11px">    last updated: 16 January 2026</span>
+<span style="font-size:11px">    last updated: 8 April 2026</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -2292,10 +2292,112 @@ return st;
 
 
 
-function getfselement(pr,p0,p1,e,nn,s='',se='')
+// second comparison of strings st1, st1
+function sc(st1,st2)
+{
+if(st1==st2)
+   return 0;
+if(!st1)
+   return -1;
+if(!st2)
+   return 1;
+if(st1==bo)
+   return 1;
+if(st2==bo)
+   return -1;
+if(st1==col)
+   return st2.includes(col)?-1:1;
+if(st2==col)
+   return st1.includes(col)?1:-1;
+let beta1=base(st1);
+let booster1=booster(st1);
+let beta2=base(st2);
+let booster2=booster(st2);
+let s1=sc(beta1,booster1)==1?beta1:booster1;
+let s2=sc(beta2,booster2)==1?beta2:booster2;
+if(sc(s1,s2)==1)
+   {
+   if(sc(s1,st2)>=0)
+      return 1;
+   }
+else if(sc(s2,st1)>=0)
+   return -1;
+return st1>st2?1:-1;
+}
+
+
+
+
+
+function istrim(st)
+{
+if(st.length<2||st==bo)
+   return true;
+let beta=base(st);
+let x=booster(st);
+   return istrim(x)&&(beta.length<2||booster(beta)>=x);
+}
+
+
+
+
+
+function nextsymbol(s,st,openst,b)
+{
+let ns,cns;
+if(!s||s.at(-1)=='[')
+   {
+   ns=s+col;
+   cns=closestring(ns);
+   if(ns<openst&&istrim(cns)&&(b||sc(cns,st)<0))
+      return ns;
+   }
+ns=s+'[';
+cns=closestring(ns);
+if(ns<openst&&istrim(cns)&&(b||sc(cns,st)<0))
+   return ns;
+return s+'!';
+}
+
+
+
+
+
+function getlesserstring(st,openst,n,b)
+{
+let s='';
+while(s.length<n)
+   s=nextsymbol(s,st,openst,b);
+return s;
+}
+
+
+
+
+
+function checkfselement(st,r)
+{
+if(st==bo)
+   st='d';
+r=openstring(r);
+let s=getlesserstring(st,openstring(st),r.length,cofcurrent==bo||cofcurrent>'[[!!');
+if(r!=s)
+   alert(st+'\n'+convert(st)+'\n\n'+r+'\n'+s);
+}
+
+
+
+
+
+function getfselement(st,pr,p0,p1,e,nn,s='',se='')
 {
 //return pr+(p0.repeat(nn))+(p1.repeat(nn))+e);
-return s+(pr?nn?(pr+(p0.repeat(nn-1))+(p1.repeat(nn-1))+e):'':(p0.repeat(nn))+(p1.repeat(nn))+e)+se;
+
+let r=s+(pr?nn?(pr+(p0.repeat(nn-1))+(p1.repeat(nn-1))+e):'':(p0.repeat(nn))+(p1.repeat(nn))+e)+se;
+//checkfselement(st,r);
+return r;
+
+//return s+(pr?nn?(pr+(p0.repeat(nn-1))+(p1.repeat(nn-1))+e):'':(p0.repeat(nn))+(p1.repeat(nn))+e)+se;
 
 //pr=s+pr;
 //e=e+se;
@@ -2531,7 +2633,8 @@ if(r==col)
    let x='';
    while(r.slice(0,st.length)!=st)
       {
-      x=modstring_new5(!isepsilon(r)&&isepsilon(st)?st:booster(st),y);
+      //x=modstring_new5(!isepsilon(r)&&isepsilon(st)?st:booster(st),y);
+      x=modstring_new5((!isepsilon(r)||st>=r)&&isepsilon(st)?st:booster(st),y);     // 30 January 2026
       st=base(st);
       if(x>=m)
          {
@@ -2546,7 +2649,552 @@ if(r==col)
 
 
 
-function modysttoperiod(modyst,l)
+function modstring_new6(st,r){
+if(r==col)
+   {
+   if(st<col)
+      return st;
+   if(st==col)
+      return '';
+   let m='';
+   let s='';
+   let x='';
+   while(st>col)
+      {
+      x=modstring_new6(booster(st),r);
+      st=base(st);
+      if(x>=m)
+         {
+         m=x;
+         s=antibb(x,s);
+         }
+      }   
+   return getterms(col+s,col);
+   }
+   let y=booster(r);
+   let m='';
+   let s='';
+   let x='';
+   while(r.slice(0,st.length)!=st)
+      {
+      x=modstring_new6(!isregt(r)&&isregt(st)?st:booster(st),y);
+      st=base(st);
+      if(x>=m)
+         {
+         m=x;
+         s=antibb(x,s);
+         }
+      }   
+   return base(r)+s;
+}
+
+
+
+
+
+function modstring_new7(cb,lar){
+let e=0;
+let st=col;
+while(e<nlevels)
+   {
+   e++;
+   st=modstring_new5(cb[lar[e]],st);
+   }
+return st;
+}
+
+
+
+
+
+function modstring_new8(cb,lar){
+let e=0;
+let st=col;
+let i;
+while(e<nlevels)
+   {
+   e++;
+   i=lar[e-1]-lar[e];
+   st=modstring_new5(cb[lar[e]].slice(0,-i-cb[lar[e-1]].length)+st+('!'.repeat(i)),st);
+   }
+return st;
+}
+
+
+
+
+
+function modstring_new9(st){
+let pp=[];
+let star=[st];
+let rar=[];
+let e;
+let i=-1;
+while(i<0)
+   {
+   e=pp.length-1;
+   i=e-1;
+   while(i>=0&&(star[i]!=star[e]||rar[i]!=rar[e]))
+      i--;
+   if(i<0)
+      {
+      e++;
+      let t=getbtower(star[e]);
+      let u=getllr(t);
+      let c=countreglevels(t);
+      if(c!=nlevels)
+      //if(c>nlevels+1)
+         alert(st+'\n'+convert(st)+'\n\noriginal string: '+star[e-1]+'\nmodifyed string: '+star[e]+'\n\ncounter of regular levels: '+c);
+      rar.push(t[u]);
+      star.push(modstring_new5(star[e],rar[e]));
+      pp.push(star[e].slice(0,-u-t[u].length));
+      }
+   }
+e--;
+let period='';
+while(e>=i)
+   {
+   period=pp[e]+period;
+   e--;
+   }
+let primer='';
+while(e>=0)
+   {
+   primer=pp[e]+primer;
+   e--;
+   }
+return [primer,spliceperiod(period)];
+}
+
+
+
+
+
+function modstring_new10(st){
+let star=[];
+let rar=[];
+let pp=[0];
+let e;
+let i=-1;
+let s=st;
+while(i<0)
+   {
+   e=pp.length-2;
+   i=e-1;
+   while(i>=0&&(star[i]!=star[e]||rar[i]!=rar[e]))
+      i--;
+   if(i<0)
+      {
+      e++;
+      let t=getbtower(s);
+      let [f,r]=getfr(t);
+      if(f<0)
+         alert(st+'\n'+convert(st)+'\n\noriginal string: '+s+'\n\nf: '+f+'\nr: '+r);
+      star.push(t[f]);
+      rar.push(t[r]);
+      pp.push(s.length-r-t[r].length);
+      s=s.slice(0,-r-t[r].length)+modstring_new5(t[f],t[r])+('!'.repeat(r));
+      let mst=modstring_new5(t[f],t[r]);
+      /*if(mst>=t[r])
+         alert(st+'\n'+convert(st)+'\n\noriginal string: '+t[f]+'\nmodel string: '+t[r]+'\nmodifyed string: '+mst);*/
+      let c=countreglevels(getbtower(mst));
+      if(c!=nlevels)
+         alert(st+'\n'+convert(st)+'\n\noriginal string: '+t[f]+'\nmodel string: '+t[r]+'\nmodifyed string: '+mst+'\n\ncounter of regular levels: '+c);
+      }
+   }
+return [s.slice(0,pp[i]),spliceperiod(s.slice(pp[i],pp[e]))];
+}
+
+
+
+
+
+function modstring_new11(st){
+let star=[st];
+let pp=[0];
+let e;
+let i=-1;
+let s='';
+let r;
+while(i<0)
+   {
+   e=pp.length-2;
+   i=e-1;
+   while(i>=0&&star[i]!=star[e])
+      i--;
+   if(i<0)
+      {
+      e++;
+      s+=base(star[e])+'[';
+      r=booster(star[e]);
+      if(isepsilon(star[e]))
+         while(!isepsilon(r))
+            {
+            s+=base(r)+'[';
+            r=booster(r);
+            }
+      pp.push(s.length);
+      star.push(modstring_new5(star[e],r));
+      }
+   }
+return [s.slice(0,pp[i]),spliceperiod(s.slice(pp[i],pp[e]))];
+}
+
+
+
+
+
+function getrest(st,r){
+if(st<r)
+   return st;
+let s='';
+let m='';
+let x='';
+//while(!isepsilon(st))
+while(st.length>1)
+   {
+   x=getrest(booster(st),r);
+   st=base(st);
+   if(x>=m)
+      {
+      m=x;
+      s=antibb(x,s);
+      }
+   }
+/*if(!s)
+   return s;*/
+if(isepsilon(m))
+   return m+antibase(s);
+x=base(m);
+while(x&&!isepsilon(x))
+   x=base(x);
+return x+s;
+
+/*if(getterms(col+s,col)!=m+s)
+   alert(st+'\n'+convert(st)+'\n\n'+s+'\n'+x+'\n'+getterms(col+s,col)+'\n'+m+s);
+if(booster(m)>=x)
+   s=m+s;
+return getterms(col+s,col);
+return s;*/
+}
+
+
+
+
+
+function modstring_new12(st,r,ra,ri){
+if(r==ra[ri])
+   {
+   st=getrest(st,r);
+   return ri?modstring_new12(st,r,ra,ri-1):st;
+   }
+let y=booster(r);
+let s='';
+let m='';
+let x='';
+while(st.length>=r.length||r.slice(0,st.length)!=st)
+   {
+   x=modstring_new12(r!=ra[ri+1]&&isepsilon(st)?st:booster(st),y,ra,ri);
+   //x=modstring_new12(!isepsilon(r)&&isepsilon(st)?st:booster(st),y,ra,ri);
+   st=base(st);
+   if(x>=m)
+      {
+      m=x;
+      s=antibb(x,s);
+      }
+   }
+/*r=base(r);
+if(!r&&!isepsilon(s))
+   if(isepsilon(x))
+      s=x+antibase(s);
+   else
+      {
+      m=antibooster(x);
+      if(booster(m)>=x)
+         s=m+s;
+      }
+else
+   s=r+s;
+return s;*/
+return base(r)+s
+}
+
+
+
+
+
+function modstring_new13(st,r,ra,ri){
+if(r==ra[ri])
+   {
+   st=getrest(st,r);
+   return ri?modstring_new13(st,r,ra,ri-1):st;
+   }
+let y=booster(r);
+let s='';
+let m='';
+let x='';
+while(st.length>=r.length||r.slice(0,st.length)!=st)
+   {
+   x=modstring_new13(r==ra[ri+1]||!isepsilon(st)||(isepsilon(r)&&!isreg(st))?booster(st):st,y,ra,ri);
+   st=base(st);
+   if(x>=m)
+      {
+      m=x;
+      s=antibb(x,s);
+      }
+   }
+return base(r)+s;
+}
+
+
+
+
+
+function getcnf(st)
+{
+let c=[];
+while(st&&!isepsilon(st))
+   {
+   c.push(booster(st));
+   st=base(st);
+   }
+//if(st&&st>=(c.at(-1)??''))
+if(st)
+   c.push(st);
+return c;
+}
+
+
+
+
+
+function clearcnf(s)
+{
+let cl=[];
+let m='';
+for(let e=0;e<s.length;e++)
+   if(s[e]>=m)
+      {
+      m=s[e];
+      cl.push(m);
+      }
+return cl;
+}
+
+
+
+
+
+function getepsilonpart(st)
+{
+while(st&&!isepsilon(st))
+   st=base(st);
+return st;
+}
+
+
+
+
+
+function getstring(cs)
+{
+let st='';
+if(cs.length)
+   {
+   let s=cs.at(-1);
+   let e=getepsilonpart(s);
+   st=e==s?e:bb(e,s);
+   }
+for(let e=cs.length-2;e>=0;e--)
+   st=bb(st,cs[e]);
+return st;
+}
+
+
+
+
+
+function modstring_new14(st,r){
+if(r==col&&st<r)
+   return st;
+let [b1,b2]=[isepsilon(st),isepsilon(r)];
+if(b1&&b2)
+   {
+   if(st==col)
+      return '';
+   let [r1,r2]=[isreg(st),isreg(r)];
+   st=(!r1||r2?col:'')+st;
+   //st=col+st;
+   //b2=!r2||r1;
+   r=(b2?col:'')+r;
+   }
+//if(b1&&b2)
+//   return st==col?'':modstring_new14(col+st,col+r).slice(1);
+st=getcnf(st);
+r=getcnf(r);
+let e=r.length-1;
+while(e&&r[e]==st.at(-1))
+   {
+   e--;
+   st.pop();   
+   }
+for(e=0;e<st.length;e++)
+   st[e]=modstring_new14(st[e],r[0]);
+return getstring(clearcnf(st).concat(r.slice(1))).slice(b1&&b2?1:0);
+}
+
+
+
+
+
+function modstring_new15(st,r,ra,ri){
+modc++;
+
+// r is next Omega
+let nextomega=col;
+for(let e=1;e<nlevels;e++)
+   nextomega=trimboosters(st,nextomega);
+if(r==nextomega)
+   return st;
+   
+// all boosters of st should not be modified as booster of r, and base of st is not modified
+let d=base(r);
+if(st.length>d.length&&st.slice(0,d.length)==d)
+   {
+   let s=st.slice(d.length);
+   let b=true;
+   let y=openstring(booster(r)).slice(0,-1)+'['+col;
+   while(b&&s)
+      {
+      let x=booster(s);
+      s=base(s);
+      if(x.length<y.length||x.slice(0,y.length)!=y)
+         b=false;
+      }
+   if(b)
+      return st;
+   }
+   
+// all boosters of st should not be modified as booster of r, and base of st is modified
+while(d&&(st.length<=d.length||st.slice(0,d.length)!=d))
+   d=base(d);
+let s=st.slice(d.length);
+let b=true;
+let y=openstring(booster(r)).slice(0,-1)+'['+col;
+while(b&&s)
+   {
+   let x=booster(s);
+   s=base(s);
+   if(x.length<y.length||x.slice(0,y.length)!=y)
+      b=false;
+   }
+if(b)
+   return base(r)+st.slice(d.length);
+
+modoldc++;
+return modstring_new13(st,r,ra,ri);
+}
+
+
+
+
+
+// get left common part of s and r
+function getlcp(s,r){
+while(s.length>r.length||r.slice(0,s.length)!=s)
+   s=base(s);
+return s;
+}
+
+
+
+
+
+// triple modification
+function trimod(s,st,r){
+if(st<=s)
+   return st;
+if(st>=col)
+   {
+   r=col;
+   st=st.slice(1);
+   }
+else
+   st=st.slice(getlcp(s,st).length);
+let t=r;
+while(st)
+   {
+   //t=trimboosters(t,trimod(s,antibooster(st),r));
+   t=trimboosters(t,trimod(getlcp(antibooster(st),r),antibooster(st),r));
+   st=antibase(st);
+   }
+return t;
+}
+
+
+
+
+
+function modstring_new16(st,r){
+return trimod(getlcp(st,r),st,base(r));
+}
+
+
+
+
+
+function conpp(st){
+let star=[];
+let rar=[];
+let pp=[0];
+let e;
+let i=-1;
+let s=st;
+while(i<0)
+   {
+   e=pp.length-2;
+   i=e-1;
+   while(i>=0&&(star[i]!=star[e]||rar[i]!=rar[e]))
+      i--;
+   if(i<0)
+      {
+      e++;
+      let [t,ra]=getbratower(s);
+      let [f,r]=getfr(t);
+      /*if(f<0)
+         alert(st+'\n'+convert(st)+'\n\noriginal string: '+s+'\n\nf: '+f+'\nr: '+r);*/
+      star.push(t[f]);
+      rar.push(t[r]);
+      pp.push(s.length-r-t[r].length);
+      s=s.slice(0,-r-t[r].length)+modstring_new15(t[f],t[r],ra,nlevels-2)+('!'.repeat(r));
+      //let mst=modstring_new15(t[f],t[r],ra,nlevels-2);
+      //s=s.slice(0,-r-t[r].length)+modstring_new16(t[f],t[r])+('!'.repeat(r));
+      //let mst=modstring_new16(t[f],t[r]);
+      modoldfraction=modoldc/modc;
+      //let mst13=modstring_new13(t[f],t[r],ra,nlevels-2);
+      //let mst12=modstring_new12(t[f],t[r],ra,nlevels-2);
+      //let mst5=modstring_new5(t[f],t[r]);
+      /*if(mst!=mst5)
+         alert(st+'\n'+convert(st)+'\n\noriginal string: '+t[f]+'\nmodel string: '+t[r]+'\nmst5: '+mst5+'\nmst: '+mst);*/
+      /*if(mst!=mst12)
+         alert(st+'\n'+convert(st)+'\n\noriginal string: '+t[f]+'\nmodel string: '+t[r]+'\nmst12: '+mst12+'\nmst: '+mst);*/
+      /*if(mst!=mst13)
+         alert(st+'\n'+convert(st)+'\n\noriginal string: '+t[f]+'\nmodel string: '+t[r]+'\nmst13: '+mst13+'\nmst16: '+mst);*/
+      /*if(mst>=t[r])
+         alert(st+'\n'+convert(st)+'\n\noriginal string: '+t[f]+'\nmodel string: '+t[r]+'\nmodifyed string: '+mst);*/
+      /*let c=countreglevels(getbtower(mst));
+      if(c!=nlevels)
+         alert(st+'\n'+convert(st)+'\n\noriginal string: '+t[f]+'\nmodel string: '+t[r]+'\nmodifyed string: '+mst+'\n\ncounter of regular levels: '+c);*/
+      }
+   }
+return [s.slice(0,pp[i]),spliceperiod(s.slice(pp[i],pp[e]))];
+}
+
+
+
+
+
+function modysttoperiod_old(modyst,l)
 {
 let e=modyst.length-1;
 while(modyst[e]=='!')
@@ -2555,6 +3203,219 @@ modyst=modyst.slice(0,e);
 modyst=modyst.slice(0,1-l);
 l=l%modyst.length;
 return spliceperiod(modyst.slice(l)+modyst.slice(0,l));
+}
+
+
+
+
+
+function modysttoperiod(modyst,l,l1)
+{
+let e=modyst.length-1;
+while(modyst[e]=='!')
+   e--;
+modyst=modyst.slice(0,e);
+modyst=modyst.slice(0,1-l);
+l1=l1%modyst.length;
+return spliceperiod(modyst.slice(l1)+modyst.slice(0,l1));
+}
+
+
+
+
+
+// get booster tower of st
+function getbtower(st)
+{
+let t=[];
+while(st)
+   {
+   t.push(st);
+   st=booster(st);
+   }
+return t;
+}
+
+
+
+
+
+// get booster tower and regulars of st
+function getbratower(st)
+{
+let t=[];
+while(st)
+   {
+   t.push(st);
+   st=booster(st);
+   }
+let i=t.length-1;
+let ra=[col];
+while(i)
+   {
+   i--;
+   if(t[i]<ra.at(-1))
+      ra.push(t[i]);
+   }
+return [t,ra];
+}
+
+
+
+
+
+// get level of lowest regular of booster tower t
+function getllr(t)
+{
+let i=t.length-1;
+
+
+for(let e=i;e>0;e--)
+   if(t[e]<t[i])
+      i=e;
+      
+/*let u=nlevels;
+let e=i;
+while(u>1)
+   {
+   e--;
+   if(t[e]<t[i])
+      {
+      i=e;
+      u--;
+      }
+   }*/
+   
+return i;
+}
+
+
+
+
+
+// get floor and lowest reqular of booster tower t
+function getfr(t)
+{
+let i=t.length-1;
+let u=nlevels;
+let e=i;
+while(u>1)
+   {
+   e--;
+   if(t[e]<t[i])
+      {
+      i=e;
+      u--;
+      }
+   }
+while(t[e]>=t[i])
+   e--;
+return [e,i];
+}
+
+
+
+
+
+function countreglevels(t)
+{
+let c=0;
+let i=t.length-1;
+for(let e=i-1;e>=0;e--)
+   if(t[e]<t[i])
+      {
+      i=e;
+      c++;
+      }
+if(i>0)
+   c+=0.5;
+return c;
+}
+
+
+
+
+
+function isnlevels(st){
+let t=getbtower(st);
+let e=t.length;
+let i=0;
+let s=t[e-1];
+while(e)
+   {
+   e--;
+   if(t[e]<s){
+      i++;
+      s=t[e];
+      }
+   }
+return i==nlevels&&s==st;
+}
+
+
+
+
+
+/*function isregt(st){
+let t=getbtower(st);
+let e=t.length;
+let i=0;
+let s=t[e-1];
+while(e)
+   {
+   e--;
+   if(t[e]<s){
+      i++;
+      s=t[e];
+      }
+   }
+return s==st;
+}*/
+
+
+
+
+
+// is st regular
+function isreg(st){
+if(!st) return false;
+if(st==col) return true;
+if(openstring(st).at(-1)=='[') return false;
+for(let s=booster(st);s;s=booster(s))
+   if(s<st) return false;
+return true;
+}
+
+
+
+
+
+function getrlength(st)
+{
+let t=getbtower(st);
+let e=t.length;
+let i=1;
+let s=t[e-1];
+while(i<nlevels)
+   {
+   e--;
+   if(t[e]<s){
+      i++;
+      s=t[e];
+      }
+   }
+return s.length-t.length+e+1;
+}
+
+
+
+
+
+function checkrp(st,l,p){
+st=st.slice(0,-l-1)+'['+col;
+while(p.length<st.length)
+   p=p+p;
+return st==p.slice(0,st.length);
 }
 
 
@@ -2572,7 +3433,7 @@ function fs(st,n,nn=0){
 if(st==fscurrent)
    //return fsopening+(fsperiod0.repeat(nn))+(fsperiod1.repeat(nn)+fsending);
    //return fsopeningarray[subperiodpositionshift]+(fsperiodarray[subperiodpositionshift].repeat(nn))+(fsperiod1.repeat(nn)+fsendingarray[subperiodpositionshift]);
-   return getfselement(fsopeningarray[subperiodpositionshift],fsperiodarray[subperiodpositionshift],fsperiod1,fsendingarray[subperiodpositionshift],nn,fsprimer0,fsending0);
+   return getfselement(st,fsopeningarray[subperiodpositionshift],fsperiodarray[subperiodpositionshift],fsperiod1,fsendingarray[subperiodpositionshift],nn,fsprimer0,fsending0);
 
 if(fscurrent)
    subperiodpositionshift=0;
@@ -2599,7 +3460,7 @@ if(st==bo)
       fsprimer0='';
       fsending0='';
       //return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
-      return getfselement(fsopening,fsperiod0,fsperiod1,fsending,nn);
+      return getfselement(st,fsopening,fsperiod0,fsperiod1,fsending,nn);
       }
    else
       {
@@ -2612,7 +3473,7 @@ if(st==bo)
       fsprimer0='';
       fsending0='';
       //return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
-      return getfselement(fsopening,fsperiod0,fsperiod1,fsending,nn);
+      return getfselement(st,fsopening,fsperiod0,fsperiod1,fsending,nn);
       }
    }
 
@@ -2643,7 +3504,7 @@ if(e)
    fsprimer0='';
    fsending0='';
    //return fsopening+fsperiod0.repeat(nn)+fsending;
-   return getfselement(fsopening,fsperiod0,'',fsending,nn);
+   return getfselement(st,fsopening,fsperiod0,'',fsending,nn);
    }
 
 // main rule
@@ -2749,7 +3610,7 @@ while(nl)
          fsprimer0='';
          fsending0='';
          //return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
-         return getfselement(fsopening,fsperiod0,fsperiod1,fsending,nn);
+         return getfselement(st,fsopening,fsperiod0,fsperiod1,fsending,nn);
          }
       
       }
@@ -2787,11 +3648,19 @@ i=pn1;
 //let modyst=isnewmodstring(cb[pn],cb[pn1])?modstring_new_october(cb[pn],cb[pn1]):modyst_old;
 //let modyst=isnewmodstring(cb,lar)?modstring_new2(cb,lar):modyst_old;
 
-//let modyst_old=modstring(cb,lar);          // January 2025
-//let modyst=modstring_new2(cb,lar,true);    // 02 January 2026
+//let modyst_old=modstring(cb,lar);            // January 2025
+//let modyst=modstring_new2(cb,lar,true);      // 02 January 2026
 //let modyst_3=modstring_new3(cb,lar);         // 12 January 2026
 //let modyst_4=modstring_new4(cb[pn],cb[pn1]); // 13 January 2026
-let modyst_5=modstring_new5(cb[pn],cb[pn1]); // 16 January 2026
+//let modyst_5=modstring_new5(cb[pn],cb[pn1]);   // 16 January 2026
+//let modyst_6=modstring_new6(cb[pn],cb[pn1]); // 21 January 2026
+//let modyst_7=modstring_new7(cb,lar);           // 21 January 2026
+//let modyst_8=modstring_new8(cb,lar);           // 23 January 2026
+//let [primer_9,period_9]=modstring_new9(cb[pn]);           // 26 January 2026
+//let [primer_10,period_10]=modstring_new10(cb[pn]);           // 27 January 2026
+//let [primer_11,period_11]=modstring_new11(cb[pn]);           // 27 January 2026
+//let modyst_12=modstring_new12(cb[pn],cb[pn1],[col,cb[pn1]],0);   // 10 February 2026
+let [primer_10,period_10]=conpp(cb[pn]);           // 11 February 2026
 
 /*let mstep;
 if(!modyst)
@@ -2822,9 +3691,68 @@ modoldfraction=modoldc/modc;*/
 //if(modyst_4!=modyst_5&&cb[pn]!=modyst_5)
 //   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst_4: '+modyst_4+'\n'+convert(modyst_4)+'\n\nmodyst_5: '+modyst_5+'\n'+convert(modyst_5));
 
+//if(modyst_5!=modyst_12)
+//   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst_5: '+modyst_5+'\n'+convert(modyst_5)+'\n\nmodyst_12: '+modyst_12+'\n'+convert(modyst_12));
+
+/*if(modyst_7!=modyst_8)
+   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst_7: '+modyst_7+'\n'+convert(modyst_7)+'\n\nmodyst_8: '+modyst_8+'\n'+convert(modyst_8));*/
 
 
-let modyst=modysttoperiod(modyst_5,cb[i].length-lar[0]+i);
+
+//if(modyst_5=='[[c[[[c!!!!!')
+/*if(modyst_5=='[[[c![[[c!!!!!')
+   alert('!');*/
+   
+/*let ror=0;
+while(ror<nlevels&&lar[ror]-lar[ror+1]==1)
+   ror++;*/
+
+//let modyst=modysttoperiod_old(modyst_5,cb[i].length-lar[0]+i);
+
+/*let modyst_p=modysttoperiod(modyst_7,getrlength(modyst_7),0);
+let crpcounter=0;
+for(i=1;i<nlevels;i++)
+   if(checkrp(cb[lar[i]],lar[0]-lar[i],modyst_p))
+      crpcounter++;
+if(modyst_p!='['&&crpcounter<1)
+   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nperiod: '+modyst_p+'\n\ncrpcounter: '+crpcounter);
+i=nlevels-1;
+while(modyst_p!='['&&!checkrp(cb[lar[i]],lar[0]-lar[i],modyst_p))
+   i--;
+
+//let modyst=modysttoperiod(modyst_7,getrlength(modyst_7),cb[lar[i]].length-lar[0]+lar[i]);
+
+i=nlevels-1;
+while(modyst_7>cb[lar[i]])
+   i--;
+st0=cb[pn].slice(0,pn-lar[i]-cb[lar[i]].length);
+let modyst=modysttoperiod(modyst_7,getrlength(modyst_7),0);*/
+
+/*if(st0<(primer_9+(period_9.repeat(10))).slice(0,st0.length))
+   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nst0: '+st0+'\n\npp: '+((primer_9+(period_9.repeat(10))).slice(0,st0.length)));
+   
+if(st0<primer_9)
+   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nst0: '+st0+'\n\nprimer_9: '+primer_9+'\nperiod_9: '+period_9);*/
+
+st0=primer_10;
+let modyst=period_10;
+
+/*if((modyst!='['&&modyst[0]!=col&&ror==1)||(modyst[0]==col&&ror>1))
+   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nror: '+ror);*/
+
+//if(cb[i].length-lar[0]+i!=getrlength(modyst_7))
+//   alert(cb[pn]+'\n'+convert(cb[pn])+'\n\n'+(cb[i].length+i-lar[0])+'\n\n'+getrlength(modyst_7));
+
+/*if(!isnlevels(modyst_8))
+   alert(st+'\n'+convert(st)+'\n\nmodyst_8: '+modyst_8);*/
+
+/*if(nlevels>2&&!pn&&!base(st))
+   {
+   let modyst_m1=modstring_new5(cb[lar[nlevels-1]],cb[lar[nlevels-2]]);
+   let modyst_m=modysttoperiod(modyst_m1,cb[lar[nlevels-2]].length-lar[0]+lar[nlevels-2]);
+   if(modyst!=modyst_m)
+      alert(cb[pn]+'\n'+convert(cb[pn])+'\n\nmodyst_5: '+modyst_5+'\n\nmodyst: '+modyst+'\n\nmodyst_m1: '+modyst_m1+'\n\nmodyst_m: '+modyst_m);
+   }*/
 
 //if(modyst!=modyst_old)
 //   alert(st+'\n'+convert(st)+'\n\nmodyst_old: '+modyst_old+'\nmodyst: '+modyst);
@@ -3035,7 +3963,6 @@ for(i=pn+1;i<cb.length;i++)
 
 
 
-
 let rr=modyst.length-getpos(modyst);
 while(rr<0)
    rr+=modyst.length;
@@ -3053,10 +3980,11 @@ fsperiod0=modyst.slice(-rr)+modyst.slice(0,-rr);
 while(fsopening.slice(-fsperiod0.length)==fsperiod0)
    fsopening=fsopening.slice(0,-fsperiod0.length);
    
-st0=st.slice(0,-cb[pn].length-pn);
-
+/*st0=st.slice(0,-cb[pn].length-pn);                        // modstring_new5
 while(st0.slice(-modyst.length)==modyst)
-   st0=st0.slice(0,-modyst.length);
+   st0=st0.slice(0,-modyst.length);*/
+   
+st0=st.slice(0,-cb[pn].length-pn);                      // modstring_new10
 
 /*if((st0+fsopening).slice(-fsperiod0.length)==fsperiod0)
    {
@@ -3134,8 +4062,8 @@ setfsarrays();
 
 //return fsopening+fsperiod0.repeat(nn)+fsperiod1.repeat(nn)+fsending;
 fsprimer0=st0;
-fsending0='!'.repeat(ocd(st0))
-return getfselement(fsopening,fsperiod0,fsperiod1,fsending,nn,fsprimer0,fsending0);
+fsending0='!'.repeat(ocd(fsprimer0))
+return getfselement(st,fsopening,fsperiod0,fsperiod1,fsending,nn,fsprimer0,fsending0);
 }
 
 
@@ -4050,6 +4978,15 @@ else if(f==bb(bb(bb(col,col),col),col)){
    j=bb(floorOmega(beta,j),j);
    maxx=bb(ff,bb(f,bb(f,col)));
    }
+else if(booster(f)==col){
+   sy='I(x, •)-Φ';
+   let ff=f;
+   f=bb(f,col);
+   f=bb(floorOmega(beta,f),f);
+   j=bb(ff,f);
+   j=bb(floorOmega(beta,j),j);
+   maxx=bb(ff,bb(f,bb(f,col)));
+   }
 /*else if(compare(bb(col,col),x)<1){
 //else if(beta==''&&compare(bb(col,col),x)<1){
    sy='I';
@@ -4124,7 +5061,7 @@ if(sy!=''&&compare(maxx,x)>0){
          }
       }
    //if(sy!='φ'&&(sy!='Φ'||(sugar[34]&&fx==col))&&(sy!='I-Φ'||fx==bb(col,col))&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
-   if(sy!='φ'&&(sy!='Φ'||(sugar[34]&&fx==col))&&(sy!='I-Φ'||fx==bb(col,col))&&(sy!='I(1, •)-Φ'||fx==bb(bb(col,col),col))&&(sy!='I(2, •)-Φ'||fx==bb(bb(bb(col,col),col),col))&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
+   if(sy!='φ'&&(sy!='Φ'||(sugar[34]&&fx==col))&&(sy!='I-Φ'||fx==bb(col,col))&&(sy!='I(1, •)-Φ'||fx==bb(bb(col,col),col))&&(sy!='I(2, •)-Φ'||fx==bb(bb(bb(col,col),col),col))&&(sy!='I(x, •)-Φ'||booster(fx)==col)&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
    //if(sy!='φ'&&(sy!='Φ'||fx==l)&&(sy!='I-Φ'||fx==bb(l,l))&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
       le='';
    else{
@@ -4132,7 +5069,7 @@ if(sy!=''&&compare(maxx,x)>0){
          le=cnf(le,true);
       le=displayform(le,ext);
       //if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col))||sy=='I')&&isFinite(le))
-      if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col))||(sy=='I(1, •)-Φ'&&fx!=bb(bb(col,col),col))||(sy=='I(2, •)-Φ'&&fx!=bb(bb(bb(col,col),col),col))||sy=='I')&&isFinite(le))
+      if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col))||(sy=='I(1, •)-Φ'&&fx!=bb(bb(col,col),col))||(sy=='I(2, •)-Φ'&&fx!=bb(bb(bb(col,col),col),col))||(sy=='I(x, •)-Φ'&&booster(fx)!=col)||sy=='I')&&isFinite(le))
          le--;
       }
    if(sy=='φ'){
@@ -4242,6 +5179,8 @@ if(!b||!st||st==col||st==bo)
       s+=' <small>(Small Veblen ordinal, SVO)</small>';
    else if(st=='[[c![[c![[c![[c!!!!!')
       s+=' <small>(Large Veblen ordinal, LVO)</small>';
+   else if(st=='[[c![[c![[c![[c!!!![[c![[c![[c!!!!!')
+      s+=' <small>(Second Large Veblen ordinal, SLVO)</small>';
    else if(st=='[[c![c!!')
       s+=' <small>(Bachmann-Howard ordinal, BHO)</small>';
    else if(st=='[[c[!!!')
@@ -5427,7 +6366,10 @@ if(c.id==prevsmallexp)
    n=nextsmallexpn;}
 else
    {do{s=fs(c.id,'',n);
-      n++;}
+      n++;
+      if(n>10&&s.length>3*l.id.length+10)
+         alert('fs < previous string\n\n'+l.id+'\n'+convert(l.id)+'\n\n'+c.id+'\n'+convert(c.id));
+      }
    while(l.id!='-'&&compare(s,l.id)<1);
    prevsmallexp=c.id;
    nextsmallexpn=n;
@@ -7328,6 +8270,7 @@ if(nlevels)
    propernamestring.push(bb('',bb(leastuncountable,bb(bb(leastuncountable,leastuncountable),leastuncountable))));   // Ackermann ordinal
    propernamestring.push(bb('',bb(leastuncountable,bb(leastuncountable,bb(leastuncountable,'')))));                // Small Veblen ordinal
    propernamestring.push(bb('',bb(leastuncountable,bb(leastuncountable,bb(leastuncountable,leastuncountable)))));   // Large Veblen ordinal
+   propernamestring.push(bb('',bb(bb(leastuncountable,bb(leastuncountable,bb(leastuncountable,leastuncountable))),bb(leastuncountable,bb(leastuncountable,leastuncountable)))));   // Second Large Veblen ordinal
 if(nlevels>1)
       {
       propernamestring.push(bb('',bb(leastuncountable,leastr)));                      // Bachmann-Howard ordinal
@@ -7392,14 +8335,13 @@ sugardefault[0][10]=0;
 let sugarbuttoncolor=['#d0e0ff','#fff080','#d0ffd0','#d0ffff','','','','','#ffff00','#d0ffff','#d0ffd0','#d0ffd0','#ffe0e0','#fff0e0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#d0ffd0','#ffd0ff','#ffd0ff','#d0e0ff','#d0e0ff','#c0ffff','#b0ffb0','#ffe0e0','#a0f0c0','#fff000','#fafa00','#f0f040','#f0f040','#f0f040','#f0f040','#c0ffff','#c0ffff',35,36,37,38,39,'#ffd000','#f0f040'];
 let sugarbuttonnumber=[1,2,1,1,0,0,0,0,1,1,1,1,1,1,1,1,2,1,1,2,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,0,0,0,0,0,1,1];
 let multiplicationsign=['×','·'];
-let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Bird ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal','Large Rathjen ordinal','Duchhardt ordinal'];
-let shortpropernames=['','','','','AO','SVO','LVO','BHO','BO','TFB','BiO','','SRO','RO','LRO','DO'];
+let propernames=['Small Cantor ordinal','Cantor ordinal','Large Cantor ordinal','Feferman–Schütte ordinal','Ackermann ordinal','Small Veblen ordinal','Large Veblen ordinal','Second Large Veblen ordinal','Bachmann-Howard ordinal','Buchholz ordinal','Takeuti-Feferman-Buchholz ordinal','Bird ordinal','Extended Buchholz ordinal','Small Rathjen ordinal','Rathjen ordinal','Large Rathjen ordinal','Duchhardt ordinal'];
+let shortpropernames=['','','','','AO','SVO','LVO','SLVO','BHO','BO','TFB','BiO','','SRO','RO','LRO','DO'];
 let propernamestring;
 let modoldc=0;
 let modc=0;
 let modoldfraction;
 initlargeordinalupdate();
-
 seteo(eo);
 
 /*
