@@ -505,7 +505,7 @@ background:#d0ffd0;
 cursor:pointer;
 ">▷</div>
 
-<span style="font-size:11px">    last updated: 8 April 2026</span>
+<span style="font-size:11px">    last updated: 12 October 2026</span>
   <a id="oldversionlink" style="font-size:11px" href="Ordinal Explorer (versions).htm">old versions and other projects</a>
 </span><span id="listc" style="
 float:left;
@@ -3143,6 +3143,233 @@ return trimod(getlcp(st,r),st,base(r));
 
 
 
+function residue_cnf(st,r){
+if(!Array.isArray(st))
+   return st<r?st:'';
+let c=[];
+let e=0;
+while(e<st.length&&comparecnf(st[e][0],r)<0)
+   {
+   c.push(st[e]);
+   e++;
+   }
+let s=e?c[e-1][0]:'';
+while(e<st.length)
+   {
+   if(Array.isArray(st[e][0]))
+      {
+      st[e][0]=residue_cnf(st[e][0],r);
+      if(st[e][0].length)
+         {
+         let i=comparecnf(s,st[e][0]);
+         if(i==0)
+            c[c.length-1][1]+=st[e][1];
+         else if(i<0)
+            {
+            c.push(st[e]);
+            s=st[e][0];
+            }
+         }
+      }
+   e++;
+   }
+if(Array.isArray(c)&&c.length==1&&c[0][0]&&c[0][1]==1&&!Array.isArray(c[0][0]))
+   c=c[0][0];
+return c;
+}
+
+
+
+
+
+function higher(r,s,h){
+let m=structuredClone(r);
+let l=m[0][0];
+m[0][1]--;
+if(!m[0][1])
+   m.shift();
+if(r[0][0]==h)
+   return sumcnf(m,s);
+if(!Array.isArray(s))
+   return sumcnf(m,[[higher(l,s,h),1]]);
+for(let e=s.length-1;e>=0;e--)
+   m=sumcnf(m,[[higher(l,s[e][0],h),s[e][1]]]);
+return m;
+}
+
+
+
+
+
+function deepmod(c,ra,e){
+if(!e)
+   return c;
+let r=cnf(col+ra[e]);
+e--;
+c=residue_cnf(c,ra[e]);
+let s=deepmod(c,ra,e);
+r=higher(r,s,ra[e]);
+r=cnftostring(r);
+return r.slice(1);
+}
+
+
+
+
+
+// [[epsilon st,1]] -> epsilon st
+function geps(st)
+{
+return Array.isArray(st)&&st.length==1&&st[0][1]==1&&!Array.isArray(st[0][0])&&st[0][0].length?st[0][0]:st;
+}
+
+
+
+
+
+// decompose epsilon number st < c into cnf
+function deps(st)
+{
+st=cnf(col+st);
+let e=st.length-1;
+if(st[e][0]==col)
+   if(st[e][1]>1)
+      st[e][1]--;
+   else
+      st.pop();
+return geps(st);
+}
+
+
+
+
+
+function deepmod_new(st,r){
+let b=false;
+if(!Array.isArray(st)&&!Array.isArray(r))
+   {
+   if(!st)
+      return '';
+   if(r<col&&st<col)
+      {
+      st=deps(st);
+      r=deps(r);
+      b=true;
+      }
+   if(r==col&&!Array.isArray(st))
+      return st==col?'':b?bb('',st):st;
+   if(st==col&&!Array.isArray(r))
+      {
+      let i=r.lastIndexOf('[c!');
+      r=r.slice(0,i)+r.slice(i+3);
+      return b?bb('',r):r;
+      }
+   }
+let rp,l;
+if(Array.isArray(r))
+   {
+   if(r[0][1]>1)
+      {
+      rp=JSON.parse(JSON.stringify(r));
+      rp[0][1]--;
+      }
+   else
+      rp=r.length>1?JSON.parse(JSON.stringify(r.slice(1))):'';
+   rp=geps(rp);
+   l=JSON.parse(JSON.stringify(r[0][0]));
+   let e=r.length-1;
+   if(Array.isArray(st))
+      {
+      let i=st.length-1;
+      while(st.length&&e>=0&&JSON.stringify(st[i][0])==JSON.stringify(r[e][0]))
+         if(st[i][1]<=r[e][1])
+            {
+            st.pop();
+            i--;
+            e--;
+            }
+         else
+            {
+            st[i][1]=r[e][1];
+            e=-1;
+            }
+      }
+   else
+      {
+      if(st==r[e][0])
+         return rp;
+      //return sumcnf(rp,st);
+      }
+   }
+else
+   {
+   rp='';
+   l=r;
+   let i=st.length-1;
+   if(st[i][0]==r)
+      if(st[i][1]>1)
+         st[i][1]--;
+      else
+         st.pop();
+   }
+st=geps(st);
+if(!Array.isArray(st))
+   st=st?[[st,1]]:[];
+for(let e=st.length-1;e>=0;e--)
+   {
+   let s=deepmod_new(st[e][0],l);
+   rp=sumcnf(rp,!Array.isArray(s)&&s.length&&st[e][1]==1?s:[[s,st[e][1]]]);
+   }
+return b?cnftostring(sumcnf(col,rp)).slice(1):rp;
+}
+
+
+
+
+
+function modstring_cnf(st){
+let [t,ra,f]=getbraftower(st);
+let e=ra.length-1;
+let s=ra[e];
+if(e==1)
+   return [s,st.length-f[0]-1];
+e--;
+/*let r=t[f[e]];
+let a=antibooster(r);
+while(antibooster(s)==a)
+   {
+   s=antibase(s);
+   r=antibase(r);
+   a=antibooster(r);
+   }
+let c=cnf(col+s);
+return [cnftostring(deepmod(c,ra,e)),st.length-f[e]-ra[e].length];*/
+//return [cnftostring(deepmod_new(s,t[f[e-1]])),st.length-f[e]-ra[e].length];
+return [deepmod_new(s,t[f[e]]),st.length-f[e]-ra[e].length];
+}
+
+
+
+
+
+function getpp(st){
+if(st==col)
+   return ['','['];
+let p='';
+let [m,l]=modstring_cnf(st);
+while(st!=m)
+   {
+   p+=st.slice(0,l);
+   st=m;
+   [m,l]=modstring_cnf(st);
+   }
+return [p,m.slice(0,l)];
+}
+
+
+
+
+
 function conpp(st){
 let star=[];
 let rar=[];
@@ -3250,14 +3477,48 @@ while(st)
    st=booster(st);
    }
 let i=t.length-1;
-let ra=[col];
+let s=col
+let ra=[s];
 while(i)
    {
    i--;
-   if(t[i]<ra.at(-1))
-      ra.push(t[i]);
+   if(t[i]<s)
+      {
+      s=t[i];
+      ra.push(s);
+      }
    }
 return [t,ra];
+}
+
+
+
+
+
+// get booster tower, regulars an their floors of st
+function getbraftower(st)
+{
+let t=[];
+while(st)
+   {
+   t.push(st);
+   st=booster(st);
+   }
+let i=t.length-1;
+let s=col
+let ra=[s];
+let f=[i];
+while(i)
+   {
+   i--;
+   if(t[i]<s)
+      {
+      s=t[i];
+      ra.push(s);
+      f.push(i);
+      }
+   }
+return [t,ra,f];
 }
 
 
@@ -3660,7 +3921,11 @@ i=pn1;
 //let [primer_10,period_10]=modstring_new10(cb[pn]);           // 27 January 2026
 //let [primer_11,period_11]=modstring_new11(cb[pn]);           // 27 January 2026
 //let modyst_12=modstring_new12(cb[pn],cb[pn1],[col,cb[pn1]],0);   // 10 February 2026
-let [primer_10,period_10]=conpp(cb[pn]);           // 11 February 2026
+//let [primer_9,period_9]=conpp(cb[pn]);           // 11 February 2026
+let [primer_10,period_10]=nlevels==2?getpp(cb[pn]):conpp(cb[pn]);             // 06 October 2026
+
+//if(primer_9!=primer_10||period_9!=period_10)
+//   alert(st+'\n'+convert(st)+'\n\nprimer: '+primer_9+'\nprimer: '+primer_10+'\n\nperiod: '+period_9+'\nperiod: '+period_10);
 
 /*let mstep;
 if(!modyst)
@@ -4287,7 +4552,8 @@ return [[st,1]];
 
 // compare CNFs st1, st2 (if st1<st2 then -1; if st1==st2 then 0; if st1>st2 then 1)
 function comparecnf(st1,st2){
-if(st1.toString()==st2.toString())
+//if(st1.toString()==st2.toString())
+if(JSON.stringify(st1)==JSON.stringify(st2))
    return 0;
 if(st1=='')
    return -1;
@@ -4401,6 +4667,25 @@ else{
 return st2.concat(st1.slice(i));
 }
 
+// CNF c (not extended) to string
+//(if b=true, then returns array [string, epsilon (or '')])
+function cnftostring(c,b=false)
+{
+if(!Array.isArray(c))
+   return b?[c,c]:c;
+let st='';
+let e=c.length-1;
+for(let i=0;i<e;i++)
+   {
+   let s=bb('',cnftostring(c[i][0]));
+   st=s.repeat(c[i][1])+st;
+   }
+let f=cnftostring(c[e][0],true);
+let s=bb('',f[0]);
+st=f[1]+s.repeat(c[e][1]-(f[0]&&f[0]==f[1]?1:0))+st;
+return b?[st,f[1]]:st;
+}
+
 // get CNF of st
 function cnf(st,ext=false,b=true){
 if(!Array.isArray(st)&&(st==''||isepsilon0(st)))
@@ -4430,7 +4715,8 @@ if(ext){
   	      m=[t,s[1]];
   	      h=t!=''&&s[1]==1&&!Array.isArray(t);
 			}
- 	   if(i<0||c[i][0]!=e||c[i][1].toString()!=brain.toString()){
+ 	   //if(i<0||c[i][0]!=e||c[i][1].toString()!=brain.toString()){
+ 	   if(i<0||c[i][0]!=e||JSON.stringify(c[i][1])!=JSON.stringify(brain)){
   	      c.push([e,brain,h?t:[m]]);
  	  	   i++;}
  	   else{
@@ -4459,6 +4745,7 @@ else{
    	      c[i][1]++;
    	   t=s;}
      }
+   //if(b)
    for(s of c)
       s[0]=cnf(s[0]); 
    }            
@@ -4978,7 +5265,7 @@ else if(f==bb(bb(bb(col,col),col),col)){
    j=bb(floorOmega(beta,j),j);
    maxx=bb(ff,bb(f,bb(f,col)));
    }
-else if(booster(f)==col){
+/*else if(booster(f)==col){
    sy='I(x, •)-Φ';
    let ff=f;
    f=bb(f,col);
@@ -4987,7 +5274,7 @@ else if(booster(f)==col){
    j=bb(floorOmega(beta,j),j);
    maxx=bb(ff,bb(f,bb(f,col)));
    }
-/*else if(compare(bb(col,col),x)<1){
+else if(compare(bb(col,col),x)<1){
 //else if(beta==''&&compare(bb(col,col),x)<1){
    sy='I';
    f=col;
@@ -5061,7 +5348,7 @@ if(sy!=''&&compare(maxx,x)>0){
          }
       }
    //if(sy!='φ'&&(sy!='Φ'||(sugar[34]&&fx==col))&&(sy!='I-Φ'||fx==bb(col,col))&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
-   if(sy!='φ'&&(sy!='Φ'||(sugar[34]&&fx==col))&&(sy!='I-Φ'||fx==bb(col,col))&&(sy!='I(1, •)-Φ'||fx==bb(bb(col,col),col))&&(sy!='I(2, •)-Φ'||fx==bb(bb(bb(col,col),col),col))&&(sy!='I(x, •)-Φ'||booster(fx)==col)&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
+   if(sy!='φ'&&(sy!='Φ'||(sugar[34]&&fx==col))&&(sy!='I-Φ'||fx==bb(col,col))&&(sy!='I(1, •)-Φ'||fx==bb(bb(col,col),col))&&(sy!='I(2, •)-Φ'||fx==bb(bb(bb(col,col),col),col))&&/*(sy!='I(x, •)-Φ'||booster(fx)==col)&&*/sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
    //if(sy!='φ'&&(sy!='Φ'||fx==l)&&(sy!='I-Φ'||fx==bb(l,l))&&sy!='I'&&le.length==1&&le[0][1]==1&&le[0][0]=='')
       le='';
    else{
@@ -5069,7 +5356,7 @@ if(sy!=''&&compare(maxx,x)>0){
          le=cnf(le,true);
       le=displayform(le,ext);
       //if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col))||sy=='I')&&isFinite(le))
-      if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col))||(sy=='I(1, •)-Φ'&&fx!=bb(bb(col,col),col))||(sy=='I(2, •)-Φ'&&fx!=bb(bb(bb(col,col),col),col))||(sy=='I(x, •)-Φ'&&booster(fx)!=col)||sy=='I')&&isFinite(le))
+      if((sy=='φ'||(sy=='Φ'&&fx!=col)||(sy=='I-Φ'&&fx!=bb(col,col))||(sy=='I(1, •)-Φ'&&fx!=bb(bb(col,col),col))||(sy=='I(2, •)-Φ'&&fx!=bb(bb(bb(col,col),col),col))||/*(sy=='I(x, •)-Φ'&&booster(fx)!=col)||*/sy=='I')&&isFinite(le))
          le--;
       }
    if(sy=='φ'){
